@@ -44,7 +44,7 @@ scale_min = 0.2
 scale_max = 0.4
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ohtq"]
-size = Vector2(150, 150)
+size = Vector2(200, 200)
 
 [sub_resource type="Gradient" id="Gradient_mt16k"]
 offsets = PackedFloat32Array(0, 0.529412, 1)
@@ -758,7 +758,7 @@ visible = false
 modulate = Color(0.396078, 0.396078, 0.396078, 0.784314)
 z_index = 1
 position = Vector2(-1.5000019, 1.5000086)
-scale = Vector2(0.50390625, 0.50390625)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_pi5cj")
 
 [node name="BounceArea" type="Area2D" parent="." unique_id=1936910212]
@@ -771,7 +771,7 @@ shape = SubResource("RectangleShape2D_qh2ge")
 disabled = true
 
 [node name="Sprites" type="Node2D" parent="." unique_id=993602004]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 script = ExtResource("5_b3kqx")
 
 [node name="PlayerIndicatorOutline" type="Sprite2D" parent="Sprites" unique_id=1531393407]

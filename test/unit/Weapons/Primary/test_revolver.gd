@@ -94,7 +94,7 @@ func test_create_projectile():
 	assert_eq(res.current_owner, projectile_owner)
 	assert_eq(res.init_position, Vector2.RIGHT)
 	assert_almost_eq(res.init_rotation, PI / 4.0, 0.01)
-	assert_eq(res.trail_color, Color.ANTIQUE_WHITE)
+	assert_eq(res.color, Color.ANTIQUE_WHITE)
 	# cleanup
 	projectile_owner.free()
 	res.free()

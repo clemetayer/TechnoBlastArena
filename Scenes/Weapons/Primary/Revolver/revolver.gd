@@ -54,7 +54,7 @@ func _create_projectile() -> Node:
 	projectile.current_owner = projectile_owner
 	projectile.init_position = global_position
 	projectile.init_rotation = rotation
-	projectile.trail_color = owner_color
+	projectile.color = owner_color
 	return projectile
 
 

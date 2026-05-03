@@ -4,7 +4,7 @@ extends ProjectileBase
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const SPEED := 2200.0 # px/s
+const SPEED := 3200.0 # px/s
 const DAMAGE := 15.0
 const KNOCKBACK := 20.0
 
@@ -20,6 +20,7 @@ var _direction := Vector2.ZERO
 
 #==== ONREADY ====
 @onready var onready_paths := {
+	"sprite": $"Sprite/Body",
 	"trail": $"Trail",
 }
 
@@ -30,7 +31,8 @@ func _ready():
 	super()
 	global_position = init_position
 	rotation = init_rotation
-	onready_paths.trail.modulate = trail_color
+	onready_paths.trail.modulate = color
+	onready_paths.sprite.modulate = color
 	_direction = Vector2.RIGHT.rotated(rotation).normalized()
 
 

@@ -22,7 +22,7 @@ func test_ready():
 	bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate() # Actually loads the bullet scene to test _ready
 	bullet.init_position = Vector2.RIGHT
 	bullet.init_rotation = PI / 4.0
-	bullet.trail_color = Color.AQUA
+	bullet.color = Color.AQUA
 	# when
 	add_child(bullet)
 	wait_for_signal(bullet.tree_entered, 0.25)
@@ -30,6 +30,7 @@ func test_ready():
 	assert_eq(bullet.global_position, Vector2.RIGHT)
 	assert_almost_eq(bullet.rotation, PI / 4.0, 0.001)
 	assert_eq(bullet.onready_paths.trail.modulate, Color.AQUA)
+	assert_eq(bullet.onready_paths.sprite.modulate, Color.AQUA)
 	assert_eq(bullet._direction, Vector2.RIGHT.rotated(PI / 4.0).normalized())
 
 

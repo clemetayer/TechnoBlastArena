@@ -754,6 +754,7 @@ one_shot = true
 libraries/ = SubResource("AnimationLibrary_owers")
 
 [node name="ParryLockout" type="Sprite2D" parent="ParryArea" unique_id=24609239]
+visible = false
 modulate = Color(0.396078, 0.396078, 0.396078, 0.784314)
 z_index = 1
 position = Vector2(-1.5000019, 1.5000086)

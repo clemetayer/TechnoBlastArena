@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cl8cej2u2c4jm"]
+[gd_scene format=3 uid="uid://cl8cej2u2c4jm"]
 
 [ext_resource type="Script" uid="uid://c1h7uvhxaumh5" path="res://Scenes/Weapons/Projectiles/trail.gd" id="1_ttnbv"]
 
@@ -7,9 +7,9 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_g6w74"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 0.988235, 0.635294, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 0.9882353, 1, 1)
 
-[node name="Trail" type="Line2D"]
+[node name="Trail" type="Line2D" unique_id=1516685298]
 width = 5.0
 width_curve = SubResource("Curve_kw2mq")
 gradient = SubResource("Gradient_g6w74")

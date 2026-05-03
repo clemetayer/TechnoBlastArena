@@ -20,7 +20,7 @@ func initialize(config: PlayerConfig) -> void:
 	PRIMARY_WEAPON = config.PRIMARY_WEAPON
 	MOVEMENT_BONUS_HANDLER = config.MOVEMENT_BONUS_HANDLER
 	POWERUP_HANDLER = config.POWERUP_HANDLER
-	onready_paths_node.crosshair.set_color(config.SPRITE_CUSTOMIZATION.BODY_COLOR)
+	onready_paths_node.crosshair.set_color(RuntimeUtils.PLAYER_INDICATOR_COLORS[onready_paths_node.player_root.PLAYER_ID])
 	onready_paths_node.primary_weapon = StaticPrimaryWeaponHandler.get_weapon(PRIMARY_WEAPON)
 	onready_paths_node.player_root.abilities_toggled.connect(onready_paths_node.primary_weapon._on_player_abilities_toggled)
 	onready_paths_node.movement_bonus = StaticMovementBonusHandler.get_handler(MOVEMENT_BONUS_HANDLER)
@@ -31,7 +31,7 @@ func initialize(config: PlayerConfig) -> void:
 	onready_paths_node.movement_bonus.player = onready_paths_node.player_root
 	onready_paths_node.primary_weapon.projectile_owner = onready_paths_node.player_root
 	onready_paths_node.damage_label.init_damage()
-	onready_paths_node.primary_weapon.owner_color = config.SPRITE_CUSTOMIZATION.BODY_COLOR
+	onready_paths_node.primary_weapon.owner_color = RuntimeUtils.PLAYER_INDICATOR_COLORS[onready_paths_node.player_root.PLAYER_ID]
 	onready_paths_node.death_manager.set_particles_color(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	onready_paths_node.appear_elements.init(config.SPRITE_CUSTOMIZATION.BODY_COLOR, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	onready_paths_node.hit_particles.init(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)

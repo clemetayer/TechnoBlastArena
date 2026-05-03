@@ -41,7 +41,6 @@ func play_spawn_animation() -> void:
 func play_break_animation(hit_position : Vector2) -> void:
 	_full_screen_effects.monochrome(2)
 	_full_screen_effects.pincushion(2)
-	_camera_effects.emit_signal_focus_on(hit_position, 0.5, 8.0, 2)
 	shake_camera(CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH)
 
 func shake_camera_by_velocity(velocity : float) -> void:

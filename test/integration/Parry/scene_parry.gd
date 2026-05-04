@@ -29,8 +29,8 @@ func is_parrying() -> bool:
 func is_parry_lockout() -> bool:
 	return not onready_paths.player.onready_paths_node.parry_area._can_parry
 
-func toggle_parry_enabled(active: bool) -> void:
-	onready_paths.player.onready_paths_node.parry_area.toggle_parry_enabled(active)
+func toggle_shield_enabled(active: bool) -> void:
+	onready_paths.player.onready_paths_node.parry_area.toggle_shield_enabled(active)
 
 func fire_projectile(projectile_scene) -> void:
 	_fired_projectile = projectile_scene

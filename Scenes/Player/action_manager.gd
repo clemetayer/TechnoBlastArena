@@ -62,7 +62,7 @@ func _handle_jump() -> void:
 func _handle_fire() -> void:
 	if _is_action_active(_action_handler_base.actions.FIRE):
 		onready_paths_node.primary_weapon.fire()
-		onready_paths_node.parry_area.disable_parry_after_firing()
+		onready_paths_node.parry_area.disable_shield_after_firing()
 
 
 func _handle_movement_bonus() -> void:

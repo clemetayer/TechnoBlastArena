@@ -17,16 +17,16 @@ func after_each():
 	shield.free()
 
 ##### TESTS #####
-var toggle_parry_enabled_params := [
+var toggle_shield_enabled_params := [
 	[true],
 	[false],
 ]
 
 
-func test_toggle_parry_enabled(params = use_parameters(toggle_parry_enabled_params)):
+func test_toggle_shield_enabled(params = use_parameters(toggle_shield_enabled_params)):
 	# given
 	# when
-	shield.toggle_parry_enabled(params[0])
+	shield.toggle_shield_enabled(params[0])
 	# then
 	assert_eq(shield._enabled, params[0])
 
@@ -81,13 +81,13 @@ func test_parry(params = use_parameters(parry_params)):
 		assert_not_called(parry_disabled_sound, "play")
 
 
-var disable_parry_after_firing_params := [
+var disable_shield_after_firing_params := [
 	[true],
 	[false],
 ]
 
 
-func test_disable_parry_after_firing(params = use_parameters(disable_parry_after_firing_params)):
+func test_disable_shield_after_firing(params = use_parameters(disable_shield_after_firing_params)):
 	# given
 	var enabled = params[0]
 	shield._enabled = enabled
@@ -99,7 +99,7 @@ func test_disable_parry_after_firing(params = use_parameters(disable_parry_after
 	shield.onready_paths.parry_lockout_sprite = parry_lockout_sprite
 	shield._can_parry = true
 	# when
-	shield.disable_parry_after_firing()
+	shield.disable_shield_after_firing()
 	# then
 	if enabled:
 		assert_called(disable_after_fire_timer, "start")

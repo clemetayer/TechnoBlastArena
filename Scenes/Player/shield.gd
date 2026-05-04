@@ -33,7 +33,7 @@ var _scene_utils := SceneUtils
 
 
 ##### PUBLIC METHODS #####
-func toggle_parry_enabled(active: bool) -> void:
+func toggle_shield_enabled(active: bool) -> void:
 	_enabled = active
 
 
@@ -48,7 +48,7 @@ func parry() -> void:
 			onready_paths.parry_disabled_sound.play()
 
 
-func disable_parry_after_firing() -> void:
+func disable_shield_after_firing() -> void:
 	if _enabled:
 		onready_paths.disable_after_fire_timer.start()
 		_toggle_can_parry(false)

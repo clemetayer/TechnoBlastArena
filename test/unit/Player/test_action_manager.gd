@@ -122,7 +122,7 @@ func test_handle_fire(params = use_parameters(handle_fire_params)):
 	stub(action_manager, "_is_action_active").to_return(params[0])
 	var primary_weapon = double(load("res://Scenes/Weapons/Primary/Revolver/revolver.gd")).new()
 	stub(primary_weapon, "fire").to_do_nothing()
-	var parry_area = double(load("res://Scenes/Player/parry.gd")).new()
+	var parry_area = double(load("res://Scenes/Player/shield.gd")).new()
 	stub(parry_area, "disable_parry_after_firing").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.primary_weapon = primary_weapon
@@ -175,7 +175,7 @@ var handle_parry_params := [
 func test_handle_parry(params = use_parameters(handle_parry_params)):
 	# given
 	stub(action_manager, "_is_action_just_active").to_return(params[0])
-	var parry = double(load("res://Scenes/Player/parry.gd")).new()
+	var parry = double(load("res://Scenes/Player/shield.gd")).new()
 	stub(parry, "parry").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.parry_area = parry

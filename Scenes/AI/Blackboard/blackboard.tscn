@@ -12,7 +12,7 @@ blackboard = {
 "movement_bonus_triggered": false,
 "movement_direction": 0,
 "opponents": [],
-"parry_triggered": false,
+"shield": false,
 "player": null,
 "powerup_triggered": false,
 "projectiles": [],

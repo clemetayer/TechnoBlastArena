@@ -21,7 +21,7 @@ const POWERUP_TRIGGERED_KEY := "powerup_triggered"
 const PROJECTILES_KEY := "projectiles"
 const RELATIVE_AIM_POSITION_KEY := "relative_aim_position"
 const TARGET_KEY := "target"
-const PARRY_TRIGGERED_KEY := "parry_triggered"
+const SHIELD_KEY := "shield"
 
 #==== PUBLIC ====
 var get_tree_callable: Callable = get_tree # mostly for test purposes, to stub the get_tree easily

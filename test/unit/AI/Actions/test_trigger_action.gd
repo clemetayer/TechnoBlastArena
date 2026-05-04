@@ -29,7 +29,7 @@ var trigger_action_params := [
 	[ActionTriggerAction.TRIGGERABLE_ACTIONS.FIRE, CommonBlackboard.FIRE_TRIGGERED_KEY],
 	[ActionTriggerAction.TRIGGERABLE_ACTIONS.MOVEMENT_BONUS, CommonBlackboard.MOVEMENT_BONUS_TRIGGERED_KEY],
 	[ActionTriggerAction.TRIGGERABLE_ACTIONS.POWERUP, CommonBlackboard.POWERUP_TRIGGERED_KEY],
-	[ActionTriggerAction.TRIGGERABLE_ACTIONS.PARRY, CommonBlackboard.PARRY_TRIGGERED_KEY],
+	[ActionTriggerAction.TRIGGERABLE_ACTIONS.PARRY, CommonBlackboard.SHIELD_KEY],
 ]
 
 

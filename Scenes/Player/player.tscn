@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bxq3finp4gfep" path="res://Scenes/Player/player.gd" id="1_b1dbg"]
 [ext_resource type="Script" uid="uid://bq2rya8sinnf" path="res://Scenes/Player/paths.gd" id="2_8lsum"]
-[ext_resource type="Script" uid="uid://d3p8e5tskb6fe" path="res://Scenes/Player/parry.gd" id="2_avuuq"]
+[ext_resource type="Script" uid="uid://652msoi8ssw3" path="res://Scenes/Player/shield.gd" id="2_avuuq"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="2_pi5cj"]
 [ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="3_b0wk1"]
 [ext_resource type="Script" uid="uid://cxgx4xa4np0of" path="res://Scenes/Player/action_manager.gd" id="4_cguhm"]

@@ -57,16 +57,6 @@ func test_get_latest_hit_velocity():
 	assert_eq(result, expected_velocity)
 
 
-func test_get_latest_hit_position():
-	# given
-	var expected_position = Vector2(300, 400)
-	collision_manager._latest_hit_position = expected_position
-	# when
-	var result = collision_manager.get_latest_hit_position()
-	# then
-	assert_eq(result, expected_position)
-
-
 func test_get_max_velocity_in_buffer_x_direction():
 	# given
 	collision_manager._bounce_back_direction = Vector2.RIGHT

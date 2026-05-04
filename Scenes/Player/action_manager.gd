@@ -71,7 +71,7 @@ func _handle_movement_bonus() -> void:
 
 
 func _handle_parry() -> void:
-	if _is_action_just_active(_action_handler_base.actions.PARRY):
+	if _is_action_just_active(_action_handler_base.actions.SHIELD):
 		onready_paths_node.parry_area.parry()
 
 

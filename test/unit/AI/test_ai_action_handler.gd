@@ -90,7 +90,7 @@ func test_update():
 	blackboard.set_value(CommonBlackboard.MOVEMENT_DIRECTION_KEY, CommonBlackboard.DIRECTION.LEFT)
 	blackboard.set_value(CommonBlackboard.FIRE_TRIGGERED_KEY, true)
 	blackboard.set_value(CommonBlackboard.MOVEMENT_BONUS_TRIGGERED_KEY, true)
-	blackboard.set_value(CommonBlackboard.PARRY_TRIGGERED_KEY, true)
+	blackboard.set_value(CommonBlackboard.SHIELD_KEY, true)
 	blackboard.set_value(CommonBlackboard.POWERUP_TRIGGERED_KEY, true)
 	blackboard.set_value(CommonBlackboard.RELATIVE_AIM_POSITION_KEY, Vector2.ONE)
 	# when
@@ -101,6 +101,6 @@ func test_update():
 	assert_eq(handler._action_states[handler.actions.RIGHT], handler.states.INACTIVE)
 	assert_eq(handler._action_states[handler.actions.FIRE], handler.states.JUST_ACTIVE)
 	assert_eq(handler._action_states[handler.actions.MOVEMENT_BONUS], handler.states.JUST_ACTIVE)
-	assert_eq(handler._action_states[handler.actions.PARRY], handler.states.JUST_ACTIVE)
+	assert_eq(handler._action_states[handler.actions.SHIELD], handler.states.JUST_ACTIVE)
 	assert_eq(handler._action_states[handler.actions.POWERUP], handler.states.JUST_ACTIVE)
 	assert_eq(handler.relative_aim_position, Vector2.ONE)

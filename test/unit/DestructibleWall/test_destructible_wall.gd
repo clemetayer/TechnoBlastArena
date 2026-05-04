@@ -141,7 +141,6 @@ func test_on_health_manager_health_empty():
 	stub(mock_audio_manager, "play_break").to_do_nothing()
 	stub(mock_respawn_manager, "start_respawn_timer").to_do_nothing()
 	stub(mock_respawn_manager, "enable_respawn_detection").to_do_nothing()
-	stub(mock_collision_manager, "get_latest_hit_position").to_return(Vector2(100, 200))
 	stub(mock_collision_manager, "get_latest_hit_velocity").to_return(Vector2(-300, 0))
 	stub(mock_visual_effects_manager, "play_break_animation").to_do_nothing()
 	destructible_wall.connect("explode_fragments", _on_explode_fragments)
@@ -150,7 +149,7 @@ func test_on_health_manager_health_empty():
 	# then
 	assert_called(mock_audio_manager, "play_break")
 	assert_called(mock_respawn_manager, "start_respawn_timer")
-	assert_called(mock_visual_effects_manager, "play_break_animation", [Vector2(100, 200)])
+	assert_called(mock_visual_effects_manager, "play_break_animation")
 	assert_called(mock_respawn_manager, "enable_respawn_detection", [true])
 	assert_false(destructible_wall.visible)
 	assert_false(destructible_wall.collision_enabled)

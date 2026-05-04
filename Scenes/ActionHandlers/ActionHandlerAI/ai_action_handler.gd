@@ -13,7 +13,7 @@ func _process(_delta):
 	_set_next_state(actions.RIGHT, BLACKBOARD.get_value(BLACKBOARD.MOVEMENT_DIRECTION_KEY) == BLACKBOARD.DIRECTION.RIGHT)
 	_set_next_state(actions.FIRE, BLACKBOARD.get_value(BLACKBOARD.FIRE_TRIGGERED_KEY))
 	_set_next_state(actions.MOVEMENT_BONUS, BLACKBOARD.get_value(BLACKBOARD.MOVEMENT_BONUS_TRIGGERED_KEY))
-	_set_next_state(actions.PARRY, BLACKBOARD.get_value(BLACKBOARD.PARRY_TRIGGERED_KEY))
+	_set_next_state(actions.SHIELD, BLACKBOARD.get_value(BLACKBOARD.SHIELD_KEY))
 	_set_next_state(actions.POWERUP, BLACKBOARD.get_value(BLACKBOARD.POWERUP_TRIGGERED_KEY))
 	relative_aim_position = BLACKBOARD.get_value(BLACKBOARD.RELATIVE_AIM_POSITION_KEY)
 

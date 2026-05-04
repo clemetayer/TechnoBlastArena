@@ -81,7 +81,7 @@ func _on_health_manager_health_changed(new_health: float, old_health: float) -> 
 func _on_health_manager_health_empty() -> void:
 	onready_paths.audio_manager.play_break()
 	onready_paths.respawn_manager.start_respawn_timer()
-	onready_paths.visual_effects_manager.play_break_animation(onready_paths.collision_manager.get_latest_hit_position())
+	onready_paths.visual_effects_manager.play_break_animation()
 	emit_signal("explode_fragments", onready_paths.collision_manager.get_latest_hit_velocity())
 	_toggle_activated(false)
 	onready_paths.respawn_manager.enable_respawn_detection(true)

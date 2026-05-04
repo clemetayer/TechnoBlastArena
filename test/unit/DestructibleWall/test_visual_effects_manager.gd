@@ -72,8 +72,7 @@ func test_play_break_animation():
 	var mock_camera_effects = _mock_camera_effects()
 	stub(mock_camera_effects, "emit_signal_start_camera_impact").to_do_nothing()
 	# when
-	var hit_position = Vector2(100, 200)
-	visual_effects_manager.play_break_animation(hit_position)
+	visual_effects_manager.play_break_animation()
 	# then
 	assert_called(mock_fullscreen_effects, "monochrome", [2.0])
 	assert_called(mock_fullscreen_effects, "pincushion", [2.0])

@@ -176,17 +176,14 @@ func test_handle_shield(params = use_parameters(handle_parry_params)):
 	# given
 	stub(action_manager, "_is_action_active").to_return(params[0])
 	var shield = double(load("res://Scenes/Player/shield.gd")).new()
-	stub(shield, "shield").to_do_nothing()
+	stub(shield, "toggle_shielding").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.shield = shield
 	action_manager.onready_paths_node = onready_paths_node
 	# when
 	action_manager._handle_shield()
 	# then
-	if params[0]:
-		assert_called(shield, "shield")
-	else:
-		assert_not_called(shield, "shield")
+	assert_called(shield, "toggle_shielding", [params[0]])
 	# cleanup
 	onready_paths_node.free()
 

@@ -14,7 +14,7 @@ const PARRY_FREEZE_TIME := 0.25
 #==== PRIVATE ====
 var _parrying := false
 var _can_parry := true
-var _enabled := true
+var _shielding := true
 
 #==== ONREADY ====
 @onready var onready_paths_node := $"../Paths"
@@ -31,12 +31,12 @@ var _enabled := true
 
 
 ##### PUBLIC METHODS #####
-func toggle_shield_enabled(active: bool) -> void:
-	_enabled = active
+func toggle_shielding(active: bool) -> void:
+	_shielding = active
 
 
 func shield() -> void:
-	if _enabled:
+	if _shielding:
 		if _can_parry and not _parrying:
 			_parrying = true
 			onready_paths.parry_timer.start()
@@ -47,7 +47,7 @@ func shield() -> void:
 
 
 func disable_shield_after_firing() -> void:
-	if _enabled:
+	if _shielding:
 		onready_paths.disable_after_fire_timer.start()
 		_toggle_can_parry(false)
 

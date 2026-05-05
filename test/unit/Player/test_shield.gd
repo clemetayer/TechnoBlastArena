@@ -17,18 +17,18 @@ func after_each():
 	shield.free()
 
 ##### TESTS #####
-var toggle_shield_enabled_params := [
+var toggle_shielding_params := [
 	[true],
 	[false],
 ]
 
 
-func test_toggle_shield_enabled(params = use_parameters(toggle_shield_enabled_params)):
+func test_toggle_shielding(params = use_parameters(toggle_shielding_params)):
 	# given
 	# when
-	shield.toggle_shield_enabled(params[0])
+	shield.toggle_shielding(params[0])
 	# then
-	assert_eq(shield._enabled, params[0])
+	assert_eq(shield._shielding, params[0])
 
 
 var parry_params := [
@@ -40,9 +40,9 @@ var parry_params := [
 
 func test_parry(params = use_parameters(parry_params)):
 	# given
-	var enabled = params[0]
+	var shielding = params[0]
 	var can_parry = params[1]
-	shield._enabled = enabled
+	shield._shielding = shielding
 	shield._can_parry = can_parry
 	shield._parrying = false
 	var parry_timer = double(Timer).new()
@@ -60,7 +60,7 @@ func test_parry(params = use_parameters(parry_params)):
 	# when
 	shield.shield()
 	# then
-	if enabled:
+	if shielding:
 		if can_parry:
 			assert_true(shield._parrying)
 			assert_called(parry_timer, "start")
@@ -89,8 +89,8 @@ var disable_shield_after_firing_params := [
 
 func test_disable_shield_after_firing(params = use_parameters(disable_shield_after_firing_params)):
 	# given
-	var enabled = params[0]
-	shield._enabled = enabled
+	var shielding = params[0]
+	shield._shielding = shielding
 	var disable_after_fire_timer = double(Timer).new()
 	stub(disable_after_fire_timer, "start").to_do_nothing()
 	shield.onready_paths.disable_after_fire_timer = disable_after_fire_timer
@@ -101,7 +101,7 @@ func test_disable_shield_after_firing(params = use_parameters(disable_shield_aft
 	# when
 	shield.disable_shield_after_firing()
 	# then
-	if enabled:
+	if shielding:
 		assert_called(disable_after_fire_timer, "start")
 		assert_false(shield._can_parry)
 		assert_true(parry_lockout_sprite.visible)

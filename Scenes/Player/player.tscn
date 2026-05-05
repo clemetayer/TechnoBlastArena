@@ -43,9 +43,6 @@ gravity = Vector3(0, 98, 0)
 scale_min = 0.2
 scale_max = 0.4
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ohtq"]
-size = Vector2(200, 200)
-
 [sub_resource type="Gradient" id="Gradient_mt16k"]
 offsets = PackedFloat32Array(0, 0.529412, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
@@ -707,13 +704,8 @@ stream = ExtResource("10_rukb4")
 volume_db = 10.0
 bus = &"Effects"
 
-[node name="ParryArea" type="Area2D" parent="." unique_id=4397786]
-collision_layer = 2
-collision_mask = 5
+[node name="ParryArea" type="Node2D" parent="." unique_id=633231729]
 script = ExtResource("2_avuuq")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ParryArea" unique_id=1812082331]
-shape = SubResource("RectangleShape2D_7ohtq")
 
 [node name="ParryParticles" type="GPUParticles2D" parent="ParryArea" unique_id=1632182520]
 modulate = Color(0, 1, 1, 1)
@@ -897,7 +889,6 @@ script = ExtResource("27_bmb2s")
 [connection signal="damage_received" from="." to="HitParticles" method="_on_player_damage_received"]
 [connection signal="last_hit_owner_changed" from="." to="DeathManager" method="_on_player_last_hit_owner_changed"]
 [connection signal="timeout" from="DeathManager/DeathAnimTime" to="DeathManager" method="_on_death_anim_time_timeout"]
-[connection signal="area_entered" from="ParryArea" to="ParryArea" method="_on_area_entered"]
 [connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
 [connection signal="timeout" from="ParryArea/DisableAfterFireTimer" to="ParryArea" method="_on_disable_after_fire_timer_timeout"]

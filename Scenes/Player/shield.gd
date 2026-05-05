@@ -1,4 +1,4 @@
-extends Area2D
+extends Node2D
 
 # script for the parry system
 
@@ -61,19 +61,6 @@ func _toggle_can_parry(enabled: bool) -> void:
 
 
 ##### SIGNAL MANAGEMENT #####
-func _on_area_entered(area):
-	if GroupUtils.is_projectile(area) and _parrying and _can_parry:
-		onready_paths.animation_player.play("parried")
-		onready_paths.parry_sound.play()
-		onready_paths.parry_timer.stop()
-		_toggle_can_parry(true)
-		_parrying = false
-		area.parried(_owner, onready_paths_node.input_synchronizer.relative_aim_position)
-		_camera_effects.emit_signal_start_camera_impact(PARRY_FREEZE_TIME, CameraEffects.CAMERA_IMPACT_INTENSITY.LIGHT, CameraEffects.CAMERA_IMPACT_PRIORITY.MEDIUM)
-		_scene_utils.freeze_scene_parry(PARRY_FREEZE_TIME)
-		emit_signal("parried")
-
-
 func _on_lockout_timer_timeout():
 	_toggle_can_parry(true)
 	_parrying = false

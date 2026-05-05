@@ -26,7 +26,7 @@ func test_handle_actions():
 	stub(action_manager, "_handle_jump").to_do_nothing()
 	stub(action_manager, "_handle_fire").to_do_nothing()
 	stub(action_manager, "_handle_movement_bonus").to_do_nothing()
-	stub(action_manager, "_handle_parry").to_do_nothing()
+	stub(action_manager, "_handle_shield").to_do_nothing()
 	stub(action_manager, "_handle_powerup").to_do_nothing()
 	# when
 	action_manager._handle_actions()
@@ -36,7 +36,7 @@ func test_handle_actions():
 	assert_called(action_manager, "_handle_jump")
 	assert_called(action_manager, "_handle_fire")
 	assert_called(action_manager, "_handle_movement_bonus")
-	assert_called(action_manager, "_handle_parry")
+	assert_called(action_manager, "_handle_shield")
 	assert_called(action_manager, "_handle_powerup")
 
 
@@ -122,21 +122,21 @@ func test_handle_fire(params = use_parameters(handle_fire_params)):
 	stub(action_manager, "_is_action_active").to_return(params[0])
 	var primary_weapon = double(load("res://Scenes/Weapons/Primary/Revolver/revolver.gd")).new()
 	stub(primary_weapon, "fire").to_do_nothing()
-	var parry_area = double(load("res://Scenes/Player/shield.gd")).new()
-	stub(parry_area, "disable_shield_after_firing").to_do_nothing()
+	var shield = double(load("res://Scenes/Player/shield.gd")).new()
+	stub(shield, "disable_shield_after_firing").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
 	onready_paths_node.primary_weapon = primary_weapon
-	onready_paths_node.parry_area = parry_area
+	onready_paths_node.shield = shield
 	action_manager.onready_paths_node = onready_paths_node
 	# when
 	action_manager._handle_fire()
 	# then
 	if params[0]:
 		assert_called(primary_weapon, "fire")
-		assert_called(parry_area, "disable_shield_after_firing")
+		assert_called(shield, "disable_shield_after_firing")
 	else:
 		assert_not_called(primary_weapon, "fire")
-		assert_not_called(parry_area, "disable_shield_after_firing")
+		assert_not_called(shield, "disable_shield_after_firing")
 	# cleanup
 	onready_paths_node.free()
 
@@ -172,21 +172,21 @@ var handle_parry_params := [
 ]
 
 
-func test_handle_parry(params = use_parameters(handle_parry_params)):
+func test_handle_shield(params = use_parameters(handle_parry_params)):
 	# given
-	stub(action_manager, "_is_action_just_active").to_return(params[0])
-	var parry = double(load("res://Scenes/Player/shield.gd")).new()
-	stub(parry, "parry").to_do_nothing()
+	stub(action_manager, "_is_action_active").to_return(params[0])
+	var shield = double(load("res://Scenes/Player/shield.gd")).new()
+	stub(shield, "shield").to_do_nothing()
 	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.parry_area = parry
+	onready_paths_node.shield = shield
 	action_manager.onready_paths_node = onready_paths_node
 	# when
-	action_manager._handle_parry()
+	action_manager._handle_shield()
 	# then
 	if params[0]:
-		assert_called(parry, "parry")
+		assert_called(shield, "shield")
 	else:
-		assert_not_called(parry, "parry")
+		assert_not_called(shield, "shield")
 	# cleanup
 	onready_paths_node.free()
 

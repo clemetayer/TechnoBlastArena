@@ -6,7 +6,7 @@ extends Node
 #---- EXPORTS -----
 @export var PLAYER_ROOT_PATH: NodePath
 @export var DAMAGE_LABEL_PATH: NodePath
-@export var PARRY_AREA_PATH: NodePath
+@export var SHIELD_PATH: NodePath
 @export var BOUNCE_AREA_PATH: NodePath
 @export var POWERUP_COOLDOWN_PATH: NodePath
 @export var INPUT_SYNCHRONIZER_PATH: NodePath
@@ -32,7 +32,7 @@ var powerup_manager
 var action_handler
 @onready var player_root := get_node(PLAYER_ROOT_PATH)
 @onready var damage_label := get_node(DAMAGE_LABEL_PATH)
-@onready var parry_area := get_node(PARRY_AREA_PATH)
+@onready var shield := get_node(SHIELD_PATH)
 @onready var bounce_area := get_node(BOUNCE_AREA_PATH)
 @onready var powerup_cooldown := get_node(POWERUP_COOLDOWN_PATH)
 @onready var input_synchronizer := get_node(INPUT_SYNCHRONIZER_PATH)

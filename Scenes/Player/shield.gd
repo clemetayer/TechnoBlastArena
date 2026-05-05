@@ -1,8 +1,9 @@
 extends Node2D
 
-# script for the parry system
+# script for the shield system
 
 ##### SIGNALS #####
+@warning_ignore("unused_signal")
 signal parried
 
 ##### VARIABLES #####
@@ -14,11 +15,8 @@ const PARRY_FREEZE_TIME := 0.25
 var _parrying := false
 var _can_parry := true
 var _enabled := true
-var _camera_effects := CameraEffects
-var _scene_utils := SceneUtils
 
 #==== ONREADY ====
-@onready var _owner := get_parent()
 @onready var onready_paths_node := $"../Paths"
 @onready var onready_paths := {
 	"animation_player": $"ParryAnimations",
@@ -37,7 +35,7 @@ func toggle_shield_enabled(active: bool) -> void:
 	_enabled = active
 
 
-func parry() -> void:
+func shield() -> void:
 	if _enabled:
 		if _can_parry and not _parrying:
 			_parrying = true

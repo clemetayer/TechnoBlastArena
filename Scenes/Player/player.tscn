@@ -341,7 +341,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ParryArea/ParryParticles:emitting")
+tracks/2/path = NodePath("Shield/ParryParticles:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -645,7 +645,7 @@ script = ExtResource("5_uow23")
 script = ExtResource("2_8lsum")
 PLAYER_ROOT_PATH = NodePath("..")
 DAMAGE_LABEL_PATH = NodePath("../DamageLabel")
-PARRY_AREA_PATH = NodePath("../ParryArea")
+SHIELD_PATH = NodePath("../Shield")
 BOUNCE_AREA_PATH = NodePath("../BounceArea")
 POWERUP_COOLDOWN_PATH = NodePath("../UsePowerupCooldown")
 INPUT_SYNCHRONIZER_PATH = NodePath("../InputSynchronizer")
@@ -704,10 +704,10 @@ stream = ExtResource("10_rukb4")
 volume_db = 10.0
 bus = &"Effects"
 
-[node name="ParryArea" type="Node2D" parent="." unique_id=633231729]
+[node name="Shield" type="Node2D" parent="." unique_id=633231729]
 script = ExtResource("2_avuuq")
 
-[node name="ParryParticles" type="GPUParticles2D" parent="ParryArea" unique_id=1632182520]
+[node name="ParryParticles" type="GPUParticles2D" parent="Shield" unique_id=1632182520]
 modulate = Color(0, 1, 1, 1)
 emitting = false
 amount = 1
@@ -717,35 +717,35 @@ one_shot = true
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_jw2bm")
 
-[node name="ParrySound" type="AudioStreamPlayer2D" parent="ParryArea" unique_id=1655475023]
+[node name="ParrySound" type="AudioStreamPlayer2D" parent="Shield" unique_id=1655475023]
 stream = ExtResource("7_1ci2y")
 bus = &"EffectsBGMSidechain"
 
-[node name="ParryDisabled" type="AudioStreamPlayer2D" parent="ParryArea" unique_id=331073868]
+[node name="ParryDisabled" type="AudioStreamPlayer2D" parent="Shield" unique_id=331073868]
 stream = ExtResource("8_f1844")
 bus = &"Effects"
 
-[node name="ParryActive" type="AudioStreamPlayer2D" parent="ParryArea" unique_id=1845525208]
+[node name="ParryActive" type="AudioStreamPlayer2D" parent="Shield" unique_id=1845525208]
 stream = ExtResource("8_tyrm3")
 volume_db = 10.0
 bus = &"Effects"
 
-[node name="ParryTimer" type="Timer" parent="ParryArea" unique_id=722797645]
+[node name="ParryTimer" type="Timer" parent="Shield" unique_id=722797645]
 wait_time = 0.15
 one_shot = true
 
-[node name="LockoutTimer" type="Timer" parent="ParryArea" unique_id=1773372382]
+[node name="LockoutTimer" type="Timer" parent="Shield" unique_id=1773372382]
 wait_time = 0.5
 one_shot = true
 
-[node name="DisableAfterFireTimer" type="Timer" parent="ParryArea" unique_id=1471206381]
+[node name="DisableAfterFireTimer" type="Timer" parent="Shield" unique_id=1471206381]
 wait_time = 0.05
 one_shot = true
 
-[node name="ParryAnimations" type="AnimationPlayer" parent="ParryArea" unique_id=1258908918]
+[node name="ParryAnimations" type="AnimationPlayer" parent="Shield" unique_id=1258908918]
 libraries/ = SubResource("AnimationLibrary_owers")
 
-[node name="ParryLockout" type="Sprite2D" parent="ParryArea" unique_id=24609239]
+[node name="ParryLockout" type="Sprite2D" parent="Shield" unique_id=24609239]
 visible = false
 modulate = Color(0.396078, 0.396078, 0.396078, 0.784314)
 z_index = 1
@@ -882,16 +882,16 @@ collision_mask = 3
 [node name="PredictBouncesRayCast" type="Node2D" parent="." unique_id=2023343987]
 script = ExtResource("27_bmb2s")
 
-[connection signal="abilities_toggled" from="." to="ParryArea" method="_on_player_abilities_toggled"]
+[connection signal="abilities_toggled" from="." to="Shield" method="_on_player_abilities_toggled"]
 [connection signal="damage_received" from="." to="HitstunManager" method="_on_player_damage_received"]
 [connection signal="damage_received" from="." to="Audio" method="_on_player_damage_received"]
 [connection signal="damage_received" from="." to="Sprites/PlayerIndicatorOutline" method="_on_player_damage_received"]
 [connection signal="damage_received" from="." to="HitParticles" method="_on_player_damage_received"]
 [connection signal="last_hit_owner_changed" from="." to="DeathManager" method="_on_player_last_hit_owner_changed"]
 [connection signal="timeout" from="DeathManager/DeathAnimTime" to="DeathManager" method="_on_death_anim_time_timeout"]
-[connection signal="timeout" from="ParryArea/ParryTimer" to="ParryArea" method="_on_parry_timer_timeout"]
-[connection signal="timeout" from="ParryArea/LockoutTimer" to="ParryArea" method="_on_lockout_timer_timeout"]
-[connection signal="timeout" from="ParryArea/DisableAfterFireTimer" to="ParryArea" method="_on_disable_after_fire_timer_timeout"]
+[connection signal="timeout" from="Shield/ParryTimer" to="Shield" method="_on_parry_timer_timeout"]
+[connection signal="timeout" from="Shield/LockoutTimer" to="Shield" method="_on_lockout_timer_timeout"]
+[connection signal="timeout" from="Shield/DisableAfterFireTimer" to="Shield" method="_on_disable_after_fire_timer_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
 [connection signal="appear_animation_finished" from="AppearElements" to="." method="_on_appear_elements_appear_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

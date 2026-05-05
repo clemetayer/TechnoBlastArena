@@ -58,7 +58,7 @@ func test_parry(params = use_parameters(parry_params)):
 	stub(parry_disabled_sound, "play").to_do_nothing()
 	shield.onready_paths.parry_disabled_sound = parry_disabled_sound
 	# when
-	shield.parry()
+	shield.shield()
 	# then
 	if enabled:
 		if can_parry:

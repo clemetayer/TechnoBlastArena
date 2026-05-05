@@ -31,7 +31,7 @@ func _handle_actions() -> void:
 	_handle_jump()
 	_handle_fire()
 	_handle_movement_bonus()
-	_handle_parry()
+	_handle_shield()
 	_handle_powerup()
 
 
@@ -62,7 +62,7 @@ func _handle_jump() -> void:
 func _handle_fire() -> void:
 	if _is_action_active(_action_handler_base.actions.FIRE):
 		onready_paths_node.primary_weapon.fire()
-		onready_paths_node.parry_area.disable_shield_after_firing()
+		onready_paths_node.shield.disable_shield_after_firing()
 
 
 func _handle_movement_bonus() -> void:
@@ -70,9 +70,9 @@ func _handle_movement_bonus() -> void:
 		onready_paths_node.movement_bonus.activate()
 
 
-func _handle_parry() -> void:
-	if _is_action_just_active(_action_handler_base.actions.SHIELD):
-		onready_paths_node.parry_area.parry()
+func _handle_shield() -> void:
+	if _is_action_active(_action_handler_base.actions.SHIELD):
+		onready_paths_node.shield.shield()
 
 
 func _handle_powerup() -> void:

@@ -115,18 +115,6 @@ tracks/3/keys = {
 "update": 0,
 "values": [0.15]
 }
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("ParryLockout:modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.396078, 0.396078, 0.396078, 0.784314)]
-}
 
 [sub_resource type="Animation" id="Animation_4742t"]
 resource_name = "parried"
@@ -730,28 +718,8 @@ stream = ExtResource("8_tyrm3")
 volume_db = 10.0
 bus = &"Effects"
 
-[node name="ParryTimer" type="Timer" parent="Shield" unique_id=722797645]
-wait_time = 0.15
-one_shot = true
-
-[node name="LockoutTimer" type="Timer" parent="Shield" unique_id=1773372382]
-wait_time = 0.5
-one_shot = true
-
-[node name="DisableAfterFireTimer" type="Timer" parent="Shield" unique_id=1471206381]
-wait_time = 0.05
-one_shot = true
-
 [node name="ParryAnimations" type="AnimationPlayer" parent="Shield" unique_id=1258908918]
 libraries/ = SubResource("AnimationLibrary_owers")
-
-[node name="ParryLockout" type="Sprite2D" parent="Shield" unique_id=24609239]
-visible = false
-modulate = Color(0.396078, 0.396078, 0.396078, 0.784314)
-z_index = 1
-position = Vector2(-1.5000019, 1.5000086)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("2_pi5cj")
 
 [node name="BounceArea" type="Area2D" parent="." unique_id=1936910212]
 collision_layer = 2
@@ -889,9 +857,6 @@ script = ExtResource("27_bmb2s")
 [connection signal="damage_received" from="." to="HitParticles" method="_on_player_damage_received"]
 [connection signal="last_hit_owner_changed" from="." to="DeathManager" method="_on_player_last_hit_owner_changed"]
 [connection signal="timeout" from="DeathManager/DeathAnimTime" to="DeathManager" method="_on_death_anim_time_timeout"]
-[connection signal="timeout" from="Shield/ParryTimer" to="Shield" method="_on_parry_timer_timeout"]
-[connection signal="timeout" from="Shield/LockoutTimer" to="Shield" method="_on_lockout_timer_timeout"]
-[connection signal="timeout" from="Shield/DisableAfterFireTimer" to="Shield" method="_on_disable_after_fire_timer_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]
 [connection signal="appear_animation_finished" from="AppearElements" to="." method="_on_appear_elements_appear_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

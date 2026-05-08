@@ -95,14 +95,14 @@ func _physics_process(delta: float) -> void:
 
 
 ##### PUBLIC METHODS #####
-func hurt(p_damage: float, knockback: float, kb_direction: Vector2, p_owner: Node2D = null) -> void:
+func hit(hit_data: PlayerHitData) -> void:
 	if _damage_enabled:
 		var old_damage = DAMAGE
-		DAMAGE = min(DAMAGE + p_damage, MAX_DAMAGE)
-		var knockback_velocity = kb_direction.normalized() * DAMAGE * knockback
+		DAMAGE = min(DAMAGE + hit_data.damage, MAX_DAMAGE)
+		var knockback_velocity = hit_data.knockback * DAMAGE
 		_additional_vector += knockback_velocity
 		damage_received.emit(old_damage, DAMAGE, knockback_velocity)
-		last_hit_owner_changed.emit(p_owner)
+		last_hit_owner_changed.emit(hit_data.owner)
 
 
 func kill() -> void:

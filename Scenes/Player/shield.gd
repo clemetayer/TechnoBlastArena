@@ -27,7 +27,7 @@ func toggle_shielding(active: bool) -> void:
 	pass
 
 
-func process_hit(hit_data) -> void:
+func process_hit(hit_data: PlayerHitData) -> void:
 	pass
 
 

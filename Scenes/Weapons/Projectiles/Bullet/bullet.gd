@@ -55,8 +55,8 @@ func parried(p_owner: Node2D, relative_aim_position: Vector2) -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_body_entered(body):
-	if GroupUtils.is_player(body) and current_owner != body and body.has_method("hurt"):
-		body.hurt(damage, knockback, _direction, current_owner)
+	if GroupUtils.is_player(body) and current_owner != body and body.has_method("hit"):
+		body.hit(PlayerHitData.new(knockback * _direction, damage, current_owner))
 		queue_free()
 	elif GroupUtils.is_static_obstacle(body):
 		queue_free()

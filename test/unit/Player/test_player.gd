@@ -394,7 +394,7 @@ var hurt_params := [
 ]
 
 
-func test_hurt(params = use_parameters(hurt_params)):
+func test_hit(params = use_parameters(hurt_params)):
 	# given
 	player._damage_enabled = params[0]
 	player.damage_received.connect(_on_damage_received)
@@ -402,15 +402,15 @@ func test_hurt(params = use_parameters(hurt_params)):
 	player.DAMAGE = params[1]
 	var p_owner = Node2D.new()
 	# when
-	player.hurt(500, 1.5, Vector2.RIGHT, p_owner)
+	player.hit(PlayerHitData.new(Vector2.RIGHT, 500, p_owner))
 	# then
 	if params[0]:
-		assert_eq(player._additional_vector, Vector2.RIGHT * params[2] * 1.5)
+		assert_eq(player._additional_vector, Vector2.RIGHT * params[2])
 		assert_eq(player.DAMAGE, params[2])
 		assert_eq(damage_received_times_called, 1)
 		assert_eq(
 			damage_received_args,
-			[[params[1] * 1.0, params[2] * 1.0, Vector2.RIGHT * params[2] * 1.5]],
+			[[params[1] * 1.0, params[2] * 1.0, Vector2.RIGHT * params[2]]],
 		)
 		assert_eq(last_hit_owner_changed_times_called, 1)
 		assert_eq(last_hit_owner_changed_args, [[p_owner]])
@@ -423,7 +423,7 @@ func test_hurt(params = use_parameters(hurt_params)):
 	p_owner.free()
 
 
-func test_hurt_update_damage():
+func test_hit_update_damage():
 	# given
 	var game_root = load(
 		MOCK_GAME_ROOT_PATH,
@@ -436,7 +436,7 @@ func test_hurt_update_damage():
 	await wait_process_frames(2)
 	# when / then
 	assert_eq(player_scene.onready_paths_node.damage_label.text, "0")
-	player_scene.hurt(100, 0, Vector2.ZERO)
+	player_scene.hit(PlayerHitData.new(Vector2.ZERO, 100, null))
 	await wait_process_frames(2)
 	assert_true(player_scene.onready_paths_node.damage_label.text.contains("[color=ffff33ff]100[/color]"))
 

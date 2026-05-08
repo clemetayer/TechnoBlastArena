@@ -92,7 +92,7 @@ func test_on_body_entered(params = use_parameters(on_body_entered_params)):
 	var body
 	if is_player:
 		body = double(load("res://Scenes/Player/player.gd")).new()
-		stub(body, "hurt").to_do_nothing()
+		stub(body, "hit").to_do_nothing()
 		body.add_to_group("player", false)
 	elif is_static_obstacle:
 		body = StaticBody2D.new()
@@ -103,7 +103,7 @@ func test_on_body_entered(params = use_parameters(on_body_entered_params)):
 	bullet._on_body_entered(body)
 	# then
 	if is_authority and is_player:
-		assert_called(body, "hurt")
+		assert_called(body, "hit")
 	else:
 		assert_not_null(body) # kind of useless. Just to check if the code runs well everywhere, especially around the queue free
 	# cleanup

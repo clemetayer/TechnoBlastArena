@@ -37,8 +37,8 @@ func test_kill():
 	var camera_effects = double(load("res://Scenes/Camera/camera_effects.gd")).new()
 	stub(camera_effects, "emit_signal_start_camera_impact").to_do_nothing()
 	death_manager._camera_effects = camera_effects
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	death_manager.onready_paths_node = onready_paths_node
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	death_manager.paths = paths
 	var last_hit_owner = load("res://Scenes/Player/player.tscn").instantiate()
 	last_hit_owner.PLAYER_ID = 123
 	death_manager._last_hit_owner = last_hit_owner
@@ -47,16 +47,16 @@ func test_kill():
 	var player_root = partial_double(load("res://Scenes/Player/player.tscn")).instantiate()
 	stub(player_root, "toggle_freeze").to_do_nothing()
 	stub(player_root, "toggle_truce").to_do_nothing()
-	death_manager.onready_paths_node.player_root = player_root
+	death_manager.paths.player_root = player_root
 	var damage_label = double(Control).new()
 	stub(damage_label, "hide").to_do_nothing()
-	death_manager.onready_paths_node.damage_label = damage_label
+	death_manager.paths.damage_label = damage_label
 	var sprites = double(Sprite2D).new()
 	stub(sprites, "hide").to_do_nothing()
-	death_manager.onready_paths_node.sprites = sprites
+	death_manager.paths.sprites = sprites
 	var primary_weapon = double(Node2D).new()
 	stub(primary_weapon, "hide").to_do_nothing()
-	death_manager.onready_paths_node.primary_weapon = primary_weapon
+	death_manager.paths.primary_weapon = primary_weapon
 	var sound = double(AudioStreamPlayer).new()
 	stub(sound, "play").to_do_nothing()
 	stub(sound, "is_inside_tree").to_return(true)
@@ -80,7 +80,7 @@ func test_kill():
 	assert_true(particles.emitting)
 	# cleanup
 	last_hit_owner.free()
-	onready_paths_node.free()
+	paths.free()
 	particles.free()
 
 
@@ -100,11 +100,11 @@ func test_get_last_hit_owner_id_valid():
 func test_on_death_anim_time_timeout():
 	# given
 	var player_root = load("res://Scenes/Player/player.tscn").instantiate()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.player_root = player_root
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	paths.player_root = player_root
 	player_root.connect("killed", _on_killed, 0)
 	player_root.PLAYER_ID = 123
-	death_manager.onready_paths_node = onready_paths_node
+	death_manager.paths = paths
 	# when
 	death_manager._on_death_anim_time_timeout()
 	# then
@@ -112,7 +112,7 @@ func test_on_death_anim_time_timeout():
 	assert_eq(killed_args, [[123]])
 	# cleanup
 	player_root.free()
-	onready_paths_node.free()
+	paths.free()
 
 
 func test_on_player_last_hit_owner_changed():

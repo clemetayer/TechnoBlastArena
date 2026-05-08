@@ -1,6 +1,11 @@
 extends Node2D
 
+class_name Shield
+
 # script for the process_hit system
+
+##### ENUMS #####
+enum HitResult { IGNORED, SHIELDED, PARRIED }
 
 ##### SIGNALS #####
 
@@ -13,7 +18,7 @@ const PARRY_FREEZE_TIME := 0.25
 var _shielding := true
 
 #==== ONREADY ====
-@onready var onready_paths_node := $"../Paths"
+@onready var paths := $"../Paths"
 @onready var onready_paths := {
 	"animation_player": $"ParryAnimations",
 	"parry_sound": $"ParrySound",
@@ -27,8 +32,8 @@ func toggle_shielding(active: bool) -> void:
 	pass
 
 
-func process_hit(hit_data: PlayerHitData) -> void:
-	pass
+func process_hit(hit_data: PlayerHitData) -> HitResult:
+	return HitResult.IGNORED
 
 
 func disable_after_firing() -> void:

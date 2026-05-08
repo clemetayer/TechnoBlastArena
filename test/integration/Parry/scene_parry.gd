@@ -24,13 +24,13 @@ func get_fired_projectile():
 	return _fired_projectile
 
 func is_parrying() -> bool:
-	return onready_paths.player.onready_paths_node.parry_area._parrying
+	return onready_paths.player.paths.parry_area._parrying
 
 func is_parry_lockout() -> bool:
-	return not onready_paths.player.onready_paths_node.parry_area._can_parry
+	return not onready_paths.player.paths.parry_area._can_parry
 
 func toggle_shield_enabled(active: bool) -> void:
-	onready_paths.player.onready_paths_node.parry_area.toggle_shield_enabled(active)
+	onready_paths.player.paths.parry_area.toggle_shield_enabled(active)
 
 func fire_projectile(projectile_scene) -> void:
 	_fired_projectile = projectile_scene

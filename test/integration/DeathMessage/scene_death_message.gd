@@ -21,7 +21,7 @@ func get_game_message() -> String:
 
 
 func disable_player_mouse_input(id: int):
-	get_player(id).onready_paths_node.action_handler._enable_mouse_input = false
+	get_player(id).paths.action_handler._enable_mouse_input = false
 
 
 func get_player(id: int) -> Node2D:

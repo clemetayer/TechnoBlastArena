@@ -49,13 +49,13 @@ var _velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buf
 var _scene_utils := SceneUtils
 
 #==== ONREADY ====
-@onready var onready_paths_node := $"Paths"
+@onready var paths := $"Paths"
 
 
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	onready_paths_node.init.initialize(get_node(GAME_PROXY_PATH).get_player_config(PLAYER_ID))
+	paths.init.initialize(get_node(GAME_PROXY_PATH).get_player_config(PLAYER_ID))
 	_appear()
 	_scene_utils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 
@@ -83,7 +83,7 @@ func _physics_process(delta: float) -> void:
 		var acceleration = FLOOR_ACCELERATION if _is_on_floor() else AIR_ACCELERATION
 		velocity.x = move_toward(velocity.x, direction.x * TARGET_SPEED, acceleration * delta)
 
-		if onready_paths_node.hitstun_manager.hitstunned:
+		if paths.hitstun_manager.hitstunned:
 			_predict_bounces()
 			var collision_normal = _get_collisions_normal()
 			if collision_normal != Vector2.ZERO:
@@ -96,17 +96,21 @@ func _physics_process(delta: float) -> void:
 
 ##### PUBLIC METHODS #####
 func hit(hit_data: PlayerHitData) -> void:
-	if _damage_enabled:
-		var old_damage = DAMAGE
-		DAMAGE = min(DAMAGE + hit_data.damage, MAX_DAMAGE)
-		var knockback_velocity = hit_data.knockback * DAMAGE
-		_additional_vector += knockback_velocity
-		damage_received.emit(old_damage, DAMAGE, knockback_velocity)
-		last_hit_owner_changed.emit(hit_data.owner)
+	if not _damage_enabled:
+		return
+	var shield_hit_result: Shield.HitResult = paths.shield.process_hit(hit_data)
+	if shield_hit_result != Shield.HitResult.IGNORED:
+		return
+	var old_damage = DAMAGE
+	DAMAGE = min(DAMAGE + hit_data.damage, MAX_DAMAGE)
+	var knockback_velocity = hit_data.knockback * DAMAGE
+	_additional_vector += knockback_velocity
+	damage_received.emit(old_damage, DAMAGE, knockback_velocity)
+	last_hit_owner_changed.emit(hit_data.owner)
 
 
 func kill() -> void:
-	onready_paths_node.death_manager.kill()
+	paths.death_manager.kill()
 
 
 func override_velocity(velocity_override: Vector2) -> void:
@@ -156,7 +160,7 @@ func _appear() -> void:
 	toggle_freeze(true)
 	toggle_abilities(false)
 	toggle_damage(false)
-	onready_paths_node.appear_elements.play_spawn_animation()
+	paths.appear_elements.play_spawn_animation()
 
 
 func _buffer_velocity(vel_to_buffer: Vector2) -> void:
@@ -180,7 +184,7 @@ func _is_on_floor() -> bool:
 
 # also mostly for test purposes to avoid mocking the predict bounces node every time
 func _predict_bounces() -> void:
-	onready_paths_node.predict_bounces_ray_cast.predict_bounces()
+	paths.predict_bounces_ray_cast.predict_bounces()
 
 
 ##### SIGNAL MANAGEMENT #####

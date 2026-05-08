@@ -11,20 +11,20 @@ func before_each():
 ##### TESTS #####
 func test_process():
 	# given
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = load("res://Scenes/Player/paths.gd").new()
 	var player_root = load("res://Scenes/Player/player.gd").new()
 	player_root.DAMAGE = 251
-	onready_paths_node.player_root = player_root
+	paths.player_root = player_root
 	var damage_text_mock = partial_double(load("res://Scenes/Player/damage_text.gd")).new()
 	stub(damage_text_mock, "update_damage").to_do_nothing()
-	damage_text_mock.onready_paths_node = onready_paths_node
+	damage_text_mock.paths = paths
 	# when
 	damage_text_mock._process(1.0/60.0)
 	# then
 	assert_called(damage_text_mock, "update_damage", [251.0])
 	# cleanup
 	player_root.free()
-	onready_paths_node.free()
+	paths.free()
 
 func test_init_damage():
 	# given

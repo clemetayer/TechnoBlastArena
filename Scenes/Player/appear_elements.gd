@@ -10,7 +10,7 @@ const APPEAR_ANIM_NAME := "appear"
 
 #---- STANDARD -----
 #==== ONREADY ====
-@onready var onready_paths_node := $"../Paths"
+@onready var paths := $"../Paths"
 @onready var onready_paths := {
 	"sprite": $"Appear",
 	"particles": {
@@ -30,7 +30,7 @@ func init(main_color : Color, secondary_color : Color) -> void:
 	onready_paths.particles.secondary.modulate = secondary_color_light
 
 func play_spawn_animation() -> void:
-	onready_paths_node.animation_player.play("appear")
+	paths.animation_player.play("appear")
 
 ##### SIGNAL MANAGEMENT #####
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:

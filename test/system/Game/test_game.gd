@@ -126,8 +126,8 @@ func test_game():
 func _check_player_data(player_idx: int, config: PlayerConfig):
 	var player = scene.get_player(player_idx)
 	assert_not_null(player)
-	assert_eq(player.onready_paths_node.sprites.onready_paths.body.modulate, config.SPRITE_CUSTOMIZATION.BODY_COLOR)
-	assert_eq(player.onready_paths_node.sprites.onready_paths.outline.modulate, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
+	assert_eq(player.paths.sprites.onready_paths.body.modulate, config.SPRITE_CUSTOMIZATION.BODY_COLOR)
+	assert_eq(player.paths.sprites.onready_paths.outline.modulate, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	var ui = scene.get_ui()
 	assert_eq(ui._players[player_idx].onready_paths.sprites.body.modulate, config.SPRITE_CUSTOMIZATION.BODY_COLOR)
 	assert_eq(ui._players[player_idx].onready_paths.sprites.outline.modulate, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)

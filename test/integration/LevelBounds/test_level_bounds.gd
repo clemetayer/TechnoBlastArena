@@ -23,6 +23,6 @@ func test_out_of_bounds():
 	# when/then
 	_sender.action_down("left").action_down("jump").hold_for(1.5)
 	await _sender.idle
-	assert_false(scene.get_player().onready_paths_node.sprites.visible) # queue_free does not work well with GUT, so we check other things.
+	assert_false(scene.get_player().paths.sprites.visible) # queue_free does not work well with GUT, so we check other things.
 	assert_eq(scene.get_player().collision_layer,0)
 	assert_eq(scene.get_player().collision_mask,0)

@@ -12,7 +12,7 @@ var _last_hit_owner: Node2D = null
 var _camera_effects := CameraEffects
 
 #==== ONREADY ====
-@onready var onready_paths_node := $"../Paths"
+@onready var paths := $"../Paths"
 @onready var onready_paths := {
 	"particles": $"DeathParticles",
 	"sound": $"DeathSound",
@@ -29,20 +29,20 @@ func set_particles_color(color: Color) -> void:
 func kill() -> void:
 	_camera_effects.emit_signal_start_camera_impact(CAMERA_DEATH_IMPACT_TIME, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH)
 	if is_instance_valid(_last_hit_owner):
-		onready_paths_node.player_root.emit_signal("game_message_triggered", _get_last_hit_owner_id(_last_hit_owner))
+		paths.player_root.emit_signal("game_message_triggered", _get_last_hit_owner_id(_last_hit_owner))
 	onready_paths.particles.emitting = true
-	onready_paths_node.player_root.toggle_freeze(true)
+	paths.player_root.toggle_freeze(true)
 	# disables the collisions, just in case
-	onready_paths_node.player_root.set_collision_layer(0)
-	onready_paths_node.player_root.set_collision_mask(0)
-	onready_paths_node.damage_label.hide()
-	onready_paths_node.sprites.hide()
-	onready_paths_node.primary_weapon.hide()
+	paths.player_root.set_collision_layer(0)
+	paths.player_root.set_collision_mask(0)
+	paths.damage_label.hide()
+	paths.sprites.hide()
+	paths.primary_weapon.hide()
 	if onready_paths.sound.is_inside_tree():
 		onready_paths.sound.play()
 	if onready_paths.death_anim_time.is_inside_tree():
 		onready_paths.death_anim_time.start()
-	onready_paths_node.player_root.toggle_truce(true)
+	paths.player_root.toggle_truce(true)
 
 
 ##### PROTECTED METHODS #####
@@ -51,8 +51,8 @@ func _get_last_hit_owner_id(last_hit_owner: Node2D) -> int:
 
 
 func _on_death_anim_time_timeout() -> void:
-	onready_paths_node.player_root.emit_signal("killed", onready_paths_node.player_root.PLAYER_ID)
-	onready_paths_node.player_root.queue_free()
+	paths.player_root.emit_signal("killed", paths.player_root.PLAYER_ID)
+	paths.player_root.queue_free()
 
 
 func _on_player_last_hit_owner_changed(hit_owner: Node2D) -> void:

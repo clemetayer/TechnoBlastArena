@@ -26,6 +26,14 @@ func _ready():
 @abstract func parried(p_owner: Node2D, relative_aim_position: Vector2) -> void
 
 
+func shielded() -> void:
+	queue_free()
+
+
+func solid_collision(_with: CollisionObject2D) -> void:
+	queue_free()
+
+
 ##### SIGNAL MANAGEMENT #####
 @abstract func _on_body_entered(body)
 

@@ -11,11 +11,11 @@ const PREDICT_BOUNCE_RAY_MASK := 1
 
 #---- STANDARD -----
 #==== ONREADY ====
-@onready var onready_paths_node := $"../Paths"
+@onready var paths := $"../Paths"
 
 ##### PUBLIC METHODS #####
 func predict_bounces() -> void:
-	var root = onready_paths_node.player_root
+	var root = paths.player_root
 	var travel_distance_next_frame = root.velocity * 1.0 / Engine.get_physics_ticks_per_second()
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsRayQueryParameters2D.create(global_position, global_position + travel_distance_next_frame + _get_additional_body_size_point(root.velocity.normalized()), PREDICT_BOUNCE_RAY_MASK)
@@ -26,7 +26,7 @@ func predict_bounces() -> void:
 		global_position = intersection.position + intersection.normal * PREDICT_BOUNCE_OFFSET  # slight position correction to avoid repositionning in the wall
 		if GroupUtils.is_destructible_wall(intersection.collider): # breakable wall, should not bounce
 			return
-		elif not onready_paths_node.hitstun_manager.hitstunned: # if hitstunned just stopped, reset the velocity if it collides with a wall to avoid going through at high velocities
+		elif not paths.hitstun_manager.hitstunned: # if hitstunned just stopped, reset the velocity if it collides with a wall to avoid going through at high velocities
 			root.velocity = Vector2.ZERO 
 			return 
 		else:

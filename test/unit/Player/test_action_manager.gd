@@ -53,16 +53,16 @@ func test_handle_direction(params = use_parameters(handle_direction_params)):
 	stub(action_manager, "_is_action_active").to_return(false)
 	stub(action_manager, "_is_action_active").when_passed(params[0]).to_return(true)
 	var player_root = load("res://Scenes/Player/player.gd").new()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.player_root = player_root
-	action_manager.onready_paths_node = onready_paths_node
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	paths.player_root = player_root
+	action_manager.paths = paths
 	# when
 	action_manager._handle_direction()
 	# then
 	assert_eq(player_root.direction, params[1])
 	# cleanup
 	player_root.free()
-	onready_paths_node.free()
+	paths.free()
 
 
 func test_handle_aim():
@@ -72,11 +72,11 @@ func test_handle_aim():
 	var sprites = double(load("res://Scenes/Player/sprites.gd")).new()
 	stub(sprites, "aim").to_do_nothing()
 	var crosshair = load("res://Scenes/Weapons/Primary/crosshair.gd").new()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.crosshair = crosshair
-	onready_paths_node.primary_weapon = primary_weapon
-	onready_paths_node.sprites = sprites
-	action_manager.onready_paths_node = onready_paths_node
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	paths.crosshair = crosshair
+	paths.primary_weapon = primary_weapon
+	paths.sprites = sprites
+	action_manager.paths = paths
 	stub(action_manager, "_get_relative_aim_position").to_return(Vector2.RIGHT)
 	# when
 	action_manager._handle_aim()
@@ -86,7 +86,7 @@ func test_handle_aim():
 	assert_eq(crosshair.position, Vector2.RIGHT)
 	# cleanup
 	crosshair.free()
-	onready_paths_node.free()
+	paths.free()
 
 
 var handle_jump_params := [
@@ -98,9 +98,9 @@ var handle_jump_params := [
 func test_handle_jump(params = use_parameters(handle_jump_params)):
 	# given
 	var player_root = load("res://Scenes/Player/player.gd").new()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.player_root = player_root
-	action_manager.onready_paths_node = onready_paths_node
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	paths.player_root = player_root
+	action_manager.paths = paths
 	stub(action_manager, "_is_action_active").to_return(params[0])
 	# when
 	action_manager._handle_jump()
@@ -108,7 +108,7 @@ func test_handle_jump(params = use_parameters(handle_jump_params)):
 	assert_eq(player_root.jump_triggered, params[0])
 	# cleanup
 	player_root.free()
-	onready_paths_node.free()
+	paths.free()
 
 
 var handle_fire_params := [
@@ -124,10 +124,10 @@ func test_handle_fire(params = use_parameters(handle_fire_params)):
 	stub(primary_weapon, "fire").to_do_nothing()
 	var shield = double(load("res://Scenes/Player/shield.gd")).new()
 	stub(shield, "disable_after_firing").to_do_nothing()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.primary_weapon = primary_weapon
-	onready_paths_node.shield = shield
-	action_manager.onready_paths_node = onready_paths_node
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	paths.primary_weapon = primary_weapon
+	paths.shield = shield
+	action_manager.paths = paths
 	# when
 	action_manager._handle_fire()
 	# then
@@ -138,7 +138,7 @@ func test_handle_fire(params = use_parameters(handle_fire_params)):
 		assert_not_called(primary_weapon, "fire")
 		assert_not_called(shield, "disable_after_firing")
 	# cleanup
-	onready_paths_node.free()
+	paths.free()
 
 
 var handle_movement_params := [
@@ -152,9 +152,9 @@ func test_handle_movement_bonus(params = use_parameters(handle_movement_params))
 	stub(action_manager, "_is_action_just_active").to_return(params[0])
 	var movement_bonus = double(load("res://Scenes/Movement/MovementBonusDash/movement_bonus_dash.gd")).new()
 	stub(movement_bonus, "activate").to_do_nothing()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.movement_bonus = movement_bonus
-	action_manager.onready_paths_node = onready_paths_node
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	paths.movement_bonus = movement_bonus
+	action_manager.paths = paths
 	# when
 	action_manager._handle_movement_bonus()
 	# then
@@ -163,7 +163,7 @@ func test_handle_movement_bonus(params = use_parameters(handle_movement_params))
 	else:
 		assert_not_called(movement_bonus, "activate")
 	# cleanup
-	onready_paths_node.free()
+	paths.free()
 
 
 var handle_parry_params := [
@@ -177,15 +177,15 @@ func test_handle_shield(params = use_parameters(handle_parry_params)):
 	stub(action_manager, "_is_action_active").to_return(params[0])
 	var shield = double(load("res://Scenes/Player/shield.gd")).new()
 	stub(shield, "toggle_shielding").to_do_nothing()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.shield = shield
-	action_manager.onready_paths_node = onready_paths_node
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	paths.shield = shield
+	action_manager.paths = paths
 	# when
 	action_manager._handle_shield()
 	# then
 	assert_called(shield, "toggle_shielding", [params[0]])
 	# cleanup
-	onready_paths_node.free()
+	paths.free()
 
 
 var handle_powerup_params := [
@@ -199,9 +199,9 @@ func test_handle_powerup(params = use_parameters(handle_powerup_params)):
 	stub(action_manager, "_is_action_just_active").to_return(params[0])
 	var powerup_manager = double(load("res://Scenes/Weapons/Powerups/Splitter/splitter_manager.gd")).new()
 	stub(powerup_manager, "use").to_do_nothing()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.powerup_manager = powerup_manager
-	action_manager.onready_paths_node = onready_paths_node
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	paths.powerup_manager = powerup_manager
+	action_manager.paths = paths
 	# when
 	action_manager._handle_powerup()
 	# then
@@ -210,7 +210,7 @@ func test_handle_powerup(params = use_parameters(handle_powerup_params)):
 	else:
 		assert_not_called(powerup_manager, "use")
 	# cleanup
-	onready_paths_node.free()
+	paths.free()
 
 
 var is_action_active_params = [
@@ -221,21 +221,21 @@ var is_action_active_params = [
 
 func test_is_action_active(params = use_parameters(is_action_active_params)):
 	# given
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = load("res://Scenes/Player/paths.gd").new()
 	var input_synchronizer = load("res://Scenes/Player/input_synchronizer.gd").new()
 	var action_states = {
 		ActionHandlerBase.actions.JUMP: ActionHandlerBase.states.ACTIVE if params[0] else ActionHandlerBase.states.INACTIVE,
 	}
 	input_synchronizer.action_states = action_states
-	onready_paths_node.input_synchronizer = input_synchronizer
-	action_manager.onready_paths_node = onready_paths_node
+	paths.input_synchronizer = input_synchronizer
+	action_manager.paths = paths
 	# when
 	var res = action_manager._is_action_active(ActionHandlerBase.actions.JUMP)
 	# then
 	assert_eq(res, params[0])
 	# cleanup
 	input_synchronizer.free()
-	onready_paths_node.free()
+	paths.free()
 
 
 var is_action_just_active_params = [
@@ -246,37 +246,37 @@ var is_action_just_active_params = [
 
 func test_is_action_just_active(params = use_parameters(is_action_just_active_params)):
 	# given
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = load("res://Scenes/Player/paths.gd").new()
 	var input_synchronizer = load("res://Scenes/Player/input_synchronizer.gd").new()
 	var action_states = {
 		ActionHandlerBase.actions.JUMP: ActionHandlerBase.states.JUST_ACTIVE if params[0] else ActionHandlerBase.states.INACTIVE,
 	}
 	input_synchronizer.action_states = action_states
-	onready_paths_node.input_synchronizer = input_synchronizer
-	action_manager.onready_paths_node = onready_paths_node
+	paths.input_synchronizer = input_synchronizer
+	action_manager.paths = paths
 	# when
 	var res = action_manager._is_action_active(ActionHandlerBase.actions.JUMP)
 	# then
 	assert_eq(res, params[0])
 	# cleanup
 	input_synchronizer.free()
-	onready_paths_node.free()
+	paths.free()
 
 
 func test_get_relative_aim_position():
 	# given
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = load("res://Scenes/Player/paths.gd").new()
 	var input_synchronizer = load("res://Scenes/Player/input_synchronizer.gd").new()
 	input_synchronizer.relative_aim_position = Vector2.UP
-	onready_paths_node.input_synchronizer = input_synchronizer
-	action_manager.onready_paths_node = onready_paths_node
+	paths.input_synchronizer = input_synchronizer
+	action_manager.paths = paths
 	# when
 	var res = action_manager._get_relative_aim_position()
 	# then
 	assert_eq(res, Vector2.UP)
 	# cleanup
 	input_synchronizer.free()
-	onready_paths_node.free()
+	paths.free()
 
 
 var on_SceneUtils_toggle_scene_freeze_params := [

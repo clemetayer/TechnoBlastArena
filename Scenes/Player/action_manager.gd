@@ -9,7 +9,7 @@ var _frozen: bool
 var _action_handler_base = ActionHandlerBase
 
 #==== ONREADY ====
-@onready var onready_paths_node := $"../Paths"
+@onready var paths := $"../Paths"
 
 
 ##### PROCESSING #####
@@ -45,57 +45,57 @@ func _handle_direction() -> void:
 		direction.y -= 1
 	if _is_action_active(_action_handler_base.actions.DOWN):
 		direction.y += 1
-	onready_paths_node.player_root.direction = direction
+	paths.player_root.direction = direction
 
 
 func _handle_aim() -> void:
 	var relative_aim_position = _get_relative_aim_position()
-	onready_paths_node.primary_weapon.aim(relative_aim_position)
-	onready_paths_node.sprites.aim(relative_aim_position)
-	onready_paths_node.crosshair.position = relative_aim_position
+	paths.primary_weapon.aim(relative_aim_position)
+	paths.sprites.aim(relative_aim_position)
+	paths.crosshair.position = relative_aim_position
 
 
 func _handle_jump() -> void:
-	onready_paths_node.player_root.jump_triggered = _is_action_active(_action_handler_base.actions.JUMP)
+	paths.player_root.jump_triggered = _is_action_active(_action_handler_base.actions.JUMP)
 
 
 func _handle_fire() -> void:
 	if _is_action_active(_action_handler_base.actions.FIRE):
-		onready_paths_node.primary_weapon.fire()
-		onready_paths_node.shield.disable_after_firing()
+		paths.primary_weapon.fire()
+		paths.shield.disable_after_firing()
 
 
 func _handle_movement_bonus() -> void:
 	if _is_action_just_active(_action_handler_base.actions.MOVEMENT_BONUS):
-		onready_paths_node.movement_bonus.activate()
+		paths.movement_bonus.activate()
 
 
 func _handle_shield() -> void:
-	onready_paths_node.shield.toggle_shielding(_is_action_active(_action_handler_base.actions.SHIELD))
+	paths.shield.toggle_shielding(_is_action_active(_action_handler_base.actions.SHIELD))
 
 
 func _handle_powerup() -> void:
 	if _is_action_just_active(_action_handler_base.actions.POWERUP):
-		onready_paths_node.powerup_manager.use()
+		paths.powerup_manager.use()
 
 
 # mostly to improve readability
 func _is_action_active(action: ActionHandlerBase.actions) -> bool:
-	if onready_paths_node.input_synchronizer.action_states.has(action):
-		return _action_handler_base.is_active(onready_paths_node.input_synchronizer.action_states.get(action))
+	if paths.input_synchronizer.action_states.has(action):
+		return _action_handler_base.is_active(paths.input_synchronizer.action_states.get(action))
 	return false
 
 
 # mostly to improve readability
 func _is_action_just_active(action: ActionHandlerBase.actions) -> bool:
-	if onready_paths_node.input_synchronizer.action_states.has(action):
-		return _action_handler_base.is_just_active(onready_paths_node.input_synchronizer.action_states.get(action))
+	if paths.input_synchronizer.action_states.has(action):
+		return _action_handler_base.is_just_active(paths.input_synchronizer.action_states.get(action))
 	return false
 
 
 # mostly to improve readability
 func _get_relative_aim_position() -> Vector2:
-	return onready_paths_node.input_synchronizer.relative_aim_position
+	return paths.input_synchronizer.relative_aim_position
 
 
 ##### SIGNAL MANAGEMENT #####

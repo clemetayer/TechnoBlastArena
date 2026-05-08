@@ -17,12 +17,12 @@ var _hit_text_tween : Tween
 var _current_damage : float
 
 #==== ONREADY ====
-@onready var onready_paths_node := $"../Paths"
+@onready var paths := $"../Paths"
 
 ##### PROCESSING #####
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	update_damage(onready_paths_node.player_root.DAMAGE)
+	update_damage(paths.player_root.DAMAGE)
 
 ##### PUBLIC METHODS #####
 func init_damage() -> void:

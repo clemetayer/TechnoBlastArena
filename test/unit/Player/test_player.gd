@@ -37,13 +37,13 @@ func test_ready():
 	stub(mock_player, "_appear").to_do_nothing()
 	var scene_utils = load("res://Utils/scene_utils.gd").new()
 	mock_player._scene_utils = scene_utils
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.name = "Paths"
-	mock_player.add_child(onready_paths_node, false, 0)
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.name = "Paths"
+	mock_player.add_child(paths, false, 0)
 	var init = double(load("res://Scenes/Player/init.gd")).new()
 	stub(init, "initialize").to_do_nothing()
-	onready_paths_node.init = init
-	player.onready_paths_node = onready_paths_node
+	paths.init = init
+	player.paths = paths
 	var game_proxy = load("res://Scenes/Game/players.gd").new()
 	var player_config = PlayerConfig.new()
 	game_proxy._players_data = {
@@ -60,7 +60,7 @@ func test_ready():
 	assert_true(scene_utils.is_connected("toggle_scene_freeze", mock_player._on_SceneUtils_toggle_scene_freeze))
 	# cleanup
 	scene_utils.free()
-	onready_paths_node.free()
+	paths.free()
 	game_proxy.free()
 
 
@@ -96,21 +96,21 @@ func test_physics_process_falling(params = use_parameters(physics_process_fallin
 		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	var paths_node = Node2D.new()
+	paths_node.name = "Paths"
+	mock_player.add_child(paths_node, false, 0)
 	game_proxy.add_child(mock_player)
 	stub(mock_player, "_ready").to_do_nothing()
-	var paths = Node2D.new()
-	paths.name = "Paths"
-	mock_player.add_child(paths, false, 0)
 	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.ZERO
 	mock_player._frozen = false
 	mock_player.direction = params[0]
 	mock_player.jump_triggered = params[1]
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var hitstun_manager = load("res://Scenes/Player/hitstun_manager.gd").new()
 	hitstun_manager.hitstunned = false
-	onready_paths_node.hitstun_manager = hitstun_manager
-	mock_player.onready_paths_node = onready_paths_node
+	paths.hitstun_manager = hitstun_manager
+	mock_player.paths = paths
 	stub(mock_player, "_is_on_floor").to_return(false)
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
@@ -125,7 +125,7 @@ func test_physics_process_falling(params = use_parameters(physics_process_fallin
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	# cleanup
 	hitstun_manager.free()
-	onready_paths_node.free()
+	paths_node.free()
 
 
 var physics_process_on_floor_params := [
@@ -145,20 +145,20 @@ func test_physics_process_on_floor(params = use_parameters(physics_process_on_fl
 		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	var paths_node = Node2D.new()
+	paths_node.name = "Paths"
+	mock_player.add_child(paths_node, false, 0)
 	game_proxy.add_child(mock_player)
 	stub(mock_player, "_ready").to_do_nothing()
-	var paths = Node2D.new()
-	paths.name = "Paths"
-	mock_player.add_child(paths, false, 0)
 	add_child_autofree(game_proxy)
 	mock_player._frozen = false
 	mock_player.direction = params[0]
 	mock_player.velocity = params[1]
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var hitstun_manager = load("res://Scenes/Player/hitstun_manager.gd").new()
 	hitstun_manager.hitstunned = false
-	onready_paths_node.hitstun_manager = hitstun_manager
-	mock_player.onready_paths_node = onready_paths_node
+	paths.hitstun_manager = hitstun_manager
+	mock_player.paths = paths
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
@@ -172,7 +172,7 @@ func test_physics_process_on_floor(params = use_parameters(physics_process_on_fl
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	# cleanup
 	hitstun_manager.free()
-	onready_paths_node.free()
+	paths_node.free()
 
 
 func test_physics_process_jumping():
@@ -185,21 +185,21 @@ func test_physics_process_jumping():
 		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	var paths_node = Node2D.new()
+	paths_node.name = "Paths"
+	mock_player.add_child(paths_node, false, 0)
 	game_proxy.add_child(mock_player)
 	stub(mock_player, "_ready").to_do_nothing()
-	var paths = Node2D.new()
-	paths.name = "Paths"
-	mock_player.add_child(paths, false, 0)
 	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.ZERO
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
 	mock_player.jump_triggered = true
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var hitstun_manager = load("res://Scenes/Player/hitstun_manager.gd").new()
 	hitstun_manager.hitstunned = false
-	onready_paths_node.hitstun_manager = hitstun_manager
-	mock_player.onready_paths_node = onready_paths_node
+	paths.hitstun_manager = hitstun_manager
+	mock_player.paths = paths
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_predict_bounces").to_do_nothing()
 	stub(mock_player, "_buffer_velocity").to_do_nothing()
@@ -213,7 +213,7 @@ func test_physics_process_jumping():
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	# cleanup
 	hitstun_manager.free()
-	onready_paths_node.free()
+	paths_node.free()
 
 
 func test_physics_process_hitstunned():
@@ -226,21 +226,21 @@ func test_physics_process_hitstunned():
 		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	var paths_node = Node2D.new()
+	paths_node.name = "Paths"
+	mock_player.add_child(paths_node, false, 0)
 	game_proxy.add_child(mock_player)
 	stub(mock_player, "_ready").to_do_nothing()
-	var paths = Node2D.new()
-	paths.name = "Paths"
-	mock_player.add_child(paths, false, 0)
 	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.RIGHT
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
 	mock_player.jump_triggered = false
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var hitstun_manager = load("res://Scenes/Player/hitstun_manager.gd").new()
 	hitstun_manager.hitstunned = true
-	onready_paths_node.hitstun_manager = hitstun_manager
-	mock_player.onready_paths_node = onready_paths_node
+	paths.hitstun_manager = hitstun_manager
+	mock_player.paths = paths
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_get_collisions_normal").to_return(Vector2.LEFT)
 	stub(mock_player, "_predict_bounces").to_do_nothing()
@@ -255,7 +255,7 @@ func test_physics_process_hitstunned():
 	assert_called(mock_player, "_buffer_velocity", [expected_velocity])
 	# cleanup
 	hitstun_manager.free()
-	onready_paths_node.free()
+	paths_node.free()
 
 
 func test_physics_process_freeze_buffer_velocity():
@@ -268,22 +268,22 @@ func test_physics_process_freeze_buffer_velocity():
 		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	var paths_node = Node2D.new()
+	paths_node.name = "Paths"
+	mock_player.add_child(paths_node, false, 0)
 	game_proxy.add_child(mock_player)
 	stub(mock_player, "_ready").to_do_nothing()
-	var paths = Node2D.new()
-	paths.name = "Paths"
-	mock_player.add_child(paths, false, 0)
 	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.RIGHT
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
 	mock_player.jump_triggered = false
 	mock_player._freeze_buffer_velocity = Vector2.LEFT
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var hitstun_manager = load("res://Scenes/Player/hitstun_manager.gd").new()
 	hitstun_manager.hitstunned = false
-	onready_paths_node.hitstun_manager = hitstun_manager
-	mock_player.onready_paths_node = onready_paths_node
+	paths.hitstun_manager = hitstun_manager
+	mock_player.paths = paths
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_get_collisions_normal").to_return(Vector2.LEFT)
 	stub(mock_player, "_predict_bounces").to_do_nothing()
@@ -298,7 +298,7 @@ func test_physics_process_freeze_buffer_velocity():
 	assert_eq(mock_player._freeze_buffer_velocity, Vector2.ZERO)
 	# cleanup
 	hitstun_manager.free()
-	onready_paths_node.free()
+	paths_node.free()
 
 
 func test_physics_process_override_velocity():
@@ -311,22 +311,22 @@ func test_physics_process_override_velocity():
 		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	var paths_node = Node2D.new()
+	paths_node.name = "Paths"
+	mock_player.add_child(paths_node, false, 0)
 	game_proxy.add_child(mock_player)
 	stub(mock_player, "_ready").to_do_nothing()
-	var paths = Node2D.new()
-	paths.name = "Paths"
-	mock_player.add_child(paths, false, 0)
 	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.RIGHT
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
 	mock_player.jump_triggered = false
 	mock_player._velocity_override = Vector2.LEFT
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var hitstun_manager = load("res://Scenes/Player/hitstun_manager.gd").new()
 	hitstun_manager.hitstunned = false
-	onready_paths_node.hitstun_manager = hitstun_manager
-	mock_player.onready_paths_node = onready_paths_node
+	paths.hitstun_manager = hitstun_manager
+	mock_player.paths = paths
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_get_collisions_normal").to_return(Vector2.LEFT)
 	stub(mock_player, "_predict_bounces").to_do_nothing()
@@ -341,7 +341,7 @@ func test_physics_process_override_velocity():
 	assert_eq(mock_player._velocity_override, Vector2.ZERO)
 	# cleanup
 	hitstun_manager.free()
-	onready_paths_node.free()
+	paths_node.free()
 
 
 func test_add_velocity():
@@ -354,22 +354,22 @@ func test_add_velocity():
 		},
 	}
 	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	var paths_node = Node2D.new()
+	paths_node.name = "Paths"
+	mock_player.add_child(paths_node, false, 0)
 	game_proxy.add_child(mock_player)
 	stub(mock_player, "_ready").to_do_nothing()
-	var paths = Node2D.new()
-	paths.name = "Paths"
-	mock_player.add_child(paths, false, 0)
 	add_child_autofree(game_proxy)
 	mock_player.velocity = Vector2.LEFT
 	mock_player._frozen = false
 	mock_player.direction = Vector2.ZERO
 	mock_player.jump_triggered = false
 	mock_player._additional_vector = Vector2.LEFT
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var hitstun_manager = load("res://Scenes/Player/hitstun_manager.gd").new()
 	hitstun_manager.hitstunned = false
-	onready_paths_node.hitstun_manager = hitstun_manager
-	mock_player.onready_paths_node = onready_paths_node
+	paths.hitstun_manager = hitstun_manager
+	mock_player.paths = paths
 	stub(mock_player, "_is_on_floor").to_return(true)
 	stub(mock_player, "_get_collisions_normal").to_return(Vector2.LEFT)
 	stub(mock_player, "_predict_bounces").to_do_nothing()
@@ -384,18 +384,23 @@ func test_add_velocity():
 	assert_eq(mock_player._additional_vector, Vector2.ZERO)
 	# cleanup
 	hitstun_manager.free()
-	onready_paths_node.free()
+	paths_node.free()
 
 
-var hurt_params := [
+var hit_params := [
 	[false, 400, 400],
 	[true, 400, 900.0],
 	[true, 600, 999.0],
 ]
 
 
-func test_hit(params = use_parameters(hurt_params)):
+func test_hit_no_shield(params = use_parameters(hit_params)):
 	# given
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	var shield = double(load("res://Scenes/Player/shield.gd")).new()
+	stub(shield, "process_hit").to_return(Shield.HitResult.IGNORED)
+	paths.shield = shield
+	player.paths = paths
 	player._damage_enabled = params[0]
 	player.damage_received.connect(_on_damage_received)
 	player.last_hit_owner_changed.connect(_on_last_hit_owner_changed)
@@ -423,6 +428,50 @@ func test_hit(params = use_parameters(hurt_params)):
 	p_owner.free()
 
 
+func test_hit_shielded():
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	var shield = double(load("res://Scenes/Player/shield.gd")).new()
+	stub(shield, "process_hit").to_return(Shield.HitResult.SHIELDED)
+	paths.shield = shield
+	player.paths = paths
+	player._damage_enabled = true
+	player.damage_received.connect(_on_damage_received)
+	player.last_hit_owner_changed.connect(_on_last_hit_owner_changed)
+	player.DAMAGE = 0
+	var p_owner = Node2D.new()
+	# when
+	player.hit(PlayerHitData.new(Vector2.RIGHT, 500, p_owner))
+	# then
+	assert_eq(player._additional_vector, Vector2.ZERO)
+	assert_eq(player.DAMAGE, 0)
+	assert_eq(damage_received_times_called, 0)
+	assert_eq(last_hit_owner_changed_times_called, 0)
+	# cleanup
+	p_owner.free()
+
+
+func test_hit_parried():
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	var shield = double(load("res://Scenes/Player/shield.gd")).new()
+	stub(shield, "process_hit").to_return(Shield.HitResult.PARRIED)
+	paths.shield = shield
+	player.paths = paths
+	player._damage_enabled = true
+	player.damage_received.connect(_on_damage_received)
+	player.last_hit_owner_changed.connect(_on_last_hit_owner_changed)
+	player.DAMAGE = 0
+	var p_owner = Node2D.new()
+	# when
+	player.hit(PlayerHitData.new(Vector2.RIGHT, 500, p_owner))
+	# then
+	assert_eq(player._additional_vector, Vector2.ZERO)
+	assert_eq(player.DAMAGE, 0)
+	assert_eq(damage_received_times_called, 0)
+	assert_eq(last_hit_owner_changed_times_called, 0)
+	# cleanup
+	p_owner.free()
+
+
 func test_hit_update_damage():
 	# given
 	var game_root = load(
@@ -435,25 +484,25 @@ func test_hit_update_damage():
 	player_scene._damage_enabled = true
 	await wait_process_frames(2)
 	# when / then
-	assert_eq(player_scene.onready_paths_node.damage_label.text, "0")
+	assert_eq(player_scene.paths.damage_label.text, "0")
 	player_scene.hit(PlayerHitData.new(Vector2.ZERO, 100, null))
 	await wait_process_frames(2)
-	assert_true(player_scene.onready_paths_node.damage_label.text.contains("[color=ffff33ff]100[/color]"))
+	assert_true(player_scene.paths.damage_label.text.contains("[color=ffff33ff]100[/color]"))
 
 
 func test_kill():
 	# given
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var death_manager = double(load("res://Scenes/Player/death_manager.gd")).new()
 	stub(death_manager, "kill")
-	onready_paths_node.death_manager = death_manager
-	player.onready_paths_node = onready_paths_node
+	paths.death_manager = death_manager
+	player.paths = paths
 	# when
 	player.kill()
 	# then
 	assert_called(death_manager, "kill")
 	# cleanup
-	onready_paths_node.free()
+	paths.free()
 
 
 func test_override_velocity():
@@ -574,11 +623,11 @@ func test_appear():
 	stub(mock_player, "toggle_freeze").to_do_nothing()
 	stub(mock_player, "toggle_abilities").to_do_nothing()
 	stub(mock_player, "toggle_damage").to_do_nothing()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var appear_elements = double(load("res://Scenes/Player/appear_elements.gd")).new()
 	stub(appear_elements, "play_spawn_animation").to_do_nothing()
-	onready_paths_node.appear_elements = appear_elements
-	mock_player.onready_paths_node = onready_paths_node
+	paths.appear_elements = appear_elements
+	mock_player.paths = paths
 	# when
 	mock_player._appear()
 	# then
@@ -587,7 +636,7 @@ func test_appear():
 	assert_called(mock_player, "toggle_damage", [false])
 	assert_called(appear_elements, "play_spawn_animation")
 	# cleanup
-	onready_paths_node.free()
+	paths.free()
 
 
 func test_buffer_velocity():
@@ -622,10 +671,10 @@ func test_on_appear_elements_appear_animation_finished():
 	stub(mock_player, "toggle_freeze").to_do_nothing()
 	stub(mock_player, "toggle_abilities").to_do_nothing()
 	stub(mock_player, "toggle_damage").to_do_nothing()
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var appear_elements = load("res://Scenes/Player/appear_elements.gd").new()
-	onready_paths_node.appear_elements = appear_elements
-	mock_player.onready_paths_node = onready_paths_node
+	paths.appear_elements = appear_elements
+	mock_player.paths = paths
 	# when
 	mock_player._on_appear_elements_appear_animation_finished()
 	# then
@@ -634,7 +683,7 @@ func test_on_appear_elements_appear_animation_finished():
 	assert_called(mock_player, "toggle_damage", [true])
 	# cleanup
 	appear_elements.free()
-	onready_paths_node.free()
+	paths.free()
 
 
 ##### UTILS #####

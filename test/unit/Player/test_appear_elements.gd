@@ -46,17 +46,17 @@ func test_init():
 
 func test_play_spawn_animation():
 	# given
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = load("res://Scenes/Player/paths.gd").new()
 	var animation_player = double(AnimationPlayer).new()
 	stub(animation_player, "play").to_do_nothing()
-	onready_paths_node.animation_player = animation_player
-	appear_elements.onready_paths_node = onready_paths_node
+	paths.animation_player = animation_player
+	appear_elements.paths = paths
 	# when
 	appear_elements.play_spawn_animation()
 	# then
 	assert_called(animation_player, "play", ["appear", null, null, null])
 	# cleanup
-	onready_paths_node.free()
+	paths.free()
 
 var on_animation_player_animation_finished_params := [
 	["appear", true],

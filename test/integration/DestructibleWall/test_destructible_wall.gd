@@ -70,7 +70,7 @@ func test_hit_wall_destroyed(): # with wall respawn
 	var wall = scene.get_wall(wall_direction)
 	await wait_seconds(1.0)
 	assert_lte(wall.onready_paths.health_manager.HEALTH, 0.0)
-	assert_false(scene.get_player().onready_paths_node.sprites.visible) # queue_free does not work well with GUT, so we check other things.
+	assert_false(scene.get_player().paths.sprites.visible) # queue_free does not work well with GUT, so we check other things.
 	assert_eq(scene.get_player().collision_layer,0)
 	assert_eq(scene.get_player().collision_mask,0)
 	assert_false(wall.visible)

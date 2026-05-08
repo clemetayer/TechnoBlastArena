@@ -28,9 +28,9 @@ func test_stop_hitstun(params = use_parameters(stop_hitstun_params)):
 	var hitstun_timer = double(Timer).new()
 	stub(hitstun_timer, "stop")
 	mock_hitstun_manager.hitstunned = params[0]
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
-	onready_paths_node.hitstun_timer = hitstun_timer
-	mock_hitstun_manager.onready_paths_node = onready_paths_node
+	var paths = load("res://Scenes/Player/paths.gd").new()
+	paths.hitstun_timer = hitstun_timer
+	mock_hitstun_manager.paths = paths
 	# when
 	mock_hitstun_manager.stop_hitstun()
 	# then
@@ -41,22 +41,22 @@ func test_stop_hitstun(params = use_parameters(stop_hitstun_params)):
 		assert_not_called(hitstun_timer, "stop")
 		assert_not_called(mock_hitstun_manager, "_on_hitstun_timeout")
 	# cleanup
-	onready_paths_node.free()
+	paths.free()
 
 
 func test_on_player_damage_received():
 	# given
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = load("res://Scenes/Player/paths.gd").new()
 	var hitstun_timer = double(Timer).new()
 	stub(hitstun_timer, "start").to_do_nothing()
-	onready_paths_node.hitstun_timer = hitstun_timer
+	paths.hitstun_timer = hitstun_timer
 	var animation_player = double(AnimationPlayer).new()
 	stub(animation_player, "play").to_do_nothing()
-	onready_paths_node.animation_player = animation_player
+	paths.animation_player = animation_player
 	var bounce_area = double(load("res://Scenes/Player/bounce_area.gd")).new()
 	stub(bounce_area, "toggle_active").to_do_nothing()
-	onready_paths_node.bounce_area = bounce_area
-	hitstun_manager.onready_paths_node = onready_paths_node
+	paths.bounce_area = bounce_area
+	hitstun_manager.paths = paths
 	# when
 	hitstun_manager._on_player_damage_received(100.0, 123.0, Vector2.ONE)
 	# then
@@ -65,20 +65,20 @@ func test_on_player_damage_received():
 	assert_called(bounce_area, "toggle_active", [true])
 	assert_true(hitstun_manager.hitstunned)
 	# cleanup
-	onready_paths_node.free()
+	paths.free()
 
 
 func test_on_hitstun_timeout():
 	# given
-	var onready_paths_node = load("res://Scenes/Player/paths.gd").new()
+	var paths = load("res://Scenes/Player/paths.gd").new()
 	var animation_player = double(AnimationPlayer).new()
 	stub(animation_player, "stop").to_do_nothing()
 	stub(animation_player, "play").to_do_nothing()
-	onready_paths_node.animation_player = animation_player
+	paths.animation_player = animation_player
 	var bounce_area = double(load("res://Scenes/Player/bounce_area.gd")).new()
 	stub(bounce_area, "toggle_active").to_do_nothing()
-	onready_paths_node.bounce_area = bounce_area
-	hitstun_manager.onready_paths_node = onready_paths_node
+	paths.bounce_area = bounce_area
+	hitstun_manager.paths = paths
 	# when
 	hitstun_manager._on_hitstun_timeout()
 	# then
@@ -87,4 +87,4 @@ func test_on_hitstun_timeout():
 	assert_called(bounce_area, "toggle_active", [false])
 	assert_false(hitstun_manager.hitstunned)
 	# cleanup
-	onready_paths_node.free()
+	paths.free()

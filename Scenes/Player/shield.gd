@@ -33,6 +33,10 @@ func toggle_shielding(active: bool) -> void:
 
 
 func process_hit(hit_data: PlayerHitData) -> HitResult:
+	if _shielding:
+		hit_data.shield_process.call()
+		return HitResult.SHIELDED
+	hit_data.hit_process.call()
 	return HitResult.IGNORED
 
 

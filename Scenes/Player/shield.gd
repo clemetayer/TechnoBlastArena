@@ -10,12 +10,14 @@ enum HitResult { IGNORED, SHIELDED, PARRIED }
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PARRY_FREEZE_TIME := 0.25
+const BASE_SHIELD_HEALTH := 1500
 
 #---- STANDARD -----
 #==== PRIVATE ====
 var _shielding := false
 var _parrying := false
 var _firing := false
+var _health := BASE_SHIELD_HEALTH
 
 #==== ONREADY ====
 @onready var paths := $"../Paths"
@@ -33,7 +35,7 @@ func toggle_shielding(active: bool) -> void:
 
 
 func process_hit(hit_data: PlayerHitData) -> HitResult:
-	if _firing:
+	if _firing or _is_broken():
 		return _hit(hit_data)
 	if _parrying:
 		return _parry(hit_data)
@@ -58,7 +60,12 @@ func _parry(hit_data: PlayerHitData) -> HitResult:
 
 
 func _shield(hit_data: PlayerHitData) -> HitResult:
+	_health = clamp(_health - hit_data.shield_damage, 0, BASE_SHIELD_HEALTH)
 	hit_data.shield_process.call()
 	return HitResult.SHIELDED
+
+
+func _is_broken() -> bool:
+	return _health <= 0
 
 ##### SIGNAL MANAGEMENT #####

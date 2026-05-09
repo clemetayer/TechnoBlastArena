@@ -45,15 +45,42 @@ func test_process_hit_not_shielding():
 	assert_eq(parried_times_called, 0)
 
 
-func test_process_hit_shield():
+var process_hit_shield_params := [
+	[500, 200, 300],
+	[100, 200, 0],
+]
+
+
+func test_process_hit_shield(params = use_parameters(process_hit_shield_params)):
 	# given
+	var shield_base_health = params[0]
+	var shield_damage = params[1]
+	var expected_health_remaining = params[2]
 	shield._shielding = true
+	shield._health = shield_base_health
+	var hit_data := _create_standard_hit_data()
+	hit_data.shield_damage = shield_damage
 	# when
-	var hit_result := shield.process_hit(_create_standard_hit_data())
+	var hit_result := shield.process_hit(hit_data)
 	# then
 	assert_eq(hit_result, Shield.HitResult.SHIELDED)
 	assert_eq(hit_process_times_called, 0)
 	assert_eq(shield_process_times_called, 1)
+	assert_eq(parried_times_called, 0)
+	assert_eq(shield._health, expected_health_remaining)
+
+
+func test_process_hit_shield_destroyed():
+	# given
+	shield._health = 0
+	shield._shielding = true
+	shield._parrying = true
+	# when
+	var hit_result := shield.process_hit(_create_standard_hit_data())
+	# then
+	assert_eq(hit_result, Shield.HitResult.IGNORED)
+	assert_eq(hit_process_times_called, 1)
+	assert_eq(shield_process_times_called, 0)
 	assert_eq(parried_times_called, 0)
 
 

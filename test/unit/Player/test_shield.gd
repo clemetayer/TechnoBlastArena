@@ -3,12 +3,10 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var shield
-var parried_times_called := 0
 
 
 ##### SETUP #####
 func before_each():
-	parried_times_called = 0
 	shield = load("res://Scenes/Player/shield.gd").new()
 
 
@@ -17,3 +15,16 @@ func after_each():
 	shield.free()
 
 ##### TESTS #####
+var toggle_shielding_params := [
+	[true],
+	[false],
+]
+
+
+func test_toggle_shielding(params = use_parameters(toggle_shielding_params)):
+	# given
+	var shielding = params[0]
+	# when
+	shield.toggle_shielding(shielding)
+	# then
+	assert_eq(shield._shielding, shielding)

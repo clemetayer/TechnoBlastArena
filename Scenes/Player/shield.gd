@@ -29,7 +29,7 @@ var _shielding := true
 
 ##### PUBLIC METHODS #####
 func toggle_shielding(active: bool) -> void:
-	pass
+	_shielding = active
 
 
 func process_hit(hit_data: PlayerHitData) -> HitResult:

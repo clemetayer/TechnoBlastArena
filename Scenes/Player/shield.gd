@@ -15,7 +15,8 @@ const PARRY_FREEZE_TIME := 0.25
 
 #---- STANDARD -----
 #==== PRIVATE ====
-var _shielding := true
+var _shielding := false
+var _parrying := false
 
 #==== ONREADY ====
 @onready var paths := $"../Paths"
@@ -33,6 +34,9 @@ func toggle_shielding(active: bool) -> void:
 
 
 func process_hit(hit_data: PlayerHitData) -> HitResult:
+	if _parrying:
+		hit_data.parry_process.call(paths.player_root, paths.input_synchronizer.relative_aim_position)
+		return HitResult.PARRIED
 	if _shielding:
 		hit_data.shield_process.call()
 		return HitResult.SHIELDED

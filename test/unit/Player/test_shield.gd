@@ -62,6 +62,27 @@ func test_process_hit_shield():
 	assert_eq(parried_times_called, 0)
 
 
+func test_process_hit_parry():
+	# given
+	shield._shielding = true
+	shield._parrying = true
+	var shield_owner = autofree(Node2D.new())
+	var input_synchronizer = autofree(load("res://Scenes/Player/input_synchronizer.gd").new())
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.player_root = shield_owner
+	paths.input_synchronizer = input_synchronizer
+	input_synchronizer.relative_aim_position = Vector2.ONE
+	shield.paths = paths
+	# when
+	var hit_result := shield.process_hit(_create_standard_hit_data())
+	# then
+	assert_eq(hit_result, Shield.HitResult.PARRIED)
+	assert_eq(hit_process_times_called, 0)
+	assert_eq(shield_process_times_called, 0)
+	assert_eq(parried_times_called, 1)
+	assert_eq(parried_args, [[shield_owner, Vector2.ONE]])
+
+
 ##### UTILS #####
 func _create_standard_hit_data() -> PlayerHitData:
 	return PlayerHitData.new(
@@ -75,9 +96,9 @@ func _create_standard_hit_data() -> PlayerHitData:
 	)
 
 
-func _on_parried() -> void:
+func _on_parried(p_owner: Node2D, relative_aim_position: Vector2) -> void:
 	parried_times_called += 1
-	parried_args.append([])
+	parried_args.append([p_owner, relative_aim_position])
 
 
 func _on_shield_process() -> void:

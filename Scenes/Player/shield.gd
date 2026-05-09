@@ -7,8 +7,6 @@ class_name Shield
 ##### ENUMS #####
 enum HitResult { IGNORED, SHIELDED, PARRIED }
 
-##### SIGNALS #####
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PARRY_FREEZE_TIME := 0.25
@@ -36,21 +34,31 @@ func toggle_shielding(active: bool) -> void:
 
 func process_hit(hit_data: PlayerHitData) -> HitResult:
 	if _firing:
-		hit_data.hit_process.call()
-		return HitResult.IGNORED
+		return _hit(hit_data)
 	if _parrying:
-		hit_data.parry_process.call(paths.player_root, paths.input_synchronizer.relative_aim_position)
-		return HitResult.PARRIED
+		return _parry(hit_data)
 	if _shielding:
-		hit_data.shield_process.call()
-		return HitResult.SHIELDED
-	hit_data.hit_process.call()
-	return HitResult.IGNORED
+		return _shield(hit_data)
+	return _hit(hit_data)
 
 
 func toggle_firing_disable(firing: bool) -> void:
 	_firing = firing
 
+
 ##### PROTECTED METHODS #####
+func _hit(hit_data: PlayerHitData) -> HitResult:
+	hit_data.hit_process.call()
+	return HitResult.IGNORED
+
+
+func _parry(hit_data: PlayerHitData) -> HitResult:
+	hit_data.parry_process.call(paths.player_root, paths.input_synchronizer.relative_aim_position)
+	return HitResult.PARRIED
+
+
+func _shield(hit_data: PlayerHitData) -> HitResult:
+	hit_data.shield_process.call()
+	return HitResult.SHIELDED
 
 ##### SIGNAL MANAGEMENT #####

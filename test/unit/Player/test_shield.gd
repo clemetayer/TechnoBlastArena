@@ -11,16 +11,11 @@ var hit_process_times_called := 0
 
 ##### SETUP #####
 func before_each():
-	shield = load("res://Scenes/Player/shield.gd").new()
+	shield = autofree(load("res://Scenes/Player/shield.tscn").instantiate())
 	parried_times_called = 0
 	parried_args = []
 	shield_process_times_called = 0
 	hit_process_times_called = 0
-
-
-##### TEARDOWN #####
-func after_each():
-	shield.free()
 
 ##### TESTS #####
 var toggle_shielding_params := [
@@ -81,6 +76,35 @@ func test_process_hit_parry():
 	assert_eq(shield_process_times_called, 0)
 	assert_eq(parried_times_called, 1)
 	assert_eq(parried_args, [[shield_owner, Vector2.ONE]])
+
+
+func test_process_hit_ignore_if_firing():
+	# given
+	shield._firing = true
+	shield._shielding = true
+	shield._parrying = true
+	# when
+	var hit_result := shield.process_hit(_create_standard_hit_data())
+	# then
+	assert_eq(hit_result, Shield.HitResult.IGNORED)
+	assert_eq(hit_process_times_called, 1)
+	assert_eq(shield_process_times_called, 0)
+	assert_eq(parried_times_called, 0)
+
+
+var toggle_firing_disable_params := [
+	[true],
+	[false],
+]
+
+
+func test_toggle_firing_disable(params = use_parameters(toggle_firing_disable_params)):
+	# given
+	var firing = params[0]
+	# when
+	shield.toggle_firing_disable(firing)
+	# then
+	assert_eq(shield._firing, firing)
 
 
 ##### UTILS #####

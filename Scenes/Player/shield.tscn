@@ -1,0 +1,222 @@
+[gd_scene format=3 uid="uid://bk432pjh3l74b"]
+
+[ext_resource type="Script" uid="uid://652msoi8ssw3" path="res://Scenes/Player/shield.gd" id="1_56yob"]
+[ext_resource type="Texture2D" uid="uid://xtprt5lwbpqn" path="res://Scenes/Player/Octagon.png" id="2_uf4hy"]
+[ext_resource type="AudioStream" uid="uid://ukj7rgv5cmco" path="res://Scenes/Player/parry.mp3" id="3_7vf3h"]
+[ext_resource type="AudioStream" uid="uid://cudyvrluhlj0s" path="res://Scenes/Player/wrong.mp3" id="4_swsj5"]
+[ext_resource type="AudioStream" uid="uid://cvduad6i4tj47" path="res://Scenes/Player/parry_active.mp3" id="5_hme2n"]
+
+[sub_resource type="Gradient" id="Gradient_mt16k"]
+offsets = PackedFloat32Array(0, 0.529412, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ljlp8"]
+gradient = SubResource("Gradient_mt16k")
+
+[sub_resource type="Curve" id="Curve_6fjf6"]
+_limits = [0.75, 1.25, 0.0, 1.0]
+_data = [Vector2(0, 0.75), 0.0, 0.0, 0, 0, Vector2(1, 1.25), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_nih2v"]
+curve = SubResource("Curve_6fjf6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jw2bm"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_nih2v")
+color_ramp = SubResource("GradientTexture1D_ljlp8")
+
+[sub_resource type="Animation" id="Animation_xf0cy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ParryParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ParryParticles:amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ParryParticles:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ParryParticles:lifetime")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.15]
+}
+
+[sub_resource type="Animation" id="Animation_4742t"]
+resource_name = "parried"
+length = 0.25
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ParryParticles:lifetime")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.25]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ParryParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ParryParticles:amount")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ParryParticles:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 1, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_onmdd"]
+resource_name = "parrying"
+length = 0.15
+step = 0.015
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ParryParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ParryParticles:amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ParryParticles:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ParryParticles:lifetime")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.15]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_owers"]
+_data = {
+&"RESET": SubResource("Animation_xf0cy"),
+&"parried": SubResource("Animation_4742t"),
+&"parrying": SubResource("Animation_onmdd")
+}
+
+[node name="Shield" type="Node2D" unique_id=1942744070]
+script = ExtResource("1_56yob")
+
+[node name="ParryParticles" type="GPUParticles2D" parent="." unique_id=33310055]
+modulate = Color(0, 1, 1, 1)
+emitting = false
+amount = 1
+texture = ExtResource("2_uf4hy")
+lifetime = 0.15
+one_shot = true
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_jw2bm")
+
+[node name="ParrySound" type="AudioStreamPlayer2D" parent="." unique_id=2037551708]
+stream = ExtResource("3_7vf3h")
+bus = &"EffectsBGMSidechain"
+
+[node name="ParryDisabled" type="AudioStreamPlayer2D" parent="." unique_id=873963024]
+stream = ExtResource("4_swsj5")
+bus = &"Effects"
+
+[node name="ParryActive" type="AudioStreamPlayer2D" parent="." unique_id=822704390]
+stream = ExtResource("5_hme2n")
+volume_db = 10.0
+bus = &"Effects"
+
+[node name="ParryAnimations" type="AnimationPlayer" parent="." unique_id=1026308490]
+libraries/ = SubResource("AnimationLibrary_owers")

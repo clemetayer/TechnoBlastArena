@@ -17,6 +17,7 @@ const PARRY_FREEZE_TIME := 0.25
 #==== PRIVATE ====
 var _shielding := false
 var _parrying := false
+var _firing := false
 
 #==== ONREADY ====
 @onready var paths := $"../Paths"
@@ -34,6 +35,9 @@ func toggle_shielding(active: bool) -> void:
 
 
 func process_hit(hit_data: PlayerHitData) -> HitResult:
+	if _firing:
+		hit_data.hit_process.call()
+		return HitResult.IGNORED
 	if _parrying:
 		hit_data.parry_process.call(paths.player_root, paths.input_synchronizer.relative_aim_position)
 		return HitResult.PARRIED
@@ -44,8 +48,8 @@ func process_hit(hit_data: PlayerHitData) -> HitResult:
 	return HitResult.IGNORED
 
 
-func disable_after_firing() -> void:
-	pass
+func toggle_firing_disable(firing: bool) -> void:
+	_firing = firing
 
 ##### PROTECTED METHODS #####
 

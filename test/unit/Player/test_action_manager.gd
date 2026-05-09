@@ -123,7 +123,7 @@ func test_handle_fire(params = use_parameters(handle_fire_params)):
 	var primary_weapon = double(load("res://Scenes/Weapons/Primary/Revolver/revolver.gd")).new()
 	stub(primary_weapon, "fire").to_do_nothing()
 	var shield = double(load("res://Scenes/Player/shield.gd")).new()
-	stub(shield, "disable_after_firing").to_do_nothing()
+	stub(shield, "toggle_firing_disable").to_do_nothing()
 	var paths = load("res://Scenes/Player/paths.gd").new()
 	paths.primary_weapon = primary_weapon
 	paths.shield = shield
@@ -131,12 +131,11 @@ func test_handle_fire(params = use_parameters(handle_fire_params)):
 	# when
 	action_manager._handle_fire()
 	# then
+	assert_called(shield, "toggle_firing_disable", [params[0]])
 	if params[0]:
 		assert_called(primary_weapon, "fire")
-		assert_called(shield, "disable_after_firing")
 	else:
 		assert_not_called(primary_weapon, "fire")
-		assert_not_called(shield, "disable_after_firing")
 	# cleanup
 	paths.free()
 

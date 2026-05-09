@@ -60,9 +60,10 @@ func _handle_jump() -> void:
 
 
 func _handle_fire() -> void:
-	if _is_action_active(_action_handler_base.actions.FIRE):
+	var is_fire_active := _is_action_active(_action_handler_base.actions.FIRE)
+	paths.shield.toggle_firing_disable(is_fire_active)
+	if is_fire_active:
 		paths.primary_weapon.fire()
-		paths.shield.disable_after_firing()
 
 
 func _handle_movement_bonus() -> void:

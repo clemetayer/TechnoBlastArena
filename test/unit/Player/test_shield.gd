@@ -27,8 +27,8 @@ var toggle_shielding_params := [
 func test_toggle_shielding(params = use_parameters(toggle_shielding_params)):
 	# given
 	var shielding = params[0]
-	stub_shield_particles()
-	stub_broken_shield_particles()
+	set_real_shield_particles()
+	set_real_broken_shield_particles()
 	# when
 	shield.toggle_shielding(shielding)
 	# then
@@ -48,13 +48,13 @@ func test_toggle_shielding_play_animation_not_broken(params = use_parameters(tog
 	shield._shielding = false
 	shield._parrying = false
 	shield._health = 500
-	var shield_particles = stub_shield_particles()
-	var broken_shield_particles = stub_broken_shield_particles()
+	var shield_particles = set_real_shield_particles()
+	var broken_shield_particles = set_real_broken_shield_particles()
 	# when
 	shield.toggle_shielding(shielding)
 	# then
-	assert_called(shield_particles, "set_emitting", [shielding])
-	assert_called(broken_shield_particles, "set_emitting", [false])
+	assert_eq(shield_particles.emitting, shielding)
+	assert_false(broken_shield_particles.emitting)
 
 
 func test_toggle_shielding_play_animation_broken():
@@ -63,13 +63,34 @@ func test_toggle_shielding_play_animation_broken():
 	shield._shielding = false
 	shield._parrying = false
 	shield._health = 0
-	var shield_particles = stub_shield_particles()
-	var broken_shield_particles = stub_broken_shield_particles()
+	var shield_particles = set_real_shield_particles()
+	var broken_shield_particles = set_real_broken_shield_particles()
 	# when
 	shield.toggle_shielding(true)
 	# then
-	assert_called(broken_shield_particles, "set_emitting", [true])
-	assert_called(shield_particles, "set_emitting", [false])
+	assert_true(broken_shield_particles.emitting)
+	assert_false(shield_particles.emitting)
+
+
+var toggle_shielding_set_color_params := [
+	[Shield.BASE_SHIELD_HEALTH, 0.0],
+	[Shield.BASE_SHIELD_HEALTH / 2.0, 0.5],
+	[0.0, 1.0],
+]
+
+
+func test_toggle_shielding_set_color(params = use_parameters(toggle_shielding_set_color_params)):
+	# given
+	var health = params[0]
+	var gradient_value = params[1]
+	var gradient: Gradient = Shield.DAMAGE_GRADIENT
+	shield._health = health
+	var shield_particles = set_real_shield_particles()
+	set_real_broken_shield_particles()
+	# when
+	shield.toggle_shielding(true)
+	# then
+	assert_eq(shield_particles.modulate, gradient.sample(gradient_value))
 
 
 func test_process_hit_not_shielding():
@@ -214,26 +235,18 @@ func _create_standard_hit_data() -> PlayerHitData:
 	)
 
 
-func stub_shield_particles() -> GPUParticles2D:
-	var shield_particles = double(GPUParticles2D).new()
-	stub(shield_particles, "set_emitting").to_do_nothing()
+func set_real_shield_particles() -> GPUParticles2D:
+	var shield_particles = GPUParticles2D.new()
+	add_child_autofree(shield_particles)
 	shield.onready_paths.shield_particles = shield_particles
 	return shield_particles
 
 
-func stub_broken_shield_particles() -> GPUParticles2D:
-	var broken_shield_particles = double(GPUParticles2D).new()
-	stub(broken_shield_particles, "set_emitting").to_do_nothing()
+func set_real_broken_shield_particles() -> GPUParticles2D:
+	var broken_shield_particles = GPUParticles2D.new()
+	add_child_autofree(broken_shield_particles)
 	shield.onready_paths.broken_shield_particles = broken_shield_particles
 	return broken_shield_particles
-
-
-func stub_broken_shield_regen_bar() -> ProgressBar:
-	var broken_shield_regen_bar = double(ProgressBar).new()
-	stub(broken_shield_regen_bar, "set_value").to_do_nothing()
-	stub(broken_shield_regen_bar, "set_visible").to_do_nothing()
-	shield.onready_paths.broken_shield_regen_bar = broken_shield_regen_bar
-	return broken_shield_regen_bar
 
 
 func set_real_broken_shield_regen_bar() -> ProgressBar:

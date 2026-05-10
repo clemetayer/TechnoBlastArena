@@ -10,8 +10,9 @@ enum HitResult { IGNORED, SHIELDED, PARRIED }
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PARRY_FREEZE_TIME := 0.25
-const BASE_SHIELD_HEALTH := 1500
+const BASE_SHIELD_HEALTH := 150
 const SHIELD_REGEN_TIME := 10 #s
+const DAMAGE_GRADIENT = preload("res://Scenes/Player/damage_text_gradient.tres")
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -36,8 +37,9 @@ var _regen_tween: Tween
 
 ##### PUBLIC METHODS #####
 func toggle_shielding(active: bool) -> void:
-	onready_paths.shield_particles.set_emitting(active and not _is_broken())
-	onready_paths.broken_shield_particles.set_emitting(active and _is_broken())
+	onready_paths.shield_particles.emitting = active and not _is_broken()
+	onready_paths.broken_shield_particles.emitting = active and _is_broken()
+	onready_paths.shield_particles.modulate = DAMAGE_GRADIENT.sample(float(BASE_SHIELD_HEALTH - _health) / BASE_SHIELD_HEALTH)
 	_shielding = active
 
 

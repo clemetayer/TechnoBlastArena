@@ -28,6 +28,7 @@ var _regen_tween: Tween
 	"animation_player": $"ParryAnimations",
 	"shield_particles": $"ShieldParticles",
 	"broken_shield_particles": $"BrokenShieldParticles",
+	"broken_shield_anim_particles": $"BrokenShieldAnimParticles",
 	"broken_shield_regen_bar": $"BrokenShieldRegenBar",
 	"parry_sound": $"ParrySound",
 	"parry_disabled_sound": $"ParryDisabled",
@@ -84,6 +85,7 @@ func _shield_broken() -> void:
 	_health = 0
 	onready_paths.broken_shield_regen_bar.value = 0
 	onready_paths.broken_shield_regen_bar.visible = true
+	onready_paths.broken_shield_anim_particles.emitting = true
 	if _regen_tween:
 		_regen_tween.kill()
 	_regen_tween = create_tween()

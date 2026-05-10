@@ -107,9 +107,9 @@ func test_process_hit_not_shielding():
 
 func test_process_hit_shield():
 	# given
-	var shield_base_health = 500
-	var shield_damage = 200
-	var expected_health_remaining = 300
+	var shield_base_health = 150
+	var shield_damage = 30
+	var expected_health_remaining = 120
 	shield._shielding = true
 	shield._health = shield_base_health
 	var hit_data := _create_standard_hit_data()
@@ -182,6 +182,7 @@ func test_proccess_hit_shield_broken():
 	shield._parrying = false
 	shield._health = 1
 	var regen_bar := set_real_broken_shield_regen_bar()
+	var broken_shield_anim_particles := set_real_shield_broken_anim_particles()
 	# when
 	var hit_result := shield.process_hit(_create_standard_hit_data())
 	# then
@@ -191,6 +192,7 @@ func test_proccess_hit_shield_broken():
 	assert_eq(parried_times_called, 0)
 	assert_true(regen_bar.visible)
 	assert_eq(regen_bar.value, 0)
+	assert_true(broken_shield_anim_particles.emitting)
 	await wait_process_frames(3)
 	assert_not_null(shield._regen_tween)
 	if not is_instance_valid(shield._regen_tween):
@@ -254,6 +256,13 @@ func set_real_broken_shield_regen_bar() -> ProgressBar:
 	add_child_autofree(broken_shield_regen_bar)
 	shield.onready_paths.broken_shield_regen_bar = broken_shield_regen_bar
 	return broken_shield_regen_bar
+
+
+func set_real_shield_broken_anim_particles() -> GPUParticles2D:
+	var broken_shield_anim_particles = GPUParticles2D.new()
+	add_child_autofree(broken_shield_anim_particles)
+	shield.onready_paths.broken_shield_anim_particles = broken_shield_anim_particles
+	return broken_shield_anim_particles
 
 
 func _create_parent_arborescence() -> Node2D:

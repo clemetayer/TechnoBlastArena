@@ -90,6 +90,43 @@ spread = 180.0
 scale_curve = SubResource("CurveTexture_hme2n")
 color_ramp = SubResource("GradientTexture1D_7vf3h")
 
+[sub_resource type="Curve" id="Curve_56yob"]
+_limits = [-45.0, 45.0, 0.0, 1.0]
+_data = [Vector2(0, 45), 0.0, 0.0, 0, 0, Vector2(1, -45), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_uf4hy"]
+curve = SubResource("Curve_56yob")
+
+[sub_resource type="Gradient" id="Gradient_7vf3h"]
+offsets = PackedFloat32Array(0, 0.529412, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_swsj5"]
+gradient = SubResource("Gradient_7vf3h")
+
+[sub_resource type="Curve" id="Curve_hme2n"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_7qfu4"]
+curve = SubResource("Curve_hme2n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pe8yi"]
+particle_flag_disable_z = true
+angle_min = -14.9999895
+angle_max = 15.0000105
+angle_curve = SubResource("CurveTexture_uf4hy")
+direction = Vector3(1, 1, 1)
+spread = 180.0
+initial_velocity_min = 267.8
+initial_velocity_max = 810.17
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_7qfu4")
+color_ramp = SubResource("GradientTexture1D_swsj5")
+
 [sub_resource type="Animation" id="Animation_xf0cy"]
 length = 0.001
 tracks/0/type = "value"
@@ -296,6 +333,17 @@ texture = ExtResource("2_uf4hy")
 lifetime = 0.17
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_7qfu4")
+
+[node name="BrokenShieldAnimParticles" type="GPUParticles2D" parent="." unique_id=1005760290]
+modulate = Color(1, 0, 0, 1)
+emitting = false
+amount = 10
+texture = ExtResource("2_uf4hy")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_pe8yi")
 
 [node name="ParrySound" type="AudioStreamPlayer2D" parent="." unique_id=2037551708]
 stream = ExtResource("3_7vf3h")

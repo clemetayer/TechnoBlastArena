@@ -27,10 +27,35 @@ var toggle_shielding_params := [
 func test_toggle_shielding(params = use_parameters(toggle_shielding_params)):
 	# given
 	var shielding = params[0]
+	var shield_particles = double(GPUParticles2D).new()
+	stub(shield_particles, "set_emitting").to_do_nothing()
+	shield.onready_paths.shield_particles = shield_particles
 	# when
 	shield.toggle_shielding(shielding)
 	# then
 	assert_eq(shield._shielding, shielding)
+
+
+var toggle_shielding_play_animation_not_broken_params := [
+	[true],
+	[false],
+]
+
+
+func test_toggle_shielding_play_animation_not_broken(params = use_parameters(toggle_shielding_play_animation_not_broken_params)):
+	# given
+	var shielding = params[0]
+	shield._firing = false
+	shield._shielding = shielding
+	shield._parrying = false
+	shield._health = 500
+	var shield_particles = double(GPUParticles2D).new()
+	stub(shield_particles, "set_emitting").to_do_nothing()
+	shield.onready_paths.shield_particles = shield_particles
+	# when
+	shield.toggle_shielding(shielding)
+	# then
+	assert_called(shield_particles, "set_emitting", [shielding])
 
 
 func test_process_hit_not_shielding():

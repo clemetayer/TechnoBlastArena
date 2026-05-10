@@ -23,6 +23,7 @@ var _health := BASE_SHIELD_HEALTH
 @onready var paths := $"../Paths"
 @onready var onready_paths := {
 	"animation_player": $"ParryAnimations",
+	"shield_particles": $"ShieldParticles",
 	"parry_sound": $"ParrySound",
 	"parry_disabled_sound": $"ParryDisabled",
 	"parry_active_sound": $"ParryActive",
@@ -31,6 +32,7 @@ var _health := BASE_SHIELD_HEALTH
 
 ##### PUBLIC METHODS #####
 func toggle_shielding(active: bool) -> void:
+	onready_paths.shield_particles.set_emitting(active and not _is_broken())
 	_shielding = active
 
 

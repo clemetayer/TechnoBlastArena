@@ -27,6 +27,7 @@ var _regen_tween: Tween
 @onready var onready_paths := {
 	"animation_player": $"ParryAnimations",
 	"shield_particles": $"ShieldParticles",
+	"parry_time_window": $"ParryTimeWindow",
 	"broken_shield_particles": $"BrokenShieldParticles",
 	"broken_shield_anim_particles": $"BrokenShieldAnimParticles",
 	"broken_shield_regen_bar": $"BrokenShieldRegenBar",
@@ -42,6 +43,11 @@ func toggle_shielding(active: bool) -> void:
 	onready_paths.broken_shield_particles.emitting = active and _is_broken()
 	onready_paths.shield_particles.modulate = DAMAGE_GRADIENT.sample(float(BASE_SHIELD_HEALTH - _health) / BASE_SHIELD_HEALTH)
 	_shielding = active
+
+
+func activate_parry() -> void:
+	_parrying = not _is_broken()
+	onready_paths.parry_time_window.start()
 
 
 func process_hit(hit_data: PlayerHitData) -> HitResult:
@@ -60,7 +66,7 @@ func toggle_firing_disable(firing: bool) -> void:
 
 ##### PROTECTED METHODS #####
 func _hit(hit_data: PlayerHitData) -> HitResult:
-	hit_data.hit_process.call()
+	hit_data.hit_process.call(paths.player_root)
 	return HitResult.IGNORED
 
 
@@ -98,3 +104,7 @@ func _shield_broken() -> void:
 func _on_shield_regenerated() -> void:
 	onready_paths.broken_shield_regen_bar.visible = false
 	_health = BASE_SHIELD_HEALTH
+
+
+func _on_parry_time_window_timeout() -> void:
+	_parrying = false

@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://daqpwwlyh78yf" path="res://Misc/Particles/kenney_particle-pack/star_07.png" id="3_f1k66"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g77nu"]
+size = Vector2(80, 80)
 
 [sub_resource type="Animation" id="Animation_8o5wi"]
 length = 0.001

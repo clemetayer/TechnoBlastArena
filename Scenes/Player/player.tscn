@@ -39,6 +39,9 @@ gravity = Vector3(0, 98, 0)
 scale_min = 0.2
 scale_max = 0.4
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ahak"]
+size = Vector2(400, 400)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qh2ge"]
 size = Vector2(120, 120)
 
@@ -490,9 +493,9 @@ bus = &"EffectsBGMSidechain"
 wait_time = 2.0
 one_shot = true
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1804919661]
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="." unique_id=2116103651]
 scale = Vector2(0.33, 0.33)
-polygon = PackedVector2Array(64, -128, -64, -128, -128, -64, -128, 64, -64, 128, 64, 128, 128, 64, 128, -64)
+shape = SubResource("RectangleShape2D_2ahak")
 
 [node name="Audio" type="Node2D" parent="." unique_id=623764203]
 script = ExtResource("10_1agin")

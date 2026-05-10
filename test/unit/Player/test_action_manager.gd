@@ -165,26 +165,44 @@ func test_handle_movement_bonus(params = use_parameters(handle_movement_params))
 	paths.free()
 
 
-var handle_parry_params := [
+var handle_shield_params := [
 	[true],
 	[false],
 ]
 
 
-func test_handle_shield(params = use_parameters(handle_parry_params)):
+func test_handle_shield(params = use_parameters(handle_shield_params)):
 	# given
 	stub(action_manager, "_is_action_active").to_return(params[0])
+	stub(action_manager, "_is_action_just_active").to_return(false)
 	var shield = double(load("res://Scenes/Player/shield.gd")).new()
 	stub(shield, "toggle_shielding").to_do_nothing()
-	var paths = load("res://Scenes/Player/paths.gd").new()
+	stub(shield, "activate_parry").to_do_nothing()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	paths.shield = shield
 	action_manager.paths = paths
 	# when
 	action_manager._handle_shield()
 	# then
 	assert_called(shield, "toggle_shielding", [params[0]])
-	# cleanup
-	paths.free()
+	assert_not_called(shield, "activate_parry")
+
+
+func test_handle_parry():
+	# given
+	stub(action_manager, "_is_action_active").to_return(true)
+	stub(action_manager, "_is_action_just_active").to_return(true)
+	var shield = double(load("res://Scenes/Player/shield.gd")).new()
+	stub(shield, "toggle_shielding").to_do_nothing()
+	stub(shield, "activate_parry").to_do_nothing()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.shield = shield
+	action_manager.paths = paths
+	# when
+	action_manager._handle_shield()
+	# then
+	assert_called(shield, "toggle_shielding", [true])
+	assert_called(shield, "activate_parry")
 
 
 var handle_powerup_params := [

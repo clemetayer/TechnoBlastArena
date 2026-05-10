@@ -72,6 +72,8 @@ func _handle_movement_bonus() -> void:
 
 
 func _handle_shield() -> void:
+	if _is_action_just_active(_action_handler_base.actions.SHIELD):
+		paths.shield.activate_parry()
 	paths.shield.toggle_shielding(_is_action_active(_action_handler_base.actions.SHIELD))
 
 

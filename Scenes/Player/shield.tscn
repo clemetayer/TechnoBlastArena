@@ -360,3 +360,9 @@ bus = &"Effects"
 
 [node name="ParryAnimations" type="AnimationPlayer" parent="." unique_id=1026308490]
 libraries/ = SubResource("AnimationLibrary_owers")
+
+[node name="ParryTimeWindow" type="Timer" parent="." unique_id=2129792]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="ParryTimeWindow" to="." method="_on_parry_time_window_timeout"]

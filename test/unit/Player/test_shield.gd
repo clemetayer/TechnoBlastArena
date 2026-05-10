@@ -1,12 +1,16 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const TEST_PARRY_TIME_WINDOW = 3.0 / 60.0
+
 #---- VARIABLES -----
 var shield: Shield
 var parried_times_called := 0
 var parried_args := []
 var shield_process_times_called := 0
 var hit_process_times_called := 0
+var hit_process_args := []
 
 
 ##### SETUP #####
@@ -16,6 +20,7 @@ func before_each():
 	parried_args = []
 	shield_process_times_called = 0
 	hit_process_times_called = 0
+	hit_process_args = []
 
 ##### TESTS #####
 var toggle_shielding_params := [
@@ -93,14 +98,38 @@ func test_toggle_shielding_set_color(params = use_parameters(toggle_shielding_se
 	assert_eq(shield_particles.modulate, gradient.sample(gradient_value))
 
 
+var activate_parry_params := [
+	[true],
+	[false],
+]
+
+
+func test_activate_parry(params = use_parameters(activate_parry_params)):
+	# given
+	var is_broken = params[0]
+	shield._health = 0 if is_broken else Shield.BASE_SHIELD_HEALTH
+	set_real_parry_time_window()
+	# when
+	shield.activate_parry()
+	# then
+	assert_eq(shield._parrying, not is_broken)
+	await wait_seconds(TEST_PARRY_TIME_WINDOW + 1.0 / 30.0)
+	assert_false(shield._parrying)
+
+
 func test_process_hit_not_shielding():
 	# given
 	shield._shielding = false
+	var player_root = autofree(Node2D.new())
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.player_root = player_root
+	shield.paths = paths
 	# when
 	var hit_result := shield.process_hit(_create_standard_hit_data())
 	# then
 	assert_eq(hit_result, Shield.HitResult.IGNORED)
 	assert_eq(hit_process_times_called, 1)
+	assert_eq(hit_process_args, [[player_root]])
 	assert_eq(shield_process_times_called, 0)
 	assert_eq(parried_times_called, 0)
 
@@ -129,11 +158,16 @@ func test_process_hit_shield_destroyed():
 	shield._health = 0
 	shield._shielding = true
 	shield._parrying = true
+	var player_root = autofree(Node2D.new())
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.player_root = player_root
+	shield.paths = paths
 	# when
 	var hit_result := shield.process_hit(_create_standard_hit_data())
 	# then
 	assert_eq(hit_result, Shield.HitResult.IGNORED)
 	assert_eq(hit_process_times_called, 1)
+	assert_eq(hit_process_args, [[player_root]])
 	assert_eq(shield_process_times_called, 0)
 	assert_eq(parried_times_called, 0)
 
@@ -164,11 +198,16 @@ func test_process_hit_ignore_if_firing():
 	shield._firing = true
 	shield._shielding = true
 	shield._parrying = true
+	var player_root = autofree(Node2D.new())
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.player_root = player_root
+	shield.paths = paths
 	# when
 	var hit_result := shield.process_hit(_create_standard_hit_data())
 	# then
 	assert_eq(hit_result, Shield.HitResult.IGNORED)
 	assert_eq(hit_process_times_called, 1)
+	assert_eq(hit_process_args, [[player_root]])
 	assert_eq(shield_process_times_called, 0)
 	assert_eq(parried_times_called, 0)
 
@@ -265,6 +304,16 @@ func set_real_shield_broken_anim_particles() -> GPUParticles2D:
 	return broken_shield_anim_particles
 
 
+func set_real_parry_time_window() -> Timer:
+	var timer := Timer.new()
+	timer.one_shot = true
+	timer.set_wait_time(TEST_PARRY_TIME_WINDOW)
+	timer.timeout.connect(shield._on_parry_time_window_timeout)
+	shield.onready_paths.parry_time_window = timer
+	add_child_autofree(timer)
+	return timer
+
+
 func _create_parent_arborescence() -> Node2D:
 	var parent := Node2D.new()
 	var paths = autofree(Node2D.new())
@@ -283,5 +332,6 @@ func _on_shield_process() -> void:
 	shield_process_times_called += 1
 
 
-func _on_hit_process() -> void:
+func _on_hit_process(with: Node2D) -> void:
 	hit_process_times_called += 1
+	hit_process_args.append([with])

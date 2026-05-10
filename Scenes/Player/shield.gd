@@ -11,6 +11,7 @@ enum HitResult { IGNORED, SHIELDED, PARRIED }
 #---- CONSTANTS -----
 const PARRY_FREEZE_TIME := 0.25
 const BASE_SHIELD_HEALTH := 1500
+const SHIELD_REGEN_TIME := 10 #s
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -18,12 +19,15 @@ var _shielding := false
 var _parrying := false
 var _firing := false
 var _health := BASE_SHIELD_HEALTH
+var _regen_tween: Tween
 
 #==== ONREADY ====
 @onready var paths := $"../Paths"
 @onready var onready_paths := {
 	"animation_player": $"ParryAnimations",
 	"shield_particles": $"ShieldParticles",
+	"broken_shield_particles": $"BrokenShieldParticles",
+	"broken_shield_regen_bar": $"BrokenShieldRegenBar",
 	"parry_sound": $"ParrySound",
 	"parry_disabled_sound": $"ParryDisabled",
 	"parry_active_sound": $"ParryActive",
@@ -33,6 +37,7 @@ var _health := BASE_SHIELD_HEALTH
 ##### PUBLIC METHODS #####
 func toggle_shielding(active: bool) -> void:
 	onready_paths.shield_particles.set_emitting(active and not _is_broken())
+	onready_paths.broken_shield_particles.set_emitting(active and _is_broken())
 	_shielding = active
 
 
@@ -64,10 +69,28 @@ func _parry(hit_data: PlayerHitData) -> HitResult:
 func _shield(hit_data: PlayerHitData) -> HitResult:
 	_health = clamp(_health - hit_data.shield_damage, 0, BASE_SHIELD_HEALTH)
 	hit_data.shield_process.call()
+	if _health <= 0:
+		_shield_broken()
 	return HitResult.SHIELDED
 
 
 func _is_broken() -> bool:
 	return _health <= 0
 
+
+func _shield_broken() -> void:
+	_health = 0
+	onready_paths.broken_shield_regen_bar.value = 0
+	onready_paths.broken_shield_regen_bar.visible = true
+	if _regen_tween:
+		_regen_tween.kill()
+	_regen_tween = create_tween()
+	_regen_tween.tween_property(onready_paths.broken_shield_regen_bar, "value", 100, SHIELD_REGEN_TIME)
+	_regen_tween.finished.connect(_on_shield_regenerated)
+	_regen_tween.play()
+
+
 ##### SIGNAL MANAGEMENT #####
+func _on_shield_regenerated() -> void:
+	onready_paths.broken_shield_regen_bar.visible = false
+	_health = BASE_SHIELD_HEALTH

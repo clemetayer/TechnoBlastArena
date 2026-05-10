@@ -502,8 +502,6 @@ stream = ExtResource("10_rukb4")
 volume_db = 10.0
 bus = &"Effects"
 
-[node name="Shield" parent="." unique_id=1942744070 instance=ExtResource("12_2ahak")]
-
 [node name="BounceArea" type="Area2D" parent="." unique_id=1936910212]
 collision_layer = 2
 collision_mask = 3
@@ -555,6 +553,8 @@ texture = ExtResource("23_4no11")
 material = SubResource("ShaderMaterial_1agin")
 texture = ExtResource("24_fcwna")
 
+[node name="Shield" parent="." unique_id=1942744070 instance=ExtResource("12_2ahak")]
+
 [node name="DamageLabel" type="RichTextLabel" parent="." unique_id=35999088]
 clip_contents = false
 anchors_preset = 8
@@ -563,9 +563,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -75.0
-offset_top = -150.0
+offset_top = -170.0
 offset_right = 75.0
-offset_bottom = -75.0
+offset_bottom = -95.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/default_color = Color(1, 1, 1, 1)

@@ -27,9 +27,8 @@ var toggle_shielding_params := [
 func test_toggle_shielding(params = use_parameters(toggle_shielding_params)):
 	# given
 	var shielding = params[0]
-	var shield_particles = double(GPUParticles2D).new()
-	stub(shield_particles, "set_emitting").to_do_nothing()
-	shield.onready_paths.shield_particles = shield_particles
+	stub_shield_particles()
+	stub_broken_shield_particles()
 	# when
 	shield.toggle_shielding(shielding)
 	# then
@@ -46,16 +45,31 @@ func test_toggle_shielding_play_animation_not_broken(params = use_parameters(tog
 	# given
 	var shielding = params[0]
 	shield._firing = false
-	shield._shielding = shielding
+	shield._shielding = false
 	shield._parrying = false
 	shield._health = 500
-	var shield_particles = double(GPUParticles2D).new()
-	stub(shield_particles, "set_emitting").to_do_nothing()
-	shield.onready_paths.shield_particles = shield_particles
+	var shield_particles = stub_shield_particles()
+	var broken_shield_particles = stub_broken_shield_particles()
 	# when
 	shield.toggle_shielding(shielding)
 	# then
 	assert_called(shield_particles, "set_emitting", [shielding])
+	assert_called(broken_shield_particles, "set_emitting", [false])
+
+
+func test_toggle_shielding_play_animation_broken():
+	# given
+	shield._firing = false
+	shield._shielding = false
+	shield._parrying = false
+	shield._health = 0
+	var shield_particles = stub_shield_particles()
+	var broken_shield_particles = stub_broken_shield_particles()
+	# when
+	shield.toggle_shielding(true)
+	# then
+	assert_called(broken_shield_particles, "set_emitting", [true])
+	assert_called(shield_particles, "set_emitting", [false])
 
 
 func test_process_hit_not_shielding():
@@ -70,17 +84,11 @@ func test_process_hit_not_shielding():
 	assert_eq(parried_times_called, 0)
 
 
-var process_hit_shield_params := [
-	[500, 200, 300],
-	[100, 200, 0],
-]
-
-
-func test_process_hit_shield(params = use_parameters(process_hit_shield_params)):
+func test_process_hit_shield():
 	# given
-	var shield_base_health = params[0]
-	var shield_damage = params[1]
-	var expected_health_remaining = params[2]
+	var shield_base_health = 500
+	var shield_damage = 200
+	var expected_health_remaining = 300
 	shield._shielding = true
 	shield._health = shield_base_health
 	var hit_data := _create_standard_hit_data()
@@ -144,6 +152,40 @@ func test_process_hit_ignore_if_firing():
 	assert_eq(parried_times_called, 0)
 
 
+func test_proccess_hit_shield_broken():
+	# given
+	var parent = _create_parent_arborescence()
+	parent.add_child(shield)
+	shield._firing = false
+	shield._shielding = true
+	shield._parrying = false
+	shield._health = 1
+	var regen_bar := set_real_broken_shield_regen_bar()
+	# when
+	var hit_result := shield.process_hit(_create_standard_hit_data())
+	# then
+	assert_eq(hit_result, Shield.HitResult.SHIELDED)
+	assert_eq(hit_process_times_called, 0)
+	assert_eq(shield_process_times_called, 1)
+	assert_eq(parried_times_called, 0)
+	assert_true(regen_bar.visible)
+	assert_eq(regen_bar.value, 0)
+	await wait_process_frames(3)
+	assert_not_null(shield._regen_tween)
+	if not is_instance_valid(shield._regen_tween):
+		return
+	assert_true(shield._regen_tween.is_running())
+	# when
+	await wait_seconds(0.1)
+	# then
+	assert_gt(regen_bar.value, 0)
+	# when
+	await wait_seconds(shield.SHIELD_REGEN_TIME)
+	# then
+	assert_eq(shield._health, shield.BASE_SHIELD_HEALTH)
+	assert_false(regen_bar.visible)
+
+
 var toggle_firing_disable_params := [
 	[true],
 	[false],
@@ -170,6 +212,44 @@ func _create_standard_hit_data() -> PlayerHitData:
 		_on_shield_process,
 		_on_hit_process,
 	)
+
+
+func stub_shield_particles() -> GPUParticles2D:
+	var shield_particles = double(GPUParticles2D).new()
+	stub(shield_particles, "set_emitting").to_do_nothing()
+	shield.onready_paths.shield_particles = shield_particles
+	return shield_particles
+
+
+func stub_broken_shield_particles() -> GPUParticles2D:
+	var broken_shield_particles = double(GPUParticles2D).new()
+	stub(broken_shield_particles, "set_emitting").to_do_nothing()
+	shield.onready_paths.broken_shield_particles = broken_shield_particles
+	return broken_shield_particles
+
+
+func stub_broken_shield_regen_bar() -> ProgressBar:
+	var broken_shield_regen_bar = double(ProgressBar).new()
+	stub(broken_shield_regen_bar, "set_value").to_do_nothing()
+	stub(broken_shield_regen_bar, "set_visible").to_do_nothing()
+	shield.onready_paths.broken_shield_regen_bar = broken_shield_regen_bar
+	return broken_shield_regen_bar
+
+
+func set_real_broken_shield_regen_bar() -> ProgressBar:
+	var broken_shield_regen_bar = ProgressBar.new()
+	add_child_autofree(broken_shield_regen_bar)
+	shield.onready_paths.broken_shield_regen_bar = broken_shield_regen_bar
+	return broken_shield_regen_bar
+
+
+func _create_parent_arborescence() -> Node2D:
+	var parent := Node2D.new()
+	var paths = autofree(Node2D.new())
+	paths.name = "Paths"
+	parent.add_child(paths)
+	add_child_autofree(parent)
+	return parent
 
 
 func _on_parried(p_owner: Node2D, relative_aim_position: Vector2) -> void:

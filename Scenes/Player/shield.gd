@@ -9,9 +9,9 @@ enum HitResult { IGNORED, SHIELDED, PARRIED }
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const PARRY_FREEZE_TIME := 0.25
 const BASE_SHIELD_HEALTH := 150
-const SHIELD_REGEN_TIME := 10 #s
+const SHIELD_BROKEN_REGEN_TIME := 10 #s
+const SHIELD_PASSIVE_HEALTH_REGEN_PER_TICK := 3
 const DAMAGE_GRADIENT = preload("res://Scenes/Player/damage_text_gradient.tres")
 
 #---- STANDARD -----
@@ -39,8 +39,8 @@ var _regen_tween: Tween
 
 ##### PUBLIC METHODS #####
 func toggle_shielding(active: bool) -> void:
-	onready_paths.shield_particles.emitting = active and not _is_broken()
-	onready_paths.broken_shield_particles.emitting = active and _is_broken()
+	onready_paths.shield_particles.emitting = active and not _is_broken() and not _firing
+	onready_paths.broken_shield_particles.emitting = active and _is_broken() and not _firing
 	onready_paths.shield_particles.modulate = DAMAGE_GRADIENT.sample(float(BASE_SHIELD_HEALTH - _health) / BASE_SHIELD_HEALTH)
 	_shielding = active
 
@@ -95,7 +95,7 @@ func _shield_broken() -> void:
 	if _regen_tween:
 		_regen_tween.kill()
 	_regen_tween = create_tween()
-	_regen_tween.tween_property(onready_paths.broken_shield_regen_bar, "value", 100, SHIELD_REGEN_TIME)
+	_regen_tween.tween_property(onready_paths.broken_shield_regen_bar, "value", 100, SHIELD_BROKEN_REGEN_TIME)
 	_regen_tween.finished.connect(_on_shield_regenerated)
 	_regen_tween.play()
 
@@ -108,3 +108,8 @@ func _on_shield_regenerated() -> void:
 
 func _on_parry_time_window_timeout() -> void:
 	_parrying = false
+
+
+func _on_shield_passive_regen_timeout() -> void:
+	if not _is_broken():
+		_health = clamp(BASE_SHIELD_HEALTH, 0, _health + SHIELD_PASSIVE_HEALTH_REGEN_PER_TICK)

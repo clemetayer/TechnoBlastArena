@@ -4,14 +4,17 @@ extends ProjectileBase
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const SPEED := 3200.0 # px/s
-const DAMAGE := 15.0
-const KNOCKBACK := 20.0
+const BASE_SPEED := 3200.0 # px/s
+const BASE_DAMAGE := 15.0
+const BASE_KNOCKBACK := 20.0
+const SPEED_PARRY_MULTIPLIER := 1.125
+const DAMAGE_PARRY_MULTIPLIER := 2
+const KNOCKBACK_PARRY_MULTIPLIER := 2
 
 #---- EXPORTS -----
-@export var speed := SPEED
-@export var damage := DAMAGE
-@export var knockback := KNOCKBACK
+@export var speed := BASE_SPEED
+@export var damage := BASE_DAMAGE
+@export var knockback := BASE_KNOCKBACK
 @export var freeze := false
 
 #---- STANDARD -----
@@ -45,11 +48,14 @@ func _process(delta):
 ##### PUBLIC METHODS #####
 func parried(p_owner: Node2D, relative_aim_position: Vector2) -> void:
 	current_owner = p_owner
+	color = RuntimeUtils.PLAYER_INDICATOR_COLORS[p_owner.PLAYER_ID]
+	onready_paths.trail.modulate = color
+	onready_paths.sprite.modulate = color
 	rotation = Vector2.ZERO.angle_to_point(relative_aim_position)
 	_direction = relative_aim_position.normalized()
-	speed *= 2
-	damage *= 2
-	knockback *= 2
+	speed *= SPEED_PARRY_MULTIPLIER
+	damage *= DAMAGE_PARRY_MULTIPLIER
+	knockback *= KNOCKBACK_PARRY_MULTIPLIER
 	onready_paths.trail.reset()
 
 
@@ -57,9 +63,6 @@ func parried(p_owner: Node2D, relative_aim_position: Vector2) -> void:
 func _on_body_entered(body):
 	if GroupUtils.is_player(body) and current_owner != body and body.has_method("hit"):
 		body.hit(PlayerHitData.new(knockback * _direction, damage, current_owner, damage, parried, shielded, solid_collision))
-		queue_free()
-	elif GroupUtils.is_static_obstacle(body):
-		queue_free()
 
 
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:

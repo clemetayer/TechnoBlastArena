@@ -3,6 +3,7 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const TEST_PARRY_TIME_WINDOW = 3.0 / 60.0
+const TEST_SHIELD_PASSIVE_REGEN_TIME = 5.0 / 60.0
 
 #---- VARIABLES -----
 var shield: Shield
@@ -242,7 +243,7 @@ func test_proccess_hit_shield_broken():
 	# then
 	assert_gt(regen_bar.value, 0)
 	# when
-	await wait_seconds(shield.SHIELD_REGEN_TIME)
+	await wait_seconds(shield.SHIELD_BROKEN_REGEN_TIME)
 	# then
 	assert_eq(shield._health, shield.BASE_SHIELD_HEALTH)
 	assert_false(regen_bar.visible)
@@ -261,6 +262,34 @@ func test_toggle_firing_disable(params = use_parameters(toggle_firing_disable_pa
 	shield.toggle_firing_disable(firing)
 	# then
 	assert_eq(shield._firing, firing)
+
+
+var shield_passive_regen_params := [
+	[90, 90 + Shield.SHIELD_PASSIVE_HEALTH_REGEN_PER_TICK],
+	[150, 150],
+]
+
+
+func test_shield_passive_regen(params = use_parameters(shield_passive_regen_params)):
+	# given
+	var base_health = params[0]
+	var expected_health_after_tick = params[1]
+	shield._health = base_health
+	set_real_shield_passive_regen_timer()
+	# when
+	await wait_seconds(TEST_SHIELD_PASSIVE_REGEN_TIME + 2.0 / 60.0)
+	# then
+	assert_eq(shield._health, expected_health_after_tick)
+
+
+func test_shield_passive_regen_broken_shield():
+	# given
+	shield._health = 0
+	set_real_shield_passive_regen_timer()
+	# when
+	await wait_seconds(TEST_SHIELD_PASSIVE_REGEN_TIME + 2.0 / 60.0)
+	# then
+	assert_eq(shield._health, 0)
 
 
 ##### UTILS #####
@@ -310,6 +339,15 @@ func set_real_parry_time_window() -> Timer:
 	timer.set_wait_time(TEST_PARRY_TIME_WINDOW)
 	timer.timeout.connect(shield._on_parry_time_window_timeout)
 	shield.onready_paths.parry_time_window = timer
+	add_child_autofree(timer)
+	return timer
+
+
+func set_real_shield_passive_regen_timer() -> Timer:
+	var timer := Timer.new()
+	timer.set_autostart(true)
+	timer.set_wait_time(TEST_SHIELD_PASSIVE_REGEN_TIME)
+	timer.timeout.connect(shield._on_shield_passive_regen_timeout)
 	add_child_autofree(timer)
 	return timer
 

@@ -21,9 +21,9 @@ func _init(
 		p_damage: float,
 		p_owner: Node2D,
 		p_shield_damage: float = p_damage,
-		p_parry_process: Callable = func(): pass,
+		p_parry_process: Callable = func(_p_owner: Node2D, _relative_aim_position: Vector2): pass,
 		p_shield_process: Callable = func(): pass,
-		p_hit_process: Callable = func(_p_owner: Node2D, _relative_aim_position: Vector2): pass,
+		p_hit_process: Callable = func(_with: CollisionObject2D): pass,
 ):
 	knockback = p_knockback
 	damage = p_damage

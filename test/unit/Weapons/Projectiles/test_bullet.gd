@@ -25,7 +25,6 @@ func test_ready():
 	bullet.color = Color.AQUA
 	# when
 	add_child(bullet)
-	wait_for_signal(bullet.tree_entered, 0.25)
 	# then
 	assert_eq(bullet.global_position, Vector2.RIGHT)
 	assert_almost_eq(bullet.rotation, PI / 4.0, 0.001)
@@ -55,25 +54,26 @@ func test_process(params = use_parameters(process_params)):
 
 func test_parried():
 	# given
-	var trail = double(load("res://Scenes/Weapons/Projectiles/trail.gd")).new()
-	stub(trail, "reset").to_do_nothing()
-	bullet.onready_paths.trail = trail
-	var p_owner = Node2D.new()
+	bullet.free()
+	bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate() # Actually loads the bullet scene to test _ready
+	bullet.color = Color.WHITE
+	var p_owner = autofree(load("res://Scenes/Player/player.gd").new())
+	p_owner.PLAYER_ID = 1
 	bullet.speed = 1.0
 	bullet.damage = 2.0
 	bullet.knockback = 3.0
 	# when
+	add_child(bullet)
 	bullet.parried(p_owner, Vector2.UP)
 	# then
 	assert_eq(bullet.current_owner, p_owner)
 	assert_almost_eq(bullet.rotation, -PI / 2.0, 0.01)
 	assert_eq(bullet._direction, Vector2.UP)
-	assert_eq(bullet.speed, 2.0)
-	assert_eq(bullet.damage, 4.0)
-	assert_eq(bullet.knockback, 6.0)
-	assert_called(trail, "reset")
-	# cleanup
-	p_owner.free()
+	assert_eq(bullet.speed, 1.0 * bullet.SPEED_PARRY_MULTIPLIER)
+	assert_eq(bullet.damage, 2.0 * bullet.DAMAGE_PARRY_MULTIPLIER)
+	assert_eq(bullet.knockback, 3.0 * bullet.KNOCKBACK_PARRY_MULTIPLIER)
+	assert_eq(bullet.onready_paths.trail.modulate, RuntimeUtils.PLAYER_INDICATOR_COLORS[1])
+	assert_eq(bullet.onready_paths.sprite.modulate, RuntimeUtils.PLAYER_INDICATOR_COLORS[1])
 
 
 var on_body_entered_params := [

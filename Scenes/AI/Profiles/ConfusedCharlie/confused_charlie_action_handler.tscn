@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://840htl6a0i34" path="res://Scenes/AI/Actions/MoveTowardsDesiredPosition/move_towards_desired_position.gd" id="8_w56cs"]
 [ext_resource type="Script" uid="uid://ds36escklxmgx" path="res://Scenes/AI/Actions/TriggerAction/trigger_action.gd" id="9_w56cs"]
 [ext_resource type="Script" uid="uid://r8oxes5ochd" path="res://Scenes/AI/Actions/TargetRandomOpponent/target_random_opponent.gd" id="10_vp01d"]
+[ext_resource type="Script" uid="uid://kpw8ii8gfntq" path="res://Scenes/AI/Actions/Shield/shield.gd" id="11_v41mc"]
 [ext_resource type="Script" uid="uid://tebc3hswrvae" path="res://Scenes/AI/Actions/SetDesiredPositionAsTarget/set_desired_position_as_target.gd" id="11_w56cs"]
 
 [node name="ConfusedCharlieActionHandler" type="Node2D" unique_id=1891259273 node_paths=PackedStringArray("BLACKBOARD")]
@@ -112,24 +113,26 @@ script = ExtResource("9_w56cs")
 ACTION = 2
 metadata/_custom_type_script = "uid://ds36escklxmgx"
 
-[node name="ParryTree" type="Node" parent="." unique_id=530799753 node_paths=PackedStringArray("blackboard", "actor")]
+[node name="ShieldTree" type="Node" parent="." unique_id=530799753 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_ql5hi")
 blackboard = NodePath("../Blackboard")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://bb0t2ovl7wifo"
 
-[node name="SequenceComposite" type="Node" parent="ParryTree" unique_id=540375806]
+[node name="SequenceComposite" type="Node" parent="ShieldTree" unique_id=540375806]
 script = ExtResource("3_cctmw")
 metadata/_custom_type_script = "uid://cg016dbe7gs1x"
 
-[node name="RandomSuccessPerDelay" parent="ParryTree/SequenceComposite" unique_id=1941385050 instance=ExtResource("4_6brkv")]
-SUCCESS_CHANCE = 0.05
-DELAY_TIME = 0.5
+[node name="RemoveShield" type="Node" parent="ShieldTree/SequenceComposite" unique_id=1091754566]
+script = ExtResource("11_v41mc")
+SHIELDING = false
+metadata/_custom_type_script = "uid://kpw8ii8gfntq"
 
-[node name="Parry" type="Node" parent="ParryTree/SequenceComposite" unique_id=1188086906]
-script = ExtResource("9_w56cs")
-ACTION = 3
-metadata/_custom_type_script = "uid://ds36escklxmgx"
+[node name="RandomSuccessPerDelay" parent="ShieldTree/SequenceComposite" unique_id=1941385050 instance=ExtResource("4_6brkv")]
+
+[node name="AddShield" type="Node" parent="ShieldTree/SequenceComposite" unique_id=1025172445]
+script = ExtResource("11_v41mc")
+metadata/_custom_type_script = "uid://kpw8ii8gfntq"
 
 [node name="SelectTargetTree" type="Node" parent="." unique_id=2029324809 node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_ql5hi")

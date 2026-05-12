@@ -6,7 +6,7 @@ class_name ConditionHasCloseProjectile
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const PARRY_DISTANCE := 75.0 # Distance from the projectile where the AI should consider that this is a good idea to parry
+const SHIELD_DISTANCE := 75.0 # Distance from the projectile where the AI should consider that this is a good idea to parry
 
 
 ##### PROCESSING #####
@@ -15,7 +15,7 @@ func tick(_actor: Node, blackboard: Blackboard) -> int:
 		return FAILURE
 	var player = blackboard.get_value(CommonBlackboard.PLAYER_KEY)
 	var projectiles = blackboard.get_value(CommonBlackboard.PROJECTILES_KEY)
-	var has_close_projectile = _get_min_distance_to_projectile(player, projectiles) <= PARRY_DISTANCE
+	var has_close_projectile = _get_min_distance_to_projectile(player, projectiles) <= SHIELD_DISTANCE
 	return SUCCESS if has_close_projectile else FAILURE
 
 

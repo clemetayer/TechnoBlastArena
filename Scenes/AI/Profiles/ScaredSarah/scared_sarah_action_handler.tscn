@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://ds36escklxmgx" path="res://Scenes/AI/Actions/TriggerAction/trigger_action.gd" id="4_ytuat"]
 [ext_resource type="Script" uid="uid://kce8ngtftiag" path="res://Scenes/AI/Actions/IsPlayerClose/is_player_close.gd" id="5_iudu7"]
 [ext_resource type="Script" uid="uid://c2t4cu8eagliu" path="res://Scenes/AI/Actions/AimAtTarget/aim_at_target.gd" id="9_dyd43"]
-[ext_resource type="Script" uid="uid://b2jve3m61wl2k" path="res://Scenes/AI/Actions/HasProjectileToParry/has_projectile_to_parry.gd" id="9_iudu7"]
+[ext_resource type="Script" uid="uid://be042rhos48w0" path="res://Scenes/AI/Actions/HasProjectileToShield/has_projectile_to_shield.gd" id="9_iudu7"]
 [ext_resource type="Script" uid="uid://r8oxes5ochd" path="res://Scenes/AI/Actions/TargetRandomOpponent/target_random_opponent.gd" id="13_oxjoh"]
 
 [node name="ScaredSarah" type="Node2D" unique_id=1238996551 node_paths=PackedStringArray("BLACKBOARD")]

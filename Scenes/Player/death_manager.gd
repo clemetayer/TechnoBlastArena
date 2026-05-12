@@ -37,6 +37,7 @@ func kill() -> void:
 	paths.player_root.set_collision_mask(0)
 	paths.damage_label.hide()
 	paths.sprites.hide()
+	paths.shield.hide()
 	paths.primary_weapon.hide()
 	if onready_paths.sound.is_inside_tree():
 		onready_paths.sound.play()

@@ -54,6 +54,9 @@ func test_kill():
 	var sprites = double(Sprite2D).new()
 	stub(sprites, "hide").to_do_nothing()
 	death_manager.paths.sprites = sprites
+	var shield = double(Node2D).new()
+	stub(shield, "hide").to_do_nothing()
+	death_manager.paths.shield = shield
 	var primary_weapon = double(Node2D).new()
 	stub(primary_weapon, "hide").to_do_nothing()
 	death_manager.paths.primary_weapon = primary_weapon
@@ -73,6 +76,8 @@ func test_kill():
 	assert_eq(player_root.collision_layer, 0)
 	assert_eq(player_root.collision_mask, 0)
 	assert_called(player_root, "toggle_truce", [true])
+	assert_called(sprites, "hide")
+	assert_called(shield, "hide")
 	assert_called(damage_label, "hide")
 	assert_called(primary_weapon, "hide")
 	assert_called(sound, "play")

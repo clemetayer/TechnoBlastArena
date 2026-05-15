@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cdje8yrbctcmx"]
+
+[ext_resource type="AudioStream" uid="uid://ddmvud7r6r4ap" path="res://Scenes/Player/death.mp3" id="1_nebnv"]
+
+[node name="MockAudio" type="AudioStreamPlayer2D" unique_id=137431741]
+stream = ExtResource("1_nebnv")
+bus = &"Effects"

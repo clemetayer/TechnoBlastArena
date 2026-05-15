@@ -4,6 +4,7 @@ extends "res://addons/gut/test.gd"
 #---- CONSTANTS -----
 const TEST_PARRY_TIME_WINDOW = 3.0 / 60.0
 const TEST_SHIELD_PASSIVE_REGEN_TIME = 5.0 / 60.0
+const MOCK_AUDIO = preload("res://test/unit/Player/test_player/mock_audio.tscn")
 
 #---- VARIABLES -----
 var shield: Shield
@@ -35,6 +36,8 @@ func test_toggle_shielding(params = use_parameters(toggle_shielding_params)):
 	var shielding = params[0]
 	set_real_shield_particles()
 	set_real_broken_shield_particles()
+	set_real_shield_sound()
+	set_real_shield_broken_sound()
 	# when
 	shield.toggle_shielding(shielding)
 	# then
@@ -56,11 +59,15 @@ func test_toggle_shielding_play_animation_not_broken(params = use_parameters(tog
 	shield._health = 500
 	var shield_particles = set_real_shield_particles()
 	var broken_shield_particles = set_real_broken_shield_particles()
+	var sound = set_real_shield_sound()
+	var broken_sound = set_real_shield_broken_sound()
 	# when
 	shield.toggle_shielding(shielding)
 	# then
 	assert_eq(shield_particles.emitting, shielding)
 	assert_false(broken_shield_particles.emitting)
+	assert_eq(sound.playing, shielding)
+	assert_false(broken_sound.playing)
 
 
 func test_toggle_shielding_play_animation_broken():
@@ -71,11 +78,15 @@ func test_toggle_shielding_play_animation_broken():
 	shield._health = 0
 	var shield_particles = set_real_shield_particles()
 	var broken_shield_particles = set_real_broken_shield_particles()
+	var sound = set_real_shield_sound()
+	var broken_sound = set_real_shield_broken_sound()
 	# when
 	shield.toggle_shielding(true)
 	# then
 	assert_true(broken_shield_particles.emitting)
 	assert_false(shield_particles.emitting)
+	assert_true(broken_sound.playing)
+	assert_false(sound.playing)
 
 
 var toggle_shielding_set_color_params := [
@@ -93,6 +104,8 @@ func test_toggle_shielding_set_color(params = use_parameters(toggle_shielding_se
 	shield._health = health
 	var shield_particles = set_real_shield_particles()
 	set_real_broken_shield_particles()
+	set_real_shield_sound()
+	set_real_shield_broken_sound()
 	# when
 	shield.toggle_shielding(true)
 	# then
@@ -110,10 +123,12 @@ func test_activate_parry(params = use_parameters(activate_parry_params)):
 	var is_broken = params[0]
 	shield._health = 0 if is_broken else Shield.BASE_SHIELD_HEALTH
 	set_real_parry_time_window()
+	var sound = set_real_shield_init_sound()
 	# when
 	shield.activate_parry()
 	# then
 	assert_eq(shield._parrying, not is_broken)
+	assert_eq(sound.playing, not is_broken)
 	await wait_seconds(TEST_PARRY_TIME_WINDOW + 1.0 / 30.0)
 	assert_false(shield._parrying)
 
@@ -144,6 +159,7 @@ func test_process_hit_shield():
 	shield._health = shield_base_health
 	var hit_data := _create_standard_hit_data()
 	hit_data.shield_damage = shield_damage
+	var sound = set_real_shield_absorbed_sound()
 	# when
 	var hit_result := shield.process_hit(hit_data)
 	# then
@@ -152,6 +168,7 @@ func test_process_hit_shield():
 	assert_eq(shield_process_times_called, 1)
 	assert_eq(parried_times_called, 0)
 	assert_eq(shield._health, expected_health_remaining)
+	assert_true(sound.playing)
 
 
 func test_process_hit_shield_destroyed():
@@ -184,6 +201,7 @@ func test_process_hit_parry():
 	paths.input_synchronizer = input_synchronizer
 	input_synchronizer.relative_aim_position = Vector2.ONE
 	shield.paths = paths
+	var sound = set_real_parry_sound()
 	# when
 	var hit_result := shield.process_hit(_create_standard_hit_data())
 	# then
@@ -192,6 +210,7 @@ func test_process_hit_parry():
 	assert_eq(shield_process_times_called, 0)
 	assert_eq(parried_times_called, 1)
 	assert_eq(parried_args, [[shield_owner, Vector2.ONE]])
+	assert_true(sound.playing)
 
 
 func test_process_hit_ignore_if_firing():
@@ -213,7 +232,7 @@ func test_process_hit_ignore_if_firing():
 	assert_eq(parried_times_called, 0)
 
 
-func test_proccess_hit_shield_broken():
+func test_process_hit_shield_broken():
 	# given
 	var parent = _create_parent_arborescence()
 	parent.add_child(shield)
@@ -223,6 +242,7 @@ func test_proccess_hit_shield_broken():
 	shield._health = 1
 	var regen_bar := set_real_broken_shield_regen_bar()
 	var broken_shield_anim_particles := set_real_shield_broken_anim_particles()
+	var sound = set_real_shield_regenerated_sound()
 	# when
 	var hit_result := shield.process_hit(_create_standard_hit_data())
 	# then
@@ -247,6 +267,7 @@ func test_proccess_hit_shield_broken():
 	# then
 	assert_eq(shield._health, shield.BASE_SHIELD_HEALTH)
 	assert_false(regen_bar.visible)
+	assert_true(sound.playing)
 
 
 var toggle_firing_disable_params := [
@@ -305,32 +326,26 @@ func _create_standard_hit_data() -> PlayerHitData:
 	)
 
 
+func _add_node_on_path(node: Node, variable: String) -> Node:
+	add_child_autofree(node)
+	shield.onready_paths[variable] = node
+	return node
+
+
 func set_real_shield_particles() -> GPUParticles2D:
-	var shield_particles = GPUParticles2D.new()
-	add_child_autofree(shield_particles)
-	shield.onready_paths.shield_particles = shield_particles
-	return shield_particles
+	return _add_node_on_path(GPUParticles2D.new(), "shield_particles")
 
 
 func set_real_broken_shield_particles() -> GPUParticles2D:
-	var broken_shield_particles = GPUParticles2D.new()
-	add_child_autofree(broken_shield_particles)
-	shield.onready_paths.broken_shield_particles = broken_shield_particles
-	return broken_shield_particles
+	return _add_node_on_path(GPUParticles2D.new(), "broken_shield_particles")
 
 
 func set_real_broken_shield_regen_bar() -> ProgressBar:
-	var broken_shield_regen_bar = ProgressBar.new()
-	add_child_autofree(broken_shield_regen_bar)
-	shield.onready_paths.broken_shield_regen_bar = broken_shield_regen_bar
-	return broken_shield_regen_bar
+	return _add_node_on_path(ProgressBar.new(), "broken_shield_regen_bar")
 
 
 func set_real_shield_broken_anim_particles() -> GPUParticles2D:
-	var broken_shield_anim_particles = GPUParticles2D.new()
-	add_child_autofree(broken_shield_anim_particles)
-	shield.onready_paths.broken_shield_anim_particles = broken_shield_anim_particles
-	return broken_shield_anim_particles
+	return _add_node_on_path(GPUParticles2D.new(), "broken_shield_anim_particles")
 
 
 func set_real_parry_time_window() -> Timer:
@@ -338,9 +353,7 @@ func set_real_parry_time_window() -> Timer:
 	timer.one_shot = true
 	timer.set_wait_time(TEST_PARRY_TIME_WINDOW)
 	timer.timeout.connect(shield._on_parry_time_window_timeout)
-	shield.onready_paths.parry_time_window = timer
-	add_child_autofree(timer)
-	return timer
+	return _add_node_on_path(timer, "parry_time_window")
 
 
 func set_real_shield_passive_regen_timer() -> Timer:
@@ -350,6 +363,34 @@ func set_real_shield_passive_regen_timer() -> Timer:
 	timer.timeout.connect(shield._on_shield_passive_regen_timeout)
 	add_child_autofree(timer)
 	return timer
+
+
+func set_real_shield_sound() -> AudioStreamPlayer2D:
+	return _add_node_on_path(MOCK_AUDIO.instantiate(), "shield_sound")
+
+
+func set_real_shield_absorbed_sound() -> AudioStreamPlayer2D:
+	return _add_node_on_path(MOCK_AUDIO.instantiate(), "shield_absorbed_sound")
+
+
+func set_real_shield_break_sound() -> AudioStreamPlayer2D:
+	return _add_node_on_path(MOCK_AUDIO.instantiate(), "shield_break_sound")
+
+
+func set_real_shield_broken_sound() -> AudioStreamPlayer2D:
+	return _add_node_on_path(MOCK_AUDIO.instantiate(), "shield_broken_sound")
+
+
+func set_real_shield_init_sound() -> AudioStreamPlayer2D:
+	return _add_node_on_path(MOCK_AUDIO.instantiate(), "shield_init_sound")
+
+
+func set_real_shield_regenerated_sound() -> AudioStreamPlayer2D:
+	return _add_node_on_path(MOCK_AUDIO.instantiate(), "shield_regenerated_sound")
+
+
+func set_real_parry_sound() -> AudioStreamPlayer2D:
+	return _add_node_on_path(MOCK_AUDIO.instantiate(), "parry_sound")
 
 
 func _create_parent_arborescence() -> Node2D:

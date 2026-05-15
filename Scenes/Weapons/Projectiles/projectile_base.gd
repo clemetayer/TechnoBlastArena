@@ -30,7 +30,7 @@ func shielded() -> void:
 	queue_free()
 
 
-func solid_collision(_with: CollisionObject2D) -> void:
+func solid_collision(_with: Node2D) -> void:
 	queue_free()
 
 

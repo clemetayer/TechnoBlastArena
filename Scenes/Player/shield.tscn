@@ -3,8 +3,12 @@
 [ext_resource type="Script" uid="uid://652msoi8ssw3" path="res://Scenes/Player/shield.gd" id="1_56yob"]
 [ext_resource type="Texture2D" uid="uid://xtprt5lwbpqn" path="res://Scenes/Player/Octagon.png" id="2_uf4hy"]
 [ext_resource type="AudioStream" uid="uid://ukj7rgv5cmco" path="res://Scenes/Player/parry.mp3" id="3_7vf3h"]
-[ext_resource type="AudioStream" uid="uid://cudyvrluhlj0s" path="res://Scenes/Player/wrong.mp3" id="4_swsj5"]
-[ext_resource type="AudioStream" uid="uid://cvduad6i4tj47" path="res://Scenes/Player/parry_active.mp3" id="5_hme2n"]
+[ext_resource type="AudioStream" uid="uid://cr3hksdioy3ea" path="res://Scenes/Player/shield_break.mp3" id="4_t5uq6"]
+[ext_resource type="AudioStream" uid="uid://b158fy1ot1ms7" path="res://Scenes/Player/shield_broken.mp3" id="5_hme2n"]
+[ext_resource type="AudioStream" uid="uid://c1udonf0u7721" path="res://Scenes/Player/shield_hit.mp3" id="6_7qfu4"]
+[ext_resource type="AudioStream" uid="uid://dowi2bd6clwcm" path="res://Scenes/Player/shield_init.mp3" id="7_pe8yi"]
+[ext_resource type="AudioStream" uid="uid://470hk37ccq4k" path="res://Scenes/Player/shield_loop.mp3" id="8_xchui"]
+[ext_resource type="AudioStream" uid="uid://dllqgmgx5fbpn" path="res://Scenes/Player/shield_regenerated.mp3" id="9_02lh2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56yob"]
 content_margin_left = 2.0
@@ -349,13 +353,31 @@ process_material = SubResource("ParticleProcessMaterial_pe8yi")
 stream = ExtResource("3_7vf3h")
 bus = &"EffectsBGMSidechain"
 
-[node name="ParryDisabled" type="AudioStreamPlayer2D" parent="." unique_id=873963024]
-stream = ExtResource("4_swsj5")
+[node name="ShieldBreak" type="AudioStreamPlayer2D" parent="." unique_id=882317522]
+stream = ExtResource("4_t5uq6")
 bus = &"Effects"
 
-[node name="ParryActive" type="AudioStreamPlayer2D" parent="." unique_id=822704390]
+[node name="ShieldBroken" type="AudioStreamPlayer2D" parent="." unique_id=78110014]
 stream = ExtResource("5_hme2n")
-volume_db = 10.0
+bus = &"Effects"
+
+[node name="ShieldHit" type="AudioStreamPlayer2D" parent="." unique_id=1031489739]
+stream = ExtResource("6_7qfu4")
+volume_db = -4.0
+bus = &"Effects"
+
+[node name="ShieldInit" type="AudioStreamPlayer2D" parent="." unique_id=678456773]
+stream = ExtResource("7_pe8yi")
+volume_db = -3.0
+bus = &"Effects"
+
+[node name="ShieldLoop" type="AudioStreamPlayer2D" parent="." unique_id=111667846]
+stream = ExtResource("8_xchui")
+volume_db = -18.0
+bus = &"Effects"
+
+[node name="ShieldRegenerated" type="AudioStreamPlayer2D" parent="." unique_id=1297986811]
+stream = ExtResource("9_02lh2")
 bus = &"Effects"
 
 [node name="ParryAnimations" type="AnimationPlayer" parent="." unique_id=1026308490]

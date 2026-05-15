@@ -63,6 +63,8 @@ func parried(p_owner: Node2D, relative_aim_position: Vector2) -> void:
 func _on_body_entered(body):
 	if GroupUtils.is_player(body) and current_owner != body and body.has_method("hit"):
 		body.hit(PlayerHitData.new(knockback * _direction, damage, current_owner, damage, parried, shielded, solid_collision))
+	elif GroupUtils.is_static_obstacle(body) or GroupUtils.is_destructible_wall(body):
+		solid_collision(body)
 
 
 func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:

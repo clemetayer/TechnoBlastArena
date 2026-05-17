@@ -23,7 +23,7 @@ var _direction := Vector2.ZERO
 
 #==== ONREADY ====
 @onready var onready_paths := {
-	"sprite": $"Sprite/Body",
+	"sprite": $"Sprite",
 	"trail": $"Trail",
 }
 

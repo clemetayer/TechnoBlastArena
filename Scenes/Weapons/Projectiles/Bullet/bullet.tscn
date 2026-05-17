@@ -12,14 +12,14 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
+tracks/0/path = NodePath("BulletFlash:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 1)]
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_f1k66"]
@@ -30,14 +30,14 @@ step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
+tracks/0/path = NodePath("BulletFlash:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(0.25, 0.25), Vector2(1, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8o5wi"]
@@ -53,13 +53,13 @@ script = ExtResource("1_fo3ga")
 
 [node name="Trail" parent="." unique_id=341800852 instance=ExtResource("2_udptv")]
 
-[node name="Sprite" type="Node2D" parent="." unique_id=114465750]
-
-[node name="Outline" type="Sprite2D" parent="Sprite" unique_id=709051130]
-scale = Vector2(0.5, 0.5)
+[node name="Sprite" type="Sprite2D" parent="." unique_id=356350618]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.33, 0.33)
 texture = ExtResource("3_f1k66")
 
-[node name="Body" type="Sprite2D" parent="Sprite" unique_id=356350618]
+[node name="BulletFlash" type="Sprite2D" parent="." unique_id=955109715]
+modulate = Color(1, 1, 1, 0)
 scale = Vector2(0.33, 0.33)
 texture = ExtResource("3_f1k66")
 
@@ -67,6 +67,5 @@ texture = ExtResource("3_f1k66")
 shape = SubResource("RectangleShape2D_g77nu")
 
 [node name="BulletAnimation" type="AnimationPlayer" parent="." unique_id=531129166]
-root_node = NodePath("../Sprite")
 libraries/ = SubResource("AnimationLibrary_8o5wi")
 autoplay = &"std_anim"

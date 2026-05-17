@@ -10,7 +10,11 @@ point_count = 2
 colors = PackedColorArray(1, 1, 1, 0, 1, 0.9882353, 1, 1)
 
 [node name="Trail" type="Line2D" unique_id=1516685298]
-width = 5.0
 width_curve = SubResource("Curve_kw2mq")
 gradient = SubResource("Gradient_g6w74")
 script = ExtResource("1_ttnbv")
+
+[node name="AddPointTimer" type="Timer" parent="." unique_id=2127756275]
+wait_time = 0.05
+
+[connection signal="timeout" from="AddPointTimer" to="." method="_on_add_point_timer_timeout"]

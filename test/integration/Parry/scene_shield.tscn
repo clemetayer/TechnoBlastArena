@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=4 uid="uid://f0o7458uc4ls"]
+[gd_scene format=4 uid="uid://f0o7458uc4ls"]
 
 [ext_resource type="PackedScene" uid="uid://fgxha8wl55pa" path="res://Scenes/Player/player.tscn" id="1_minhf"]
 [ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="1_ulw0s"]
-[ext_resource type="Script" uid="uid://2e6ffjliw747" path="res://test/integration/Parry/scene_parry.gd" id="1_w14dx"]
+[ext_resource type="Script" uid="uid://brsde6g7hbpm" path="res://test/integration/Parry/scene_shield.gd" id="1_w14dx"]
 
 [node name="SceneParry" type="Node2D"]
 script = ExtResource("1_w14dx")

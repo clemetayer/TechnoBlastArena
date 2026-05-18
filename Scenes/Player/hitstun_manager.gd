@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 # Manages the histsun
 
@@ -13,18 +13,25 @@ var hitstunned := false
 
 #==== ONREADY ====
 @onready var paths := $"../Paths"
+@onready var particles := $"HitstunTrailParticles"
 
 
 ##### PUBLIC METHODS #####
 func stop_hitstun() -> void:
-	if hitstunned:
-		paths.hitstun_timer.stop()
-		_on_hitstun_timeout()
+	paths.hitstun_timer.stop()
+	_on_hitstun_timeout()
+
+
+func set_trail_color(color: Color) -> void:
+	var ligthened_color = color
+	ligthened_color.s = 0.5
+	particles.modulate = ligthened_color
 
 
 ##### SIGNAL MANAGEMENT #####
 func _on_hitstun_timeout() -> void:
 	hitstunned = false
+	particles.emitting = false
 	paths.bounce_area.toggle_active(false)
 	paths.animation_player.stop()
 	paths.animation_player.play("RESET")
@@ -37,3 +44,4 @@ func _on_player_damage_received(_old_damage: float, new_damage: float, _knockbac
 	paths.animation_player.play("hitstun")
 	paths.bounce_area.toggle_active(true)
 	hitstunned = true
+	particles.emitting = true

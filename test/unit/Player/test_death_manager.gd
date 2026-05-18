@@ -67,6 +67,9 @@ func test_kill():
 	var death_anim_time = double(Timer).new()
 	stub(death_anim_time, "start").to_do_nothing()
 	stub(death_anim_time, "is_inside_tree").to_return(true)
+	var hitstun_manager = double(Node2D).new()
+	stub(hitstun_manager, "hide").to_do_nothing()
+	death_manager.paths.hitstun_manager = hitstun_manager
 	death_manager.onready_paths.death_anim_time = death_anim_time
 	# when
 	death_manager.kill()
@@ -78,6 +81,7 @@ func test_kill():
 	assert_called(player_root, "toggle_truce", [true])
 	assert_called(sprites, "hide")
 	assert_called(shield, "hide")
+	assert_called(hitstun_manager, "hide")
 	assert_called(damage_label, "hide")
 	assert_called(primary_weapon, "hide")
 	assert_called(sound, "play")

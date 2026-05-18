@@ -29,6 +29,23 @@
 [ext_resource type="Texture2D" uid="uid://bv0r8mi6wpacw" path="res://Misc/Particles/kenney_particle-pack/star_08.png" id="25_ythyg"]
 [ext_resource type="Script" uid="uid://d8tdpqii5boa" path="res://Scenes/Player/predict_bounces_ray_cast.gd" id="27_bmb2s"]
 [ext_resource type="PackedScene" uid="uid://bcanmrhnihlmf" path="res://Scenes/Player/hit_particles.tscn" id="28_2ahak"]
+[ext_resource type="Texture2D" uid="uid://c6tg8wbscsc31" path="res://Misc/Particles/kenney_particle-pack/smoke_04.png" id="29_rukb4"]
+
+[sub_resource type="Gradient" id="Gradient_rukb4"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4no11"]
+gradient = SubResource("Gradient_rukb4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rukb4"]
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+angle_min = -179.99998
+angle_max = 180.00002
+gravity = Vector3(0, 98, 0)
+scale_min = 0.14999999
+scale_max = 0.32999998
+color_ramp = SubResource("GradientTexture1D_4no11")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ks1b7"]
 particle_flag_disable_z = true
@@ -470,8 +487,15 @@ script = ExtResource("4_cguhm")
 [node name="Init" type="Node" parent="." unique_id=312330056]
 script = ExtResource("5_q62wf")
 
-[node name="HitstunManager" type="Node" parent="." unique_id=1909488115]
+[node name="HitstunManager" type="Node2D" parent="." unique_id=1227536619]
 script = ExtResource("6_lv0e8")
+
+[node name="HitstunTrailParticles" type="GPUParticles2D" parent="HitstunManager" unique_id=1404176233]
+emitting = false
+amount = 7
+texture = ExtResource("29_rukb4")
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_rukb4")
 
 [node name="DeathManager" type="Node2D" parent="." unique_id=484194928]
 script = ExtResource("7_aqm4k")
@@ -636,10 +660,10 @@ collision_mask = 3
 [node name="PredictBouncesRayCast" type="Node2D" parent="." unique_id=2023343987]
 script = ExtResource("27_bmb2s")
 
-[connection signal="damage_received" from="." to="HitstunManager" method="_on_player_damage_received"]
 [connection signal="damage_received" from="." to="Audio" method="_on_player_damage_received"]
 [connection signal="damage_received" from="." to="Sprites/PlayerIndicatorOutline" method="_on_player_damage_received"]
 [connection signal="damage_received" from="." to="HitParticles" method="_on_player_damage_received"]
+[connection signal="damage_received" from="." to="HitstunManager" method="_on_player_damage_received"]
 [connection signal="last_hit_owner_changed" from="." to="DeathManager" method="_on_player_last_hit_owner_changed"]
 [connection signal="timeout" from="DeathManager/DeathAnimTime" to="DeathManager" method="_on_death_anim_time_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]

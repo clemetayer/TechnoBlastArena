@@ -7,46 +7,41 @@ var hitstun_manager
 
 ##### SETUP #####
 func before_each():
-	hitstun_manager = load("res://Scenes/Player/hitstun_manager.gd").new()
+	hitstun_manager = autofree(load("res://Scenes/Player/hitstun_manager.gd").new())
 
-
-##### TEARDOWN #####
-func after_each():
-	hitstun_manager.free()
 
 ##### TESTS #####
-var stop_hitstun_params := [
-	[true],
-	[false],
-]
-
-
-func test_stop_hitstun(params = use_parameters(stop_hitstun_params)):
+func test_stop_hitstun():
 	# given
 	var mock_hitstun_manager = partial_double(load("res://Scenes/Player/hitstun_manager.gd")).new()
 	stub(mock_hitstun_manager, "_on_hitstun_timeout").to_do_nothing()
 	var hitstun_timer = double(Timer).new()
 	stub(hitstun_timer, "stop")
-	mock_hitstun_manager.hitstunned = params[0]
-	var paths = load("res://Scenes/Player/paths.gd").new()
+	mock_hitstun_manager.hitstunned = true
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	paths.hitstun_timer = hitstun_timer
 	mock_hitstun_manager.paths = paths
 	# when
 	mock_hitstun_manager.stop_hitstun()
 	# then
-	if params[0]:
-		assert_called(hitstun_timer, "stop")
-		assert_called(mock_hitstun_manager, "_on_hitstun_timeout")
-	else:
-		assert_not_called(hitstun_timer, "stop")
-		assert_not_called(mock_hitstun_manager, "_on_hitstun_timeout")
-	# cleanup
-	paths.free()
+	assert_called(hitstun_timer, "stop")
+	assert_called(mock_hitstun_manager, "_on_hitstun_timeout")
+
+
+func test_set_trail_color():
+	# given
+	var particles = _create_particles_mock()
+	var expected_color = Color.CYAN
+	expected_color.s = 0.5
+	# when
+	hitstun_manager.set_trail_color(Color.CYAN)
+	# then
+	assert_eq(particles.modulate, expected_color)
 
 
 func test_on_player_damage_received():
 	# given
-	var paths = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var hitstun_timer = double(Timer).new()
 	stub(hitstun_timer, "start").to_do_nothing()
 	paths.hitstun_timer = hitstun_timer
@@ -57,6 +52,8 @@ func test_on_player_damage_received():
 	stub(bounce_area, "toggle_active").to_do_nothing()
 	paths.bounce_area = bounce_area
 	hitstun_manager.paths = paths
+	var particles = _create_particles_mock()
+	particles.emitting = false
 	# when
 	hitstun_manager._on_player_damage_received(100.0, 123.0, Vector2.ONE)
 	# then
@@ -64,13 +61,12 @@ func test_on_player_damage_received():
 	assert_called(animation_player, "play", ["hitstun", null, null, null])
 	assert_called(bounce_area, "toggle_active", [true])
 	assert_true(hitstun_manager.hitstunned)
-	# cleanup
-	paths.free()
+	assert_true(particles.emitting)
 
 
 func test_on_hitstun_timeout():
 	# given
-	var paths = load("res://Scenes/Player/paths.gd").new()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var animation_player = double(AnimationPlayer).new()
 	stub(animation_player, "stop").to_do_nothing()
 	stub(animation_player, "play").to_do_nothing()
@@ -79,6 +75,8 @@ func test_on_hitstun_timeout():
 	stub(bounce_area, "toggle_active").to_do_nothing()
 	paths.bounce_area = bounce_area
 	hitstun_manager.paths = paths
+	var particles = _create_particles_mock()
+	particles.emitting = true
 	# when
 	hitstun_manager._on_hitstun_timeout()
 	# then
@@ -86,5 +84,12 @@ func test_on_hitstun_timeout():
 	assert_called(animation_player, "play", ["RESET", null, null, null])
 	assert_called(bounce_area, "toggle_active", [false])
 	assert_false(hitstun_manager.hitstunned)
-	# cleanup
-	paths.free()
+	assert_false(particles.emitting)
+
+
+##### UTILS #####
+func _create_particles_mock() -> GPUParticles2D:
+	var particles = autofree(GPUParticles2D.new())
+	particles.process_material = ParticleProcessMaterial.new()
+	hitstun_manager.particles = particles
+	return particles

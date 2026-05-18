@@ -32,6 +32,7 @@ func initialize(config: PlayerConfig) -> void:
 	paths.primary_weapon.projectile_owner = paths.player_root
 	paths.damage_label.init_damage()
 	paths.primary_weapon.owner_color = RuntimeUtils.PLAYER_INDICATOR_COLORS[paths.player_root.PLAYER_ID]
+	paths.hitstun_manager.set_trail_color(RuntimeUtils.PLAYER_INDICATOR_COLORS[paths.player_root.PLAYER_ID])
 	paths.death_manager.set_particles_color(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	paths.appear_elements.init(config.SPRITE_CUSTOMIZATION.BODY_COLOR, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	paths.hit_particles.init(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)

@@ -46,6 +46,9 @@ func test_initialize():
 	var hit_particles = double(load("res://Scenes/Player/hit_particles.gd")).new()
 	stub(hit_particles, "init").to_do_nothing()
 	paths.hit_particles = hit_particles
+	var hitstun_manager = double(load("res://Scenes/Player/hitstun_manager.gd")).new()
+	stub(hitstun_manager, "set_trail_color").to_do_nothing()
+	paths.hitstun_manager = hitstun_manager
 	init.paths = paths
 	# when
 	var config = generate_test_config()
@@ -69,6 +72,7 @@ func test_initialize():
 	assert_eq(paths.primary_weapon.projectile_owner, player_root)
 	assert_called(damage_label, "init_damage")
 	assert_eq(paths.primary_weapon.owner_color, RuntimeUtils.PLAYER_INDICATOR_COLORS[0])
+	assert_called(hitstun_manager, "set_trail_color", [RuntimeUtils.PLAYER_INDICATOR_COLORS[0]])
 	assert_called(death_manager, "set_particles_color", [Color.ANTIQUE_WHITE])
 	assert_called(appear_elements, "init", [Color.REBECCA_PURPLE, Color.ANTIQUE_WHITE])
 	assert_eq(player_root.get_child_count(), 3)

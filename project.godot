@@ -39,7 +39,7 @@ CameraEffects="*res://Scenes/Camera/camera_effects.gd"
 SceneUtils="*res://Utils/scene_utils.gd"
 RuntimeUtils="*res://Utils/runtime_utils.gd"
 FullScreenEffects="*res://Scenes/Camera/FullScreenEffects/full_screen_effects.tscn"
-Shaker="*uid://b1e15kli1mhw7"
+Shaker="*uid://dr0gdtvdvwrih"
 BeehaveGlobalMetrics="*uid://c3ktl6ontsdt7"
 BeehaveGlobalDebugger="*uid://bl3ma400hpvsh"
 

@@ -22,7 +22,7 @@ func after_each():
 ##### TESTS #####
 func test_spawn_projectile():
 	# given
-	var projectile = Node2D.new()
+	var projectile = autofree(Node2D.new())
 	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
 	splitter._runtime_utils = runtime_utils
 	var game_root = double(load("res://Scenes/Game/game.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
@@ -37,8 +37,8 @@ func test_spawn_projectile():
 
 func test_duplicate_projectile_with_angle():
 	# given
-	var projectile = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.gd").new()
-	var current_owner = Node2D.new()
+	var projectile = autofree(load("res://Scenes/Weapons/Projectiles/Bullet/bullet.gd").new())
+	var current_owner = autofree(Node2D.new())
 	projectile.current_owner = current_owner
 	var splitter_mock = partial_double(load("res://Scenes/Weapons/Powerups/Splitter/splitter.gd")).new()
 	stub(splitter_mock, "_spawn_projectile").to_do_nothing()
@@ -51,28 +51,20 @@ func test_duplicate_projectile_with_angle():
 	assert_eq(duplicated_projectile.current_owner, current_owner)
 	assert_eq(duplicated_projectile.init_rotation, projectile.rotation + PI / 4.0)
 	assert_eq(duplicated_projectile.init_position, projectile.global_position)
-	# cleanup
-	duplicated_projectile.free()
-	projectile.free()
 
 
 func test_handle_feedback():
 	# given
 	var audio = double(AudioStreamPlayer).new()
 	stub(audio, "play").to_do_nothing()
-	var circles = double(load("res://Scenes/Weapons/Powerups/Splitter/circles.gd")).new()
-	stub(circles, "remove_circle").to_do_nothing()
-	var hit_effect = GPUParticles2D.new()
+	var hit_effect = add_child_autofree(GPUParticles2D.new())
 	hit_effect.emitting = false
-	add_child_autofree(hit_effect)
 	splitter.onready_paths.audio = audio
-	splitter.onready_paths.circles = circles
 	splitter.onready_paths.hit_effect = hit_effect
 	# when
 	splitter._handle_feedback()
 	# then
 	assert_called(audio, "play")
-	assert_called(circles, "remove_circle")
 	assert_true(hit_effect.emitting)
 
 
@@ -100,12 +92,9 @@ func test_prepare_for_deletion():
 
 
 var on_hitbox_area_entered_params := [
-	[true, false, 1],
-	[true, false, 999],
-	[true, false, 1],
-	[true, false, 1],
-	[false, false, 1],
-	[true, true, 1],
+	[true, false],
+	[false, false],
+	[true, true],
 ]
 
 
@@ -113,19 +102,16 @@ func test_on_hitbox_area_entered(params = use_parameters(on_hitbox_area_entered_
 	# given
 	var is_projectile = params[0]
 	var whitelist_has_area = params[1]
-	var contacts_count = params[2]
 	var mock_splitter = partial_double(load("res://Scenes/Weapons/Powerups/Splitter/splitter.tscn")).instantiate()
 	stub(mock_splitter, "_duplicate_projectile_with_angle").to_do_nothing()
-	stub(mock_splitter, "_ready").to_do_nothing()
 	stub(mock_splitter, "_handle_feedback").to_do_nothing()
 	stub(mock_splitter, "_prepare_for_deletion").to_do_nothing()
 	add_child_autofree(mock_splitter)
-	var area = Area2D.new()
+	var area = autofree(Area2D.new())
 	if is_projectile:
 		area.add_to_group("projectile")
 	if whitelist_has_area:
 		mock_splitter._whitelist = [area]
-	mock_splitter._contacts_count = contacts_count
 	# when
 	mock_splitter._on_hitbox_area_entered(area)
 	# then
@@ -135,10 +121,9 @@ func test_on_hitbox_area_entered(params = use_parameters(on_hitbox_area_entered_
 			assert_called(mock_splitter, "_duplicate_projectile_with_angle", [area, dup_angle])
 		if not mock_splitter.PROJECTILE_DUPLICATES % 2 == 0:
 			assert_true(mock_splitter._whitelist.has(area))
-		if contacts_count < mock_splitter.MAX_CONTACTS - 1:
-			assert_eq(mock_splitter._contacts_count, contacts_count + 1)
+	else:
+		assert_not_called(mock_splitter, "_duplicate_projectile_with_angle")
 	# cleanup
-	area.free()
 	for d_area in mock_splitter._whitelist:
 		if is_instance_valid(d_area):
 			d_area.free()

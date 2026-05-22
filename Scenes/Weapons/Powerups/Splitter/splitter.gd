@@ -7,13 +7,11 @@ signal destroyed
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const MAX_CONTACTS := 3
-const PROJECTILE_DUPLICATES := 5 # note : most likely should be an uneven number (to let the original projectile keep its trajectory)
+const PROJECTILE_DUPLICATES := 3 # note : most likely should be an uneven number (to let the original projectile keep its trajectory)
 
 #---- STANDARD -----
 #==== PRIVATE ====
 var _whitelist := [] # to avoid duplicating too much (with the fresh new projectiles for instance)
-var _contacts_count := 0
 var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
@@ -21,15 +19,8 @@ var _runtime_utils := RuntimeUtils
 	"audio": $"AudioStreamPlayer2D",
 	"collision": $"Hitbox/CollisionShape2D",
 	"sprite": $"Sprite2D",
-	"circles": $"Circles",
 	"hit_effect": $"HitEffect",
 }
-
-
-##### PROCESSING #####
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	onready_paths.circles.init(MAX_CONTACTS)
 
 
 ##### PROTECTED METHODS #####
@@ -53,7 +44,6 @@ func _duplicate_projectile_with_angle(projectile: Node, angle: float) -> void:
 func _handle_feedback() -> void:
 	onready_paths.hit_effect.emitting = true
 	onready_paths.audio.play()
-	onready_paths.circles.remove_circle()
 
 
 func _prepare_for_deletion() -> void:
@@ -78,10 +68,7 @@ func _on_hitbox_area_entered(area):
 			area.queue_free()
 		else:
 			_whitelist.append(area)
-		if _contacts_count < MAX_CONTACTS - 1:
-			_contacts_count += 1
-		else:
-			_prepare_for_deletion()
+		_prepare_for_deletion()
 
 
 func _on_hitbox_area_exited(area):

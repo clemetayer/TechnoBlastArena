@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://ch4g8eyoxvj6u"]
+[gd_scene format=3 uid="uid://ch4g8eyoxvj6u"]
 
 [ext_resource type="Script" uid="uid://bguo2scbetig0" path="res://Scenes/Weapons/Powerups/Splitter/splitter_manager.gd" id="1_muoox"]
 
-[node name="SplitterSpawner" type="Node2D"]
+[node name="SplitterSpawner" type="Node2D" unique_id=539909331]
 script = ExtResource("1_muoox")
 
-[node name="CooldownTimer" type="Timer" parent="."]
-wait_time = 3.0
+[node name="CooldownTimer" type="Timer" parent="." unique_id=559873702]
+wait_time = 10.0
 one_shot = true
 
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

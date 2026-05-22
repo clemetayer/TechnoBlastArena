@@ -24,7 +24,7 @@ func _get_min_distance_to_projectile(player: Node2D, projectiles: Array) -> floa
 	if not (is_instance_valid(player) and projectiles.size() > 0):
 		return INF
 	var player_pos = player.get_global_position()
-	var projectile_pos = projectiles[0].get_global_position()
+	var projectile_pos = Vector2.ONE * INF
 	var min_distance = player_pos.distance_to(projectile_pos)
 	for projectile in projectiles:
 		if is_instance_valid(projectile):

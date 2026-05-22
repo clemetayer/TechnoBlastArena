@@ -24,19 +24,18 @@ func test_splitter():
 	splitter._runtime_utils = runtime_utils
 	var projectiles_duplicates = splitter.PROJECTILE_DUPLICATES
 	# when/then
-	for contact_idx in range(splitter.MAX_CONTACTS):
-		var bullet = bullet_load.instantiate()
-		bullet.init_position = scene.get_fire_position_node().global_position
-		bullet.init_rotation = 0.0
-		scene.fire_projectile(bullet)
-		await wait_seconds(1.0)
-		var projectiles_cnt = scene.get_projectiles().size()
-		assert_eq(projectiles_cnt, projectiles_duplicates + 1)
-		for projectile_idx in range(1, projectiles_cnt):
-			var angle = (projectile_idx * ((PI / 2) / (projectiles_cnt))) - PI / 4
-			assert_true(_has_projectile_with_angle(scene.get_projectiles(), angle))
-		scene.clean_projectiles()
-		await wait_seconds(0.5)
+	var bullet = bullet_load.instantiate()
+	bullet.init_position = scene.get_fire_position_node().global_position
+	bullet.init_rotation = 0.0
+	scene.fire_projectile(bullet)
+	await wait_seconds(1.0)
+	var projectiles_cnt = scene.get_projectiles().size()
+	assert_eq(projectiles_cnt, projectiles_duplicates + 1)
+	for projectile_idx in range(1, projectiles_cnt):
+		var angle = (projectile_idx * ((PI / 2) / (projectiles_cnt))) - PI / 4
+		assert_true(_has_projectile_with_angle(scene.get_projectiles(), angle))
+	scene.clean_projectiles()
+	await wait_seconds(0.5)
 	assert_false(is_instance_valid(splitter))
 
 
@@ -68,6 +67,8 @@ func test_splitter_manager():
 		assert_true(_has_projectile_with_angle(scene.get_projectiles(), angle))
 	scene.clean_projectiles()
 	bullet.free()
+	await wait_seconds(splitter_manager.COOLDOWN_TIMER)
+	splitter_manager.use()
 	await wait_seconds(0.5)
 	## trying to spawn one while the cooldown is not over
 	splitter_manager.use()
@@ -75,7 +76,7 @@ func test_splitter_manager():
 	assert_eq(scene.get_powerups().size(), 1)
 	## spawning x more just to see if we stay at the max possible active splitters
 	await wait_seconds(splitter_manager.COOLDOWN_TIMER)
-	for splitter_idx in range(0, splitter_manager.MAX_SPLITTERS_ACTIVE + 1):
+	for splitter_idx in range(0, splitter_manager.MAX_SPLITTERS_ACTIVE):
 		splitter_manager.use()
 		await wait_seconds(splitter_manager.COOLDOWN_TIMER)
 	assert_eq(scene.get_powerups().size(), splitter_manager.MAX_SPLITTERS_ACTIVE)

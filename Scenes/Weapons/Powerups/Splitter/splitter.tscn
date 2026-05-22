@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://cto1bewda5gwm"]
 
 [ext_resource type="Script" uid="uid://bb4hrw2b5jtmk" path="res://Scenes/Weapons/Powerups/Splitter/splitter.gd" id="1_tp6dn"]
-[ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="2_gcc30"]
 [ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="2_jxrl0"]
-[ext_resource type="Script" uid="uid://bdv7hp8h0n5hh" path="res://Scenes/Weapons/Powerups/Splitter/circles.gd" id="2_risov"]
 [ext_resource type="AudioStream" uid="uid://b4ia4vfw7ctn3" path="res://Scenes/Weapons/Powerups/Splitter/splitter.mp3" id="3_o5ews"]
 
 [sub_resource type="Gradient" id="Gradient_risov"]
@@ -36,16 +34,6 @@ size = Vector2(128, 128)
 
 [node name="Splitter" type="Node2D" unique_id=489423910]
 script = ExtResource("1_tp6dn")
-
-[node name="Circles" type="HBoxContainer" parent="." unique_id=1600124135]
-offset_left = -64.0
-offset_top = -83.0
-offset_right = 64.0
-offset_bottom = -64.0
-theme_override_constants/separation = 15
-alignment = 1
-script = ExtResource("2_risov")
-texture = ExtResource("2_gcc30")
 
 [node name="HitEffect" type="GPUParticles2D" parent="." unique_id=154510012]
 emitting = false

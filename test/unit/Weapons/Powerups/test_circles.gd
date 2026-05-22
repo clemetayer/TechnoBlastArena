@@ -6,7 +6,7 @@ var circles
 
 ##### SETUP #####
 func before_each():
-	circles = load("res://Scenes/Weapons/Powerups/Splitter/circles.gd").new()
+	circles = load("res://Scenes/Weapons/Powerups/Common/circles.gd").new()
 
 ##### TEARDOWN #####
 func after_each():

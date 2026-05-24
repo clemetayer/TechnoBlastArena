@@ -117,6 +117,10 @@ func override_velocity(velocity_override: Vector2) -> void:
 	_velocity_override += velocity_override
 
 
+func toggle_movement(_active: bool) -> void:
+	pass # TODO : implement this + maybe remove the toggle_freeze below
+
+
 func toggle_freeze(active: bool) -> void:
 	_freeze_buffer_velocity = velocity
 	set_deferred("freeze", active)

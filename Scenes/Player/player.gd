@@ -39,14 +39,12 @@ var jump_triggered := false
 
 #==== PRIVATE ====
 var _gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") * WEIGHT
-var _frozen := false
+var _movement_stopped := false
 var _velocity_override := Vector2.ZERO
 var _additional_vector := Vector2.ZERO # external forces that can have an effect on the player and needs to be added to the velocity on the next physics frame
-var _freeze_buffer_velocity := Vector2.ZERO
 var _damage_enabled := true
 var _truce_active := false # allows for players to move freely but can't shoot or use abilities. Usefull during the start countdown of the game
 var _velocity_buffer := [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO] # 3 frame buffer for the velocity. Usefull to keep track of the velocity when elements are going too fast
-var _scene_utils := SceneUtils
 
 #==== ONREADY ====
 @onready var paths := $"Paths"
@@ -57,19 +55,15 @@ var _scene_utils := SceneUtils
 func _ready():
 	paths.init.initialize(get_node(GAME_PROXY_PATH).get_player_config(PLAYER_ID))
 	_appear()
-	_scene_utils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 
 
 func _physics_process(delta: float) -> void:
-	if not _frozen:
+	if not _movement_stopped:
 		if not _is_on_floor():
 			velocity.y += _gravity * delta
 		elif velocity.y > 0 and _is_on_floor(): # to bounce back on horizontal destroyable walls
 			velocity.y = 0
 
-		if _freeze_buffer_velocity != Vector2.ZERO:
-			velocity = _freeze_buffer_velocity
-			_freeze_buffer_velocity = Vector2.ZERO
 		if _velocity_override != Vector2.ZERO:
 			velocity = _velocity_override
 			_velocity_override = Vector2.ZERO
@@ -117,17 +111,8 @@ func override_velocity(velocity_override: Vector2) -> void:
 	_velocity_override += velocity_override
 
 
-func toggle_movement(_active: bool) -> void:
-	pass # TODO : implement this + maybe remove the toggle_freeze below
-
-
-func toggle_freeze(active: bool) -> void:
-	_freeze_buffer_velocity = velocity
-	set_deferred("freeze", active)
-	set_deferred("sleeping", active)
-	toggle_abilities(not active)
-	toggle_damage(not active)
-	_frozen = active
+func toggle_movement(active: bool) -> void:
+	_movement_stopped = active
 
 
 # Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end
@@ -161,9 +146,7 @@ func get_direction() -> Vector2:
 
 ##### PROTECTED METHODS #####
 func _appear() -> void:
-	toggle_freeze(true)
-	toggle_abilities(false)
-	toggle_damage(false)
+	paths.stop_manager.toggle_stop(true)
 	paths.appear_elements.play_spawn_animation()
 
 
@@ -192,11 +175,5 @@ func _predict_bounces() -> void:
 
 
 ##### SIGNAL MANAGEMENT #####
-func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
-	toggle_freeze(value)
-
-
 func _on_appear_elements_appear_animation_finished() -> void:
-	toggle_freeze(false)
-	toggle_abilities(true)
-	toggle_damage(true)
+	paths.stop_manager.toggle_stop(false)

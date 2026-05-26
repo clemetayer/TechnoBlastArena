@@ -15,32 +15,21 @@ func after_each():
 	if is_instance_valid(trail):
 		trail.free()
 
+
 ##### TESTS #####
-var process_params := [
-	[false],
-	[true],
-]
-
-
-func test_process(params = use_parameters(process_params)):
+func test_process():
 	# given
-	var freeze = params[0]
 	var parent = autofree(Node2D.new())
 	parent.add_child(trail)
 	mock_timer()
 	add_child(parent)
 	trail.global_position = Vector2.RIGHT
 	trail.global_rotation = PI / 4.0
-	trail._freeze = freeze
 	# when
 	trail._process(1.0 / 60.0)
 	# then
-	if not freeze:
-		assert_eq(trail.global_position, Vector2.ZERO)
-		assert_eq(trail.global_rotation, 0)
-	else:
-		assert_eq(trail.global_position, Vector2.RIGHT)
-		assert_almost_eq(trail.global_rotation, PI / 4.0, 0.01)
+	assert_eq(trail.global_position, Vector2.ZERO)
+	assert_eq(trail.global_rotation, 0)
 	# cleanup
 	trail.free()
 
@@ -53,21 +42,6 @@ func test_reset():
 	trail.reset()
 	# then
 	assert_eq(trail.points.size(), 0)
-
-
-var on_SceneUtils_toggle_scene_freeze_params := [
-	[true],
-	[false],
-]
-
-
-func test_on_SceneUtils_toggle_scene_freeze(params = use_parameters(on_SceneUtils_toggle_scene_freeze_params)):
-	# given
-	var freeze = params[0]
-	# when
-	trail._on_SceneUtils_toggle_scene_freeze(freeze)
-	# then
-	assert_eq(trail._freeze, freeze)
 
 
 var add_point_timer_timeout_params := [

@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bmq88d80dxhn7" path="res://Scenes/Player/sprites.gd" id="5_b3kqx"]
 [ext_resource type="Script" uid="uid://bk14t15ya0u7n" path="res://Scenes/Player/init.gd" id="5_q62wf"]
 [ext_resource type="Script" uid="uid://cvh6fq6fc37ba" path="res://Scenes/Player/input_synchronizer.gd" id="5_uow23"]
+[ext_resource type="PackedScene" uid="uid://ld64hwbce6bf" path="res://Scenes/Player/stop_manager.tscn" id="6_4no11"]
 [ext_resource type="Script" uid="uid://vpgyhxg8g8t4" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
 [ext_resource type="Script" uid="uid://c6kakxwjhbf38" path="res://Scenes/Player/death_manager.gd" id="7_aqm4k"]
 [ext_resource type="AudioStream" uid="uid://ddmvud7r6r4ap" path="res://Scenes/Player/death.mp3" id="9_aqm4k"]
@@ -487,6 +488,8 @@ script = ExtResource("4_cguhm")
 [node name="Init" type="Node" parent="." unique_id=312330056]
 script = ExtResource("5_q62wf")
 
+[node name="StopManager" parent="." unique_id=41126635 instance=ExtResource("6_4no11")]
+
 [node name="HitstunManager" type="Node2D" parent="." unique_id=1227536619]
 script = ExtResource("6_lv0e8")
 
@@ -660,10 +663,10 @@ collision_mask = 3
 [node name="PredictBouncesRayCast" type="Node2D" parent="." unique_id=2023343987]
 script = ExtResource("27_bmb2s")
 
+[connection signal="damage_received" from="." to="HitstunManager" method="_on_player_damage_received"]
 [connection signal="damage_received" from="." to="Audio" method="_on_player_damage_received"]
 [connection signal="damage_received" from="." to="Sprites/PlayerIndicatorOutline" method="_on_player_damage_received"]
 [connection signal="damage_received" from="." to="HitParticles" method="_on_player_damage_received"]
-[connection signal="damage_received" from="." to="HitstunManager" method="_on_player_damage_received"]
 [connection signal="last_hit_owner_changed" from="." to="DeathManager" method="_on_player_last_hit_owner_changed"]
 [connection signal="timeout" from="DeathManager/DeathAnimTime" to="DeathManager" method="_on_death_anim_time_timeout"]
 [connection signal="body_entered" from="BounceArea" to="BounceArea" method="_on_body_entered"]

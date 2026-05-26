@@ -45,7 +45,6 @@ func test_kill():
 	var particles = GPUParticles2D.new()
 	death_manager.onready_paths.particles = particles
 	var player_root = partial_double(load("res://Scenes/Player/player.tscn")).instantiate()
-	stub(player_root, "toggle_freeze").to_do_nothing()
 	stub(player_root, "toggle_truce").to_do_nothing()
 	death_manager.paths.player_root = player_root
 	var damage_label = double(Control).new()
@@ -75,7 +74,6 @@ func test_kill():
 	death_manager.kill()
 	# then
 	assert_called(camera_effects, "emit_signal_start_camera_impact", [death_manager.CAMERA_DEATH_IMPACT_TIME * 1.0, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH, CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH])
-	assert_called(player_root, "toggle_freeze", [true])
 	assert_eq(player_root.collision_layer, 0)
 	assert_eq(player_root.collision_mask, 0)
 	assert_called(player_root, "toggle_truce", [true])

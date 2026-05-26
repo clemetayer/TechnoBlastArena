@@ -294,17 +294,3 @@ func test_get_relative_aim_position():
 	# cleanup
 	input_synchronizer.free()
 	paths.free()
-
-
-var on_SceneUtils_toggle_scene_freeze_params := [
-	[true],
-	[false],
-]
-
-
-func test_on_SceneUtils_toggle_scene_freeze(params = use_parameters(on_SceneUtils_toggle_scene_freeze_params)):
-	# given
-	# when
-	action_manager._on_SceneUtils_toggle_scene_freeze(params[0])
-	# then
-	assert_eq(action_manager._frozen, params[0])

@@ -31,7 +31,7 @@ func kill() -> void:
 	if is_instance_valid(_last_hit_owner):
 		paths.player_root.emit_signal("game_message_triggered", _get_last_hit_owner_id(_last_hit_owner))
 	onready_paths.particles.emitting = true
-	paths.player_root.toggle_freeze(true)
+	paths.stop_manager.toggle_stop(true)
 	# disables the collisions, just in case
 	paths.player_root.set_collision_layer(0)
 	paths.player_root.set_collision_mask(0)

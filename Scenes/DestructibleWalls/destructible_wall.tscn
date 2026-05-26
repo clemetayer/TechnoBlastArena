@@ -475,8 +475,6 @@ bus = &"Effects"
 [node name="PlayerInteractionsManager" type="Node" parent="." unique_id=1021424381]
 script = ExtResource("14_jedvq")
 
-[node name="FreezePlayerTimers" type="Node" parent="PlayerInteractionsManager" unique_id=1836021509]
-
 [node name="CollisionManager" type="Node2D" parent="." unique_id=374335475]
 script = ExtResource("6_yj50p")
 

@@ -5,7 +5,6 @@ extends Node
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== PRIVATE ====
-var _frozen: bool
 var _action_handler_base = ActionHandlerBase
 
 #==== ONREADY ====
@@ -13,15 +12,9 @@ var _action_handler_base = ActionHandlerBase
 
 
 ##### PROCESSING #####
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	if not _frozen:
-		_handle_actions()
+	_handle_actions()
 
 
 ##### PROTECTED METHODS #####
@@ -99,8 +92,3 @@ func _is_action_just_active(action: ActionHandlerBase.actions) -> bool:
 # mostly to improve readability
 func _get_relative_aim_position() -> Vector2:
 	return paths.input_synchronizer.relative_aim_position
-
-
-##### SIGNAL MANAGEMENT #####
-func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
-	_frozen = value

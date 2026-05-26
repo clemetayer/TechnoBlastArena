@@ -15,7 +15,6 @@ const KNOCKBACK_PARRY_MULTIPLIER := 2
 @export var speed := BASE_SPEED
 @export var damage := BASE_DAMAGE
 @export var knockback := BASE_KNOCKBACK
-@export var freeze := false
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -41,8 +40,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
-	if not freeze:
-		position += _direction * speed * delta
+	position += _direction * speed * delta
 
 
 ##### PUBLIC METHODS #####
@@ -65,7 +63,3 @@ func _on_body_entered(body):
 		body.hit(PlayerHitData.new(knockback * _direction, damage, current_owner, damage, parried, shielded, solid_collision))
 	elif GroupUtils.is_static_obstacle(body) or GroupUtils.is_destructible_wall(body):
 		solid_collision(body)
-
-
-func _on_SceneUtils_toggle_scene_freeze(value: bool) -> void:
-	freeze = value

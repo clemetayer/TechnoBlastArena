@@ -1,4 +1,5 @@
 extends Node2D
+
 # manages the elements for the spawn animation
 
 ##### SIGNALS #####
@@ -14,13 +15,14 @@ const APPEAR_ANIM_NAME := "appear"
 @onready var onready_paths := {
 	"sprite": $"Appear",
 	"particles": {
-		"main":$"MainColor",
-		"secondary":$"SecondaryColor"
-	}
+		"main": $"MainColor",
+		"secondary": $"SecondaryColor",
+	},
 }
 
+
 ##### PUBLIC METHODS #####
-func init(main_color : Color, secondary_color : Color) -> void:
+func init(main_color: Color, secondary_color: Color) -> void:
 	var main_color_light = main_color
 	main_color_light.h = 50
 	var secondary_color_light = secondary_color
@@ -29,8 +31,10 @@ func init(main_color : Color, secondary_color : Color) -> void:
 	onready_paths.particles.main.modulate = main_color_light
 	onready_paths.particles.secondary.modulate = secondary_color_light
 
+
 func play_spawn_animation() -> void:
 	paths.animation_player.play("appear")
+
 
 ##### SIGNAL MANAGEMENT #####
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:

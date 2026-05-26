@@ -19,7 +19,6 @@ var current_owner # the current "owner" of the bullet (i.e, the last thing that 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	connect("body_entered", _on_body_entered)
-	SceneUtils.connect("toggle_scene_freeze", _on_SceneUtils_toggle_scene_freeze)
 
 
 ##### PUBLIC METHODS #####
@@ -36,6 +35,3 @@ func solid_collision(_with: Node2D) -> void:
 
 ##### SIGNAL MANAGEMENT #####
 @abstract func _on_body_entered(body)
-
-
-@abstract func _on_SceneUtils_toggle_scene_freeze(value: bool)

@@ -33,23 +33,15 @@ func test_ready():
 	assert_eq(bullet._direction, Vector2.RIGHT.rotated(PI / 4.0).normalized())
 
 
-var process_params := [
-	[true],
-	[false],
-]
-
-
-func test_process(params = use_parameters(process_params)):
+func test_process():
 	# given
-	var freeze = params[0]
-	bullet.freeze = freeze
 	bullet.position = Vector2.ZERO
 	bullet._direction = Vector2.RIGHT
 	bullet.speed = 2.0
 	# when
 	bullet._process(0.5)
 	# then
-	assert_eq(bullet.position, Vector2.RIGHT if not freeze else Vector2.ZERO)
+	assert_eq(bullet.position, Vector2.RIGHT)
 
 
 func test_parried():
@@ -108,18 +100,3 @@ func test_on_body_entered(params = use_parameters(on_body_entered_params)):
 		assert_not_null(body) # kind of useless. Just to check if the code runs well everywhere, especially around the queue free
 	# cleanup
 	body.free()
-
-
-var on_SceneUtils_toggle_scene_freeze_params := [
-	[true],
-	[false],
-]
-
-
-func test_on_SceneUtils_toggle_scene_freeze_params(params = use_parameters(on_SceneUtils_toggle_scene_freeze_params)):
-	# given
-	var freeze = params[0]
-	# when
-	bullet._on_SceneUtils_toggle_scene_freeze(freeze)
-	# then
-	assert_eq(bullet.freeze, freeze)

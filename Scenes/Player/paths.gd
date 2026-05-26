@@ -17,6 +17,7 @@ extends Node
 @export var ACTION_MANAGER_PATH: NodePath
 @export var INIT_PATH: NodePath
 @export var HITSTUN_MANAGER: NodePath
+@export var STOP_MANAGER: NodePath
 @export var CROSSHAIR_PATH: NodePath
 @export var AUDIO_MANAGER_PATH: NodePath
 @export var DEATH_MANAGER_PATH: NodePath
@@ -43,6 +44,7 @@ var action_handler
 @onready var action_manager := get_node(ACTION_MANAGER_PATH)
 @onready var init := get_node(INIT_PATH)
 @onready var hitstun_manager := get_node(HITSTUN_MANAGER)
+@onready var stop_manager := get_node(STOP_MANAGER)
 @onready var crosshair := get_node(CROSSHAIR_PATH)
 @onready var audio_manager := get_node(AUDIO_MANAGER_PATH)
 @onready var death_manager := get_node(DEATH_MANAGER_PATH)

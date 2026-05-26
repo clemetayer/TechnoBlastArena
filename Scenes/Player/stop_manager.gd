@@ -20,7 +20,7 @@ extends Node
 # var public_var # Optionnal comment
 
 #==== PRIVATE ====
-# var _private_var # Optionnal comment
+var _stopped := false
 
 #==== ONREADY ====
 @onready var paths := $"../Paths"
@@ -44,9 +44,18 @@ func _process(_delta):
 
 
 ##### PUBLIC METHODS #####
-func stop(duration: float) -> void:
-	_toggle_stop(true)
-	timer.start(duration)
+func stop_for_duration(duration: float) -> void:
+	if not _stopped:
+		toggle_stop(true)
+		timer.start(duration)
+
+
+func toggle_stop(active: bool) -> void:
+	var player = _get_player()
+	player.toggle_movement(not active)
+	player.toggle_damage(not active)
+	player.toggle_abilities(not active)
+	_stopped = active
 
 
 ##### PROTECTED METHODS #####
@@ -54,13 +63,6 @@ func _get_player() -> Node2D:
 	return paths.player_root
 
 
-func _toggle_stop(active: bool) -> void:
-	var player = _get_player()
-	player.toggle_movement(not active)
-	player.toggle_damage(not active)
-	player.toggle_abilities(not active)
-
-
 ##### SIGNAL MANAGEMENT #####
 func _on_timer_timeout() -> void:
-	_toggle_stop(false)
+	toggle_stop(false)

@@ -4,15 +4,18 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var appear_elements
 var appear_animation_finished_times_called := 0
-	
+
+
 ##### SETUP #####
 func before_each():
 	appear_elements = load("res://Scenes/Player/appear_elements.gd").new()
 	appear_animation_finished_times_called = 0
 
+
 ##### TEARDOWN #####
 func after_each():
 	appear_elements.free()
+
 
 ##### TESTS #####
 func test_init():
@@ -30,8 +33,8 @@ func test_init():
 		"sprite": sprite,
 		"particles": {
 			"main": particles_main,
-			"secondary": particles_secondary
-		}
+			"secondary": particles_secondary,
+		},
 	}
 	# when
 	appear_elements.init(main_color, secondary_color)
@@ -43,6 +46,7 @@ func test_init():
 	sprite.free()
 	particles_main.free()
 	particles_secondary.free()
+
 
 func test_play_spawn_animation():
 	# given
@@ -58,10 +62,13 @@ func test_play_spawn_animation():
 	# cleanup
 	paths.free()
 
+
 var on_animation_player_animation_finished_params := [
 	["appear", true],
-	["not_appear", false]
+	["not_appear", false],
 ]
+
+
 func test_on_animation_player_animation_finished(params = use_parameters(on_animation_player_animation_finished_params)):
 	# given
 	appear_elements.connect("appear_animation_finished", _on_appear_animation_finished)
@@ -69,6 +76,7 @@ func test_on_animation_player_animation_finished(params = use_parameters(on_anim
 	appear_elements._on_animation_player_animation_finished(params[0])
 	# then
 	assert_eq(appear_animation_finished_times_called, 1 if params[1] else 0)
+
 
 ##### UTILS #####
 func _on_appear_animation_finished() -> void:

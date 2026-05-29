@@ -19,6 +19,7 @@ const KNOCKBACK_PARRY_MULTIPLIER := 2
 #---- STANDARD -----
 #==== PRIVATE ====
 var _direction := Vector2.ZERO
+var _stopped := false
 
 #==== ONREADY ====
 @onready var onready_paths := {
@@ -40,11 +41,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(delta):
-	position += _direction * speed * delta
+	if not _stopped:
+		position += _direction * speed * delta
 
 
 ##### PUBLIC METHODS #####
 func parried(p_owner: Node2D, relative_aim_position: Vector2) -> void:
+	await _stop_for_duration(Shield.PARRY_STOP_TIME)
 	current_owner = p_owner
 	color = RuntimeUtils.PLAYER_INDICATOR_COLORS[p_owner.PLAYER_ID]
 	onready_paths.trail.modulate = color
@@ -55,6 +58,18 @@ func parried(p_owner: Node2D, relative_aim_position: Vector2) -> void:
 	damage *= DAMAGE_PARRY_MULTIPLIER
 	knockback *= KNOCKBACK_PARRY_MULTIPLIER
 	onready_paths.trail.reset()
+
+
+##### PROTECTED METHODS #####
+func _stop_for_duration(time: float) -> void:
+	_stopped = true
+	var timer = Timer.new()
+	timer.one_shot = true
+	add_child(timer)
+	timer.start(time)
+	await timer.timeout
+	_stopped = false
+	timer.queue_free()
 
 
 ##### SIGNAL MANAGEMENT #####

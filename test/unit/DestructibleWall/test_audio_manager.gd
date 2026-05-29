@@ -7,12 +7,11 @@ var mock_hit_sound
 var mock_break_sound
 var mock_trebble_sound
 
+
 ##### SETUP #####
 func before_each():
-	audio_manager = load("res://Scenes/DestructibleWalls/audio_manager.gd").new()
+	audio_manager = autofree(load("res://Scenes/DestructibleWalls/audio_manager.gd").new())
 
-func after_each():
-	audio_manager.queue_free()
 
 ##### TESTS #####
 func test_play_hit():
@@ -24,6 +23,7 @@ func test_play_hit():
 	# then
 	assert_called(audio_manager.onready_paths.hit_sound, "play")
 
+
 func test_play_break_calls_play_on_break_sound():
 	# given
 	audio_manager.onready_paths.break_sound = double(AudioStreamPlayer).new()
@@ -33,11 +33,14 @@ func test_play_break_calls_play_on_break_sound():
 	# then
 	assert_called(audio_manager.onready_paths.break_sound, "play")
 
+
 var trebble_test_parameters := [
-	[0.0,4.0],
-	[0.5,1.5],
-	[1.0,0.0]
+	[0.0, 4.0],
+	[0.5, 1.5],
+	[1.0, 0.0],
 ]
+
+
 func test_play_trebble(params = use_parameters(trebble_test_parameters)):
 	# given
 	var mock_stream = double(AudioStream).new()
@@ -49,6 +52,7 @@ func test_play_trebble(params = use_parameters(trebble_test_parameters)):
 	audio_manager.play_trebble(params[0])
 	# then
 	assert_called(audio_manager.onready_paths.trebble_sound, "play", [params[1]])
+
 
 func test_stop_trebble_calls_stop_on_trebble_sound():
 	#given

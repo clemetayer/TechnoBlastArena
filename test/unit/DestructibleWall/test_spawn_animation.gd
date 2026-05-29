@@ -4,10 +4,12 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var spawn_animation
 
+
 ##### SETUP #####
 func before_each():
 	spawn_animation = load("res://Scenes/DestructibleWalls/spawn_animation.gd").new()
 	add_child_autofree(spawn_animation)
+
 
 ##### TESTS #####
 func test_play_spawn_animation():
@@ -33,6 +35,7 @@ func test_play_spawn_animation():
 	await wait_frames(1)
 	assert_called(mock_particles, "toggle_emit", [true])
 
+
 func test_on_sparks_timer_timeout():
 	# given
 	var mock_particles = double(load("res://Scenes/DestructibleWalls/particles.gd")).new()
@@ -41,4 +44,4 @@ func test_on_sparks_timer_timeout():
 	# when
 	spawn_animation._on_sparks_timer_timeout()
 	# then
-	assert_called(mock_particles,"toggle_emit",[false])
+	assert_called(mock_particles, "toggle_emit", [false])

@@ -47,6 +47,9 @@ func test_kill():
 	var player_root = partial_double(load("res://Scenes/Player/player.tscn")).instantiate()
 	stub(player_root, "toggle_truce").to_do_nothing()
 	death_manager.paths.player_root = player_root
+	var stop_manager = double(load("res://Scenes/Player/stop_manager.gd")).new()
+	stub(stop_manager, "toggle_stop").to_do_nothing()
+	death_manager.paths.stop_manager = stop_manager
 	var damage_label = double(Control).new()
 	stub(damage_label, "hide").to_do_nothing()
 	death_manager.paths.damage_label = damage_label

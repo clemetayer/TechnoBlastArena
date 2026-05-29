@@ -1,19 +1,19 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const CONST := "value"
-
 #---- VARIABLES -----
 var camera: Camera2D
+
 
 ##### SETUP #####
 func before_each():
 	camera = load("res://Scenes/Camera/camera.gd").new()
 
+
 ##### TEARDOWN #####
 func after_each():
 	camera.free()
+
 
 ##### TESTS #####
 func test_ready():
@@ -24,6 +24,7 @@ func test_ready():
 	# then
 	assert_true(CameraEffects.is_connected("start_camera_impact", camera_scene._on_start_camera_impact))
 	assert_true(CameraEffects.is_connected("focus_on", camera_scene._on_focus_on))
+
 
 func test_start_camera_impact():
 	# given
@@ -44,6 +45,7 @@ func test_start_camera_impact():
 	assert_called(mock_shake_manager, "start_camera_tilt", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
 	assert_called(mock_zoom_manager, "start_fast_zoom", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
 	assert_called(mock_effect_manager, "start_chromatic_aberration", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.MEDIUM])
+
 
 func test_start_camera_impact_higher_priority():
 	# given
@@ -66,6 +68,7 @@ func test_start_camera_impact_higher_priority():
 	assert_called(mock_zoom_manager, "start_fast_zoom", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
 	assert_called(mock_effect_manager, "start_chromatic_aberration", [0.5, CameraEffects.CAMERA_IMPACT_INTENSITY.HIGH])
 
+
 func test_start_camera_impact_lower_priority():
 	# given
 	var mock_shake_manager = double(load("res://Scenes/Camera/camera_shake_manager.gd")).new()
@@ -87,6 +90,7 @@ func test_start_camera_impact_lower_priority():
 	assert_not_called(mock_zoom_manager, "start_fast_zoom")
 	assert_not_called(mock_effect_manager, "start_chromatic_aberration")
 
+
 func test_on_focus_on():
 	# given
 	camera._focus_on = null
@@ -101,6 +105,7 @@ func test_on_focus_on():
 	assert_eq(camera._focus_on.time_to_focus, 0.25)
 	assert_called(camera.onready_paths.focus_on_timer, "start", [0.1])
 
+
 func test_on_shaker_shake_finished():
 	# given
 	camera._current_impact_priority = CameraEffects.CAMERA_IMPACT_PRIORITY.HIGH
@@ -109,13 +114,15 @@ func test_on_shaker_shake_finished():
 	# then
 	assert_eq(camera._current_impact_priority, CameraEffects.CAMERA_IMPACT_PRIORITY.NONE)
 
+
 func test_on_focus_on_timer_timeout():
 	# given
-	camera._focus_on = {}
+	camera._focus_on = { }
 	# when
 	camera._on_focus_on_timer_timeout()
 	# then
 	assert_null(camera._focus_on)
+
 
 func test_process_with_focus_on():
 	# given
@@ -123,7 +130,7 @@ func test_process_with_focus_on():
 	camera._focus_on = {
 		"position": Vector2(100, 100),
 		"zoom": 0.5,
-		"time_to_focus": 2.0
+		"time_to_focus": 2.0,
 	}
 	camera.global_position = Vector2.ZERO
 	camera.zoom = Vector2.ONE
@@ -133,7 +140,8 @@ func test_process_with_focus_on():
 	var expected_movement = Vector2.ZERO.move_toward(Vector2(100, 100), delta * 2.0 * 600)
 	assert_eq(camera.global_position, expected_movement)
 	var expected_zoom_change = Vector2.ONE.move_toward(Vector2.ONE * 0.5, delta * 2.0)
-	assert_eq(camera.zoom, expected_zoom_change, )
+	assert_eq(camera.zoom, expected_zoom_change)
+
 
 func test_process_without_focus_on():
 	# given
@@ -166,7 +174,7 @@ func test_process_without_focus_on():
 	assert_eq(camera.global_position, expected_position)
 	var expected_zoom_vector = Vector2.ONE.move_toward(
 		Vector2.ONE * expected_zoom * mock_zoom_manager.zoom_multiplier,
-		delta * 5.0
+		delta * 5.0,
 	)
 	assert_eq(camera.zoom, expected_zoom_vector)
 	# cleanup

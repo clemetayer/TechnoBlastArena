@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ew7gedlm3n8"]
+[gd_scene format=3 uid="uid://ew7gedlm3n8"]
 
 [ext_resource type="Script" uid="uid://dp4tf3edjvu7i" path="res://Scenes/Camera/camera.gd" id="1_niear"]
 [ext_resource type="Script" uid="uid://degeyhptmd6hg" path="res://addons/shaker/src/Vector2/shaker_component2D.gd" id="3_1qq7l"]
@@ -8,13 +8,13 @@
 [ext_resource type="Script" uid="uid://ojrj1uwa6274" path="res://Scenes/Camera/camera_zoom_manager.gd" id="6_7v6iw"]
 [ext_resource type="Script" uid="uid://c5k8vv4i3qyl6" path="res://Scenes/Camera/camera_effects_manager.gd" id="7_bebdx"]
 
-[node name="Camera" type="Camera2D"]
+[node name="Camera" type="Camera2D" unique_id=1554757663]
 position = Vector2(-0.000153045, 8.28505e-06)
 ignore_rotation = false
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("1_niear")
 
-[node name="Shaker" type="Node2D" parent="." node_paths=PackedStringArray("Targets")]
+[node name="Shaker" type="Node2D" parent="." unique_id=475622930 node_paths=PackedStringArray("Targets")]
 script = ExtResource("3_1qq7l")
 custom_target = true
 Targets = [NodePath("..")]
@@ -23,19 +23,19 @@ fade_in = 0.0122591
 fade_out = 0.329877
 shakerPreset = ExtResource("4_vxcpo")
 
-[node name="CameraShakeManager" type="Node" parent="."]
+[node name="CameraShakeManager" type="Node" parent="." unique_id=49853420]
 script = ExtResource("4_rxoeg")
 
-[node name="CameraPositionManager" type="Node" parent="."]
+[node name="CameraPositionManager" type="Node" parent="." unique_id=821239760]
 script = ExtResource("5_p2sa0")
 
-[node name="CameraZoomManager" type="Node" parent="."]
+[node name="CameraZoomManager" type="Node" parent="." unique_id=1989772874]
 script = ExtResource("6_7v6iw")
 
-[node name="CameraEffectsManager" type="Node" parent="."]
+[node name="CameraEffectsManager" type="Node" parent="." unique_id=700036722]
 script = ExtResource("7_bebdx")
 
-[node name="FocusOnTimer" type="Timer" parent="."]
+[node name="FocusOnTimer" type="Timer" parent="." unique_id=150823493]
 one_shot = true
 
 [connection signal="shake_finished" from="Shaker" to="." method="_on_shaker_shake_finished"]

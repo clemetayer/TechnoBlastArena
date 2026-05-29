@@ -196,9 +196,12 @@ func test_process_hit_parry():
 	shield._parrying = true
 	var shield_owner = autofree(Node2D.new())
 	var input_synchronizer = autofree(load("res://Scenes/Player/input_synchronizer.gd").new())
+	var stop_manager = double(load("res://Scenes/Player/stop_manager.gd")).new()
+	stub(stop_manager, "stop_for_duration").to_do_nothing()
 	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	paths.player_root = shield_owner
 	paths.input_synchronizer = input_synchronizer
+	paths.stop_manager = stop_manager
 	input_synchronizer.relative_aim_position = Vector2.ONE
 	shield.paths = paths
 	var sound = set_real_parry_sound()
@@ -210,6 +213,7 @@ func test_process_hit_parry():
 	assert_eq(shield_process_times_called, 0)
 	assert_eq(parried_times_called, 1)
 	assert_eq(parried_args, [[shield_owner, Vector2.ONE]])
+	assert_called(stop_manager, "stop_for_duration", [Shield.PARRY_STOP_TIME])
 	assert_true(sound.playing)
 
 

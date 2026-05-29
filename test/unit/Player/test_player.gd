@@ -348,14 +348,18 @@ func test_hit_no_shield(params = use_parameters(hit_params)):
 	var shield = double(load("res://Scenes/Player/shield.gd")).new()
 	stub(shield, "process_hit").to_return(Shield.HitResult.IGNORED)
 	paths.shield = shield
+	var stop_manager = double(load("res://Scenes/Player/stop_manager.gd")).new()
+	stub(stop_manager, "stop_for_duration").to_do_nothing()
+	paths.stop_manager = stop_manager
 	player.paths = paths
 	player._damage_enabled = params[0]
 	player.damage_received.connect(_on_damage_received)
 	player.last_hit_owner_changed.connect(_on_last_hit_owner_changed)
 	player.DAMAGE = params[1]
-	var p_owner = Node2D.new()
+	var p_owner = autofree(Node2D.new())
+	var hit_data = PlayerHitData.new(Vector2.RIGHT, 500, p_owner)
 	# when
-	player.hit(PlayerHitData.new(Vector2.RIGHT, 500, p_owner))
+	player.hit(hit_data)
 	# then
 	if params[0]:
 		assert_eq(player._additional_vector, Vector2.RIGHT * params[2])
@@ -367,13 +371,13 @@ func test_hit_no_shield(params = use_parameters(hit_params)):
 		)
 		assert_eq(last_hit_owner_changed_times_called, 1)
 		assert_eq(last_hit_owner_changed_args, [[p_owner]])
+		assert_called(stop_manager, "stop_for_duration", [hit_data.get_hitstop_duration()])
 	else:
 		assert_eq(player._additional_vector, Vector2.ZERO)
 		assert_eq(player.DAMAGE, params[2])
 		assert_eq(damage_received_times_called, 0)
 		assert_eq(last_hit_owner_changed_times_called, 0)
-	# cleanup
-	p_owner.free()
+		assert_not_called(stop_manager, "stop_for_duration")
 
 
 func test_hit_shielded():
@@ -425,7 +429,6 @@ func test_hit_update_damage():
 	var game_root = load(
 		MOCK_GAME_ROOT_PATH,
 	).instantiate()
-
 	var player_scene = load("res://Scenes/Player/player.tscn").instantiate()
 	game_root.add_child(player_scene)
 	add_child_autofree(game_root)
@@ -436,6 +439,19 @@ func test_hit_update_damage():
 	player_scene.hit(PlayerHitData.new(Vector2.ZERO, 100, null))
 	await wait_process_frames(2)
 	assert_true(player_scene.paths.damage_label.text.contains("[color=ffff33ff]100[/color]"))
+
+
+func test_stop_for_duration():
+	# given
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	var stop_manager = double(load("res://Scenes/Player/stop_manager.gd")).new()
+	stub(stop_manager, "stop_for_duration").to_do_nothing()
+	paths.stop_manager = stop_manager
+	player.paths = paths
+	# when
+	player.stop_for_duration(1.0)
+	# then
+	assert_called(stop_manager, "stop_for_duration", [1.0])
 
 
 func test_kill():
@@ -546,22 +562,19 @@ func test_get_direction():
 
 func test_appear():
 	# given
-	var mock_player = partial_double(load("res://Scenes/Player/player.gd")).new()
-	stub(mock_player, "toggle_abilities").to_do_nothing()
-	stub(mock_player, "toggle_damage").to_do_nothing()
 	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var appear_elements = double(load("res://Scenes/Player/appear_elements.gd")).new()
 	stub(appear_elements, "play_spawn_animation").to_do_nothing()
 	paths.appear_elements = appear_elements
-	mock_player.paths = paths
+	var stop_manager = double(load("res://Scenes/Player/stop_manager.gd")).new()
+	stub(stop_manager, "toggle_stop").to_do_nothing()
+	paths.stop_manager = stop_manager
+	player.paths = paths
 	# when
-	mock_player._appear()
+	player._appear()
 	# then
-	assert_called(mock_player, "toggle_abilities", [false])
-	assert_called(mock_player, "toggle_damage", [false])
+	assert_called(stop_manager, "toggle_stop", [true])
 	assert_called(appear_elements, "play_spawn_animation")
-	# cleanup
-	paths.free()
 
 
 func test_buffer_velocity():
@@ -577,21 +590,15 @@ func test_buffer_velocity():
 
 func test_on_appear_elements_appear_animation_finished():
 	# given
-	var mock_player = partial_double(load("res://Scenes/Player/player.gd")).new()
-	stub(mock_player, "toggle_abilities").to_do_nothing()
-	stub(mock_player, "toggle_damage").to_do_nothing()
 	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
-	var appear_elements = load("res://Scenes/Player/appear_elements.gd").new()
-	paths.appear_elements = appear_elements
-	mock_player.paths = paths
+	var stop_manager = double(load("res://Scenes/Player/stop_manager.gd")).new()
+	stub(stop_manager, "toggle_stop").to_do_nothing()
+	paths.stop_manager = stop_manager
+	player.paths = paths
 	# when
-	mock_player._on_appear_elements_appear_animation_finished()
+	player._on_appear_elements_appear_animation_finished()
 	# then
-	assert_called(mock_player, "toggle_abilities", [true])
-	assert_called(mock_player, "toggle_damage", [true])
-	# cleanup
-	appear_elements.free()
-	paths.free()
+	assert_called(stop_manager, "toggle_stop", [false])
 
 
 var toggle_movement_params := [
@@ -602,11 +609,10 @@ var toggle_movement_params := [
 
 func test_toggle_movement(params = use_parameters(toggle_movement_params)):
 	# given
-	player.velocity = Vector2.LEFT
 	# when
 	player.toggle_movement(params[0])
 	# then
-	assert_eq(player._movement_stopped, params[0])
+	assert_eq(player._movement_stopped, not params[0])
 
 
 ##### UTILS #####

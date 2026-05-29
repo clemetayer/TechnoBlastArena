@@ -163,32 +163,24 @@ func test_on_collision_manager_player_hit_wall_not_destroyed():
 	var velocity = Vector2(-800, 0)
 	var damage = 800.0
 	var mock_health_manager = _mock_health_manager()
-	var mock_audio_manager = _mock_audio_manager()
-	var mock_visual_effects_manager = _mock_visual_effects_manager()
 	var mock_player_interactions_manager = _mock_player_interactions_manager()
 	stub(mock_health_manager, "apply_damage").to_do_nothing()
 	stub(mock_health_manager, "is_destroyed").to_return(false)
 	stub(mock_health_manager, "get_health_ratio").to_return(0.5)
 	stub(mock_player_interactions_manager, "handle_player_hit").to_do_nothing()
-	stub(mock_audio_manager, "play_hit").to_do_nothing()
-	stub(mock_audio_manager, "play_trebble").to_do_nothing()
-	stub(mock_visual_effects_manager, "shake_camera_by_velocity").to_do_nothing()
 	# when
 	destructible_wall._on_collision_manager_player_hit(mock_player, velocity)
 	# then
 	assert_called(mock_health_manager, "apply_damage", [damage])
 	assert_called(mock_health_manager, "is_destroyed")
-	assert_called(mock_player_interactions_manager, "handle_player_hit", [mock_player, destructible_wall.BOUNCE_BACK_DIRECTION, destructible_wall.BOUNCE_BACK_FORCE])
-	assert_called(mock_audio_manager, "play_hit")
-	assert_called(mock_audio_manager, "play_trebble", [0.5])
-	assert_called(mock_visual_effects_manager, "shake_camera_by_velocity", [-800.0])
+	assert_called(mock_player_interactions_manager, "handle_player_hit", [mock_player, velocity, destructible_wall.BOUNCE_BACK_DIRECTION, destructible_wall.BOUNCE_BACK_FORCE])
 	# cleanup
 	mock_player.free()
 
 
 func test_on_collision_manager_player_hit_wall_destroyed():
 	# given
-	var mock_player = Node2D.new()
+	var mock_player = autofree(Node2D.new())
 	var velocity = Vector2(-800, 0)
 	var damage = 800.0
 	var mock_health_manager = _mock_health_manager()
@@ -202,8 +194,6 @@ func test_on_collision_manager_player_hit_wall_destroyed():
 	assert_called(mock_health_manager, "apply_damage", [damage])
 	assert_called(mock_health_manager, "is_destroyed")
 	assert_called(mock_player_interactions_manager, "kill_player", [mock_player])
-	# cleanup
-	mock_player.free()
 
 
 func test_on_respawn_manager_wall_respawned():

@@ -93,10 +93,7 @@ func _on_collision_manager_player_hit(player: Variant, velocity: Variant) -> voi
 	if onready_paths.health_manager.is_destroyed():
 		onready_paths.player_interactions_manager.kill_player(player)
 	else:
-		onready_paths.player_interactions_manager.handle_player_hit(player, BOUNCE_BACK_DIRECTION, BOUNCE_BACK_FORCE)
-		onready_paths.audio_manager.play_hit()
-		onready_paths.audio_manager.play_trebble(onready_paths.health_manager.get_health_ratio())
-		onready_paths.visual_effects_manager.shake_camera_by_velocity(velocity.x if BOUNCE_BACK_DIRECTION.x != 0 else velocity.y)
+		onready_paths.player_interactions_manager.handle_player_hit(player, velocity, BOUNCE_BACK_DIRECTION, BOUNCE_BACK_FORCE)
 
 
 func _on_respawn_manager_wall_respawned() -> void:

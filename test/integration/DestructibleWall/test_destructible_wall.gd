@@ -5,6 +5,7 @@ extends "res://addons/gut/test.gd"
 var scene
 var _sender = InputSender.new(Input)
 
+
 ##### SETUP #####
 func before_each():
 	scene = load("res://test/integration/DestructibleWall/scene_destructible_wall.tscn").instantiate()
@@ -12,17 +13,20 @@ func before_each():
 	await wait_frames(1)
 	await wait_seconds(0.25)
 
+
 ##### TEARDOWN #####
 func after_each():
 	_sender.release_all()
 	_sender.clear()
-	
+
 ##### TESTS #####
 var hit_wall_not_destroyed_params := [
 	["left", true],
 	["left", false],
 	["right", true],
 ]
+
+
 func test_hit_wall_not_destroyed(params = use_parameters(hit_wall_not_destroyed_params)):
 	# given
 	var action = params[0]
@@ -43,13 +47,13 @@ func test_hit_wall_not_destroyed(params = use_parameters(hit_wall_not_destroyed_
 	assert_false(scene.is_spawn_animation_playing(scene.DIRECTION.RIGHT))
 	if jump:
 		_sender.action_down(action).action_down("jump").hold_for(1.5)
-		await(_sender.idle)
+		await (_sender.idle)
 	else:
 		_sender.action_down(action).hold_for(1.5)
-		await(_sender.idle)
+		await (_sender.idle)
 	var wall = scene.get_wall(wall_direction)
 	assert_lt(wall.onready_paths.health_manager.HEALTH, wall.BASE_HEALTH)
-	assert_true(scene.get_player()._frozen)
+	assert_true(scene.get_player()._movement_stopped)
 	await wait_seconds(0.5)
 	match wall_direction:
 		scene.DIRECTION.LEFT:
@@ -59,6 +63,7 @@ func test_hit_wall_not_destroyed(params = use_parameters(hit_wall_not_destroyed_
 		scene.DIRECTION.DOWN:
 			assert_lt(scene.get_player().velocity.y, 0.0)
 
+
 func test_hit_wall_destroyed(): # with wall respawn
 	# given
 	var wall_direction = scene.DIRECTION.LEFT
@@ -66,13 +71,13 @@ func test_hit_wall_destroyed(): # with wall respawn
 	scene.set_wall_life(wall_direction, 1)
 	# when / then
 	_sender.action_down("left").action_down("jump").hold_for(1.5)
-	await(_sender.idle)
+	await (_sender.idle)
 	var wall = scene.get_wall(wall_direction)
 	await wait_seconds(1.0)
 	assert_lte(wall.onready_paths.health_manager.HEALTH, 0.0)
 	assert_false(scene.get_player().paths.sprites.visible) # queue_free does not work well with GUT, so we check other things.
-	assert_eq(scene.get_player().collision_layer,0)
-	assert_eq(scene.get_player().collision_mask,0)
+	assert_eq(scene.get_player().collision_layer, 0)
+	assert_eq(scene.get_player().collision_mask, 0)
 	assert_false(wall.visible)
 	assert_false(wall.collision_enabled)
 	assert_false(wall.onready_paths.collision_manager.onready_paths.damage_wall_area.monitoring)

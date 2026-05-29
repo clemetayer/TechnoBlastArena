@@ -4,6 +4,11 @@ class_name PlayerHitData
 # utility class to convey player hit information
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const DAMAGE_TRESHOLDS := [14., 44.]
+const KNOCKBACK_TRESHOLDS := [19., 39.]
+const HITSTOP_DURATIONS := [0.05, 0.1, 0.33]
+
 #---- STANDARD -----
 #==== PUBLIC ====
 var knockback: Vector2
@@ -32,3 +37,36 @@ func _init(
 	parry_process = p_parry_process
 	shield_process = p_shield_process
 	hit_process = p_hit_process
+
+
+# knockback
+#     ^
+#     | +----+----+----+
+#     | |  M |  H |  H |
+#     | +----+----+----+
+#     | |  L |  M |  H |
+#     | +----+----+----+
+#     | |  L |  L |  M |
+#     | +----+----+----+
+#       ----------------> damage
+#       L = low
+#       M = medium
+#       H = high
+func get_hitstop_duration() -> float:
+	if _is_low_hitstop():
+		return HITSTOP_DURATIONS[0]
+	if _is_high_hitstop():
+		return HITSTOP_DURATIONS[2]
+	return HITSTOP_DURATIONS[1]
+
+
+func _is_low_hitstop() -> bool:
+	return (damage <= DAMAGE_TRESHOLDS[0] and knockback.length() <= KNOCKBACK_TRESHOLDS[0]) \
+	or (damage <= DAMAGE_TRESHOLDS[1] and knockback.length() <= KNOCKBACK_TRESHOLDS[0]) \
+	or (damage <= DAMAGE_TRESHOLDS[0] and knockback.length() <= KNOCKBACK_TRESHOLDS[1])
+
+
+func _is_high_hitstop() -> bool:
+	return (damage > DAMAGE_TRESHOLDS[1] and knockback.length() > KNOCKBACK_TRESHOLDS[1]) \
+	or (damage > DAMAGE_TRESHOLDS[0] and knockback.length() > KNOCKBACK_TRESHOLDS[1]) \
+	or (damage > DAMAGE_TRESHOLDS[1] and knockback.length() > KNOCKBACK_TRESHOLDS[0])

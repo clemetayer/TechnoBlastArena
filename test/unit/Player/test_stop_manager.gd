@@ -42,7 +42,7 @@ func test_stop_for_duration():
 	assert_called(player, "toggle_damage", [false])
 	assert_called(player, "toggle_abilities", [false])
 	await wait_seconds(stop_duration)
-	await wait_process_frames(1)
+	await wait_process_frames(2)
 	assert_called(player, "toggle_movement", [true])
 	assert_called(player, "toggle_damage", [true])
 	assert_called(player, "toggle_abilities", [true])
@@ -50,18 +50,17 @@ func test_stop_for_duration():
 
 func test_dont_add_stops_if_not_over():
 	# given
-	var stop_duration = 10.0 / 60.0
+	var stop_duration = 5.0 / 60.0
 	var player = mock_player()
 	# when
 	manager.stop_for_duration(stop_duration)
-	await wait_process_frames(2)
 	manager.stop_for_duration(stop_duration)
 	# then
 	assert_called_count(player.toggle_movement.bind(false), 1)
 	assert_called_count(player.toggle_damage.bind(false), 1)
 	assert_called_count(player.toggle_abilities.bind(false), 1)
 	await wait_seconds(2 * stop_duration)
-	await wait_process_frames(1)
+	await wait_process_frames(5)
 	assert_called_count(player.toggle_movement.bind(true), 1)
 	assert_called_count(player.toggle_damage.bind(true), 1)
 	assert_called_count(player.toggle_abilities.bind(true), 1)

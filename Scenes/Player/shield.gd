@@ -14,6 +14,7 @@ const BASE_SHIELD_HEALTH := 150
 const SHIELD_BROKEN_REGEN_TIME := 10 #s
 const SHIELD_PASSIVE_HEALTH_REGEN_PER_TICK := 3
 const DAMAGE_GRADIENT = preload("res://Scenes/Player/damage_text_gradient.tres")
+const PARRY_STOP_TIME := 0.33 #s
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -102,6 +103,7 @@ func _hit(hit_data: PlayerHitData) -> HitResult:
 
 
 func _parry(hit_data: PlayerHitData) -> HitResult:
+	paths.stop_manager.stop_for_duration(PARRY_STOP_TIME)
 	hit_data.parry_process.call(paths.player_root, paths.input_synchronizer.relative_aim_position)
 	onready_paths.parry_sound.play()
 	return HitResult.PARRIED

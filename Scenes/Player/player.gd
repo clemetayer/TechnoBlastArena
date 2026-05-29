@@ -101,6 +101,11 @@ func hit(hit_data: PlayerHitData) -> void:
 	_additional_vector += knockback_velocity
 	damage_received.emit(old_damage, DAMAGE, knockback_velocity)
 	last_hit_owner_changed.emit(hit_data.owner)
+	paths.stop_manager.stop_for_duration(hit_data.get_hitstop_duration())
+
+
+func stop_for_duration(duration: float) -> void:
+	paths.stop_manager.stop_for_duration(duration)
 
 
 func kill() -> void:
@@ -112,7 +117,7 @@ func override_velocity(velocity_override: Vector2) -> void:
 
 
 func toggle_movement(active: bool) -> void:
-	_movement_stopped = active
+	_movement_stopped = not active
 
 
 # Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end

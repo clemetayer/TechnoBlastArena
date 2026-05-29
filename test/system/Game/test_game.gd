@@ -14,6 +14,7 @@ var player_1_config
 var player_2_config
 var game_over_times_called := 0
 
+
 ##### SETUP #####
 func before_each():
 	scene = load("res://test/system/Game/scene_game.tscn").instantiate()
@@ -21,10 +22,12 @@ func before_each():
 	await wait_process_frames(5)
 	game_over_times_called = 0
 
+
 ##### TEARDOWN #####
 func after_each():
 	_sender.release_all()
 	_sender.clear()
+
 
 ##### TESTS #####
 # Note : can't split this up into separate functions, otherwise, the await messes up with GUT
@@ -68,7 +71,6 @@ func test_game():
 	_sender.action_down("jump").action_down("right").hold_for(.25)
 	await _sender.idle
 	_sender.release_all()
-	# assert_lt(scene.get_player(1).global_position.y, p1_ori_pos.y) # FIXME : for some reason this test is fairly unstable. However, this is already tested in integration tests so i'll comment it for the moment
 	assert_gt(scene.get_player(1).global_position.x, p1_ori_pos.x)
 	assert_eq(scene.get_game_message(), "3")
 	await wait_seconds(1)
@@ -97,7 +99,7 @@ func test_game():
 	await wait_seconds(0.25)
 	assert_lt(scene.get_player(1).global_position.x, p1_ori_pos.x)
 	# ==== check kill other player ====
-	for i in range(0, 3):
+	for i in range(0, 7):
 		_sender.action_down("fire").hold_for(.05)
 		await _sender.idle
 		_sender.release_all()
@@ -139,6 +141,7 @@ func _check_player_data(player_idx: int, config: PlayerConfig):
 	assert_not_null(p_powerup)
 	assert_not_null(p_lives)
 	assert_eq(p_lives.LIVES, 3)
+
 
 func _on_game_over() -> void:
 	game_over_times_called += 1

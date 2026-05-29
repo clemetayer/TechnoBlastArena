@@ -104,8 +104,8 @@ func hit(hit_data: PlayerHitData) -> void:
 	paths.stop_manager.stop_for_duration(hit_data.get_hitstop_duration())
 
 
-func stop_for_duration(duration: float) -> void:
-	paths.stop_manager.stop_for_duration(duration)
+func stop_for_duration(duration: float, with_shake := false) -> void:
+	paths.stop_manager.stop_for_duration(duration, with_shake)
 
 
 func kill() -> void:

@@ -30,7 +30,7 @@ func test_player_hit():
 	# when
 	player_interaction_manager.handle_player_hit(player, Vector2.LEFT * 125.0, Vector2.RIGHT, 2.0)
 	# then
-	assert_called(player, "stop_for_duration", [player_interaction_manager.WALL_HIT_STOP_TIME])
+	assert_called(player, "stop_for_duration", [player_interaction_manager.WALL_HIT_STOP_TIME, true])
 	assert_called(audio_manager, "play_hit")
 	assert_called(audio_manager, "play_trebble", [0.3])
 	assert_called(visual_effects_manager, "shake_camera_by_velocity", [-125.0])

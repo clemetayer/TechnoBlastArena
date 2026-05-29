@@ -371,7 +371,7 @@ func test_hit_no_shield(params = use_parameters(hit_params)):
 		)
 		assert_eq(last_hit_owner_changed_times_called, 1)
 		assert_eq(last_hit_owner_changed_args, [[p_owner]])
-		assert_called(stop_manager, "stop_for_duration", [hit_data.get_hitstop_duration()])
+		assert_called(stop_manager, "stop_for_duration", [hit_data.get_hitstop_duration(), false])
 	else:
 		assert_eq(player._additional_vector, Vector2.ZERO)
 		assert_eq(player.DAMAGE, params[2])
@@ -441,17 +441,24 @@ func test_hit_update_damage():
 	assert_true(player_scene.paths.damage_label.text.contains("[color=ffff33ff]100[/color]"))
 
 
-func test_stop_for_duration():
+var stop_for_duration_params := [
+	[true],
+	[false],
+]
+
+
+func test_stop_for_duration(params = use_parameters(stop_for_duration_params)):
 	# given
+	var with_shake = params[0]
 	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
 	var stop_manager = double(load("res://Scenes/Player/stop_manager.gd")).new()
 	stub(stop_manager, "stop_for_duration").to_do_nothing()
 	paths.stop_manager = stop_manager
 	player.paths = paths
 	# when
-	player.stop_for_duration(1.0)
+	player.stop_for_duration(1.0, with_shake)
 	# then
-	assert_called(stop_manager, "stop_for_duration", [1.0])
+	assert_called(stop_manager, "stop_for_duration", [1.0, with_shake])
 
 
 func test_kill():
@@ -573,7 +580,7 @@ func test_appear():
 	# when
 	player._appear()
 	# then
-	assert_called(stop_manager, "toggle_stop", [true])
+	assert_called(stop_manager, "toggle_stop", [true, false])
 	assert_called(appear_elements, "play_spawn_animation")
 
 
@@ -598,7 +605,7 @@ func test_on_appear_elements_appear_animation_finished():
 	# when
 	player._on_appear_elements_appear_animation_finished()
 	# then
-	assert_called(stop_manager, "toggle_stop", [false])
+	assert_called(stop_manager, "toggle_stop", [false, false])
 
 
 var toggle_movement_params := [

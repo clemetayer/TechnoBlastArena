@@ -213,7 +213,7 @@ func test_process_hit_parry():
 	assert_eq(shield_process_times_called, 0)
 	assert_eq(parried_times_called, 1)
 	assert_eq(parried_args, [[shield_owner, Vector2.ONE]])
-	assert_called(stop_manager, "stop_for_duration", [Shield.PARRY_STOP_TIME])
+	assert_called(stop_manager, "stop_for_duration", [Shield.PARRY_STOP_TIME, true])
 	assert_true(sound.playing)
 
 

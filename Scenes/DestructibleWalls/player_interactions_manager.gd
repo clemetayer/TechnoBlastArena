@@ -21,7 +21,7 @@ func handle_player_hit(player: Node2D, hit_velocity: Vector2, bounce_direction: 
 	onready_paths.audio_manager.play_hit()
 	onready_paths.audio_manager.play_trebble(onready_paths.health_manager.get_health_ratio())
 	onready_paths.visual_effects_manager.shake_camera_by_velocity(hit_velocity.x if bounce_direction.x != 0 else hit_velocity.y)
-	player.stop_for_duration(WALL_HIT_STOP_TIME)
+	player.stop_for_duration(WALL_HIT_STOP_TIME, true)
 	_start_freeze_timeout_timer_for_player(player, bounce_direction, bounce_force)
 
 

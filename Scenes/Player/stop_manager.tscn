@@ -7,5 +7,3 @@ script = ExtResource("1_vwfwa")
 
 [node name="Timer" type="Timer" parent="." unique_id=104341844]
 one_shot = true
-
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

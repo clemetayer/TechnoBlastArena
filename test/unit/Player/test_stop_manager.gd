@@ -9,6 +9,9 @@ var manager
 func before_each():
 	var parent = _create_parent_arborescence()
 	manager = load("res://Scenes/Player/stop_manager.tscn").instantiate()
+	var shaker = autofree(ShakerComponent2D.new())
+	shaker.name = "ShakerComponent2D"
+	manager.add_child(shaker)
 	parent.add_child(manager)
 
 ##### TESTS #####
@@ -64,6 +67,23 @@ func test_dont_add_stops_if_not_over():
 	assert_called_count(player.toggle_movement.bind(true), 1)
 	assert_called_count(player.toggle_damage.bind(true), 1)
 	assert_called_count(player.toggle_abilities.bind(true), 1)
+
+
+func test_stop_for_duration_with_shake():
+	# given
+	var stop_duration = 5.0 / 60.0
+	mock_player()
+	var shaker = double(ShakerComponent2D).new()
+	stub(shaker, "play_shake").to_do_nothing()
+	stub(shaker, "stop_shake").to_do_nothing()
+	manager.shaker = shaker
+	# when
+	manager.stop_for_duration(stop_duration, true)
+	# then
+	assert_called(shaker, "play_shake")
+	await wait_seconds(stop_duration)
+	await wait_process_frames(2)
+	assert_called(shaker, "stop_shake")
 
 
 ##### UTILS #####

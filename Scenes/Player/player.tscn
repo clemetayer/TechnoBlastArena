@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ld64hwbce6bf" path="res://Scenes/Player/stop_manager.tscn" id="6_4no11"]
 [ext_resource type="Script" uid="uid://vpgyhxg8g8t4" path="res://Scenes/Player/hitstun_manager.gd" id="6_lv0e8"]
 [ext_resource type="Script" uid="uid://c6kakxwjhbf38" path="res://Scenes/Player/death_manager.gd" id="7_aqm4k"]
+[ext_resource type="Script" uid="uid://degeyhptmd6hg" path="res://addons/shaker/src/Vector2/shaker_component2D.gd" id="7_mwii3"]
 [ext_resource type="AudioStream" uid="uid://ddmvud7r6r4ap" path="res://Scenes/Player/death.mp3" id="9_aqm4k"]
 [ext_resource type="Script" uid="uid://bavwj5rl8wew2" path="res://Scenes/Player/player_audio.gd" id="10_1agin"]
 [ext_resource type="AudioStream" uid="uid://d12a5q1fgxygm" path="res://Scenes/Player/hitsound.mp3" id="10_rukb4"]
@@ -31,6 +32,19 @@
 [ext_resource type="Script" uid="uid://d8tdpqii5boa" path="res://Scenes/Player/predict_bounces_ray_cast.gd" id="27_bmb2s"]
 [ext_resource type="PackedScene" uid="uid://bcanmrhnihlmf" path="res://Scenes/Player/hit_particles.tscn" id="28_2ahak"]
 [ext_resource type="Texture2D" uid="uid://c6tg8wbscsc31" path="res://Misc/Particles/kenney_particle-pack/smoke_04.png" id="29_rukb4"]
+[ext_resource type="Script" uid="uid://bdt0vuc3o6glx" path="res://addons/shaker/data/Vector2/BaseShakerType2D.gd" id="33_2aanf"]
+[ext_resource type="Script" uid="uid://ogc7gqy7i0t0" path="res://addons/shaker/data/Vector2/ShakerTypeSineWave2D.gd" id="34_m6ahd"]
+[ext_resource type="Script" uid="uid://dh12cmbecy5ia" path="res://addons/shaker/data/Single/BaseShakerType1D.gd" id="35_ogmfp"]
+[ext_resource type="Script" uid="uid://g43lyripraw1" path="res://addons/shaker/data/Vector2/ShakerPreset2D.gd" id="36_ixrbb"]
+
+[sub_resource type="Resource" id="Resource_mwii3"]
+script = ExtResource("34_m6ahd")
+frequency = Vector2(11, 15)
+amplitude = Vector2(6, 4)
+
+[sub_resource type="Resource" id="Resource_2aanf"]
+script = ExtResource("36_ixrbb")
+PositionShake = Array[ExtResource("33_2aanf")]([SubResource("Resource_mwii3")])
 
 [sub_resource type="Gradient" id="Gradient_rukb4"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -491,6 +505,16 @@ script = ExtResource("5_q62wf")
 
 [node name="StopManager" parent="." unique_id=41126635 instance=ExtResource("6_4no11")]
 
+[node name="ShakerComponent2D" type="Node2D" parent="StopManager" unique_id=462180747 node_paths=PackedStringArray("Targets")]
+script = ExtResource("7_mwii3")
+custom_target = true
+Targets = [NodePath("../../Sprites")]
+shake_speed = 10.0
+fade_in = 0.045
+fade_out = 0.045
+shakerPreset = SubResource("Resource_2aanf")
+metadata/_custom_type_script = "uid://degeyhptmd6hg"
+
 [node name="HitstunManager" type="Node2D" parent="." unique_id=1227536619]
 script = ExtResource("6_lv0e8")
 
@@ -543,6 +567,7 @@ shape = SubResource("RectangleShape2D_qh2ge")
 disabled = true
 
 [node name="Sprites" type="Node2D" parent="." unique_id=993602004]
+position = Vector2(3.4570694e-06, -4.7683716e-06)
 scale = Vector2(0.4, 0.4)
 script = ExtResource("5_b3kqx")
 

@@ -3,12 +3,24 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var display
+var primary_weapon_change_requested_times_called := 0
+var powerup_change_requested_times_called := 0
+var movement_bonus_change_requested_times_called := 0
+var name_changed_times_called := 0
+var name_changed_args := []
+
 
 ##### SETUP #####
 func before_each():
 	display = load("res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.tscn").instantiate()
 	add_child_autofree(display)
 	await wait_for_signal(display.tree_entered, 0.1)
+	primary_weapon_change_requested_times_called = 0
+	powerup_change_requested_times_called = 0
+	movement_bonus_change_requested_times_called = 0
+	name_changed_times_called = 0
+	name_changed_args = []
+
 
 ##### TESTS #####
 func test_update_player():
@@ -28,11 +40,10 @@ func test_update_player():
 	# then
 	assert_called(player_sprite, "update_sprite")
 	assert_eq(display.onready_paths.name.text, "name")
-	assert_not_null(display.onready_paths.weapons.primary.texture)
-	assert_not_null(display.onready_paths.weapons.powerup.texture)
-	assert_not_null(display.onready_paths.weapons.movement_bonus.texture)
+	assert_not_null(display.onready_paths.weapons.primary.icon)
+	assert_not_null(display.onready_paths.weapons.powerup.icon)
+	assert_not_null(display.onready_paths.weapons.movement_bonus.icon)
 
-# update_primary_weapon, powerup, movement_bonu and name already tested in update_player
 
 func test_update_body():
 	# given
@@ -44,6 +55,7 @@ func test_update_body():
 	# then
 	assert_called(player_sprite, "update_body", [Color.SADDLE_BROWN])
 
+
 func test_update_outline():
 	# given
 	var player_sprite = double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd")).new()
@@ -53,6 +65,7 @@ func test_update_outline():
 	display.update_outline(Color.SADDLE_BROWN)
 	# then
 	assert_called(player_sprite, "update_outline", [Color.SADDLE_BROWN])
+
 
 func test_update_eyes():
 	# given
@@ -64,6 +77,7 @@ func test_update_eyes():
 	# then
 	assert_called(player_sprite, "update_eyes")
 
+
 func test_update_eyes_color():
 	# given
 	var player_sprite = double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd")).new()
@@ -73,6 +87,7 @@ func test_update_eyes_color():
 	display.update_eyes_color(Color.SADDLE_BROWN)
 	# then
 	assert_called(player_sprite, "update_eyes_color", [Color.SADDLE_BROWN])
+
 
 func test_update_mouth():
 	# given
@@ -84,6 +99,7 @@ func test_update_mouth():
 	# then
 	assert_called(player_sprite, "update_mouth")
 
+
 func test_update_mouth_color():
 	# given
 	var player_sprite = double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd")).new()
@@ -93,3 +109,59 @@ func test_update_mouth_color():
 	display.update_mouth_color(Color.SADDLE_BROWN)
 	# then
 	assert_called(player_sprite, "update_mouth_color", [Color.SADDLE_BROWN])
+
+
+func test_press_primary_weapon_sends_signal():
+	# given
+	display.primary_weapon_change_requested.connect(_on_primary_weapon_change_requested)
+	# when
+	display.onready_paths.weapons.primary.pressed.emit()
+	# then
+	assert_eq(primary_weapon_change_requested_times_called, 1)
+
+
+func test_press_powerup_sends_signal():
+	# given
+	display.powerup_change_requested.connect(_on_powerup_change_requested)
+	# when
+	display.onready_paths.weapons.powerup.pressed.emit()
+	# then
+	assert_eq(powerup_change_requested_times_called, 1)
+
+
+func test_press_movement_bonus_sends_signal():
+	# given
+	display.movement_bonus_change_requested.connect(_on_movement_bonus_change_requested)
+	# when
+	display.onready_paths.weapons.movement_bonus.pressed.emit()
+	# then
+	assert_eq(movement_bonus_change_requested_times_called, 1)
+
+
+func test_change_name_sends_signal():
+	# given
+	display.name_changed.connect(_on_name_changed)
+	# when
+	display.onready_paths.name.text_changed.emit("test")
+	# then
+	assert_eq(name_changed_times_called, 1)
+	assert_eq(name_changed_args, [["test"]])
+
+
+##### UTILS #####
+func _on_primary_weapon_change_requested() -> void:
+	primary_weapon_change_requested_times_called += 1
+
+
+func _on_powerup_change_requested() -> void:
+	powerup_change_requested_times_called += 1
+
+
+func _on_movement_bonus_change_requested() -> void:
+	movement_bonus_change_requested_times_called += 1
+
+
+func _on_name_changed(new_name: String) -> void:
+	name_changed_times_called += 1
+	name_changed_args.append([new_name])
+

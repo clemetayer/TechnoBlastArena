@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://byfuym260iolg"]
+[gd_scene format=3 uid="uid://byfuym260iolg"]
 
 [ext_resource type="Script" uid="uid://n32yq35cui7r" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd" id="1_nht01"]
 [ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="1_tdr13"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dcr14i6u2i7da" path="res://Scenes/Player/Eyes/eyes_1.PNG" id="4_nht01"]
 [ext_resource type="Texture2D" uid="uid://d3usi3hq1jbes" path="res://Scenes/Player/Mouths/mouth_1.PNG" id="5_capd8"]
 
-[node name="Player" type="MarginContainer"]
+[node name="Player" type="MarginContainer" unique_id=1160789272]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,27 +21,31 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 script = ExtResource("1_nht01")
 
-[node name="Body" type="TextureRect" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1868397227]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Body" type="TextureRect" parent="." unique_id=453338278]
 modulate = Color(0, 1, 1, 1)
 layout_mode = 2
 texture = ExtResource("1_tdr13")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="Outline" type="TextureRect" parent="."]
+[node name="Outline" type="TextureRect" parent="." unique_id=1575593920]
 modulate = Color(1, 0, 1, 1)
 layout_mode = 2
 texture = ExtResource("2_nht01")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="Eyes" type="TextureRect" parent="."]
+[node name="Eyes" type="TextureRect" parent="." unique_id=1059338282]
 layout_mode = 2
 texture = ExtResource("4_nht01")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="Mouth" type="TextureRect" parent="."]
+[node name="Mouth" type="TextureRect" parent="." unique_id=225163283]
 layout_mode = 2
 texture = ExtResource("5_capd8")
 expand_mode = 3

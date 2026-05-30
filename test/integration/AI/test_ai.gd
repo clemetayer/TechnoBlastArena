@@ -17,15 +17,6 @@ func before_each():
 	await wait_process_frames(1)
 
 
-##### TEARDOWN #####
-func after_all():
-	pass
-
-
-func after_each():
-	pass
-
-
 ##### TESTS #####
 func test_all_ai():
 	# given
@@ -35,7 +26,7 @@ func test_all_ai():
 	# when
 	for partition in partitionned_profiles:
 		_generate_ai_fight(partition)
-	await wait_seconds(FIGHT_TIME)
+		await wait_seconds(FIGHT_TIME)
 	# then
 	assert_true(true) # success, no ai crashed.
 

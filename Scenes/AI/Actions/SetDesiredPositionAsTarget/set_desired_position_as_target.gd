@@ -1,4 +1,5 @@
 # AI action leaf to move towards the target
+@tool
 class_name ActionSetDesiredPositionAsTarget
 extends ActionLeaf
 

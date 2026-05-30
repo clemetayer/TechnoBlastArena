@@ -1,3 +1,4 @@
+@tool
 extends ActionLeaf
 
 class_name SetDesiredPositionAvoidPlayersAndLevelBounds

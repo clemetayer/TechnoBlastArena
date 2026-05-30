@@ -7,7 +7,7 @@ signal destroyed
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const PROJECTILE_DUPLICATES := 3 # note : most likely should be an uneven number (to let the original projectile keep its trajectory)
+const PROJECTILE_DUPLICATES := 5 # note : most likely should be an uneven number (to let the original projectile keep its trajectory)
 
 #---- STANDARD -----
 #==== PRIVATE ====

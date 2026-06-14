@@ -1,17 +1,10 @@
-[gd_scene format=3 uid="uid://4jmohk06tq0d"]
+[gd_scene format=3 uid="uid://b5m6rdqqs6jpn"]
 
 [ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_k606k"]
-[ext_resource type="Script" uid="uid://hkt70ko3amkd" path="res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.gd" id="2_5ugvj"]
-[ext_resource type="PackedScene" uid="uid://tx5an1q2tqo3" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.tscn" id="2_rn5dx"]
-[ext_resource type="PackedScene" uid="uid://b7s8i5b2dk747" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.tscn" id="3_gcrrk"]
-[ext_resource type="Texture2D" uid="uid://dgj2ftvejlrka" path="res://Scenes/UI/PlayerCustomizationMenu/revert.svg" id="3_k8yph"]
-[ext_resource type="PackedScene" uid="uid://dmbd2xmxgclq6" path="res://Scenes/UI/PlayerCustomizationMenu/NameEditMenu/name_edit_menu.tscn" id="3_muyi0"]
-[ext_resource type="PackedScene" uid="uid://tbxutibj805n" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenu/player_customization_tab.tscn" id="5_riqtp"]
-[ext_resource type="PackedScene" uid="uid://s15b1kpmet1t" path="res://Scenes/UI/PlayerCustomizationMenu/EliminationTextEditMenu/elimination_text_edit_menu.tscn" id="6_6j346"]
-[ext_resource type="PackedScene" uid="uid://ch7ktmnnktu7d" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.tscn" id="6_riqtp"]
-[ext_resource type="Script" uid="uid://d1go3hm03uhhp" path="res://Scenes/UI/PlayerCustomizationMenu/save_preset_popup.gd" id="9_brcbt"]
+[ext_resource type="Script" uid="uid://b0ttvas82fult" path="res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.gd" id="2_5ugvj"]
+[ext_resource type="PackedScene" uid="uid://4jmohk06tq0d" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationUI/player_customization_ui.tscn" id="3_muyi0"]
 
-[node name="PlayerCustomizationMenu" type="Control" unique_id=1086812101]
+[node name="PlayerCustomizationMenu" type="Control" unique_id=102848957]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +14,7 @@ grow_vertical = 2
 theme = ExtResource("1_k606k")
 script = ExtResource("2_5ugvj")
 
-[node name="Panel" type="Panel" parent="." unique_id=1890877109]
+[node name="Background" type="Panel" parent="." unique_id=214994135]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,129 +22,30 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=718961154]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2008786974]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 32
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="TabContainer" type="TabContainer" parent="MarginContainer" unique_id=2003632754]
+[node name="Panel" type="Panel" parent="MarginContainer" unique_id=1413335643]
 layout_mode = 2
-current_tab = 0
+theme_type_variation = &"StdSecondaryPanel"
 
-[node name="PlayerConfig" type="MarginContainer" parent="MarginContainer/TabContainer" unique_id=1977404554]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer" unique_id=1572615436]
 layout_mode = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 50
-metadata/_tab_index = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="PlayerConfigDisplay" parent="MarginContainer/TabContainer/PlayerConfig" unique_id=246232612 instance=ExtResource("2_rn5dx")]
-layout_mode = 2
-
-[node name="Presets" parent="MarginContainer/TabContainer" unique_id=1526555288 instance=ExtResource("3_gcrrk")]
-visible = false
-layout_mode = 2
-CAN_BE_CLOSED = false
-CAN_ADD_ELEMENTS = true
-metadata/_tab_index = 1
-
-[node name="Name" parent="MarginContainer/TabContainer" unique_id=1565408172 instance=ExtResource("3_muyi0")]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 2
-
-[node name="EliminationText" parent="MarginContainer/TabContainer" unique_id=551230514 instance=ExtResource("6_6j346")]
-visible = false
+[node name="PlayerCustomizationUI" parent="MarginContainer/MarginContainer" unique_id=1086812101 instance=ExtResource("3_muyi0")]
 layout_mode = 2
 
-[node name="Customization" parent="MarginContainer/TabContainer" unique_id=488857422 instance=ExtResource("5_riqtp")]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 4
-
-[node name="PrimaryWeapon" parent="MarginContainer/TabContainer" unique_id=1455824541 instance=ExtResource("6_riqtp")]
-visible = false
-layout_mode = 2
-TITLE = "Primary weapon"
-CAN_BE_CLOSED = false
-SMALL = false
-metadata/_tab_index = 5
-
-[node name="MovementBonus" parent="MarginContainer/TabContainer" unique_id=1147372623 instance=ExtResource("6_riqtp")]
-visible = false
-layout_mode = 2
-TITLE = "Movement bonus"
-CAN_BE_CLOSED = false
-SMALL = false
-metadata/_tab_index = 6
-
-[node name="Powerup" parent="MarginContainer/TabContainer" unique_id=33484411 instance=ExtResource("6_riqtp")]
-visible = false
-layout_mode = 2
-TITLE = "Powerup"
-CAN_BE_CLOSED = false
-SMALL = false
-metadata/_tab_index = 7
-
-[node name="BackButton" type="Button" parent="." unique_id=1721370922]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 0
-offset_right = 32.0
-offset_bottom = 32.0
-icon = ExtResource("3_k8yph")
-expand_icon = true
-
-[node name="SavePresetPopup" type="ConfirmationDialog" parent="." unique_id=848322658]
-oversampling_override = 1.0
-title = "Choose the preset name"
-initial_position = 2
-size = Vector2i(397, 115)
-dialog_hide_on_ok = false
-script = ExtResource("9_brcbt")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="SavePresetPopup" unique_id=1491260010]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 389.0
-offset_bottom = 66.0
-
-[node name="Label" type="Label" parent="SavePresetPopup/VBoxContainer" unique_id=932786600]
-layout_mode = 2
-text = "Choose the preset name to save"
-
-[node name="LineEdit" type="LineEdit" parent="SavePresetPopup/VBoxContainer" unique_id=457554802]
-layout_mode = 2
-placeholder_text = "preset name"
-
-[node name="OverridePresetPopup" type="ConfirmationDialog" parent="." unique_id=2053144049]
-oversampling_override = 1.0
-initial_position = 2
-size = Vector2i(312, 100)
-dialog_text = "This preset already exists, override it ?"
-
-[connection signal="preset_selected" from="MarginContainer/TabContainer/Presets" to="." method="_on_presets_preset_selected"]
-[connection signal="save_preset_triggered" from="MarginContainer/TabContainer/Presets" to="." method="_on_presets_save_preset_triggered"]
-[connection signal="description_changed" from="MarginContainer/TabContainer/Name" to="." method="_on_name_description_changed"]
-[connection signal="name_selected" from="MarginContainer/TabContainer/Name" to="." method="_on_name_name_selected"]
-[connection signal="elimination_text_updated" from="MarginContainer/TabContainer/EliminationText" to="." method="_on_elimination_text_elimination_text_updated"]
-[connection signal="body_color_changed" from="MarginContainer/TabContainer/Customization" to="." method="_on_customization_body_color_changed"]
-[connection signal="eyes_changed" from="MarginContainer/TabContainer/Customization" to="." method="_on_customization_eyes_changed"]
-[connection signal="eyes_color_changed" from="MarginContainer/TabContainer/Customization" to="." method="_on_customization_eyes_color_changed"]
-[connection signal="mouth_changed" from="MarginContainer/TabContainer/Customization" to="." method="_on_customization_mouth_changed"]
-[connection signal="mouth_color_changed" from="MarginContainer/TabContainer/Customization" to="." method="_on_customization_mouth_color_changed"]
-[connection signal="outline_color_changed" from="MarginContainer/TabContainer/Customization" to="." method="_on_customization_outline_color_changed"]
-[connection signal="item_selected" from="MarginContainer/TabContainer/PrimaryWeapon" to="." method="_on_primary_weapon_item_selected"]
-[connection signal="item_selected" from="MarginContainer/TabContainer/MovementBonus" to="." method="_on_movement_bonus_item_selected"]
-[connection signal="item_selected" from="MarginContainer/TabContainer/Powerup" to="." method="_on_powerup_item_selected"]
-[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="confirmed" from="SavePresetPopup" to="SavePresetPopup" method="_on_confirmed"]
-[connection signal="preset_saved" from="SavePresetPopup" to="." method="_on_save_preset_popup_preset_saved"]
-[connection signal="confirmed" from="OverridePresetPopup" to="SavePresetPopup" method="_on_override_preset_popup_confirmed"]
+[connection signal="quit" from="MarginContainer/MarginContainer/PlayerCustomizationUI" to="." method="_on_player_customization_ui_quit"]

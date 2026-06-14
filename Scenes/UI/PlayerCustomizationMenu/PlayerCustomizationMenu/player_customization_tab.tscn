@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://tbxutibj805n"]
+[gd_scene format=3 uid="uid://tbxutibj805n"]
 
 [ext_resource type="Texture2D" uid="uid://bqpre5umo4ki0" path="res://Scenes/UI/PlayerCustomizationMenu/edit.svg" id="1_cnn6n"]
 [ext_resource type="Script" uid="uid://velkdm5chkst" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenu/player_customization_tab.gd" id="1_q1vwm"]
-[ext_resource type="PackedScene" uid="uid://byfuym260iolg" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn" id="3_3n04h"]
+[ext_resource type="PackedScene" uid="uid://byfuym260iolg" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSpriteConfig/player_sprite_config.tscn" id="3_3n04h"]
 [ext_resource type="Texture2D" uid="uid://dcr14i6u2i7da" path="res://Scenes/Player/Eyes/eyes_1.PNG" id="4_3n04h"]
 [ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="4_whasm"]
 [ext_resource type="Texture2D" uid="uid://d3usi3hq1jbes" path="res://Scenes/Player/Mouths/mouth_1.PNG" id="6_fx80f"]

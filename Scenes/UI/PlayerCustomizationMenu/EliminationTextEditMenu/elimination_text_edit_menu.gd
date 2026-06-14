@@ -1,5 +1,6 @@
 extends MarginContainer
-# menu to edit the elimination text for a player
+
+# menu to edit the elimination text_edit for a player
 
 ##### SIGNALS #####
 signal elimination_text_updated(new_text: String)
@@ -7,18 +8,18 @@ signal elimination_text_updated(new_text: String)
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== ONREADY ====
-@onready var onready_paths := {
-	"text": $"VBoxContainer/VBoxContainer/LineEdit"
-}
+@onready var text_edit := $"VBoxContainer/MarginContainer/TextEdit"
 
 
 ##### PUBLIC METHODS #####
 func get_elimination_text() -> String:
-	return onready_paths.text.text
+	return text_edit.text
+
 
 func set_elimination_text(text: String) -> void:
-	onready_paths.text.text = text
+	text_edit.text = text
+
 
 ##### SIGNAL MANAGEMENT #####
 func _on_line_edit_text_changed(new_text: String) -> void:
-	emit_signal("elimination_text_updated", new_text)
+	elimination_text_updated.emit(new_text)

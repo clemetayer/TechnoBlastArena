@@ -3,90 +3,64 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var popup
-var preset_saved_times_called := 0
+
 
 ##### SETUP #####
 func before_each():
-	popup = load("res://Scenes/UI/PlayerCustomizationMenu/save_preset_popup.gd").new()
-	preset_saved_times_called = 0
+	popup = autofree(load("res://Scenes/UI/PlayerCustomizationMenu/save_preset_popup.gd").new())
 
-##### TEARDOWN #####
-func after_each():
-	popup.free()
 
 ##### TESTS #####
-func test_set_preset_to_save():
+func test_on_confirmed_not_existing():
 	# given
-	var config = PlayerConfig.new()
-	# when
-	popup.set_preset_to_save(config)
-	# then
-	assert_eq(popup._preset_to_save, config)
-
-func test_save_preset():
-	# given
-	var preset_name = LineEdit.new()
+	var preset_name = autofree(LineEdit.new())
 	preset_name.text = "gdunittest"
-	popup.onready_paths.preset_name = preset_name
-	var config = PlayerConfig.new()
-	config.PLAYER_NAME = "gdunittest"
-	popup._preset_to_save = config
-	popup.connect("preset_saved", _on_preset_saved)
-	# when
-	popup._save_preset()
-	# then
-	var preset_path = StaticUtils.USER_CHARACTER_PRESETS_PATH + "gdunittest" + StaticUtils.GODOT_RESOURCE_FILE_EXTENSION
-	assert_true(ResourceLoader.exists(preset_path))
-	var saved_resource = load(preset_path)
-	assert_eq(saved_resource.PLAYER_NAME, "gdunittest")
-	assert_eq(preset_saved_times_called, 1)
-	# cleanup
-	preset_name.free()
-	var dir_access = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
-	dir_access.remove(preset_path)
-
-func test_on_confirmed():
-	# given
-	var preset_name = LineEdit.new()
-	preset_name.text = "gdunittest"
-	popup.onready_paths.preset_name = preset_name
-	var config = PlayerConfig.new()
-	config.PLAYER_NAME = "gdunittest"
-	popup._preset_to_save = config
+	popup.preset_name = preset_name
+	var preset_description = autofree(TextEdit.new())
+	preset_description.text = "description"
+	popup.preset_description = preset_description
+	watch_signals(popup)
 	popup.show()
 	# when
 	popup._on_confirmed()
 	# then
-	var preset_path = StaticUtils.USER_CHARACTER_PRESETS_PATH + "gdunittest" + StaticUtils.GODOT_RESOURCE_FILE_EXTENSION
-	assert_true(ResourceLoader.exists(preset_path))
-	var saved_resource = load(preset_path)
-	assert_eq(saved_resource.PLAYER_NAME, "gdunittest")
-	assert_false(popup.visible)
+	assert_signal_emitted_with_parameters(popup.save_preset, ["gdunittest", "description"])
+
+
+func test_on_confirmed_existing():
+	# given
+	var preset_to_save = PlayerConfig.new()
+	ResourceSaver.save(preset_to_save, StaticUtils.get_preset_save_path("gdunittest"))
+	var preset_name = autofree(LineEdit.new())
+	preset_name.text = "gdunittest"
+	popup.preset_name = preset_name
+	var preset_description = autofree(TextEdit.new())
+	preset_description.text = "description"
+	popup.preset_description = preset_description
+	var override_preset_popup = add_child_autofree(ConfirmationDialog.new())
+	popup.override_preset_popup = override_preset_popup
+	watch_signals(popup)
+	popup.show()
+	# when
+	popup._on_confirmed()
+	# then
+	assert_signal_not_emitted(popup.save_preset)
+	assert_true(override_preset_popup.visible)
 	# cleanup
-	preset_name.free()
 	var dir_access = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
-	dir_access.remove(preset_path)
+	dir_access.remove(StaticUtils.get_preset_save_path("gdunittest"))
+
 
 func test_on_override_preset_popup_confirmed():
 	# given
-	var preset_name = LineEdit.new()
+	var preset_name = autofree(LineEdit.new())
 	preset_name.text = "gdunittest"
-	popup.onready_paths.preset_name = preset_name
-	var config = PlayerConfig.new()
-	config.PLAYER_NAME = "gdunittest"
-	popup._preset_to_save = config
+	popup.preset_name = preset_name
+	var preset_description = autofree(TextEdit.new())
+	preset_description.text = "description"
+	popup.preset_description = preset_description
+	watch_signals(popup)
 	# when
 	popup._on_override_preset_popup_confirmed()
 	# then
-	var preset_path = StaticUtils.USER_CHARACTER_PRESETS_PATH + "gdunittest" + StaticUtils.GODOT_RESOURCE_FILE_EXTENSION
-	assert_true(ResourceLoader.exists(preset_path))
-	var saved_resource = load(preset_path)
-	assert_eq(saved_resource.PLAYER_NAME, "gdunittest")
-	# cleanup
-	preset_name.free()
-	var dir_access = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
-	dir_access.remove(preset_path)
-
-##### UTILS #####
-func _on_preset_saved() -> void:
-	preset_saved_times_called += 1
+	assert_signal_emitted_with_parameters(popup.save_preset, ["gdunittest", "description"])

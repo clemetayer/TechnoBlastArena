@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://byfuym260iolg"]
+
+[ext_resource type="Script" uid="uid://n32yq35cui7r" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSpriteConfig/player_sprite_config.gd" id="1_wsxgt"]
+[ext_resource type="PackedScene" uid="uid://bh8r2qypnie7w" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSpriteConfig/player_config_panel.tscn" id="2_wsxgt"]
+[ext_resource type="PackedScene" uid="uid://bppk2gscfhj62" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn" id="3_umnhv"]
+
+[node name="PlayerSpriteConfig" type="MarginContainer" unique_id=1160789272]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+script = ExtResource("1_wsxgt")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1908121277]
+layout_mode = 2
+
+[node name="PlayerConfigPanel" parent="HBoxContainer" unique_id=988601902 instance=ExtResource("2_wsxgt")]
+layout_mode = 2
+
+[node name="PlayerSprite" parent="HBoxContainer" unique_id=1500284081 instance=ExtResource("3_umnhv")]
+layout_mode = 2
+
+[connection signal="elimination_text_change_triggered" from="HBoxContainer/PlayerConfigPanel" to="." method="_on_player_config_panel_elimination_text_change_triggered"]
+[connection signal="eyes_change_triggered" from="HBoxContainer/PlayerConfigPanel" to="." method="_on_player_config_panel_eyes_change_triggered"]
+[connection signal="eyes_color_changed" from="HBoxContainer/PlayerConfigPanel" to="." method="_on_player_config_panel_eyes_color_changed"]
+[connection signal="main_color_changed" from="HBoxContainer/PlayerConfigPanel" to="." method="_on_player_config_panel_main_color_changed"]
+[connection signal="mouth_change_triggered" from="HBoxContainer/PlayerConfigPanel" to="." method="_on_player_config_panel_mouth_change_triggered"]
+[connection signal="mouth_color_changed" from="HBoxContainer/PlayerConfigPanel" to="." method="_on_player_config_panel_mouth_color_changed"]
+[connection signal="randomize" from="HBoxContainer/PlayerConfigPanel" to="." method="_on_player_config_panel_randomize"]
+[connection signal="secondary_color_changed" from="HBoxContainer/PlayerConfigPanel" to="." method="_on_player_config_panel_secondary_color_changed"]

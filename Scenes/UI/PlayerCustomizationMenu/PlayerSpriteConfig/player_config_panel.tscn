@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://bh8r2qypnie7w"]
+
+[ext_resource type="Texture2D" uid="uid://bqpre5umo4ki0" path="res://Scenes/UI/PlayerCustomizationMenu/edit.svg" id="1_0xhic"]
+[ext_resource type="Script" uid="uid://dj6avdy1bqy60" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSpriteConfig/player_config_panel.gd" id="1_n5dod"]
+
+[node name="PlayerConfigPanel" type="VBoxContainer" unique_id=988601902]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+alignment = 1
+script = ExtResource("1_n5dod")
+
+[node name="MainColor" type="HBoxContainer" parent="." unique_id=42332026]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MainColorLabel" type="Label" parent="MainColor" unique_id=1309698877]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 10
+text = "1"
+
+[node name="MainColorPicker" type="ColorPickerButton" parent="MainColor" unique_id=2069586628]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "               "
+edit_alpha = false
+edit_intensity = false
+
+[node name="SecondaryColor" type="HBoxContainer" parent="." unique_id=1966027566]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SecondaryColorLabel" type="Label" parent="SecondaryColor" unique_id=1198434444]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 10
+text = "2"
+
+[node name="SecondaryColorPicker" type="ColorPickerButton" parent="SecondaryColor" unique_id=109574560]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "           "
+edit_alpha = false
+edit_intensity = false
+
+[node name="Eyes" type="HBoxContainer" parent="." unique_id=1818643129]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EyesLabel" type="Label" parent="Eyes" unique_id=1778229785]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 10
+text = "👀"
+
+[node name="Eyes" type="HBoxContainer" parent="Eyes" unique_id=999150096]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EyesEditButton" type="Button" parent="Eyes/Eyes" unique_id=2115791428]
+layout_mode = 2
+size_flags_horizontal = 3
+icon = ExtResource("1_0xhic")
+icon_alignment = 1
+expand_icon = true
+
+[node name="EyesColorPickerButton" type="ColorPickerButton" parent="Eyes/Eyes" unique_id=352802009]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Mouth" type="HBoxContainer" parent="." unique_id=733363866]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MouthLabel" type="Label" parent="Mouth" unique_id=1726891809]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 10
+text = "👄"
+
+[node name="Mouth" type="HBoxContainer" parent="Mouth" unique_id=720738395]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MouthEditButton" type="Button" parent="Mouth/Mouth" unique_id=1058036995]
+layout_mode = 2
+size_flags_horizontal = 3
+icon = ExtResource("1_0xhic")
+icon_alignment = 1
+expand_icon = true
+
+[node name="MouthColorPickerButton" type="ColorPickerButton" parent="Mouth/Mouth" unique_id=1351757603]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EliminationText" type="HBoxContainer" parent="." unique_id=959305882]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EliminationText" type="Label" parent="EliminationText" unique_id=1730718897]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "☠️"
+
+[node name="EliminationtextButton" type="Button" parent="EliminationText" unique_id=430015016]
+layout_mode = 2
+size_flags_horizontal = 3
+icon = ExtResource("1_0xhic")
+icon_alignment = 1
+expand_icon = true
+
+[node name="RandomizeButton" type="Button" parent="." unique_id=917453242]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 10
+text = "Randomize !"
+
+[connection signal="color_changed" from="MainColor/MainColorPicker" to="." method="_on_main_color_picker_color_changed"]
+[connection signal="color_changed" from="SecondaryColor/SecondaryColorPicker" to="." method="_on_secondary_color_picker_color_changed"]
+[connection signal="pressed" from="Eyes/Eyes/EyesEditButton" to="." method="_on_eyes_edit_button_pressed"]
+[connection signal="color_changed" from="Eyes/Eyes/EyesColorPickerButton" to="." method="_on_eyes_color_picker_button_color_changed"]
+[connection signal="pressed" from="Mouth/Mouth/MouthEditButton" to="." method="_on_mouth_edit_button_pressed"]
+[connection signal="color_changed" from="Mouth/Mouth/MouthColorPickerButton" to="." method="_on_mouth_color_picker_button_color_changed"]
+[connection signal="pressed" from="EliminationText/EliminationtextButton" to="." method="_on_eliminationtext_button_pressed"]
+[connection signal="pressed" from="RandomizeButton" to="." method="_on_randomize_button_pressed"]

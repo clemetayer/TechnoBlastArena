@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://c6uqso1wjuey6"]
+
+[ext_resource type="Texture2D" uid="uid://dpy76dd44mijp" path="res://Scenes/UI/PlayerCustomizationMenu/clock.svg" id="1_k0a23"]
+
+[node name="TimeConfig" type="HBoxContainer" unique_id=1194637803]
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1646211726]
+layout_mode = 2
+texture = ExtResource("1_k0a23")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Minutes" type="SpinBox" parent="." unique_id=327676535]
+layout_mode = 2
+value = 5.0
+rounded = true
+alignment = 1
+
+[node name="Label" type="Label" parent="." unique_id=1551609096]
+layout_mode = 2
+text = ":"
+
+[node name="Seconds" type="SpinBox" parent="." unique_id=1512896436]
+layout_mode = 2
+max_value = 59.0
+rounded = true
+alignment = 1

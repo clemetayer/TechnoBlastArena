@@ -1,0 +1,342 @@
+[gd_scene format=3 uid="uid://dr24bc2fjcbne"]
+
+[ext_resource type="Script" uid="uid://b2g7dpcmvm2wn" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenus/menus.gd" id="1_ivah3"]
+[ext_resource type="PackedScene" uid="uid://b7s8i5b2dk747" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.tscn" id="1_kdr3n"]
+[ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="2_ivah3"]
+[ext_resource type="PackedScene" uid="uid://ch7ktmnnktu7d" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.tscn" id="3_u54q3"]
+[ext_resource type="PackedScene" uid="uid://s15b1kpmet1t" path="res://Scenes/UI/PlayerCustomizationMenu/EliminationTextEditMenu/elimination_text_edit_menu.tscn" id="4_cf0a8"]
+[ext_resource type="Script" uid="uid://d1go3hm03uhhp" path="res://Scenes/UI/PlayerCustomizationMenu/save_preset_popup.gd" id="5_m0qre"]
+[ext_resource type="PackedScene" uid="uid://rjen8sq4r25s" path="res://Scenes/UI/PlayerCustomizationMenu/SpriteItems/sprite_items.tscn" id="6_u54q3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ugvj"]
+bg_color = Color(0, 0, 0, 0.49019608)
+
+[node name="Menus" type="Control" unique_id=1960320400]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ivah3")
+
+[node name="BackgroundPopup" type="Panel" parent="." unique_id=543543621]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5ugvj")
+
+[node name="PresetSelectionFull" parent="." unique_id=757813631 instance=ExtResource("1_kdr3n")]
+visible = false
+layout_mode = 1
+
+[node name="PresetSelectionCloseButton" type="Button" parent="PresetSelectionFull" unique_id=849812714]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("2_ivah3")
+expand_icon = true
+
+[node name="PrimaryWeaponGridFull" parent="." unique_id=1361488002 instance=ExtResource("3_u54q3")]
+visible = false
+layout_mode = 1
+TITLE = "Primary weapon"
+
+[node name="PrimaryWeaponCloseButton" type="Button" parent="PrimaryWeaponGridFull" unique_id=1414981494]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("2_ivah3")
+expand_icon = true
+
+[node name="PowerupGridFull" parent="." unique_id=1162718039 instance=ExtResource("3_u54q3")]
+visible = false
+layout_mode = 1
+TITLE = "Powerup"
+
+[node name="PowerupCloseButton" type="Button" parent="PowerupGridFull" unique_id=42667667]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("2_ivah3")
+expand_icon = true
+
+[node name="MovementBonusGridFull" parent="." unique_id=613864017 instance=ExtResource("3_u54q3")]
+visible = false
+layout_mode = 1
+TITLE = "Movement bonus"
+
+[node name="MovementBonusCloseButton" type="Button" parent="MovementBonusGridFull" unique_id=2013769806]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("2_ivah3")
+expand_icon = true
+
+[node name="EliminationTextEditFull" parent="." unique_id=207451675 instance=ExtResource("4_cf0a8")]
+visible = false
+layout_mode = 1
+
+[node name="EliminationTextCloseButton" type="Button" parent="EliminationTextEditFull" unique_id=1230055131]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("2_ivah3")
+expand_icon = true
+
+[node name="EyesSelectionFull" parent="." unique_id=591427286 instance=ExtResource("6_u54q3")]
+visible = false
+layout_mode = 1
+TITLE = "Eyes selection"
+RESOURCE_LIST_PATH = "uid://bst20fv0fexys"
+
+[node name="EyesSelectionCloseButton" type="Button" parent="EyesSelectionFull" unique_id=81626832]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("2_ivah3")
+expand_icon = true
+
+[node name="MouthSelectionFull" parent="." unique_id=2044312455 instance=ExtResource("6_u54q3")]
+visible = false
+layout_mode = 1
+TITLE = "Mouth selection"
+RESOURCE_LIST_PATH = "uid://cid14rfvtj5qe"
+
+[node name="MouthSelectionCloseButton" type="Button" parent="MouthSelectionFull" unique_id=1029456721]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("2_ivah3")
+expand_icon = true
+
+[node name="PresetSelectionPopup" type="Window" parent="." unique_id=203119925]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 350)
+visible = false
+
+[node name="Panel" type="Panel" parent="PresetSelectionPopup" unique_id=472155761]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"StdSecondaryPanel"
+
+[node name="PresetSelection" parent="PresetSelectionPopup" unique_id=612082175 instance=ExtResource("1_kdr3n")]
+
+[node name="PrimaryWeaponGridPopup" type="Window" parent="." unique_id=2047634871]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 350)
+visible = false
+
+[node name="Panel" type="Panel" parent="PrimaryWeaponGridPopup" unique_id=1055466523]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"StdSecondaryPanel"
+
+[node name="PrimaryWeaponGrid" parent="PrimaryWeaponGridPopup" unique_id=1492187847 instance=ExtResource("3_u54q3")]
+TITLE = "Primary weapon"
+
+[node name="PowerupGridPopup" type="Window" parent="." unique_id=1560481644]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 350)
+visible = false
+
+[node name="Panel" type="Panel" parent="PowerupGridPopup" unique_id=782791676]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"StdSecondaryPanel"
+
+[node name="PowerupGrid" parent="PowerupGridPopup" unique_id=312536296 instance=ExtResource("3_u54q3")]
+TITLE = "Powerup"
+
+[node name="MovementBonusGridPopup" type="Window" parent="." unique_id=1340992315]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 350)
+visible = false
+
+[node name="Panel" type="Panel" parent="MovementBonusGridPopup" unique_id=2040904465]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"StdSecondaryPanel"
+
+[node name="MovementBonusGrid" parent="MovementBonusGridPopup" unique_id=759740823 instance=ExtResource("3_u54q3")]
+TITLE = "Movement bonus"
+
+[node name="EliminationTextEditPopup" type="Window" parent="." unique_id=1851169559]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 350)
+visible = false
+
+[node name="Panel" type="Panel" parent="EliminationTextEditPopup" unique_id=1317073146]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"StdSecondaryPanel"
+
+[node name="EliminationTextEdit" parent="EliminationTextEditPopup" unique_id=821715178 instance=ExtResource("4_cf0a8")]
+
+[node name="EyesSelectionPopup" type="Window" parent="." unique_id=599207999]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 350)
+visible = false
+
+[node name="Panel" type="Panel" parent="EyesSelectionPopup" unique_id=849433119]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"StdSecondaryPanel"
+
+[node name="EyesSelection" parent="EyesSelectionPopup" unique_id=1830726700 instance=ExtResource("6_u54q3")]
+TITLE = "Eyes selection"
+RESOURCE_LIST_PATH = "uid://bst20fv0fexys"
+
+[node name="MouthSelectionPopup" type="Window" parent="." unique_id=615273150]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 350)
+visible = false
+
+[node name="Panel" type="Panel" parent="MouthSelectionPopup" unique_id=1770824640]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"StdSecondaryPanel"
+
+[node name="MouthSelection" parent="MouthSelectionPopup" unique_id=208593744 instance=ExtResource("6_u54q3")]
+TITLE = "Mouth selection"
+RESOURCE_LIST_PATH = "uid://cid14rfvtj5qe"
+
+[node name="SavePresetPopup" type="ConfirmationDialog" parent="." unique_id=1382700983]
+oversampling_override = 1.0
+title = "Save preset"
+initial_position = 2
+size = Vector2i(397, 168)
+dialog_hide_on_ok = false
+script = ExtResource("5_m0qre")
+
+[node name="Panel" type="Panel" parent="SavePresetPopup" unique_id=1421658648]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"StdSecondaryPanel"
+
+[node name="MarginContainer" type="MarginContainer" parent="SavePresetPopup" unique_id=1647332554]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 389.0
+offset_bottom = 119.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SavePresetPopup/MarginContainer" unique_id=193138699]
+layout_mode = 2
+
+[node name="Name" type="LineEdit" parent="SavePresetPopup/MarginContainer/VBoxContainer" unique_id=367699741]
+layout_mode = 2
+placeholder_text = "preset name"
+
+[node name="Description" type="TextEdit" parent="SavePresetPopup/MarginContainer/VBoxContainer" unique_id=16941724]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Preset description"
+
+[node name="OverridePresetPopup" type="ConfirmationDialog" parent="." unique_id=1834549453]
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(312, 100)
+unresizable = true
+dialog_text = "This preset already exists, override it ?"
+
+[node name="Panel" type="Panel" parent="OverridePresetPopup" unique_id=1685325806]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"StdSecondaryPanel"
+
+[connection signal="preset_selected" from="PresetSelectionFull" to="." method="_on_preset_selection_preset_selected"]
+[connection signal="pressed" from="PresetSelectionFull/PresetSelectionCloseButton" to="." method="_on_preset_selection_close_button_pressed"]
+[connection signal="item_selected" from="PrimaryWeaponGridFull" to="." method="_on_primary_weapon_grid_item_selected"]
+[connection signal="pressed" from="PrimaryWeaponGridFull/PrimaryWeaponCloseButton" to="." method="_on_primary_weapon_close_button_pressed"]
+[connection signal="item_selected" from="PowerupGridFull" to="." method="_on_powerup_grid_item_selected"]
+[connection signal="pressed" from="PowerupGridFull/PowerupCloseButton" to="." method="_on_powerup_close_button_pressed"]
+[connection signal="item_selected" from="MovementBonusGridFull" to="." method="_on_movement_bonus_grid_item_selected"]
+[connection signal="pressed" from="MovementBonusGridFull/MovementBonusCloseButton" to="." method="_on_movement_bonus_close_button_pressed"]
+[connection signal="elimination_text_updated" from="EliminationTextEditFull" to="." method="_on_elimination_text_edit_elimination_text_updated"]
+[connection signal="pressed" from="EliminationTextEditFull/EliminationTextCloseButton" to="." method="_on_elimination_text_close_button_pressed"]
+[connection signal="sprite_selected" from="EyesSelectionFull" to="." method="_on_eyes_selection_sprite_selected"]
+[connection signal="pressed" from="EyesSelectionFull/EyesSelectionCloseButton" to="." method="_on_eyes_selection_close_button_pressed"]
+[connection signal="sprite_selected" from="MouthSelectionFull" to="." method="_on_mouth_selection_sprite_selected"]
+[connection signal="pressed" from="MouthSelectionFull/MouthSelectionCloseButton" to="." method="_on_mouth_selection_close_button_pressed"]
+[connection signal="close_requested" from="PresetSelectionPopup" to="." method="_on_preset_selection_close_button_pressed"]
+[connection signal="preset_selected" from="PresetSelectionPopup/PresetSelection" to="." method="_on_preset_selection_preset_selected"]
+[connection signal="close_requested" from="PrimaryWeaponGridPopup" to="." method="_on_primary_weapon_close_button_pressed"]
+[connection signal="item_selected" from="PrimaryWeaponGridPopup/PrimaryWeaponGrid" to="." method="_on_primary_weapon_grid_item_selected"]
+[connection signal="close_requested" from="PowerupGridPopup" to="." method="_on_powerup_close_button_pressed"]
+[connection signal="item_selected" from="PowerupGridPopup/PowerupGrid" to="." method="_on_powerup_grid_item_selected"]
+[connection signal="close_requested" from="MovementBonusGridPopup" to="." method="_on_movement_bonus_close_button_pressed"]
+[connection signal="item_selected" from="MovementBonusGridPopup/MovementBonusGrid" to="." method="_on_movement_bonus_grid_item_selected"]
+[connection signal="close_requested" from="EliminationTextEditPopup" to="." method="_on_elimination_text_close_button_pressed"]
+[connection signal="elimination_text_updated" from="EliminationTextEditPopup/EliminationTextEdit" to="." method="_on_elimination_text_edit_elimination_text_updated"]
+[connection signal="close_requested" from="EyesSelectionPopup" to="." method="_on_eyes_selection_close_button_pressed"]
+[connection signal="sprite_selected" from="EyesSelectionPopup/EyesSelection" to="." method="_on_eyes_selection_sprite_selected"]
+[connection signal="close_requested" from="MouthSelectionPopup" to="." method="_on_mouth_selection_close_button_pressed"]
+[connection signal="sprite_selected" from="MouthSelectionPopup/MouthSelection" to="." method="_on_mouth_selection_sprite_selected"]
+[connection signal="canceled" from="SavePresetPopup" to="." method="_on_save_preset_popup_canceled"]
+[connection signal="confirmed" from="SavePresetPopup" to="SavePresetPopup" method="_on_confirmed"]
+[connection signal="save_preset" from="SavePresetPopup" to="." method="_on_save_preset_popup_save_preset"]
+[connection signal="confirmed" from="OverridePresetPopup" to="SavePresetPopup" method="_on_override_preset_popup_confirmed"]

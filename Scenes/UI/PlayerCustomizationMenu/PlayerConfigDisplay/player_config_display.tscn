@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://tx5an1q2tqo3"]
 
 [ext_resource type="Script" uid="uid://c5xduddhansus" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.gd" id="1_wbmej"]
-[ext_resource type="PackedScene" uid="uid://byfuym260iolg" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn" id="2_w6f5r"]
+[ext_resource type="PackedScene" uid="uid://byfuym260iolg" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSpriteConfig/player_sprite_config.tscn" id="2_w6f5r"]
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="4_ob203"]
 [ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="5_0sjm8"]
 [ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="6_adqru"]
@@ -15,24 +15,31 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
+theme_override_constants/separation = 8
 script = ExtResource("1_wbmej")
 
 [node name="Name" type="LineEdit" parent="." unique_id=1750518487]
 layout_mode = 2
+theme_override_font_sizes/font_size = 10
 text = "Whatever name"
 alignment = 1
+max_length = 255
 
 [node name="Player" parent="." unique_id=1340882548 instance=ExtResource("2_w6f5r")]
 layout_mode = 2
+size_flags_stretch_ratio = 3.0
 
 [node name="Weapons" type="HBoxContainer" parent="." unique_id=633276321]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Primary" type="Button" parent="Weapons" unique_id=991109682]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
 icon = ExtResource("4_ob203")
 icon_alignment = 1
 expand_icon = true
@@ -40,6 +47,7 @@ expand_icon = true
 [node name="Powerup" type="Button" parent="Weapons" unique_id=240289282]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
 icon = ExtResource("5_0sjm8")
 icon_alignment = 1
 expand_icon = true
@@ -47,11 +55,20 @@ expand_icon = true
 [node name="MovementBonus" type="Button" parent="Weapons" unique_id=1142595399]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
 icon = ExtResource("6_adqru")
 icon_alignment = 1
 expand_icon = true
 
-[connection signal="text_changed" from="Name" to="." method="_on_name_text_changed"]
+[connection signal="focus_exited" from="Name" to="." method="_on_name_focus_exited"]
+[connection signal="elimination_text_change_triggered" from="Player" to="." method="_on_player_elimination_text_change_triggered"]
+[connection signal="eyes_change_triggered" from="Player" to="." method="_on_player_eyes_change_triggered"]
+[connection signal="eyes_color_changed" from="Player" to="." method="_on_player_eyes_color_changed"]
+[connection signal="main_color_changed" from="Player" to="." method="_on_player_main_color_changed"]
+[connection signal="mouth_change_triggered" from="Player" to="." method="_on_player_mouth_change_triggered"]
+[connection signal="mouth_color_changed" from="Player" to="." method="_on_player_mouth_color_changed"]
+[connection signal="randomize" from="Player" to="." method="_on_player_randomize"]
+[connection signal="secondary_color_changed" from="Player" to="." method="_on_player_secondary_color_changed"]
 [connection signal="pressed" from="Weapons/Primary" to="." method="_on_primary_pressed"]
 [connection signal="pressed" from="Weapons/Powerup" to="." method="_on_powerup_pressed"]
 [connection signal="pressed" from="Weapons/MovementBonus" to="." method="_on_movement_bonus_pressed"]

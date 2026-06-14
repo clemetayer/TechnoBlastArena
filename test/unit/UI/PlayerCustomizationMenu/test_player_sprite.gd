@@ -4,11 +4,13 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var sprite
 
+
 ##### SETUP #####
 func before_each():
 	sprite = load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn").instantiate()
 	add_child_autofree(sprite)
 	wait_for_signal(sprite.tree_entered, 0.1)
+
 
 ##### TESTS #####
 func test_update_sprite():
@@ -23,11 +25,10 @@ func test_update_sprite():
 	# when
 	sprite.update_sprite(config)
 	# then
-	assert_eq(sprite.onready_paths.body.modulate, Color.MAGENTA)
-	assert_eq(sprite.onready_paths.outline.modulate, Color.KHAKI)
-	assert_not_null(sprite.onready_paths.eyes.texture)
-	assert_eq(sprite.onready_paths.eyes.modulate, Color.FIREBRICK)
-	assert_not_null(sprite.onready_paths.mouth.texture)
-	assert_eq(sprite.onready_paths.mouth.modulate, Color.GAINSBORO)
+	assert_eq(sprite.body.modulate, Color.MAGENTA)
+	assert_eq(sprite.outline.modulate, Color.KHAKI)
+	assert_not_null(sprite.eyes.texture)
+	assert_eq(sprite.eyes.modulate, Color.FIREBRICK)
+	assert_not_null(sprite.mouth.texture)
+	assert_eq(sprite.mouth.modulate, Color.GAINSBORO)
 
-# all the other functions already tested in update_sprite

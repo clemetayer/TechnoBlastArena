@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://4jmohk06tq0d"]
+
+[ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_26xus"]
+[ext_resource type="Script" uid="uid://hkt70ko3amkd" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationUI/player_customization_ui.gd" id="2_aubli"]
+[ext_resource type="PackedScene" uid="uid://dr24bc2fjcbne" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenus/menus.tscn" id="4_7dlwm"]
+[ext_resource type="Texture2D" uid="uid://dsh8x2qcwcie" path="res://Scenes/UI/PlayerCustomizationMenu/controls.svg" id="4_8bc4q"]
+[ext_resource type="Texture2D" uid="uid://c27j5gt8llyfk" path="res://Scenes/UI/PlayerCustomizationMenu/save.svg" id="5_q1thm"]
+[ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="6_qc8hw"]
+[ext_resource type="PackedScene" uid="uid://tx5an1q2tqo3" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.tscn" id="7_r70em"]
+
+[node name="PlayerCustomizationUI" type="Control" unique_id=1086812101]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_26xus")
+script = ExtResource("2_aubli")
+IS_SMALL = false
+
+[node name="MainWindow" type="HBoxContainer" parent="." unique_id=1430952612]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainWindow" unique_id=1060037633]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PresetSelectionButton" type="Button" parent="MainWindow/VBoxContainer" unique_id=615258476]
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("4_8bc4q")
+icon_alignment = 1
+expand_icon = true
+
+[node name="SavePresetButton" type="Button" parent="MainWindow/VBoxContainer" unique_id=553048986]
+layout_mode = 2
+size_flags_vertical = 3
+icon = ExtResource("5_q1thm")
+icon_alignment = 1
+expand_icon = true
+
+[node name="QuitButton" type="Button" parent="MainWindow/VBoxContainer" unique_id=441423798]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("6_qc8hw")
+icon_alignment = 1
+expand_icon = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MainWindow" unique_id=1665763720]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 15.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PlayerConfigDisplay" parent="MainWindow/MarginContainer" unique_id=2128731786 instance=ExtResource("7_r70em")]
+layout_mode = 2
+
+[node name="Menus" parent="." unique_id=1960320400 instance=ExtResource("4_7dlwm")]
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="MainWindow/VBoxContainer/PresetSelectionButton" to="." method="_on_preset_selection_button_pressed"]
+[connection signal="pressed" from="MainWindow/VBoxContainer/SavePresetButton" to="." method="_on_save_preset_button_pressed"]
+[connection signal="pressed" from="MainWindow/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="elimination_text_change_triggered" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_elimination_text_change_triggered"]
+[connection signal="eyes_change_triggered" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_eyes_change_triggered"]
+[connection signal="eyes_color_changed" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_eyes_color_changed"]
+[connection signal="main_color_changed" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_main_color_changed"]
+[connection signal="mouth_change_triggered" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_mouth_change_triggered"]
+[connection signal="mouth_color_changed" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_mouth_color_changed"]
+[connection signal="movement_bonus_change_requested" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_movement_bonus_change_requested"]
+[connection signal="name_changed" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_name_changed"]
+[connection signal="powerup_change_requested" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_powerup_change_requested"]
+[connection signal="primary_weapon_change_requested" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_primary_weapon_change_requested"]
+[connection signal="randomize" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_randomize"]
+[connection signal="secondary_color_changed" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_secondary_color_changed"]
+[connection signal="elimination_text_updated" from="Menus" to="." method="_on_menus_elimination_text_updated"]
+[connection signal="eyes_selected" from="Menus" to="." method="_on_menus_eyes_selected"]
+[connection signal="mouth_selected" from="Menus" to="." method="_on_menus_mouth_selected"]
+[connection signal="movement_bonus_selected" from="Menus" to="." method="_on_menus_movement_bonus_selected"]
+[connection signal="powerup_selected" from="Menus" to="." method="_on_menus_powerup_selected"]
+[connection signal="preset_selected" from="Menus" to="." method="_on_menus_preset_selected"]
+[connection signal="primary_weapon_selected" from="Menus" to="." method="_on_menus_primary_weapon_selected"]
+[connection signal="save_preset" from="Menus" to="." method="_on_menus_save_preset"]

@@ -1,45 +1,39 @@
-[gd_scene load_steps=7 format=3 uid="uid://ch7ktmnnktu7d"]
+[gd_scene format=3 uid="uid://ch7ktmnnktu7d"]
 
 [ext_resource type="Texture2D" uid="uid://j4xdgdied5dy" path="res://Scenes/Weapons/Primary/Revolver/Revolver.png" id="1_amnap"]
 [ext_resource type="Script" uid="uid://dmufads6vkwjj" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.gd" id="1_bhx7t"]
-[ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="1_dksml"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fxq4g"]
-font_size = 32
+font_size = 20
 
-[sub_resource type="LabelSettings" id="LabelSettings_bhx7t"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_egq1p"]
-font_size = 10
-
-[node name="ItemsGridMenu" type="MarginContainer"]
+[node name="ItemsGridMenu" type="MarginContainer" unique_id=1361488002]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 script = ExtResource("1_bhx7t")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1773047230]
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="Title" type="Label" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=711512691]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 text = "Primary weapon"
 label_settings = SubResource("LabelSettings_fxq4g")
 horizontal_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=219213789]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 5.0
 
-[node name="ItemList" type="ItemList" parent="VBoxContainer/ScrollContainer"]
+[node name="ItemList" type="ItemList" parent="VBoxContainer/ScrollContainer" unique_id=1861406140]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -47,10 +41,10 @@ size_flags_stretch_ratio = 6.0
 auto_width = true
 auto_height = true
 item_count = 16
-max_columns = 8
+max_columns = 7
 same_column_width = true
-icon_scale = 4.0
-fixed_icon_size = Vector2i(32, 32)
+icon_mode = 0
+fixed_icon_size = Vector2i(64, 64)
 item_0/icon = ExtResource("1_amnap")
 item_1/icon = ExtResource("1_amnap")
 item_2/icon = ExtResource("1_amnap")
@@ -67,64 +61,4 @@ item_12/icon = ExtResource("1_amnap")
 item_13/icon = ExtResource("1_amnap")
 item_14/icon = ExtResource("1_amnap")
 
-[node name="Description" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 4.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Description"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 8.0
-
-[node name="Title" type="Label" parent="VBoxContainer/Description/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 6
-text = "Revolver"
-label_settings = SubResource("LabelSettings_bhx7t")
-horizontal_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Description/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Icon" type="TextureRect" parent="VBoxContainer/Description/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("1_amnap")
-expand_mode = 5
-stretch_mode = 5
-
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Description/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 5.0
-
-[node name="Description" type="Label" parent="VBoxContainer/Description/VBoxContainer/HBoxContainer/ScrollContainer"]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-text = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos."
-label_settings = SubResource("LabelSettings_egq1p")
-autowrap_mode = 2
-
-[node name="OkayButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_type_variation = &"StdImportantButton"
-text = " Yep, i want this "
-
-[node name="CloseButton" type="Button" parent="."]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme_type_variation = &"StdCancelButton"
-icon = ExtResource("1_dksml")
-expand_icon = true
-
 [connection signal="item_selected" from="VBoxContainer/ScrollContainer/ItemList" to="." method="_on_item_list_item_selected"]
-[connection signal="pressed" from="VBoxContainer/OkayButton" to="." method="_on_okay_button_pressed"]
-[connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

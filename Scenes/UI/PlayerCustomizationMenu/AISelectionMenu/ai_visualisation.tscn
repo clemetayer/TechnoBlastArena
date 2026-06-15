@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bfv1lk0q156jl"]
 
 [ext_resource type="Script" uid="uid://dsbkcfumjwvt1" path="res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_visualisation.gd" id="1_fp874"]
-[ext_resource type="PackedScene" uid="uid://tx5an1q2tqo3" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.tscn" id="2_ai2cv"]
+[ext_resource type="PackedScene" uid="uid://bppk2gscfhj62" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn" id="2_fp874"]
 [ext_resource type="Texture2D" uid="uid://r1uo4tj3bk62" path="res://Scenes/UI/PlayerCustomizationMenu/robot.svg" id="3_38f18"]
 [ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="4_4utso"]
 
@@ -21,8 +21,9 @@ script = ExtResource("1_fp874")
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="PlayerConfigDisplay" parent="VBoxContainer" unique_id=1013670723 instance=ExtResource("2_ai2cv")]
+[node name="PlayerSprite" parent="VBoxContainer" unique_id=1500284081 instance=ExtResource("2_fp874")]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=1892159043]
 layout_mode = 2

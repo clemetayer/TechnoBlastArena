@@ -31,7 +31,6 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
 [node name="EmptyMenu" type="HBoxContainer" parent="Panel" unique_id=338966178]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -53,7 +52,9 @@ icon = ExtResource("3_3uswf")
 expand_icon = true
 
 [node name="PlayerCustomizationMenu" parent="Panel" unique_id=1086812101 instance=ExtResource("4_fpt8k")]
+visible = false
 layout_mode = 2
+IS_SMALL = true
 
 [node name="AiSelectionMenu" parent="Panel" unique_id=1921544980 instance=ExtResource("5_fpt8k")]
 layout_mode = 2

@@ -8,12 +8,14 @@ signal show_ai_presets_triggered
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== ONREADY ====
-@onready var player_display := $"VBoxContainer/PlayerConfigDisplay"
+@onready var player_sprite := $"VBoxContainer/PlayerSprite"
+@onready var close_button := $"VBoxContainer/MarginContainer/HBoxContainer/DeleteButton"
+@onready var ai_preset_selection_button := $"VBoxContainer/MarginContainer/HBoxContainer/AIPresetSelectionButton"
 
 
 ##### PUBLIC METHODS #####
-func update_ai(player_config: PlayerConfig) -> void:
-	player_display.update_player(player_config)
+func update_ai(player_sprite_config: SpriteCustomizationResource) -> void:
+	player_sprite.update_sprite(player_sprite_config)
 
 
 ##### SIGNAL MANAGEMENT #####

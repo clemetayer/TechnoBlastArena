@@ -4,6 +4,7 @@ extends Control
 
 ##### SIGNALS #####
 signal quit
+
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const DEFAULT_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/default_player_config.tres"
@@ -19,6 +20,7 @@ const MOUTH_LIST_RESOURCE := preload("res://Scenes/Player/Mouths/mouths.tres")
 var player_config: PlayerConfig
 
 #==== ONREADY ====
+@onready var main_window := $"MainWindow"
 @onready var preset_selection_button := $"MainWindow/VBoxContainer/PresetSelectionButton"
 @onready var save_preset_button := $"MainWindow/VBoxContainer/SavePresetButton"
 @onready var quit_button := $"MainWindow/VBoxContainer/QuitButton"
@@ -72,6 +74,7 @@ func _random_mouth_texture() -> Texture:
 ##### SIGNAL MANAGEMENT #####
 func _on_preset_selection_button_pressed() -> void:
 	menus.open_preset_selection()
+	main_window.visible = not IS_SMALL
 
 
 func _on_save_preset_button_pressed() -> void:
@@ -84,10 +87,12 @@ func _on_quit_button_pressed() -> void:
 
 func _on_player_config_display_elimination_text_change_triggered() -> void:
 	menus.open_elimination_text()
+	main_window.visible = not IS_SMALL
 
 
 func _on_player_config_display_eyes_change_triggered() -> void:
 	menus.open_eyes_selection()
+	main_window.visible = not IS_SMALL
 
 
 func _on_player_config_display_eyes_color_changed(color: Color) -> void:
@@ -102,6 +107,7 @@ func _on_player_config_display_main_color_changed(color: Color) -> void:
 
 func _on_player_config_display_mouth_change_triggered() -> void:
 	menus.open_mouth_selection()
+	main_window.visible = not IS_SMALL
 
 
 func _on_player_config_display_mouth_color_changed(color: Color) -> void:
@@ -111,19 +117,23 @@ func _on_player_config_display_mouth_color_changed(color: Color) -> void:
 
 func _on_player_config_display_movement_bonus_change_requested() -> void:
 	menus.open_movement_bonus()
+	main_window.visible = not IS_SMALL
 
 
 func _on_player_config_display_name_changed(new_name: String) -> void:
 	player_config.PLAYER_NAME = new_name
 	player_config_display.update_player(player_config)
+	main_window.show()
 
 
 func _on_player_config_display_powerup_change_requested() -> void:
 	menus.open_powerup()
+	main_window.visible = not IS_SMALL
 
 
 func _on_player_config_display_primary_weapon_change_requested() -> void:
 	menus.open_primary_weapon()
+	main_window.visible = not IS_SMALL
 
 
 func _on_player_config_display_randomize() -> void:
@@ -138,36 +148,43 @@ func _on_player_config_display_secondary_color_changed(color: Color) -> void:
 
 func _on_menus_elimination_text_updated(elimination_text: String) -> void:
 	player_config.ELIMINATION_TEXT = elimination_text
+	main_window.show()
 
 
 func _on_menus_eyes_selected(sprite_path: String) -> void:
 	player_config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH = sprite_path
 	player_config_display.update_player(player_config)
+	main_window.show()
 
 
 func _on_menus_mouth_selected(sprite_path: String) -> void:
 	player_config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH = sprite_path
 	player_config_display.update_player(player_config)
+	main_window.show()
 
 
 func _on_menus_movement_bonus_selected(handler: StaticMovementBonusHandler.handlers) -> void:
 	player_config.MOVEMENT_BONUS_HANDLER = handler
 	player_config_display.update_player(player_config)
+	main_window.show()
 
 
 func _on_menus_powerup_selected(handler: StaticPowerupHandler.handlers) -> void:
 	player_config.POWERUP_HANDLER = handler
 	player_config_display.update_player(player_config)
+	main_window.show()
 
 
 func _on_menus_preset_selected(preset: PlayerConfig) -> void:
 	player_config = preset
 	player_config_display.update_player(player_config)
+	main_window.show()
 
 
 func _on_menus_primary_weapon_selected(handler: StaticPrimaryWeaponHandler.handlers) -> void:
 	player_config.PRIMARY_WEAPON = handler
 	player_config_display.update_player(player_config)
+	main_window.show()
 
 
 func _on_menus_save_preset(preset_name: String, preset_description: String) -> void:
@@ -175,3 +192,7 @@ func _on_menus_save_preset(preset_name: String, preset_description: String) -> v
 	var save_path = StaticUtils.get_preset_save_path(preset_name)
 	GSLogger.info("saving preset to %s" % save_path)
 	ResourceSaver.save(player_config, save_path)
+
+
+func _on_menus_menu_closed() -> void:
+	main_window.show()

@@ -3,11 +3,13 @@ extends Control
 # ai selection menu
 
 ##### SIGNALS #####
-signal close_triggered
-signal preset_selected(preset: PlayerConfig)
+signal quit
 
 ##### VARIABLES #####
 #---- STANDARD -----
+#==== PUBLIC ====
+var player_config := PlayerConfig.new()
+
 #==== ONREADY ====
 @onready var presets := $"AIPresetSelectionMenu"
 @onready var visualisation := $"AIVisualisation"
@@ -21,14 +23,14 @@ func open() -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_ai_preset_selection_menu_preset_selected(preset: PlayerConfig) -> void:
-	visualisation.update_ai(preset)
+	visualisation.update_ai(preset.SPRITE_CUSTOMIZATION)
 	presets.hide()
 	visualisation.show()
-	preset_selected.emit(preset)
+	player_config = preset
 
 
 func _on_ai_visualisation_close_triggered() -> void:
-	close_triggered.emit()
+	quit.emit()
 
 
 func _on_ai_visualisation_show_ai_presets_triggered() -> void:

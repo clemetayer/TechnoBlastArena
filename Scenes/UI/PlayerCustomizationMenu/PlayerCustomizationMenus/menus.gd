@@ -11,6 +11,7 @@ signal elimination_text_updated(elimination_text: String)
 signal save_preset(preset_name: String, preset_description: String)
 signal eyes_selected(sprite_path: String)
 signal mouth_selected(sprite_path: String)
+signal menu_closed
 
 ##### VARIABLES #####
 #---- STANDARD -----
@@ -143,6 +144,7 @@ func _common_close_menu(menu_name: String) -> void:
 	popup_background.hide()
 	popup_menus_root[menu_name].hide()
 	full_menus[menu_name].hide()
+	menu_closed.emit()
 
 
 ##### SIGNAL MANAGEMENT #####

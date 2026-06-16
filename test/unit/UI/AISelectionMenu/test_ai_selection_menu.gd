@@ -24,8 +24,9 @@ func test_open():
 
 func test_preset_selected():
 	# given
-	watch_signals(menu)
-	var config = PlayerConfig.new()
+	var config = AIPlayerConfig.new()
+	var sprite = SpriteCustomizationResource.new()
+	config.SPRITE_CUSTOMIZATION = sprite
 	var visualisation = double(load("res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_visualisation.tscn")).instantiate()
 	stub(visualisation, "update_ai").to_do_nothing()
 	menu.visualisation = visualisation
@@ -34,8 +35,8 @@ func test_preset_selected():
 	# then
 	assert_false(menu.presets.visible)
 	assert_true(menu.visualisation.visible)
-	assert_called(visualisation, "update_ai", [config])
-	assert_signal_emitted_with_parameters(menu.preset_selected, [config])
+	assert_called(visualisation, "update_ai", [sprite])
+	assert_eq(menu.player_config, config)
 
 
 func test_close_triggered():
@@ -44,7 +45,7 @@ func test_close_triggered():
 	# when
 	menu.visualisation.close_triggered.emit()
 	# then
-	assert_signal_emitted(menu.close_triggered)
+	assert_signal_emitted(menu.quit)
 
 
 func test_show_presets_triggered():

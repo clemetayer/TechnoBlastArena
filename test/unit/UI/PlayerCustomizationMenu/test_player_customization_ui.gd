@@ -50,18 +50,35 @@ func test_name_changed():
 	assert_eq(ui.player_config.PLAYER_NAME, "test_name")
 
 
-func test_primary_weapon_change_triggered():
+var primary_weapon_change_triggered_params := [
+	[true],
+	[false],
+]
+
+
+func test_primary_weapon_change_triggered(params = use_parameters(primary_weapon_change_triggered_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var menus = mock_menus()
 	stub(menus, "open_primary_weapon").to_do_nothing()
 	# when
 	ui.player_config_display.primary_weapon_change_requested.emit()
 	# then
 	assert_called(menus, "open_primary_weapon")
+	assert_eq(ui.main_window.visible, not is_small)
 
 
-func test_primary_weapon_changed():
+var primary_weapon_changed_params := [
+	[true],
+	[false],
+]
+
+
+func test_primary_weapon_changed(params = use_parameters(primary_weapon_changed_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
 	# when
@@ -69,20 +86,38 @@ func test_primary_weapon_changed():
 	# then
 	assert_eq(ui.player_config.PRIMARY_WEAPON, StaticPrimaryWeaponHandler.handlers.REVOLVER)
 	assert_called(player_config_display, "update_player")
+	assert_true(ui.main_window.visible)
 
 
-func test_movement_bonus_change_triggered():
+var movement_bonus_change_triggered_params := [
+	[true],
+	[false],
+]
+
+
+func test_movement_bonus_change_triggered(params = use_parameters(movement_bonus_change_triggered_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var menus = mock_menus()
 	stub(menus, "open_movement_bonus").to_do_nothing()
 	# when
 	ui.player_config_display.movement_bonus_change_requested.emit()
 	# then
 	assert_called(menus, "open_movement_bonus")
+	assert_eq(ui.main_window.visible, not is_small)
 
 
-func test_movement_bonus_changed():
+var movement_bonus_changed_params := [
+	[true],
+	[false],
+]
+
+
+func test_movement_bonus_changed(params = use_parameters(movement_bonus_changed_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
 	# when
@@ -90,20 +125,38 @@ func test_movement_bonus_changed():
 	# then
 	assert_eq(ui.player_config.MOVEMENT_BONUS_HANDLER, StaticMovementBonusHandler.handlers.DASH)
 	assert_called(player_config_display, "update_player")
+	assert_true(ui.main_window.visible)
 
 
-func test_powerup_change_triggered():
+var powerup_change_triggered_params := [
+	[true],
+	[false],
+]
+
+
+func test_powerup_change_triggered(params = use_parameters(powerup_change_triggered_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var menus = mock_menus()
 	stub(menus, "open_powerup").to_do_nothing()
 	# when
 	ui.player_config_display.powerup_change_requested.emit()
 	# then
 	assert_called(menus, "open_powerup")
+	assert_eq(ui.main_window.visible, not is_small)
 
 
-func test_powerup_changed():
+var powerup_changed_params := [
+	[true],
+	[false],
+]
+
+
+func test_powerup_changed(params = use_parameters(powerup_changed_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
 	# when
@@ -111,6 +164,7 @@ func test_powerup_changed():
 	# then
 	assert_eq(ui.player_config.POWERUP_HANDLER, StaticPowerupHandler.handlers.SPLITTER)
 	assert_called(player_config_display, "update_player")
+	assert_true(ui.main_window.visible)
 
 
 func test_main_color_changed():
@@ -139,18 +193,35 @@ func test_secondary_color_changed():
 	assert_called(player_config_display, "update_player")
 
 
-func test_open_eyes_change():
+var open_eyes_change_params := [
+	[true],
+	[false],
+]
+
+
+func test_open_eyes_change(params = use_parameters(open_eyes_change_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var menus = mock_menus()
 	stub(menus, "open_eyes_selection").to_do_nothing()
 	# when
 	ui.player_config_display.eyes_change_triggered.emit()
 	# then
 	assert_called(menus, "open_eyes_selection")
+	assert_eq(ui.main_window.visible, not is_small)
 
 
-func test_eyes_selected():
+var eyes_selected_params := [
+	[true],
+	[false],
+]
+
+
+func test_eyes_selected(params = use_parameters(eyes_selected_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
 	# when
@@ -158,20 +229,38 @@ func test_eyes_selected():
 	# then
 	assert_eq(ui.player_config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH, "eyes_sprite_path")
 	assert_called(player_config_display, "update_player")
+	assert_true(ui.main_window.visible)
 
 
-func test_open_mouth_change():
+var open_mouth_change_params := [
+	[true],
+	[false],
+]
+
+
+func test_open_mouth_change(params = use_parameters(open_mouth_change_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var menus = mock_menus()
 	stub(menus, "open_mouth_selection").to_do_nothing()
 	# when
 	ui.player_config_display.mouth_change_triggered.emit()
 	# then
 	assert_called(menus, "open_mouth_selection")
+	assert_eq(ui.main_window.visible, not is_small)
 
 
-func test_mouth_selected():
+var mouth_selected_params := [
+	[true],
+	[false],
+]
+
+
+func test_mouth_selected(params = use_parameters(mouth_selected_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
 	# when
@@ -179,6 +268,7 @@ func test_mouth_selected():
 	# then
 	assert_eq(ui.player_config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH, "mouth_sprite_path")
 	assert_called(player_config_display, "update_player")
+	assert_true(ui.main_window.visible)
 
 
 func test_eyes_color_changed():
@@ -207,22 +297,40 @@ func test_mouth_color_changed():
 	assert_called(player_config_display, "update_player")
 
 
-func test_elimination_text_change_triggered():
+var elimination_text_change_triggered_params := [
+	[true],
+	[false],
+]
+
+
+func test_elimination_text_change_triggered(params = use_parameters(elimination_text_change_triggered_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var menus = mock_menus()
 	stub(menus, "open_elimination_text").to_do_nothing()
 	# when
 	ui.player_config_display.elimination_text_change_triggered.emit()
 	# then
 	assert_called(menus, "open_elimination_text")
+	assert_eq(ui.main_window.visible, not is_small)
 
 
-func test_elimination_text_changed():
+var elimination_text_changed_params := [
+	[true],
+	[false],
+]
+
+
+func test_elimination_text_changed(params = use_parameters(elimination_text_changed_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	# when
 	ui.menus.elimination_text_updated.emit("elimination text")
 	# then
 	assert_eq(ui.player_config.ELIMINATION_TEXT, "elimination text")
+	assert_true(ui.main_window.visible)
 
 
 func test_randomize():
@@ -246,18 +354,35 @@ func test_randomize():
 	assert_called(player_config_display, "update_player")
 
 
-func test_open_presets_selection():
+var open_presets_selection_params := [
+	[true],
+	[false],
+]
+
+
+func test_open_presets_selection(params = use_parameters(open_presets_selection_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var menus = mock_menus()
 	stub(menus, "open_preset_selection").to_do_nothing()
 	# when
 	ui.preset_selection_button.pressed.emit()
 	# then
 	assert_called(menus, "open_preset_selection")
+	assert_eq(ui.main_window.visible, not is_small)
 
 
-func test_preset_selected():
+var preset_selected_params := [
+	[true],
+	[false],
+]
+
+
+func test_preset_selected(params = use_parameters(preset_selected_params)):
 	# given
+	var is_small = params[0]
+	ui.IS_SMALL = is_small
 	var preset = PlayerConfig.new()
 	preset.PLAYER_NAME = "player name"
 	preset.DESCRIPTION = "description"
@@ -279,6 +404,7 @@ func test_preset_selected():
 	# then
 	assert_eq(ui.player_config, preset)
 	assert_called(player_config_display, "update_player")
+	assert_true(ui.main_window.visible)
 
 
 func test_open_save_preset_menu():
@@ -309,6 +435,15 @@ func test_save_preset():
 	# cleanup
 	var dir_access = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
 	dir_access.remove(preset_path)
+
+
+func test_menus_menu_closed():
+	# given
+	ui.main_window.hide()
+	# when
+	ui.menus.menu_closed.emit()
+	# then
+	assert_true(ui.main_window.visible)
 
 
 func test_quit():

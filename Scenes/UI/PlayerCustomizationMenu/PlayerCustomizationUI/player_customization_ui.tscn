@@ -86,6 +86,7 @@ layout_mode = 1
 [connection signal="secondary_color_changed" from="MainWindow/MarginContainer/PlayerConfigDisplay" to="." method="_on_player_config_display_secondary_color_changed"]
 [connection signal="elimination_text_updated" from="Menus" to="." method="_on_menus_elimination_text_updated"]
 [connection signal="eyes_selected" from="Menus" to="." method="_on_menus_eyes_selected"]
+[connection signal="menu_closed" from="Menus" to="." method="_on_menus_menu_closed"]
 [connection signal="mouth_selected" from="Menus" to="." method="_on_menus_mouth_selected"]
 [connection signal="movement_bonus_selected" from="Menus" to="." method="_on_menus_movement_bonus_selected"]
 [connection signal="powerup_selected" from="Menus" to="." method="_on_menus_powerup_selected"]

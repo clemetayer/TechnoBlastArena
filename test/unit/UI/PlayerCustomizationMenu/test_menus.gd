@@ -376,6 +376,7 @@ var close_menu_params := [
 
 func test_close_menu(params = use_parameters(close_menu_params)):
 	# given
+	watch_signals(menus)
 	var is_small: bool = params[0]
 	var menu: String = params[1]
 	# when
@@ -391,6 +392,7 @@ func test_close_menu(params = use_parameters(close_menu_params)):
 	assert_false(menus.full_menus[menu].visible)
 	assert_false(menus.popup_menus_root[menu].visible)
 	assert_false(menus.popup_background.visible)
+	assert_signal_emitted(menus.menu_closed)
 
 
 func test_save_preset_canceled():

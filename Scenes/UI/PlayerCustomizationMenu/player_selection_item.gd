@@ -4,20 +4,12 @@ extends Control
 
 ##### VARIABLES #####
 #---- STANDARD -----
-#==== PRIVATE ====
-
 #==== ONREADY ====
 @onready var empty_menu := $"Panel/EmptyMenu"
 @onready var user_menu := $"Panel/PlayerCustomizationMenu"
 @onready var ai_menu := $"Panel/AiSelectionMenu"
 @onready var add_user_button := $"Panel/EmptyMenu/AddUser"
 @onready var add_ai_button := $"Panel/EmptyMenu/AddAI"
-
-
-##### PROCESSING #####
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
 
 
 ##### PUBLIC METHODS #####

@@ -192,6 +192,7 @@ func _on_menus_save_preset(preset_name: String, preset_description: String) -> v
 	var save_path = StaticUtils.get_preset_save_path(preset_name)
 	GSLogger.info("saving preset to %s" % save_path)
 	ResourceSaver.save(player_config, save_path)
+	menus.refresh_presets()
 
 
 func _on_menus_menu_closed() -> void:

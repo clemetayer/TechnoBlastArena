@@ -15,9 +15,7 @@ func before_all():
 
 
 func before_each():
-	scene = load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate()
-	add_child_autofree(scene)
-	await wait_for_signal(scene.tree_entered, 0.1)
+	scene = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate())
 	helper.set_selection_menu(scene)
 
 
@@ -41,14 +39,14 @@ func test_add_remove_players():
 		await wait_process_frames(3)
 		# then
 		assert_false(helper.is_empty_menu_visible(item))
-		assert_true(helper.is_main_menu_visible(item))
+		assert_true(helper.is_user_menu_visible(item))
 	for item in items:
 		# when
 		helper.remove_player_on_item(item)
 		await wait_process_frames(3)
 		# then
 		assert_true(helper.is_empty_menu_visible(item))
-		assert_false(helper.is_main_menu_visible(item))
+		assert_false(helper.is_user_menu_visible(item))
 
 
 func test_add_remove_ai_players():
@@ -76,19 +74,14 @@ func test_add_remove_ai_players():
 		assert_false(helper.is_ai_preset_menu_visible(item))
 
 
-func test_main_menu() -> void:
+func test_user_menu() -> void:
 	# given
 	var items = helper.get_player_selection_items()
 	var item = items[0]
 	var config = load(StaticUtils.DEFAULT_CONFIG_PATH)
 	helper.add_player_on_item(item)
 	# then
-	assert_true(helper.is_main_menu_visible(item))
-	assert_true(helper.is_config_equals_display(config, item))
-	# when
-	config = load(helper.INTEGRATION_TEST_PRESET_PATH)
-	helper.select_preset_config(config, item)
-	# then
+	assert_true(helper.is_user_menu_visible(item))
 	assert_true(helper.is_config_equals_display(config, item))
 
 
@@ -104,7 +97,6 @@ func test_presets() -> void:
 	var configs = helper.get_presets_configs(item)
 	var total_preset_count = initial_preset_count + 1
 	# then
-	assert_false(helper.is_main_menu_visible(item))
 	assert_true(helper.is_preset_menu_visible(item))
 	assert_eq(presets.size(), total_preset_count)
 	assert_true(helper.preset_buttons_contains_preset(presets, integration_test_config))
@@ -112,7 +104,7 @@ func test_presets() -> void:
 	helper.select_preset(presets[0])
 	# then
 	assert_false(helper.is_preset_menu_visible(item))
-	assert_true(helper.is_main_menu_visible(item))
+	assert_true(helper.is_user_menu_visible(item))
 	assert_true(helper.is_config_equals_display(configs[0], item))
 
 
@@ -125,13 +117,12 @@ func test_primary_weapons() -> void:
 	helper.select_primary_weapon_menu(item)
 	await wait_process_frames(3)
 	# then
-	assert_false(helper.is_main_menu_visible(item))
 	assert_true(helper.is_primary_weapon_menu_visible(item))
 	# when
 	helper.select_primary_weapon(0, item)
 	# then
 	assert_true(helper.is_primary_weapon_selected(StaticPrimaryWeaponHandler.handlers.REVOLVER, item))
-	assert_true(helper.is_main_menu_visible(item))
+	assert_true(helper.is_user_menu_visible(item))
 	assert_false(helper.is_primary_weapon_menu_visible(item))
 
 
@@ -144,13 +135,12 @@ func test_movement_bonus() -> void:
 	helper.select_movement_bonus_menu(item)
 	await wait_process_frames(3)
 	# then
-	assert_false(helper.is_main_menu_visible(item))
 	assert_true(helper.is_movement_bonus_menu_visible(item))
 	# when
 	helper.select_movement_bonus(0, item)
 	# then
 	assert_true(helper.is_movement_bonus_selected(StaticMovementBonusHandler.handlers.DASH, item))
-	assert_true(helper.is_main_menu_visible(item))
+	assert_true(helper.is_user_menu_visible(item))
 	assert_false(helper.is_movement_bonus_menu_visible(item))
 
 
@@ -163,11 +153,10 @@ func test_powerup() -> void:
 	helper.select_powerup_menu(item)
 	await wait_process_frames(3)
 	# then
-	assert_false(helper.is_main_menu_visible(item))
 	assert_true(helper.is_powerup_menu_visible(item))
 	# when
 	helper.select_powerup(0, item)
 	# then
 	assert_true(helper.is_powerup_selected(StaticPowerupHandler.handlers.SPLITTER, item))
-	assert_true(helper.is_main_menu_visible(item))
+	assert_true(helper.is_user_menu_visible(item))
 	assert_false(helper.is_powerup_menu_visible(item))

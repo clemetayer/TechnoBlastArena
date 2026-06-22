@@ -77,6 +77,11 @@ func toggle_is_small(is_small: bool) -> void:
 	_is_small = is_small
 
 
+func refresh_presets() -> void:
+	full_menus.preset_selection.refresh()
+	menus_in_popups.preset_selection.refresh()
+
+
 func open_preset_selection() -> void:
 	_common_open_menu("preset_selection")
 

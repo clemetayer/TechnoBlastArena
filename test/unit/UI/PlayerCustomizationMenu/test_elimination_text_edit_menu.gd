@@ -33,10 +33,11 @@ func test_set_elimination_text():
 	assert_eq(menu.text_edit.text, "test")
 
 
-func test_on_line_edit_text_changed():
+func test_on_ok_button_pressed():
 	# given
 	watch_signals(menu)
+	menu.text_edit.text = "test"
 	# when
-	menu._on_line_edit_text_changed("test")
+	menu.ok_button.pressed.emit()
 	# then
 	assert_signal_emitted_with_parameters(menu.elimination_text_updated, ["test"])

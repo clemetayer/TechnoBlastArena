@@ -9,6 +9,7 @@ signal elimination_text_updated(new_text: String)
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var text_edit := $"VBoxContainer/MarginContainer/TextEdit"
+@onready var ok_button := $"VBoxContainer/OkButton"
 
 
 ##### PUBLIC METHODS #####
@@ -21,5 +22,5 @@ func set_elimination_text(text: String) -> void:
 
 
 ##### SIGNAL MANAGEMENT #####
-func _on_line_edit_text_changed(new_text: String) -> void:
-	elimination_text_updated.emit(new_text)
+func _on_ok_button_pressed() -> void:
+	elimination_text_updated.emit(text_edit.text)

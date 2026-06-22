@@ -97,4 +97,4 @@ theme_type_variation = &"StdImportantButton"
 theme_override_font_sizes/font_size = 40
 text = " Start ! "
 
-[connection signal="button_up" from="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/StartButton" to="." method="_on_start_button_button_up"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]

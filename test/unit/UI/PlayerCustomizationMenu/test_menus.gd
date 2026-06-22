@@ -11,6 +11,18 @@ func before_each():
 
 
 ##### TESTS #####
+func test_refresh_presets():
+	# given
+	var presets = double(load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.gd")).new()
+	stub(presets, "refresh").to_do_nothing()
+	menus.full_menus["preset_selection"] = presets
+	menus.menus_in_popups["preset_selection"] = presets
+	# when
+	menus.refresh_presets()
+	# then
+	assert_called(presets, "refresh")
+
+
 func test_set_primary_weapon_data():
 	# given
 	var item_grid = double(load("res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.gd")).new()

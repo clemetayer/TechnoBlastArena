@@ -424,14 +424,21 @@ func test_save_preset():
 	sprite.BODY_COLOR = Color.BLUE
 	config.SPRITE_CUSTOMIZATION = sprite
 	ui.player_config = config
+	assert_true(ui.menus.save_preset.is_connected(ui._on_menus_save_preset))
+	var menus = partial_double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenus/menus.gd")).new()
+	stub(menus, "refresh_presets").to_do_nothing()
+	ui.menus = menus
+	menus.save_preset.connect(ui._on_menus_save_preset)
 	# when
 	ui.menus.save_preset.emit("gdunittest", "test preset")
+	await wait_process_frames(3)
 	# then
 	var preset_path = StaticUtils.get_preset_save_path("gdunittest")
 	assert_true(ResourceLoader.exists(preset_path))
 	var saved_resource = load(preset_path)
 	assert_eq(saved_resource.DESCRIPTION, "test preset")
 	assert_eq(saved_resource.SPRITE_CUSTOMIZATION.BODY_COLOR, Color.BLUE)
+	assert_called(menus, "refresh_presets")
 	# cleanup
 	var dir_access = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
 	dir_access.remove(preset_path)

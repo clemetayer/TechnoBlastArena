@@ -7,9 +7,7 @@ var presets
 
 ##### SETUP #####
 func before_each():
-	presets = load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.tscn").instantiate()
-	add_child_autofree(presets)
-	await wait_for_signal(presets.tree_entered, 0.1)
+	presets = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.tscn").instantiate())
 
 
 ##### TESTS #####
@@ -32,3 +30,19 @@ func test_on_preset_selected():
 	presets._on_preset_selected(config)
 	# then
 	assert_signal_emitted_with_parameters(presets.preset_selected, [config])
+
+
+func test_preset_deleted():
+	# given
+	presets.refresh()
+	await wait_process_frames(1)
+	for preset in presets.presets_root.get_children():
+		assert_true(preset.preset_deleted.is_connected(presets._on_preset_preset_deleted))
+	presets = partial_double(load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.gd")).new()
+	stub(presets, "refresh").to_do_nothing()
+	var preset = autofree(load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.tscn").instantiate())
+	preset.preset_deleted.connect(presets._on_preset_preset_deleted)
+	# when
+	preset.preset_deleted.emit()
+	# then
+	assert_called(presets, "refresh")

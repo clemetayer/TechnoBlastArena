@@ -44,6 +44,7 @@ func test_presets():
 	# when
 	helper.open_presets_menu()
 	# then
+	await wait_physics_frames(2)
 	assert_true(helper.is_preset_menu_visible())
 	var integration_test_config = helper.get_integration_test_config()
 	var presets = helper.get_presets()
@@ -51,7 +52,7 @@ func test_presets():
 	assert_eq(presets.size(), total_preset_count)
 	assert_true(helper.preset_buttons_contains_preset(presets, integration_test_config))
 	# when
-	presets[total_preset_count - 1].pressed.emit()
+	presets[total_preset_count - 1].button.pressed.emit()
 	await wait_process_frames(3)
 	# then
 	assert_false(helper.is_save_preset_popup_visible())
@@ -59,19 +60,29 @@ func test_presets():
 	helper.open_save_preset_menu()
 	helper.save_preset_with_name_and_description(helper.INTEGRATION_TEST_2_PRESET_NAME, helper.INTEGRATION_TEST_2_PRESET_DESCRIPTION)
 	await wait_seconds(0.5)
+	assert_true(helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME))
 	# then
 	presets = helper.get_presets()
 	assert_eq(presets.size(), initial_preset_count + 2)
 	# when
-	presets[total_preset_count - 1].pressed.emit()
+	presets[total_preset_count - 1].button.pressed.emit()
 	await wait_process_frames(3)
 	helper.save_preset_with_name_and_description(helper.INTEGRATION_TEST_2_PRESET_NAME, helper.INTEGRATION_TEST_2_PRESET_DESCRIPTION)
 	assert_true(helper.is_override_preset_popup_visible())
 	helper.override_preset()
 	await wait_seconds(0.5)
 	assert_eq(presets.size(), initial_preset_count + 2)
+	assert_true(helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME))
+	# when
+	presets = helper.get_presets()
+	presets[total_preset_count].delete_button.pressed.emit()
+	await wait_process_frames(2)
+	presets = helper.get_presets()
+	assert_eq(presets.size(), initial_preset_count + 1)
+	assert_false(helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME))
 	# cleanup
-	helper.remove_preset_with_name(helper.INTEGRATION_TEST_2_PRESET_NAME)
+	if helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME):
+		helper.remove_preset_with_name(helper.INTEGRATION_TEST_2_PRESET_NAME)
 
 
 func test_name():

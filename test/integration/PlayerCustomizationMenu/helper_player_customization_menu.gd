@@ -38,6 +38,11 @@ func save_std_preset() -> void:
 	ResourceSaver.save(preset, INTEGRATION_TEST_SAVE_PATH)
 
 
+func saved_preset_exists(preset_name: String) -> bool:
+	var dir := DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
+	return dir.file_exists(StaticUtils.get_preset_save_path(preset_name))
+
+
 func is_config_equals_display(config: PlayerConfig) -> bool:
 	var res = true
 	res = res and _get_player_config_diplay().name_edit.text == config.PLAYER_NAME
@@ -78,7 +83,7 @@ func get_presets() -> Array:
 	return _get_menus().menus_in_popups.preset_selection.presets_root.get_children()
 
 
-func is_preset_equal(preset: Button, config: PlayerConfig) -> bool:
+func is_preset_equal(preset: Control, config: PlayerConfig) -> bool:
 	var res = true
 	res = res and preset.name_label.text == config.PLAYER_NAME
 	res = res and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)

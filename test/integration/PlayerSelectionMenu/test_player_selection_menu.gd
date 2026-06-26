@@ -87,6 +87,7 @@ func test_user_menu() -> void:
 
 func test_presets() -> void:
 	# given
+	await wait_process_frames(2)
 	var items = helper.get_player_selection_items()
 	var item = items[0]
 	# when
@@ -105,7 +106,7 @@ func test_presets() -> void:
 	# then
 	assert_false(helper.is_preset_menu_visible(item))
 	assert_true(helper.is_user_menu_visible(item))
-	assert_true(helper.is_config_equals_display(configs[0], item))
+	assert_true(helper.is_config_equals_display(configs[configs.keys()[0]], item))
 
 
 func test_primary_weapons() -> void:

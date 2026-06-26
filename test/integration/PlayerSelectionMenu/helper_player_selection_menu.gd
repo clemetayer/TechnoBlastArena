@@ -68,7 +68,7 @@ func is_ai_visualisation_menu_visible(item: Node) -> bool:
 
 
 func select_first_ai_preset(item: Node) -> void:
-	item.ai_menu.presets.presets_root.get_child(0).pressed.emit()
+	item.ai_menu.presets.presets_root.get_child(0).button.pressed.emit()
 
 
 func remove_ai_player_on_item(item: Node) -> void:
@@ -106,7 +106,7 @@ func get_presets(item: Node) -> Array:
 	return _get_menus(item).full_menus.preset_selection.presets_root.get_children()
 
 
-func get_presets_configs(item: Node) -> Array:
+func get_presets_configs(item: Node) -> Dictionary:
 	return _get_menus(item).full_menus.preset_selection._presets
 
 
@@ -114,7 +114,7 @@ func is_preset_menu_visible(item: Node) -> bool:
 	return _get_menus(item).full_menus.preset_selection.visible
 
 
-func is_preset_equal(preset: Button, config: PlayerConfig) -> bool:
+func is_preset_equal(preset: Control, config: PlayerConfig) -> bool:
 	var res = true
 	res = res and preset.name_label.text == config.PLAYER_NAME
 	res = res and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
@@ -137,8 +137,8 @@ func preset_buttons_contains_preset(preset_buttons: Array, preset: PlayerConfig)
 	return false
 
 
-func select_preset(preset: Button) -> void:
-	preset.pressed.emit()
+func select_preset(preset: Control) -> void:
+	preset.button.pressed.emit()
 
 
 func select_primary_weapon_menu(item: Node) -> void:

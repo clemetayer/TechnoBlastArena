@@ -57,6 +57,7 @@ layout_mode = 2
 IS_SMALL = true
 
 [node name="AiSelectionMenu" parent="Panel" unique_id=1921544980 instance=ExtResource("5_fpt8k")]
+visible = false
 layout_mode = 2
 
 [connection signal="pressed" from="Panel/EmptyMenu/AddAI" to="." method="_on_add_ai_pressed"]

@@ -63,8 +63,13 @@ func test_add_remove_ai_players():
 		assert_false(helper.is_empty_menu_visible(item))
 		assert_true(helper.is_ai_preset_menu_visible(item))
 		helper.select_first_ai_preset(item)
+		var ai_config: PlayerConfig = helper.get_ai_preset_configuration(item)
 		assert_true(helper.is_ai_visualisation_menu_visible(item))
 		assert_false(helper.is_ai_preset_menu_visible(item))
+		assert_eq(helper.get_ai_player_name(item), ai_config.PLAYER_NAME)
+		assert_eq(helper.get_ai_primary_weapon_image_path(item), StaticPrimaryWeaponHandler.get_icon_path(ai_config.PRIMARY_WEAPON))
+		assert_eq(helper.get_ai_movement_bonus_image_path(item), StaticMovementBonusHandler.get_icon_path(ai_config.MOVEMENT_BONUS_HANDLER))
+		assert_eq(helper.get_ai_powerup_image_path(item), StaticPowerupHandler.get_icon_path(ai_config.POWERUP_HANDLER))
 	for item in items:
 		# when
 		helper.remove_ai_player_on_item(item)

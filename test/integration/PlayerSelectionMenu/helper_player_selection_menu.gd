@@ -71,6 +71,26 @@ func select_first_ai_preset(item: Node) -> void:
 	item.ai_menu.presets.presets_root.get_child(0).button.pressed.emit()
 
 
+func get_ai_preset_configuration(item: Node) -> PlayerConfig:
+	return item.ai_menu.player_config
+
+
+func get_ai_player_name(item: Node) -> String:
+	return item.ai_menu.visualisation.player_name.text
+
+
+func get_ai_primary_weapon_image_path(item: Node) -> String:
+	return item.ai_menu.visualisation.primary_weapon.texture.resource_path
+
+
+func get_ai_movement_bonus_image_path(item: Node) -> String:
+	return item.ai_menu.visualisation.movement_bonus.texture.resource_path
+
+
+func get_ai_powerup_image_path(item: Node) -> String:
+	return item.ai_menu.visualisation.powerup.texture.resource_path
+
+
 func remove_ai_player_on_item(item: Node) -> void:
 	item.ai_menu.quit.emit()
 

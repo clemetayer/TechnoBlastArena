@@ -35,8 +35,18 @@ func test_preset_selected():
 	# then
 	assert_false(menu.presets.visible)
 	assert_true(menu.visualisation.visible)
-	assert_called(visualisation, "update_ai", [sprite])
+	assert_called(visualisation, "update_ai", [config])
 	assert_eq(menu.player_config, config)
+
+
+func test_preset_menu_closed():
+	# given
+	watch_signals(menu)
+	menu.open()
+	# when
+	menu.presets_close_button.pressed.emit()
+	# then
+	assert_signal_emitted(menu.quit)
 
 
 func test_close_triggered():

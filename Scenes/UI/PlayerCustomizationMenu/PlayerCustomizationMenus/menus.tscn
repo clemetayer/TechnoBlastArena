@@ -5,11 +5,14 @@
 [ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="2_ivah3"]
 [ext_resource type="PackedScene" uid="uid://ch7ktmnnktu7d" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.tscn" id="3_u54q3"]
 [ext_resource type="PackedScene" uid="uid://s15b1kpmet1t" path="res://Scenes/UI/PlayerCustomizationMenu/EliminationTextEditMenu/elimination_text_edit_menu.tscn" id="4_cf0a8"]
-[ext_resource type="Script" uid="uid://d1go3hm03uhhp" path="res://Scenes/UI/PlayerCustomizationMenu/save_preset_popup.gd" id="5_m0qre"]
 [ext_resource type="PackedScene" uid="uid://rjen8sq4r25s" path="res://Scenes/UI/PlayerCustomizationMenu/SpriteItems/sprite_items.tscn" id="6_u54q3"]
+[ext_resource type="PackedScene" uid="uid://8o8npdbfo0pu" path="res://Scenes/UI/PlayerCustomizationMenu/SavePreset/save_preset.tscn" id="7_hqacy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ugvj"]
 bg_color = Color(0, 0, 0, 0.49019608)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yri48"]
+font_size = 20
 
 [node name="Menus" type="Control" unique_id=1960320400]
 layout_mode = 3
@@ -120,6 +123,70 @@ TITLE = "Mouth selection"
 RESOURCE_LIST_PATH = "uid://cid14rfvtj5qe"
 
 [node name="MouthSelectionCloseButton" type="Button" parent="MouthSelectionFull" unique_id=1029456721]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("2_ivah3")
+expand_icon = true
+
+[node name="SavePresetFull" parent="." unique_id=1399116372 instance=ExtResource("7_hqacy")]
+visible = false
+layout_mode = 1
+
+[node name="SavePresetCloseButton" type="Button" parent="SavePresetFull" unique_id=1288866111]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("2_ivah3")
+expand_icon = true
+
+[node name="OverridePresetFull" type="MarginContainer" parent="." unique_id=2011213704]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OverridePresetFull" unique_id=1326239982]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="OverridePresetFull/VBoxContainer" unique_id=1027085230]
+layout_mode = 2
+text = "Override preset ?"
+label_settings = SubResource("LabelSettings_yri48")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="OverridePresetFull/VBoxContainer" unique_id=1322846446]
+layout_mode = 2
+size_flags_vertical = 6
+text = "This preset already exists, override it ?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OverridePresetFull/VBoxContainer" unique_id=500784466]
+layout_mode = 2
+
+[node name="OkButton" type="Button" parent="OverridePresetFull/VBoxContainer/HBoxContainer" unique_id=231969023]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OK"
+
+[node name="CancelButton" type="Button" parent="OverridePresetFull/VBoxContainer/HBoxContainer" unique_id=1385455245]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="OverridePresetCloseButton" type="Button" parent="OverridePresetFull" unique_id=853455021]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -247,66 +314,81 @@ theme_type_variation = &"StdSecondaryPanel"
 TITLE = "Mouth selection"
 RESOURCE_LIST_PATH = "uid://cid14rfvtj5qe"
 
-[node name="SavePresetPopup" type="ConfirmationDialog" parent="." unique_id=1382700983]
+[node name="SavePresetPopup" type="Window" parent="." unique_id=1803555135]
 oversampling_override = 1.0
-title = "Save preset"
 initial_position = 2
-size = Vector2i(397, 168)
-dialog_hide_on_ok = false
-script = ExtResource("5_m0qre")
+size = Vector2i(397, 250)
+visible = false
 
 [node name="Panel" type="Panel" parent="SavePresetPopup" unique_id=1421658648]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -49.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 theme_type_variation = &"StdSecondaryPanel"
 
-[node name="MarginContainer" type="MarginContainer" parent="SavePresetPopup" unique_id=1647332554]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 389.0
-offset_bottom = 119.0
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+[node name="SavePreset" parent="SavePresetPopup" unique_id=1040050770 instance=ExtResource("7_hqacy")]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SavePresetPopup/MarginContainer" unique_id=193138699]
-layout_mode = 2
-
-[node name="Name" type="LineEdit" parent="SavePresetPopup/MarginContainer/VBoxContainer" unique_id=367699741]
-layout_mode = 2
-placeholder_text = "preset name"
-
-[node name="Description" type="TextEdit" parent="SavePresetPopup/MarginContainer/VBoxContainer" unique_id=16941724]
-layout_mode = 2
-size_flags_vertical = 3
-placeholder_text = "Preset description"
-
-[node name="OverridePresetPopup" type="ConfirmationDialog" parent="." unique_id=1834549453]
+[node name="OverridePresetPopup" type="Window" parent="." unique_id=1549766605]
 oversampling_override = 1.0
 initial_position = 2
-size = Vector2i(312, 100)
+size = Vector2i(400, 150)
+visible = false
 unresizable = true
-dialog_text = "This preset already exists, override it ?"
 
 [node name="Panel" type="Panel" parent="OverridePresetPopup" unique_id=1685325806]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -49.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"StdSecondaryPanel"
+
+[node name="OverridePreset" type="MarginContainer" parent="OverridePresetPopup" unique_id=796999139]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -15.0
+offset_right = 8.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OverridePresetPopup/OverridePreset" unique_id=1122530564]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="OverridePresetPopup/OverridePreset/VBoxContainer" unique_id=1901869625]
+layout_mode = 2
+text = "Override preset ?"
+label_settings = SubResource("LabelSettings_yri48")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="OverridePresetPopup/OverridePreset/VBoxContainer" unique_id=808559905]
+layout_mode = 2
+size_flags_vertical = 6
+text = "This preset already exists, override it ?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="OverridePresetPopup/OverridePreset/VBoxContainer" unique_id=90993198]
+layout_mode = 2
+
+[node name="OkButton" type="Button" parent="OverridePresetPopup/OverridePreset/VBoxContainer/HBoxContainer" unique_id=1731547730]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OK"
+
+[node name="CancelButton" type="Button" parent="OverridePresetPopup/OverridePreset/VBoxContainer/HBoxContainer" unique_id=1300255764]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
 
 [connection signal="preset_selected" from="PresetSelectionFull" to="." method="_on_preset_selection_preset_selected"]
 [connection signal="pressed" from="PresetSelectionFull/PresetSelectionCloseButton" to="." method="_on_preset_selection_close_button_pressed"]
@@ -322,6 +404,12 @@ theme_type_variation = &"StdSecondaryPanel"
 [connection signal="pressed" from="EyesSelectionFull/EyesSelectionCloseButton" to="." method="_on_eyes_selection_close_button_pressed"]
 [connection signal="sprite_selected" from="MouthSelectionFull" to="." method="_on_mouth_selection_sprite_selected"]
 [connection signal="pressed" from="MouthSelectionFull/MouthSelectionCloseButton" to="." method="_on_mouth_selection_close_button_pressed"]
+[connection signal="open_override_popup" from="SavePresetFull" to="." method="_on_save_preset_open_override_popup"]
+[connection signal="save_preset_triggered" from="SavePresetFull" to="." method="_on_save_preset_popup_save_preset"]
+[connection signal="pressed" from="SavePresetFull/SavePresetCloseButton" to="." method="_on_save_preset_close_button_pressed"]
+[connection signal="pressed" from="OverridePresetFull/VBoxContainer/HBoxContainer/OkButton" to="." method="_on_override_preset_ok_button_pressed"]
+[connection signal="pressed" from="OverridePresetFull/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_override_preset_close_button_pressed"]
+[connection signal="pressed" from="OverridePresetFull/OverridePresetCloseButton" to="." method="_on_override_preset_close_button_pressed"]
 [connection signal="close_requested" from="PresetSelectionPopup" to="." method="_on_preset_selection_close_button_pressed"]
 [connection signal="preset_selected" from="PresetSelectionPopup/PresetSelection" to="." method="_on_preset_selection_preset_selected"]
 [connection signal="close_requested" from="PrimaryWeaponGridPopup" to="." method="_on_primary_weapon_close_button_pressed"]
@@ -336,7 +424,9 @@ theme_type_variation = &"StdSecondaryPanel"
 [connection signal="sprite_selected" from="EyesSelectionPopup/EyesSelection" to="." method="_on_eyes_selection_sprite_selected"]
 [connection signal="close_requested" from="MouthSelectionPopup" to="." method="_on_mouth_selection_close_button_pressed"]
 [connection signal="sprite_selected" from="MouthSelectionPopup/MouthSelection" to="." method="_on_mouth_selection_sprite_selected"]
-[connection signal="canceled" from="SavePresetPopup" to="." method="_on_save_preset_popup_canceled"]
-[connection signal="confirmed" from="SavePresetPopup" to="SavePresetPopup" method="_on_confirmed"]
-[connection signal="save_preset" from="SavePresetPopup" to="." method="_on_save_preset_popup_save_preset"]
-[connection signal="confirmed" from="OverridePresetPopup" to="SavePresetPopup" method="_on_override_preset_popup_confirmed"]
+[connection signal="close_requested" from="SavePresetPopup" to="." method="_on_save_preset_close_button_pressed"]
+[connection signal="open_override_popup" from="SavePresetPopup/SavePreset" to="." method="_on_save_preset_open_override_popup"]
+[connection signal="save_preset_triggered" from="SavePresetPopup/SavePreset" to="." method="_on_save_preset_popup_save_preset"]
+[connection signal="close_requested" from="OverridePresetPopup" to="." method="_on_override_preset_close_button_pressed"]
+[connection signal="pressed" from="OverridePresetPopup/OverridePreset/VBoxContainer/HBoxContainer/OkButton" to="." method="_on_override_preset_ok_button_pressed"]
+[connection signal="pressed" from="OverridePresetPopup/OverridePreset/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_override_preset_close_button_pressed"]

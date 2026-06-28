@@ -191,16 +191,16 @@ var open_save_preset_popup_params := [
 ]
 
 
-func test_open_save_preset_popup(params = use_parameters(open_save_preset_popup_params)):
+func test_open_save_preset(params = use_parameters(open_save_preset_popup_params)):
 	# given
 	var is_small: bool = params[0]
 	# when
 	menus.toggle_is_small(is_small)
-	menus.open_save_preset_popup()
+	menus.open_save_preset()
 	# then
 	assert_true(menus.visible)
-	assert_eq(menus.save_preset_popup.visible, true)
-	assert_eq(menus.popup_background.visible, not is_small)
+	assert_eq(menus.popup_menus_root.save_preset.visible, not is_small)
+	assert_eq(menus.full_menus.save_preset.visible, is_small)
 
 
 var select_preset_params := [
@@ -383,6 +383,8 @@ var close_menu_params := [
 	[false, "eyes_selection"],
 	[true, "mouth_selection"],
 	[false, "mouth_selection"],
+	[true, "save_preset"],
+	[false, "save_preset"],
 ]
 
 
@@ -407,26 +409,86 @@ func test_close_menu(params = use_parameters(close_menu_params)):
 	assert_signal_emitted(menus.menu_closed)
 
 
-func test_save_preset_canceled():
-	# given
-	# when
-	menus.save_preset_popup.canceled.emit()
-	# then
-	assert_false(menus.save_preset_popup.visible)
-	assert_false(menus.visible)
-	assert_false(menus.popup_background.visible)
+var save_preset_ok_params := [
+	[true],
+	[false],
+]
 
 
-func test_save_preset_ok():
+func test_save_preset_ok(params = use_parameters(save_preset_ok_params)):
 	# given
+	var is_small: bool = params[0]
 	watch_signals(menus)
 	# when
-	menus.save_preset_popup.save_preset.emit("preset_name", "preset_description")
+	menus.toggle_is_small(is_small)
+	if is_small:
+		menus.full_menus.save_preset.save_preset_triggered.emit("preset_name", "preset_description")
+	else:
+		menus.menus_in_popups.save_preset.save_preset_triggered.emit("preset_name", "preset_description")
 	# then
 	assert_signal_emitted_with_parameters(menus.save_preset, ["preset_name", "preset_description"])
 	assert_false(menus.visible)
-	assert_false(menus.save_preset_popup.visible)
+	assert_false(menus.full_menus.save_preset.visible)
+	assert_false(menus.popup_menus_root.save_preset.visible)
 	assert_false(menus.popup_background.visible)
+	assert_signal_emitted(menus.menu_closed)
+
+
+var override_preset_open_params := [
+	[true],
+	[false],
+]
+
+
+func test_override_preset_open(params = use_parameters(override_preset_open_params)):
+	# given
+	var is_small: bool = params[0]
+	watch_signals(menus)
+	# when
+	menus.toggle_is_small(is_small)
+	menus.open_save_preset()
+	if is_small:
+		menus.full_menus.save_preset.open_override_popup.emit()
+	else:
+		menus.menus_in_popups.save_preset.open_override_popup.emit()
+	# then
+	assert_eq(menus.popup_menus_root.override_preset.visible, not is_small)
+	assert_eq(menus.full_menus.override_preset.visible, is_small)
+	assert_false(menus.full_menus.save_preset.visible)
+	assert_false(menus.popup_menus_root.save_preset.visible)
+
+
+var close_override_preset_params := [
+	[true, true],
+	[false, true],
+	[true, false],
+	[false, false],
+]
+
+
+func test_close_override_preset(params = use_parameters(close_override_preset_params)):
+	# given
+	var is_small: bool = params[0]
+	var press_cancel: bool = params[1]
+	# when
+	menus.toggle_is_small(is_small)
+	if is_small:
+		menus.full_menus.override_preset.show()
+		if press_cancel:
+			menus.full_menus.override_preset.get_node("VBoxContainer/HBoxContainer/CancelButton").pressed.emit()
+		else:
+			menus.full_menus.override_preset.get_node("OverridePresetCloseButton").pressed.emit()
+	else:
+		menus.popup_menus_root.override_preset.show()
+		if press_cancel:
+			menus.menus_in_popups.override_preset.get_node("VBoxContainer/HBoxContainer/CancelButton").pressed.emit()
+		else:
+			menus.popup_menus_root.override_preset.close_requested.emit()
+	# then
+	assert_false(menus.popup_menus_root.override_preset.visible)
+	assert_false(menus.full_menus.override_preset.visible)
+	assert_eq(menus.full_menus.save_preset.visible, is_small)
+	assert_eq(menus.popup_menus_root.save_preset.visible, not is_small)
 
 
 ##### UTILS #####

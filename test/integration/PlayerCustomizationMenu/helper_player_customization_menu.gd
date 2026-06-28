@@ -104,13 +104,13 @@ func open_save_preset_menu() -> void:
 
 
 func is_save_preset_popup_visible() -> bool:
-	return _get_menus().save_preset_popup.visible
+	return _get_menus().popup_menus_root.save_preset.visible
 
 
 func save_preset_with_name_and_description(pname: String, pdescription: String) -> void:
-	_get_menus().save_preset_popup.preset_name.text = pname
-	_get_menus().save_preset_popup.preset_description.text = pdescription
-	_get_menus().save_preset_popup.get_ok_button().pressed.emit()
+	_get_menus().menus_in_popups.save_preset.preset_name.text = pname
+	_get_menus().menus_in_popups.save_preset.preset_description.text = pdescription
+	_get_menus().menus_in_popups.save_preset.ok_button.pressed.emit()
 
 
 func preset_buttons_contains_preset(preset_buttons: Array, preset: PlayerConfig) -> bool:
@@ -121,11 +121,11 @@ func preset_buttons_contains_preset(preset_buttons: Array, preset: PlayerConfig)
 
 
 func is_override_preset_popup_visible() -> bool:
-	return _get_menus().get_node("OverridePresetPopup").visible
+	return _get_menus().popup_menus_root.override_preset.visible
 
 
 func override_preset() -> void:
-	_get_menus().get_node("OverridePresetPopup").get_ok_button().pressed.emit()
+	_get_menus().menus_in_popups.override_preset.get_node("VBoxContainer/HBoxContainer/OkButton").pressed.emit()
 
 
 func get_player_name() -> String:

@@ -19,8 +19,6 @@ signal menu_closed
 var _is_small
 
 #==== ONREADY ====
-@onready var save_preset_popup := $"SavePresetPopup"
-
 @onready var full_menus_close_buttons := {
 	"preset_selection": $"PresetSelectionFull/PresetSelectionCloseButton",
 	"primary_weapon": $"PrimaryWeaponGridFull/PrimaryWeaponCloseButton",
@@ -29,6 +27,8 @@ var _is_small
 	"elimination_text": $"EliminationTextEditFull/EliminationTextCloseButton",
 	"eyes_selection": $"EyesSelectionFull/EyesSelectionCloseButton",
 	"mouth_selection": $"MouthSelectionFull/MouthSelectionCloseButton",
+	"save_preset": $"SavePresetFull/SavePresetCloseButton",
+	"override_preset": $"OverridePresetFull/OverridePresetCloseButton",
 }
 
 @onready var full_menus := {
@@ -39,6 +39,8 @@ var _is_small
 	"elimination_text": $"EliminationTextEditFull",
 	"eyes_selection": $"EyesSelectionFull",
 	"mouth_selection": $"MouthSelectionFull",
+	"save_preset": $"SavePresetFull",
+	"override_preset": $"OverridePresetFull",
 }
 
 @onready var menus_in_popups := {
@@ -49,6 +51,8 @@ var _is_small
 	"elimination_text": $"EliminationTextEditPopup/EliminationTextEdit",
 	"eyes_selection": $"EyesSelectionPopup/EyesSelection",
 	"mouth_selection": $"MouthSelectionPopup/MouthSelection",
+	"save_preset": $"SavePresetPopup/SavePreset",
+	"override_preset": $"OverridePresetPopup/OverridePreset",
 }
 
 @onready var popup_menus_root := {
@@ -59,6 +63,8 @@ var _is_small
 	"elimination_text": $"EliminationTextEditPopup",
 	"eyes_selection": $"EyesSelectionPopup",
 	"mouth_selection": $"MouthSelectionPopup",
+	"save_preset": $"SavePresetPopup",
+	"override_preset": $"OverridePresetPopup",
 }
 
 @onready var popup_background := $"BackgroundPopup"
@@ -110,10 +116,8 @@ func open_mouth_selection() -> void:
 	_common_open_menu("mouth_selection")
 
 
-func open_save_preset_popup() -> void:
-	show()
-	save_preset_popup.show()
-	popup_background.visible = not _is_small
+func open_save_preset() -> void:
+	_common_open_menu("save_preset")
 
 
 ##### PROTECTED METHODS #####
@@ -223,6 +227,35 @@ func _on_save_preset_popup_canceled() -> void:
 
 func _on_save_preset_popup_save_preset(preset_name: String, preset_description: String) -> void:
 	save_preset.emit(preset_name, preset_description)
-	hide()
-	popup_background.hide()
-	save_preset_popup.hide()
+	_common_close_menu("save_preset")
+
+
+func _on_save_preset_close_button_pressed() -> void:
+	_common_close_menu("save_preset")
+
+
+func _on_save_preset_open_override_popup() -> void:
+	popup_menus_root.save_preset.hide()
+	full_menus.save_preset.hide()
+	if _is_small:
+		full_menus.override_preset.show()
+		return
+	popup_menus_root.override_preset.show()
+
+
+func _on_override_preset_close_button_pressed() -> void:
+	popup_menus_root.override_preset.hide()
+	full_menus.override_preset.hide()
+	if _is_small:
+		full_menus.save_preset.show()
+		return
+	popup_menus_root.save_preset.show()
+
+
+func _on_override_preset_ok_button_pressed() -> void:
+	popup_menus_root.override_preset.hide()
+	full_menus.override_preset.hide()
+	if _is_small:
+		full_menus.save_preset.save_preset()
+		return
+	menus_in_popups.save_preset.save_preset()

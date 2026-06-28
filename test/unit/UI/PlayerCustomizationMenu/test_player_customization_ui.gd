@@ -407,14 +407,23 @@ func test_preset_selected(params = use_parameters(preset_selected_params)):
 	assert_true(ui.main_window.visible)
 
 
-func test_open_save_preset_menu():
+var open_save_preset_params := [
+	[true],
+	[false],
+]
+
+
+func test_open_save_preset_menu(params = use_parameters(open_save_preset_params)):
 	# given
+	var is_small: bool = params[0]
+	ui.IS_SMALL = is_small
 	var menus = mock_menus()
-	stub(menus, "open_save_preset_popup")
+	stub(menus, "open_save_preset")
 	# when
 	ui.save_preset_button.pressed.emit()
 	# then
-	assert_called(menus, "open_save_preset_popup")
+	assert_called(menus, "open_save_preset")
+	assert_eq(ui.main_window.visible, not is_small)
 
 
 func test_save_preset():

@@ -78,7 +78,8 @@ func _on_preset_selection_button_pressed() -> void:
 
 
 func _on_save_preset_button_pressed() -> void:
-	menus.open_save_preset_popup()
+	menus.open_save_preset()
+	main_window.visible = not IS_SMALL
 
 
 func _on_quit_button_pressed() -> void:

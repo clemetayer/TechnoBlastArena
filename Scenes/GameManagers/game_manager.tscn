@@ -1,27 +1,20 @@
 [gd_scene format=3 uid="uid://dfhqpbi1moq3f"]
 
 [ext_resource type="Script" uid="uid://comivhr6alcm0" path="res://Scenes/GameManagers/game_manager.gd" id="1_6q8xy"]
-[ext_resource type="Script" uid="uid://bm47e7ures4vf" path="res://Scenes/GameManagers/player_selection_menu_strategy.gd" id="2_gyiv4"]
+[ext_resource type="PackedScene" uid="uid://b2v8mjupvf7rh" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn" id="2_gyiv4"]
 [ext_resource type="PackedScene" uid="uid://45nkjou6barn" path="res://Scenes/GameConfigMenu/game_config_menu.tscn" id="2_urlmn"]
 [ext_resource type="PackedScene" uid="uid://bypr1ueba3rju" path="res://Scenes/Game/game.tscn" id="3_inig3"]
 
 [node name="GameManager" type="Node" unique_id=1382858304]
 script = ExtResource("1_6q8xy")
 
-[node name="PlayerSelectionMenuStrategy" type="Control" parent="." unique_id=1761912335]
+[node name="PlayerSelectionMenu" parent="." unique_id=515307298 instance=ExtResource("2_gyiv4")]
 visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("2_gyiv4")
 
 [node name="GameConfigMenu" parent="." unique_id=1016874102 instance=ExtResource("2_urlmn")]
 
 [node name="Game" parent="." unique_id=519562420 instance=ExtResource("3_inig3")]
 
-[connection signal="players_ready" from="PlayerSelectionMenuStrategy" to="." method="_on_player_selection_menu_strategy_players_ready"]
+[connection signal="game_ready" from="PlayerSelectionMenu" to="." method="_on_player_selection_menu_game_ready"]
 [connection signal="init" from="GameConfigMenu" to="." method="_on_game_config_menu_init"]
 [connection signal="game_over" from="Game" to="." method="_on_game_game_over"]

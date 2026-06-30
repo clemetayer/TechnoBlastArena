@@ -40,7 +40,7 @@ func add_game_elements() -> void:
 
 
 func init_game_elements() -> void:
-	onready_paths.game.init_game_elements()
+	onready_paths.game.init_game_elements(60)
 
 
 func disable_player_mouse_input(id: int):

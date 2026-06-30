@@ -166,3 +166,17 @@ func test_powerup() -> void:
 	assert_true(helper.is_powerup_selected(StaticPowerupHandler.handlers.SPLITTER, item))
 	assert_true(helper.is_user_menu_visible(item))
 	assert_false(helper.is_powerup_menu_visible(item))
+
+
+func test_start_game():
+	# given
+	watch_signals(scene)
+	var items = helper.get_player_selection_items()
+	# when
+	helper.add_player_on_item(items[0])
+	helper.add_player_on_item(items[1])
+	helper.set_lives(5)
+	helper.set_game_time(2, 15)
+	helper.press_start()
+	# then
+	assert_signal_emitted_with_parameters(scene.game_ready, [[items[0].get_config(), items[1].get_config()], 5, 135])

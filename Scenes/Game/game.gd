@@ -7,7 +7,6 @@ signal game_over
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const GAME_TIME := 120 #s
 const PLAYER_GAME_MESSAGE_DURATION := 1 #s
 
 #---- STANDARD -----
@@ -50,10 +49,10 @@ func add_game_elements() -> void:
 	onready_paths.background.add_background(onready_paths.level.get_background_path())
 
 
-func init_game_elements() -> void:
+func init_game_elements(time: int) -> void:
 	_full_screen_effects.toggle_active(true)
 	onready_paths.ui.init_game_ui(onready_paths.players.get_players_data())
-	onready_paths.ui.init_chronometer(GAME_TIME)
+	onready_paths.ui.init_chronometer(time)
 	onready_paths.ui.init_screen_game_message()
 	onready_paths.camera.enabled = true
 	_init_start_game_animation()

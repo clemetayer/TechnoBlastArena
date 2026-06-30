@@ -49,7 +49,7 @@ func add_game_elements() -> void:
 
 
 func init_game_elements() -> void:
-	onready_paths.game.init_game_elements()
+	onready_paths.game.init_game_elements(600)
 
 
 func get_game_message() -> String:

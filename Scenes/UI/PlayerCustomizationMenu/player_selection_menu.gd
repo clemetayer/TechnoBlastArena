@@ -3,13 +3,18 @@ extends Control
 # Main script for the player selection menu
 
 ##### SIGNALS #####
-signal players_ready(player_configs: Array)
+signal game_ready(player_configs: Array, lives: int, time: int)
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const MAIN_MENU_PATH := "res://Scenes/GameManagers/game_manager.tscn"
+
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var player_selection_items := $"MarginContainer/VBoxContainer/PlayerGrid"
-@onready var start_button := $"MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/StartButton"
+@onready var start_button := $"MarginContainer/VBoxContainer/GameConfig/StartButton"
+@onready var lives := $"MarginContainer/VBoxContainer/GameConfig/MarginContainer/HBoxContainer/LivesConfig"
+@onready var time := $"MarginContainer/VBoxContainer/GameConfig/MarginContainer/HBoxContainer/TimeConfig"
 
 
 ##### PROTECTED METHODS #####
@@ -24,4 +29,8 @@ func _get_players_config() -> Array:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_start_button_pressed() -> void:
-	players_ready.emit(_get_players_config())
+	game_ready.emit(_get_players_config(), lives.get_lives(), time.get_time())
+
+
+func _on_back_button_pressed() -> void:
+	get_tree().change_scene_to_file(MAIN_MENU_PATH)

@@ -3,8 +3,9 @@
 [ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_4rgv5"]
 [ext_resource type="PackedScene" uid="uid://dwfbpcmubmawx" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.tscn" id="2_75uw2"]
 [ext_resource type="Script" uid="uid://hke52end5kci" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.gd" id="2_p7fqr"]
-[ext_resource type="PackedScene" uid="uid://c6uqso1wjuey6" path="res://Scenes/UI/PlayerCustomizationMenu/TimeConfig/time_config.tscn" id="4_yf37s"]
-[ext_resource type="PackedScene" uid="uid://qus3u00mbjtx" path="res://Scenes/UI/PlayerCustomizationMenu/LivesConfig/lives_config.tscn" id="5_2agq4"]
+[ext_resource type="Texture2D" uid="uid://dgj2ftvejlrka" path="res://Scenes/UI/PlayerCustomizationMenu/revert.svg" id="4_2agq4"]
+[ext_resource type="PackedScene" uid="uid://c6uqso1wjuey6" path="res://Scenes/UI/PlayerCustomizationMenu/TimeConfig/time_config.tscn" id="5_0tq5e"]
+[ext_resource type="PackedScene" uid="uid://qus3u00mbjtx" path="res://Scenes/UI/PlayerCustomizationMenu/LivesConfig/lives_config.tscn" id="6_nvd8y"]
 
 [node name="PlayerSelectionMenu" type="Control" unique_id=515307298]
 layout_mode = 3
@@ -61,40 +62,44 @@ layout_mode = 2
 [node name="PlayerSelectionItem4" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=1853298873 instance=ExtResource("2_75uw2")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=1764573502]
+[node name="GameConfig" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=171036199]
 layout_mode = 2
-theme_override_constants/margin_left = 128
-theme_override_constants/margin_right = 128
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer" unique_id=1424267354]
-layout_mode = 2
-theme_override_constants/separation = 256
+theme_override_constants/separation = 200
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=462767821]
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/GameConfig" unique_id=616178133]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("4_2agq4")
+icon_alignment = 1
+expand_icon = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/GameConfig" unique_id=1821334092]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/MarginContainer" unique_id=1721896216]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GameConfig/MarginContainer" unique_id=1904330175]
 layout_mode = 2
 theme_override_constants/separation = 32
 
-[node name="TimeConfig" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/MarginContainer/HBoxContainer" unique_id=1194637803 instance=ExtResource("4_yf37s")]
+[node name="TimeConfig" parent="MarginContainer/VBoxContainer/GameConfig/MarginContainer/HBoxContainer" unique_id=1194637803 instance=ExtResource("5_0tq5e")]
 layout_mode = 2
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/MarginContainer/HBoxContainer" unique_id=480408126]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/GameConfig/MarginContainer/HBoxContainer" unique_id=1132034780]
 layout_mode = 2
 
-[node name="LivesConfig" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/MarginContainer/HBoxContainer" unique_id=415551696 instance=ExtResource("5_2agq4")]
+[node name="LivesConfig" parent="MarginContainer/VBoxContainer/GameConfig/MarginContainer/HBoxContainer" unique_id=415551696 instance=ExtResource("6_nvd8y")]
 layout_mode = 2
 
-[node name="StartButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1938244572]
+[node name="StartButton" type="Button" parent="MarginContainer/VBoxContainer/GameConfig" unique_id=1938789689]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"StdImportantButton"
 theme_override_font_sizes/font_size = 40
 text = " Start ! "
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GameConfig/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GameConfig/StartButton" to="." method="_on_start_button_pressed"]

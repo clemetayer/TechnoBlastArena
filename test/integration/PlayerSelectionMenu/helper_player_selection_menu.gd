@@ -212,6 +212,19 @@ func is_powerup_selected(powerup: StaticPowerupHandler.handlers, item: Node) -> 
 	return item.get_config().POWERUP_HANDLER == powerup
 
 
+func set_game_time(minutes: int, seconds: int) -> void:
+	_menu.time.minutes.value = minutes
+	_menu.time.seconds.value = seconds
+
+
+func set_lives(lives: int) -> void:
+	_menu.lives.lives.value = lives
+
+
+func press_start() -> void:
+	_menu.start_button.pressed.emit()
+
+
 func _get_user_menu(item: Node) -> Node:
 	return item.user_menu
 

@@ -23,12 +23,18 @@ func test_on_start_button_button_up():
 		item.free()
 	menu.player_selection_items.add_child(item1)
 	menu.player_selection_items.add_child(item2)
+	var lives = double(load("res://Scenes/UI/PlayerCustomizationMenu/LivesConfig/lives_config.gd")).new()
+	stub(lives, "get_lives").to_return(6)
+	menu.lives = lives
+	var time = double(load("res://Scenes/UI/PlayerCustomizationMenu/TimeConfig/time_config.gd")).new()
+	stub(time, "get_time").to_return(123)
+	menu.time = time
 	watch_signals(menu)
 	# when
 	menu.start_button.pressed.emit()
 	await wait_process_frames(2)
 	# then
-	assert_signal_emitted_with_parameters(menu.players_ready, [[config1, config2]])
+	assert_signal_emitted_with_parameters(menu.game_ready, [[config1, config2], 6, 123])
 
 
 ##### UTILS #####

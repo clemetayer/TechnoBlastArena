@@ -1,15 +1,17 @@
 [gd_scene format=3 uid="uid://qus3u00mbjtx"]
 
+[ext_resource type="Script" uid="uid://f0mon0godno3" path="res://Scenes/UI/PlayerCustomizationMenu/LivesConfig/lives_config.gd" id="1_um8h8"]
 [ext_resource type="Texture2D" uid="uid://b80j0qpdn60vw" path="res://Scenes/UI/PlayerCustomizationMenu/heart_no_outline.svg" id="1_xnnt1"]
 
 [node name="LivesConfig" type="HBoxContainer" unique_id=415551696]
+script = ExtResource("1_um8h8")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=182799382]
 layout_mode = 2
 texture = ExtResource("1_xnnt1")
 expand_mode = 3
 
-[node name="SpinBox" type="SpinBox" parent="." unique_id=670117085]
+[node name="Lives" type="SpinBox" parent="." unique_id=670117085]
 layout_mode = 2
 min_value = 1.0
 max_value = 20.0

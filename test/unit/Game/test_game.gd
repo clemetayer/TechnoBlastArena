@@ -3,22 +3,11 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var game: Node = load("res://Scenes/Game/game.gd").new()
-var time_over_times_called := 0
-var time_over_args := []
-var game_over_times_called := 0
 
 
 ##### SETUP #####
 func before_each():
-	game = load("res://Scenes/Game/game.gd").new()
-	time_over_times_called = 0
-	time_over_args = []
-	game_over_times_called = 0
-
-
-##### TEARDOWN #####
-func after_each():
-	game.free()
+	game = autofree(load("res://Scenes/Game/game.gd").new())
 
 
 ##### TESTS #####
@@ -101,11 +90,11 @@ func test_init_game_elements():
 	game.onready_paths.camera = mock_camera
 	game.onready_paths.animation_player = mock_ap
 	# when
-	game.init_game_elements()
+	game.init_game_elements(321)
 	# then
 	assert_called(mock_fse, "toggle_active", [true])
 	assert_called(mock_ui, "init_game_ui", [players_data])
-	assert_called(mock_ui, "init_chronometer", [game.GAME_TIME])
+	assert_called(mock_ui, "init_chronometer", [321])
 	assert_called(mock_ui, "init_screen_game_message")
 	assert_true(mock_camera.enabled)
 	assert_called(mock_ap, "play", ["start_game", null, null, null])
@@ -166,14 +155,14 @@ func test_reset():
 	var mock_ui = double(load("res://Scenes/Game/ui.gd")).new()
 	var mock_level = double(load("res://Scenes/Game/level.gd")).new()
 	var mock_background = double(load("res://Scenes/Game/background.gd")).new()
-	var mock_camera = load("res://Scenes/Camera/camera.gd").new()
+	var mock_camera = autofree(load("res://Scenes/Camera/camera.gd").new())
 	game.onready_paths.players = mock_players
 	game.onready_paths.ui = mock_ui
 	game.onready_paths.level = mock_level
 	game.onready_paths.background = mock_background
 	game.onready_paths.camera = mock_camera
-	var projectiles = Node2D.new()
-	var powerups = Node2D.new()
+	var projectiles = autofree(Node2D.new())
+	var powerups = autofree(Node2D.new())
 	game.onready_paths.projectiles = projectiles
 	game.onready_paths.powerups = powerups
 	stub(mock_players, "reset").to_do_nothing()
@@ -188,8 +177,6 @@ func test_reset():
 	assert_called(mock_level, "reset")
 	assert_called(mock_background, "reset")
 	assert_false(mock_camera.enabled)
-	# cleanup
-	mock_camera.free()
 
 
 func test_init_start_game_animation():
@@ -263,25 +250,18 @@ func test_on_players_game_message_triggered():
 
 
 var _on_animation_player_animation_finished_params := [
-	["end_game", 1],
-	["not_end_game", 0],
+	["end_game", true],
+	["not_end_game", false],
 ]
 
 
 func test_on_animation_player_animation_finished(params = use_parameters(_on_animation_player_animation_finished_params)):
 	# given
-	game.connect("game_over", _on_game_over)
+	watch_signals(game)
 	# when
 	game._on_animation_player_animation_finished(params[0])
 	# then
-	assert_eq(game_over_times_called, params[1])
-
-
-##### UTILS #####
-func _on_time_over(time: float, message: String) -> void:
-	time_over_times_called += 1
-	time_over_args.append([time, message])
-
-
-func _on_game_over() -> void:
-	game_over_times_called += 1
+	if params[1]:
+		assert_signal_emitted(game.game_over)
+	else:
+		assert_signal_not_emitted(game.game_over)

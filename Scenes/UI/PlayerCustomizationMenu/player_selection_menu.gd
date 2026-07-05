@@ -7,7 +7,7 @@ signal game_ready(player_configs: Array, lives: int, time: int)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const MAIN_MENU_PATH := "res://Scenes/GameManagers/game_manager.tscn"
+const MAIN_MENU_PATH := "res://Scenes/UI/MainMenu/main_menu.tscn"
 
 #---- STANDARD -----
 #==== ONREADY ====

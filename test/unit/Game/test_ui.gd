@@ -3,18 +3,11 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var ui
-var time_over_emitted := false
 
 
 ##### SETUP #####
 func before_each():
-	ui = load("res://Scenes/Game/ui.gd").new()
-	time_over_emitted = false
-
-
-##### TEARDOWN #####
-func after_each():
-	ui.free()
+	ui = add_child_autofree(load("res://Scenes/Game/ui.tscn").instantiate())
 
 
 ##### TESTS #####
@@ -29,12 +22,12 @@ func test_init_game_ui():
 	stub(mock_game_ui, "add_player").to_do_nothing()
 	stub(mock_game_ui, "update_lives").to_do_nothing()
 	stub(mock_game_ui, "clean").to_do_nothing()
-	ui.onready_paths.game_ui = mock_game_ui
+	ui.game_ui = mock_game_ui
 	mock_game_ui.hide()
 	# when
 	ui.init_game_ui(players_data)
 	# then
-	assert_true(ui.onready_paths.game_ui.visible)
+	assert_true(ui.game_ui.visible)
 	assert_called(mock_game_ui, "clean")
 	assert_called(mock_game_ui, "add_player", [1, player_1_config, 5])
 	assert_called(mock_game_ui, "add_player", [2, player_2_config, 10])
@@ -49,12 +42,10 @@ func test_init_chronometer():
 	var game_time = 30.0
 	var mock_chronometer = double(load("res://Scenes/UI/Chronometer/chronometer.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	stub(mock_chronometer, "start_timer").to_do_nothing()
-	stub(mock_chronometer, "connect").to_do_nothing()
-	ui.onready_paths.chronometer = mock_chronometer
+	ui.chronometer = mock_chronometer
 	# when
 	ui.init_chronometer(game_time)
 	# then
-	assert_called(mock_chronometer, "connect", ["time_over", ui._on_chronometer_time_over, null])
 	assert_called(mock_chronometer, "start_timer", [game_time])
 	assert_true(mock_chronometer.visible)
 
@@ -63,11 +54,11 @@ func test_init_screen_game_message():
 	# given
 	var mock_screen_message = double(load("res://Scenes/UI/ScreenGameMessage/screen_game_message.gd")).new()
 	stub(mock_screen_message, "init").to_do_nothing()
-	ui.onready_paths.screen_message = mock_screen_message
+	ui.screen_message = mock_screen_message
 	# when
 	ui.init_screen_game_message()
 	# then
-	assert_true(ui.onready_paths.screen_message.is_visible())
+	assert_true(ui.screen_message.is_visible())
 	assert_called(mock_screen_message, "init")
 
 
@@ -77,7 +68,7 @@ func test_update_movement():
 	var value = 10.0
 	var mock_game_ui = double(load("res://Scenes/UI/PlayersData/players_data_ui.gd")).new()
 	stub(mock_game_ui, "update_movement").to_do_nothing()
-	ui.onready_paths.game_ui = mock_game_ui
+	ui.game_ui = mock_game_ui
 	# when
 	ui.update_movement(player_id, value)
 	# then
@@ -90,7 +81,7 @@ func test_update_powerup():
 	var value = 10.0
 	var mock_game_ui = double(load("res://Scenes/UI/PlayersData/players_data_ui.gd")).new()
 	stub(mock_game_ui, "update_powerup").to_do_nothing()
-	ui.onready_paths.game_ui = mock_game_ui
+	ui.game_ui = mock_game_ui
 	# when
 	ui.update_powerup(player_id, value)
 	# then
@@ -103,7 +94,7 @@ func test_update_lives():
 	var value = 10
 	var mock_game_ui = double(load("res://Scenes/UI/PlayersData/players_data_ui.gd")).new()
 	stub(mock_game_ui, "update_lives").to_do_nothing()
-	ui.onready_paths.game_ui = mock_game_ui
+	ui.game_ui = mock_game_ui
 	# when
 	ui.update_lives(player_id, value)
 	# then
@@ -116,7 +107,7 @@ func test_display_message():
 	var display_all_characters = true
 	var mock_screen_message = double(load("res://Scenes/UI/ScreenGameMessage/screen_game_message.gd")).new()
 	stub(mock_screen_message, "display_message").to_do_nothing()
-	ui.onready_paths.screen_message = mock_screen_message
+	ui.screen_message = mock_screen_message
 	# when
 	ui.display_message(message, display_all_characters)
 	# then
@@ -128,13 +119,13 @@ func test_reset():
 	var mock_game_ui = double(load("res://Scenes/UI/PlayersData/players_data_ui.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	stub(mock_game_ui, "clean").to_do_nothing()
 	stub(mock_game_ui, "hide").to_do_nothing()
-	ui.onready_paths.game_ui = mock_game_ui
+	ui.game_ui = mock_game_ui
 	var mock_chronometer = double(load("res://Scenes/UI/Chronometer/chronometer.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	stub(mock_chronometer, "hide").to_do_nothing()
-	ui.onready_paths.chronometer = mock_chronometer
+	ui.chronometer = mock_chronometer
 	var mock_screen_message = double(load("res://Scenes/UI/ScreenGameMessage/screen_game_message.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	stub(mock_screen_message, "hide").to_do_nothing()
-	ui.onready_paths.screen_message = mock_screen_message
+	ui.screen_message = mock_screen_message
 	# when
 	ui.reset()
 	# then
@@ -147,13 +138,8 @@ func test_reset():
 # Tests pour _on_chronometer_time_over
 func test_on_chronometer_time_over():
 	# given
-	ui.connect("time_over", _on_ui_time_over)
+	watch_signals(ui)
 	# when
-	ui._on_chronometer_time_over()
+	ui.chronometer.time_over.emit()
 	# then
-	assert_true(time_over_emitted)
-
-
-##### UTILS #####
-func _on_ui_time_over() -> void:
-	time_over_emitted = true
+	assert_signal_emitted(ui.time_over)

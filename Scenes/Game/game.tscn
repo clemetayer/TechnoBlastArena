@@ -2,10 +2,7 @@
 
 [ext_resource type="Script" uid="uid://di807ybb5wuoh" path="res://Scenes/Game/game.gd" id="1_4jp85"]
 [ext_resource type="PackedScene" uid="uid://ew7gedlm3n8" path="res://Scenes/Camera/camera.tscn" id="2_0bomf"]
-[ext_resource type="Script" uid="uid://cujs050gj2drj" path="res://Scenes/Game/ui.gd" id="2_oejk7"]
-[ext_resource type="PackedScene" uid="uid://c8dp63orlv8fe" path="res://Scenes/UI/PlayersData/players_data_ui.tscn" id="2_qikps"]
-[ext_resource type="PackedScene" uid="uid://bjaegu471c3mg" path="res://Scenes/UI/Chronometer/chronometer.tscn" id="3_i1e5p"]
-[ext_resource type="PackedScene" uid="uid://dyyr10js02uhh" path="res://Scenes/UI/ScreenGameMessage/screen_game_message.tscn" id="4_ciybh"]
+[ext_resource type="PackedScene" uid="uid://cgxtjjt7oj4tq" path="res://Scenes/Game/ui.tscn" id="2_ypmwd"]
 [ext_resource type="Script" uid="uid://dg6o01rx21paj" path="res://Scenes/Game/players.gd" id="5_ypmwd"]
 [ext_resource type="AudioStream" uid="uid://bt0lcs24ec6ve" path="res://Scenes/UI/Audio/game.mp3" id="6_qtymf"]
 [ext_resource type="Script" uid="uid://dg3cnlnehqxa8" path="res://Scenes/Game/level.gd" id="7_2vowc"]
@@ -138,15 +135,7 @@ _data = {
 [node name="Game" type="Node" unique_id=1423472435 groups=["game_root"]]
 script = ExtResource("1_4jp85")
 
-[node name="UI" type="CanvasLayer" parent="." unique_id=402867174]
-layer = 100
-script = ExtResource("2_oejk7")
-
-[node name="PlayersDataUi" parent="UI" unique_id=1774143992 instance=ExtResource("2_qikps")]
-
-[node name="Chronometer" parent="UI" unique_id=736386071 instance=ExtResource("3_i1e5p")]
-
-[node name="ScreenGameMessage" parent="UI" unique_id=655927589 instance=ExtResource("4_ciybh")]
+[node name="UI" parent="." unique_id=70351093 instance=ExtResource("2_ypmwd")]
 
 [node name="Players" type="CanvasLayer" parent="." unique_id=1333699437]
 follow_viewport_enabled = true

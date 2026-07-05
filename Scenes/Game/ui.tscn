@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cgxtjjt7oj4tq"]
+
+[ext_resource type="Script" uid="uid://cujs050gj2drj" path="res://Scenes/Game/ui.gd" id="1_ubw26"]
+[ext_resource type="PackedScene" uid="uid://c8dp63orlv8fe" path="res://Scenes/UI/PlayersData/players_data_ui.tscn" id="2_6u8i4"]
+[ext_resource type="PackedScene" uid="uid://bjaegu471c3mg" path="res://Scenes/UI/Chronometer/chronometer.tscn" id="3_57svj"]
+[ext_resource type="PackedScene" uid="uid://dyyr10js02uhh" path="res://Scenes/UI/ScreenGameMessage/screen_game_message.tscn" id="4_ap1y3"]
+
+[node name="UI" type="CanvasLayer" unique_id=70351093]
+layer = 100
+script = ExtResource("1_ubw26")
+
+[node name="PlayersDataUi" parent="." unique_id=1607316333 instance=ExtResource("2_6u8i4")]
+visible = false
+
+[node name="Chronometer" parent="." unique_id=500113152 instance=ExtResource("3_57svj")]
+visible = false
+
+[node name="ScreenGameMessage" parent="." unique_id=1352977817 instance=ExtResource("4_ap1y3")]
+visible = false
+
+[connection signal="time_over" from="Chronometer" to="." method="_on_chronometer_time_over"]

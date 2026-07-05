@@ -4,7 +4,7 @@ extends Control
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const MULTIPLAYER_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn"
+const MULTIPLAYER_MENU_PATH := "res://Scenes/GameManagers/game_manager.tscn"
 const OPTIONS_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.tscn"
 const CUSTOMIZATION_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.tscn"
 

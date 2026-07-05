@@ -18,7 +18,6 @@ const DEFAULT_BACKGROUND_PATH := "res://Scenes/Levels/Backgrounds/TriangleCity/t
 var _connected_players := { }
 
 #==== ONREADY ====
-@onready var game_config_menu := $"GameConfigMenu"
 @onready var player_selection_menu := $"PlayerSelectionMenu"
 @onready var game := $"Game"
 
@@ -27,7 +26,7 @@ var _connected_players := { }
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	FullScreenEffects.toggle_active(false)
-	game_config_menu.show()
+	player_selection_menu.show()
 	level_data = _create_level_data()
 
 
@@ -89,16 +88,10 @@ func _init_connected_players(players: Dictionary) -> void:
 
 
 ##### SIGNAL MANAGEMENT #####
-func _on_game_config_menu_init() -> void:
-	GSLogger.debug("going to the player selection menu")
-	game_config_menu.visible = false
-	player_selection_menu.visible = true
-
-
 func _on_game_game_over() -> void:
 	GSLogger.debug("game over")
 	game.reset()
-	game_config_menu.visible = true
+	player_selection_menu.show()
 	FullScreenEffects.toggle_active(false)
 
 

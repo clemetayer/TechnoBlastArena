@@ -4,7 +4,7 @@ extends Control
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const GAME_ROOT := "res://Scenes/GameManagers/game_manager.tscn"
+const GAME_ROOT := "res://Scenes/UI/MainMenu/main_menu.tscn"
 
 #---- STANDARD -----
 #==== ONREADY ====

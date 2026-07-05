@@ -8,7 +8,6 @@
 script = ExtResource("1_6q8xy")
 
 [node name="PlayerSelectionMenu" parent="." unique_id=515307298 instance=ExtResource("2_gyiv4")]
-visible = false
 
 [node name="Game" parent="." unique_id=519562420 instance=ExtResource("3_inig3")]
 

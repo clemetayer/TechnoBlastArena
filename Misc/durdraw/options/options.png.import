@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vgbr7og53m3r"
-path="res://.godot/imported/titlev2.png-56ba2f1d9de824320356b4de41d61eae.ctex"
+uid="uid://4wtb1yhqo23c"
+path="res://.godot/imported/options.png-766327a1df26edb793b0e79e7799a1a2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Misc/durdraw/titlev2.png"
-dest_files=["res://.godot/imported/titlev2.png-56ba2f1d9de824320356b4de41d61eae.ctex"]
+source_file="res://Misc/durdraw/options/options.png"
+dest_files=["res://.godot/imported/options.png-766327a1df26edb793b0e79e7799a1a2.ctex"]
 
 [params]
 
@@ -37,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

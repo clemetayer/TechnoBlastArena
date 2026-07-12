@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://513vnwr24exi"]
 
 [ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_o53sk"]
-[ext_resource type="Texture2D" uid="uid://vgbr7og53m3r" path="res://Misc/durdraw/titlev2.png" id="2_o53sk"]
+[ext_resource type="Texture2D" uid="uid://vgbr7og53m3r" path="res://Misc/durdraw/title/titlev2.png" id="2_o53sk"]
 [ext_resource type="Script" uid="uid://dp7w0ccwq7tfe" path="res://Scenes/UI/MainMenu/main_menu.gd" id="2_tik7u"]
 
 [node name="MainMenu" type="Control" unique_id=1247600062]

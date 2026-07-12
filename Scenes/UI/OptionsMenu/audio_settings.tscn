@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://256dcep7ihgv"]
+
+[ext_resource type="Script" uid="uid://y284rg0mjml" path="res://Scenes/UI/OptionsMenu/audio_settings.gd" id="1_2ok66"]
+
+[node name="AudioSettings" type="VBoxContainer" unique_id=1262710799]
+script = ExtResource("1_2ok66")
+
+[node name="Main" type="HBoxContainer" parent="." unique_id=468306891]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Label" type="Label" parent="Main" unique_id=811321382]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Main : "
+horizontal_alignment = 2
+
+[node name="MainVolumeSlider" type="HSlider" parent="Main" unique_id=1602458539]
+custom_minimum_size = Vector2(250, 5)
+layout_mode = 2
+size_flags_horizontal = 2
+value = 100.0
+
+[node name="Music" type="HBoxContainer" parent="." unique_id=1359214347]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Label" type="Label" parent="Music" unique_id=923447920]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Music : "
+horizontal_alignment = 2
+
+[node name="MusicVolumeSlider" type="HSlider" parent="Music" unique_id=1016710001]
+custom_minimum_size = Vector2(250, 5)
+layout_mode = 2
+size_flags_horizontal = 2
+value = 100.0
+
+[node name="Effects" type="HBoxContainer" parent="." unique_id=821215411]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Label" type="Label" parent="Effects" unique_id=579767080]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Effects : "
+horizontal_alignment = 2
+
+[node name="EffectsVolumeSlider" type="HSlider" parent="Effects" unique_id=26689845]
+custom_minimum_size = Vector2(250, 5)
+layout_mode = 2
+size_flags_horizontal = 2
+value = 100.0
+
+[connection signal="value_changed" from="Main/MainVolumeSlider" to="." method="_on_main_volume_slider_value_changed"]
+[connection signal="value_changed" from="Music/MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]
+[connection signal="value_changed" from="Effects/EffectsVolumeSlider" to="." method="_on_effects_volume_slider_value_changed"]

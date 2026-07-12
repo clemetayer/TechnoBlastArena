@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://cnoe8j76o76af"]
+
+[ext_resource type="Script" uid="uid://coeimwxj8pl4l" path="res://Scenes/UI/OptionsMenu/display_settings.gd" id="1_ik3k4"]
+
+[node name="DisplaySettings" type="VBoxContainer" unique_id=485200226]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ik3k4")
+
+[node name="DisplayType" type="HBoxContainer" parent="." unique_id=281304378]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="DisplayType" unique_id=1731928450]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Display type : "
+horizontal_alignment = 2
+
+[node name="DisplayTypeButton" type="OptionButton" parent="DisplayType" unique_id=301653521]
+layout_mode = 2
+size_flags_horizontal = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "Full screen"
+popup/item_1/id = 2
+
+[node name="BackgroundIntensity" type="HBoxContainer" parent="." unique_id=452451883]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="BackgroundIntensity" unique_id=676427366]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Background intensity : "
+horizontal_alignment = 2
+
+[node name="BackgroundIntensityButton" type="OptionButton" parent="BackgroundIntensity" unique_id=52047721]
+layout_mode = 2
+size_flags_horizontal = 2
+selected = 1
+item_count = 4
+popup/item_0/text = "No background"
+popup/item_0/id = 0
+popup/item_1/text = "Calm and low"
+popup/item_1/id = 1
+popup/item_2/text = "Energetic and fun"
+popup/item_2/id = 2
+popup/item_3/text = "MELT MY EYES"
+popup/item_3/id = 3
+
+[node name="CameraEffectsIntensity" type="HBoxContainer" parent="." unique_id=1199907545]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CameraEffectsIntensity" unique_id=1509369541]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Camera effects intensity : "
+horizontal_alignment = 2
+
+[node name="CameraEffectsIntensityButton" type="OptionButton" parent="CameraEffectsIntensity" unique_id=1757107150]
+layout_mode = 2
+size_flags_horizontal = 2
+selected = 1
+item_count = 4
+popup/item_0/text = "Nothing"
+popup/item_0/id = 0
+popup/item_1/text = "Some camera shakes"
+popup/item_1/id = 1
+popup/item_2/text = "More cool effects"
+popup/item_2/id = 2
+popup/item_3/text = "E A R T H Q U A K E"
+popup/item_3/id = 3
+
+[connection signal="item_selected" from="DisplayType/DisplayTypeButton" to="." method="_on_display_type_button_item_selected"]
+[connection signal="item_selected" from="BackgroundIntensity/BackgroundIntensityButton" to="." method="_on_background_intensity_button_item_selected"]
+[connection signal="item_selected" from="CameraEffectsIntensity/CameraEffectsIntensityButton" to="." method="_on_camera_effects_intensity_button_item_selected"]

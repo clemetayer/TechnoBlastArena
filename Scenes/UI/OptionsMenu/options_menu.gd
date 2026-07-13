@@ -13,6 +13,8 @@ var tree
 
 #==== ONREADY ====
 @onready var back_button := $"MarginContainer/MarginContainer/BackButton"
+@onready var audio_settings := $"MarginContainer/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/VBoxContainer/AudioSettings"
+@onready var display_settings := $"MarginContainer/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/VBoxContainer/DisplaySettings"
 
 
 ##### PROCESSING #####

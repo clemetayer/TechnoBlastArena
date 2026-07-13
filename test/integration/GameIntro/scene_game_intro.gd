@@ -7,9 +7,7 @@ var players_data = { }
 var level_data
 
 #==== ONREADY ====
-@onready var onready_paths := {
-	"game": $"Game",
-}
+@onready var game := $"Game"
 
 
 ##### PUBLIC METHODS #####
@@ -24,7 +22,7 @@ func init_players_data() -> void:
 		data[player_id] = { }
 		data[player_id]["config"] = players_data[player_id].config
 		data[player_id]["lives"] = 3
-	onready_paths.game.init_players_data(data)
+	game.init_players_data(data)
 
 
 func set_level_data(data: LevelConfig) -> void:
@@ -32,15 +30,15 @@ func set_level_data(data: LevelConfig) -> void:
 
 
 func init_level_data() -> void:
-	onready_paths.game.init_level_data(level_data)
+	game.init_level_data(level_data)
 
 
 func add_game_elements() -> void:
-	onready_paths.game.add_game_elements()
+	game.add_game_elements()
 
 
 func init_game_elements() -> void:
-	onready_paths.game.init_game_elements(60)
+	game.init_game_elements(60)
 
 
 func disable_player_mouse_input(id: int):
@@ -48,22 +46,19 @@ func disable_player_mouse_input(id: int):
 
 
 func get_game_message() -> String:
-	return onready_paths.game \
-	.onready_paths.ui \
-	.onready_paths.screen_message \
-	.onready_paths.label.text
+	return game.ui.screen_message.label.text
 
 
 func get_player(id: int) -> Node2D:
-	for player in onready_paths.game.onready_paths.players.get_children():
+	for player in game.players.get_children():
 		if player.PLAYER_ID == id:
 			return player
 	return null
 
 
 func get_projectiles_count() -> int:
-	return onready_paths.game.onready_paths.projectiles.get_child_count()
+	return game.projectiles.get_child_count()
 
 
 func get_powerups_count() -> int:
-	return onready_paths.game.onready_paths.powerups.get_child_count()
+	return game.powerups.get_child_count()

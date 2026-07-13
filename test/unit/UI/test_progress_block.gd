@@ -7,13 +7,16 @@ const ICON_PATH := "res://test/unit/UI/test_icon.svg"
 #---- VARIABLES -----
 var progress_block
 
+
 ##### SETUP #####
 func before_each():
 	progress_block = load("res://Scenes/UI/PlayersData/PlayerData/Templates/progress_block.gd").new()
 
+
 ##### TEARDOWN #####
 func after_each():
 	progress_block.free()
+
 
 ##### TESTS #####
 func test_set_value():
@@ -25,10 +28,11 @@ func test_set_value():
 	# then
 	assert_called(mock_progress_block, "set_progress", [1.4])
 
+
 func test_set_icon():
 	# given
 	var icon = Sprite2D.new()
-	progress_block.onready_paths.icon = icon
+	progress_block.icon = icon
 	# when
 	progress_block.set_icon(ICON_PATH)
 	# then
@@ -37,21 +41,24 @@ func test_set_icon():
 	# cleanup
 	icon.free()
 
+
 var set_progress_params := [
 	[0.5],
-	[2.75]
+	[2.75],
 ]
+
+
 func test_set_progress(params = use_parameters(set_progress_params)):
 	# given
 	var progress = params[0]
 	var progress_bar = ProgressBar.new()
 	var overflow = Label.new()
-	progress_block.onready_paths.progress = progress_bar
-	progress_block.onready_paths.overflow = overflow
+	progress_block.progress = progress_bar
+	progress_block.overflow = overflow
 	# when
 	progress_block.set_progress(progress)
 	# then
-	assert_eq(progress_bar.value, fmod(progress,1.0))
+	assert_eq(progress_bar.value, fmod(progress, 1.0))
 	assert_eq(progress_block.PROGRESS, progress)
 	if progress < 1:
 		assert_eq(overflow.text, "")

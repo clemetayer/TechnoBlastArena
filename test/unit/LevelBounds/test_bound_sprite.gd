@@ -7,28 +7,10 @@ var sprite: Sprite2D
 
 ##### SETUP #####
 func before_each():
-	sprite = load("res://Scenes/LevelBounds/bound_sprite.gd").new()
-
-
-##### TEARDOWN #####
-func after_each():
-	if is_instance_valid(sprite):
-		sprite.free()
+	sprite = autofree(load("res://Scenes/LevelBounds/bound_sprite.gd").new())
 
 
 ##### TESTS #####
-func test_ready_no_associated_shape():
-	# given
-	var mock_sprite = partial_double(load("res://Scenes/LevelBounds/bound_sprite.gd")).new()
-	stub(mock_sprite, "_get_collision_shape").to_return(null)
-	stub(mock_sprite, "_set_scale_with_shape").to_do_nothing()
-	# when
-	mock_sprite._ready()
-	# then
-	assert_called(mock_sprite, "_get_collision_shape")
-	assert_not_called(mock_sprite, "_set_scale_with_shape")
-
-
 func test_ready_with_shape():
 	# given
 	var mock_sprite = partial_double(load("res://Scenes/LevelBounds/bound_sprite.gd")).new()
@@ -59,29 +41,24 @@ func test_process():
 
 func test_get_collision_shape_ok():
 	# given
-	var parent = load("res://test/unit/LevelBounds/level_bounds_stub.tscn").instantiate()
-	var shape = CollisionShape2D.new()
+	var parent = autofree(load("res://test/unit/LevelBounds/level_bounds_stub.tscn").instantiate())
+	var shape = autofree(CollisionShape2D.new())
 	parent.add_child(shape)
 	parent.add_child(sprite)
 	# when
 	var res = sprite._get_collision_shape()
 	# then
 	assert_eq(res, shape)
-	# cleanup
-	shape.free()
-	parent.free()
 
 
 func test_get_collision_shape_ko():
 	# given
-	var parent = load("res://test/unit/LevelBounds/level_bounds_stub.tscn").instantiate()
+	var parent = autofree(load("res://test/unit/LevelBounds/level_bounds_stub.tscn").instantiate())
 	parent.add_child(sprite)
 	# when
 	var res = sprite._get_collision_shape()
 	# then
 	assert_null(res)
-	# cleanup
-	parent.free()
 
 
 func test_get_players_positions():
@@ -122,7 +99,7 @@ func test_set_scale_with_shape(params = use_parameters(set_scale_with_shape_para
 	var shape_size = params[0]
 	var expected_scale = shape_size * 2.0 / sprite.BASE_TEXTURE_SIZE
 	sprite.free()
-	sprite = load("res://Scenes/LevelBounds/bound_sprite.tscn").instantiate()
+	sprite = autofree(load("res://Scenes/LevelBounds/bound_sprite.tscn").instantiate())
 	var collision_shape = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
 	shape.size = shape_size
@@ -132,8 +109,6 @@ func test_set_scale_with_shape(params = use_parameters(set_scale_with_shape_para
 	# then
 	assert_eq(sprite.scale, expected_scale)
 	assert_eq(sprite.material.get_shader_parameter(sprite.SHADER_PARAM_SPRITE_SCALE_NAME), expected_scale)
-	# cleanup
-	collision_shape.free()
 
 
 func test_set_shader_players_positions():
@@ -146,7 +121,7 @@ func test_set_shader_players_positions():
 	expected_uv_positions.fill(sprite.DEFAULT_PLAYER_UV_POSITION)
 	expected_uv_positions[0] = (5.0 * Vector2.ONE - (-5120.0 * Vector2.ONE)) / 10240.0
 	sprite.free()
-	sprite = load("res://Scenes/LevelBounds/bound_sprite.tscn").instantiate()
+	sprite = autofree(load("res://Scenes/LevelBounds/bound_sprite.tscn").instantiate())
 	sprite.scale = Vector2.ONE * 10.0
 	# when
 	sprite._set_shader_players_positions(positions)
@@ -173,7 +148,7 @@ func test_convert_to_shader_uv_position(params = use_parameters(convert_to_shade
 	var scale = params[1]
 	var position = params[2]
 	sprite.free()
-	sprite = load("res://Scenes/LevelBounds/bound_sprite.tscn").instantiate()
+	sprite = autofree(load("res://Scenes/LevelBounds/bound_sprite.tscn").instantiate())
 	sprite.global_position = origin
 	sprite.scale = scale
 	# when

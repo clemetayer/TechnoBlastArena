@@ -1,44 +1,56 @@
-[gd_scene load_steps=3 format=3 uid="uid://s15b1kpmet1t"]
+[gd_scene format=3 uid="uid://s15b1kpmet1t"]
 
-[ext_resource type="Script" uid="uid://7vtw07o8s63k" path="res://Scenes/UI/PlayerCustomizationMenu/EliminationTextEditMenu/elimination_text_edit_menu.gd" id="1_t742x"]
+[ext_resource type="FontFile" uid="uid://dncl7x8virtei" path="res://Misc/InterDisplay-LightItalic.ttf" id="1_t742x"]
+[ext_resource type="Script" uid="uid://7vtw07o8s63k" path="res://Scenes/UI/PlayerCustomizationMenu/EliminationTextEditMenu/elimination_text_edit_menu.gd" id="1_tumvb"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_csr3i"]
-font_size = 32
+[sub_resource type="LabelSettings" id="LabelSettings_brcbt"]
+font_size = 20
 
-[node name="EliminationText" type="MarginContainer"]
+[node name="EliminationTextEditMenu" type="MarginContainer" unique_id=207451675]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-script = ExtResource("1_t742x")
-metadata/_tab_index = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_tumvb")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=214078907]
 layout_mode = 2
-size_flags_vertical = 0
 
-[node name="EliminationText" type="Label" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=1843560561]
 layout_mode = 2
-size_flags_vertical = 6
 text = "Elimination text"
-label_settings = SubResource("LabelSettings_csr3i")
+label_settings = SubResource("LabelSettings_brcbt")
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1191614875]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_t742x")
+theme_override_font_sizes/font_size = 12
+text = "Note : BBCode is supported"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=211252903]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer"]
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/MarginContainer" unique_id=1449444591]
 layout_mode = 2
 size_flags_vertical = 3
-placeholder_text = "text that will appear when eliminating an opponent"
-max_length = 1000
+placeholder_text = "Text that will appear on the screen 
+when eliminating an opponent"
 
-[connection signal="text_changed" from="VBoxContainer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
+[node name="OkButton" type="Button" parent="VBoxContainer" unique_id=730163393]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "OK"
+
+[connection signal="pressed" from="VBoxContainer/OkButton" to="." method="_on_ok_button_pressed"]

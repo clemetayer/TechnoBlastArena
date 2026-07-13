@@ -7,13 +7,16 @@ const ICON_PATH := "res://test/unit/UI/test_icon.svg"
 #---- VARIABLES -----
 var counter_block
 
+
 ##### SETUP #####
 func before_each():
 	counter_block = load("res://Scenes/UI/PlayersData/PlayerData/Templates/counter_block.gd").new()
 
+
 ##### TEARDOWN #####
 func after_each():
 	counter_block.free()
+
 
 ##### TESTS #####
 func test_set_value():
@@ -25,10 +28,11 @@ func test_set_value():
 	# then
 	assert_called(mock_counter_block, "set_quantity", [1])
 
+
 func test_set_icon():
 	# given
 	var icon = Sprite2D.new()
-	counter_block.onready_paths.icon = icon
+	counter_block.icon = icon
 	# when
 	counter_block.set_icon(ICON_PATH)
 	# then
@@ -37,10 +41,13 @@ func test_set_icon():
 	# cleanup
 	icon.free()
 
+
 var set_quantity_params := [
 	[2],
-	[5]
+	[5],
 ]
+
+
 func test_set_quantity(params = use_parameters(set_quantity_params)):
 	# given
 	var quantity = params[0]
@@ -54,8 +61,8 @@ func test_set_quantity(params = use_parameters(set_quantity_params)):
 	add_child(tokens)
 	wait_for_signal(tokens.tree_entered, 0.25)
 	var overflow = Label.new()
-	counter_block.onready_paths.tokens = tokens
-	counter_block.onready_paths.overflow = overflow
+	counter_block.tokens = tokens
+	counter_block.overflow = overflow
 	# when
 	counter_block.set_quantity(quantity)
 	# then
@@ -72,8 +79,9 @@ func test_set_quantity(params = use_parameters(set_quantity_params)):
 	tokens.free()
 	overflow.free()
 
+
 ##### UTILS #####
-func count_visible_tokens(tokens : Node2D) -> int:
+func count_visible_tokens(tokens: Node2D) -> int:
 	var visible_cnt = 0
 	for token in tokens.get_children():
 		if token.visible:

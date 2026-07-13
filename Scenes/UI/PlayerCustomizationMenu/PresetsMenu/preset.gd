@@ -1,58 +1,48 @@
-extends Button
+extends HBoxContainer
 
 # Handles a preset
 
+##### SIGNALS #####
+signal preset_deleted
+signal preset_selected
+
 ##### VARIABLES #####
-#---- CONSTANTS -----
-const HEIGHT_SMALL := 60
-const HEIGHT_BIG := 120
-const NO_DESCRIPTION_TEXT := "No description"
-
-#---- EXPORTS -----
-@export var SMALL := false
-
 #---- STANDARD -----
+#==== PRIVATE ====
+var _preset_path: String
+
 #==== ONREADY ====
-@onready var onready_paths := {
-	"name_label": $"VBoxContainer/Elements/Name",
-	"primary_weapon": $"VBoxContainer/Elements/PrimaryWeapon",
-	"movement_bonus": $"VBoxContainer/Elements/MovementBonus",
-	"powerup": $"VBoxContainer/Elements/Powerup",
-	"description": $"VBoxContainer/ScrollContainer/Description",
-	"level": $"VBoxContainer/Elements/AILevel",
-	"sprite": {
-		"body": $"VBoxContainer/Elements/Sprite/Body",
-		"eyes": $"VBoxContainer/Elements/Sprite/Eyes",
-		"mouth": $"VBoxContainer/Elements/Sprite/Mouth",
-		"outline": $"VBoxContainer/Elements/Sprite/Outline",
-	},
-}
-
-
-##### PROCESSING #####
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	_set_preset_size()
+@onready var name_label := $"Button/VBoxContainer/Elements/Name"
+@onready var primary_weapon := $"Button/VBoxContainer/Elements/PrimaryWeapon"
+@onready var movement_bonus := $"Button/VBoxContainer/Elements/MovementBonus"
+@onready var powerup := $"Button/VBoxContainer/Elements/Powerup"
+@onready var level := $"Button/VBoxContainer/Elements/AILevel"
+@onready var sprite := $"Button/VBoxContainer/Elements/Sprite"
+@onready var delete_button := $"RemoveButton"
+@onready var button := $"Button"
 
 
 ##### PUBLIC METHODS #####
-func set_preset(preset: PlayerConfig) -> void:
-	onready_paths.name_label.text = preset.PLAYER_NAME
-	onready_paths.primary_weapon.texture = load(StaticPrimaryWeaponHandler.get_icon_path(preset.PRIMARY_WEAPON))
-	onready_paths.movement_bonus.texture = load(StaticMovementBonusHandler.get_icon_path(preset.MOVEMENT_BONUS_HANDLER))
-	onready_paths.powerup.texture = load(StaticPowerupHandler.get_icon_path(preset.POWERUP_HANDLER))
-	onready_paths.description.text = preset.DESCRIPTION if not preset.DESCRIPTION.is_empty() else NO_DESCRIPTION_TEXT
-	onready_paths.sprite.body.modulate = preset.SPRITE_CUSTOMIZATION.BODY_COLOR
-	onready_paths.sprite.outline.modulate = preset.SPRITE_CUSTOMIZATION.OUTLINE_COLOR
-	onready_paths.sprite.eyes.texture = load(preset.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH)
-	onready_paths.sprite.eyes.modulate = preset.SPRITE_CUSTOMIZATION.EYES_COLOR
-	onready_paths.sprite.mouth.texture = load(preset.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH)
-	onready_paths.sprite.mouth.modulate = preset.SPRITE_CUSTOMIZATION.MOUTH_COLOR
+func set_preset(preset_name: String, preset: PlayerConfig) -> void:
+	name_label.text = preset.PLAYER_NAME
+	primary_weapon.texture = load(StaticPrimaryWeaponHandler.get_icon_path(preset.PRIMARY_WEAPON))
+	movement_bonus.texture = load(StaticMovementBonusHandler.get_icon_path(preset.MOVEMENT_BONUS_HANDLER))
+	powerup.texture = load(StaticPowerupHandler.get_icon_path(preset.POWERUP_HANDLER))
+	sprite.update_sprite(preset.SPRITE_CUSTOMIZATION)
+	tooltip_text = preset.DESCRIPTION
+	_preset_path = StaticUtils.get_preset_save_path(preset_name)
 	if preset is AIPlayerConfig:
-		onready_paths.level.visible = true
-		onready_paths.level.set_level(preset.LEVEL)
+		level.visible = true
+		level.set_level(preset.LEVEL)
+		delete_button.hide()
 
 
-##### PROTECTED METHODS #####
-func _set_preset_size() -> void:
-	custom_minimum_size.y = HEIGHT_SMALL if SMALL else HEIGHT_BIG
+##### SIGNAL MANAGEMENT #####
+func _on_remove_button_pressed() -> void:
+	var dir_access = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
+	dir_access.remove(_preset_path)
+	preset_deleted.emit()
+
+
+func _on_button_pressed() -> void:
+	preset_selected.emit()

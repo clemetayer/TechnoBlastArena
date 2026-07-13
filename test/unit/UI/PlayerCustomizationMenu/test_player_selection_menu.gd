@@ -3,19 +3,15 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var menu
-var players_ready_times_called := 0
-var players_ready_args := []
+
 
 ##### SETUP #####
 func before_each():
-	menu = load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate()
-	add_child_autofree(menu)
-	await wait_for_signal(menu.tree_entered, 0.1)
-	players_ready_times_called = 0
-	players_ready_args = []
+	menu = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate())
+
 
 ##### TESTS #####
-func test_get_players_config():
+func test_on_start_button_button_up():
 	# given
 	var config1 = PlayerConfig.new()
 	var item1 = create_player_selection_item_mock()
@@ -23,32 +19,24 @@ func test_get_players_config():
 	var config2 = PlayerConfig.new()
 	var item2 = create_player_selection_item_mock()
 	stub(item2, "get_config").to_return(config2)
-	var player_selection_items = double(Node).new()
-	stub(player_selection_items, "get_children").to_return([item1, item2])
-	menu.onready_paths.player_selection_items = player_selection_items
+	for item in menu.player_selection_items.get_children():
+		item.free()
+	menu.player_selection_items.add_child(item1)
+	menu.player_selection_items.add_child(item2)
+	var lives = double(load("res://Scenes/UI/PlayerCustomizationMenu/LivesConfig/lives_config.gd")).new()
+	stub(lives, "get_lives").to_return(6)
+	menu.lives = lives
+	var time = double(load("res://Scenes/UI/PlayerCustomizationMenu/TimeConfig/time_config.gd")).new()
+	stub(time, "get_time").to_return(123)
+	menu.time = time
+	watch_signals(menu)
 	# when
-	var res = menu._get_players_config()
+	menu.start_button.pressed.emit()
+	await wait_process_frames(2)
 	# then
-	assert_eq(res.size(), 2)
-	assert_eq(res[0], config1)
-	assert_eq(res[1], config2)
+	assert_signal_emitted_with_parameters(menu.game_ready, [[config1, config2], 6, 123])
 
-func test_on_start_button_button_up():
-	# given
-	var menu_mock = partial_double(load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.gd")).new()
-	var configs = [PlayerConfig.new(), PlayerConfig.new()]
-	stub(menu_mock, "_get_players_config").to_return(configs)
-	menu_mock.connect("players_ready", _on_players_ready, 0)
-	# when
-	menu_mock._on_start_button_button_up()
-	# then
-	assert_eq(players_ready_times_called, 1)
-	assert_eq(players_ready_args, [[configs]])
 
 ##### UTILS #####
 func create_player_selection_item_mock():
-	return double(load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.gd")).new()
-
-func _on_players_ready(players_configs: Array) -> void:
-	players_ready_times_called += 1
-	players_ready_args.append([players_configs])
+	return partial_double(load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.tscn")).instantiate()

@@ -35,10 +35,9 @@ func _reset() -> void:
 
 func _add_preset_button(preset: PlayerConfig) -> void:
 	var button = PRESET_BUTTON_LOAD.instantiate()
-	button.SMALL = true
 	presets_root.add_child(button)
-	button.set_preset(preset)
-	button.connect("pressed", func(): _on_preset_selected(preset))
+	button.set_preset("unused", preset)
+	button.connect("preset_selected", func(): _on_preset_selected(preset))
 
 
 ##### SIGNAL MANAGEMENT #####

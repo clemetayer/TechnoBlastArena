@@ -560,6 +560,7 @@ autoplay = &"scale_wave"
 [node name="Body" type="Sprite2D" parent="Sprites" unique_id=490366403]
 modulate = Color(0, 1, 1, 1)
 material = SubResource("ShaderMaterial_1agin")
+scale = Vector2(0.98, 0.98)
 texture = ExtResource("2_pi5cj")
 
 [node name="Outline" type="Sprite2D" parent="Sprites" unique_id=750553046]

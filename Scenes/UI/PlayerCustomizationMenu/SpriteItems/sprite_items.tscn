@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://rjen8sq4r25s"]
+
+[ext_resource type="Texture2D" uid="uid://dcr14i6u2i7da" path="res://Scenes/Player/Eyes/eyes_1.PNG" id="1_3qdh4"]
+[ext_resource type="Script" uid="uid://bugbbchur5ppl" path="res://Scenes/UI/PlayerCustomizationMenu/SpriteItems/sprite_items.gd" id="1_oevl1"]
+[ext_resource type="Texture2D" uid="uid://dx10f0uiobro8" path="res://Scenes/Player/Eyes/eyes_2.PNG" id="3_w6i2m"]
+[ext_resource type="Texture2D" uid="uid://dkcgt78mo26jn" path="res://Scenes/Player/Eyes/eyes_13.PNG" id="4_5186x"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oevl1"]
+font_size = 20
+
+[node name="SpriteItems" type="MarginContainer" unique_id=2044312455]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_oevl1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=10645827]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=27865415]
+layout_mode = 2
+text = "Sprite items"
+label_settings = SubResource("LabelSettings_oevl1")
+horizontal_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer" unique_id=712193350]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 3
+max_columns = 5
+fixed_icon_size = Vector2i(64, 64)
+item_0/icon = ExtResource("1_3qdh4")
+item_1/icon = ExtResource("3_w6i2m")
+item_2/icon = ExtResource("4_5186x")
+
+[connection signal="item_activated" from="VBoxContainer/ItemList" to="." method="_on_item_list_item_activated"]

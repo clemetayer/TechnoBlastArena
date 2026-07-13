@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://513vnwr24exi"]
+
+[ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_o53sk"]
+[ext_resource type="Texture2D" uid="uid://vgbr7og53m3r" path="res://Misc/durdraw/title/titlev2.png" id="2_o53sk"]
+[ext_resource type="Script" uid="uid://dp7w0ccwq7tfe" path="res://Scenes/UI/MainMenu/main_menu.gd" id="2_tik7u"]
+
+[node name="MainMenu" type="Control" unique_id=1247600062]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_o53sk")
+script = ExtResource("2_tik7u")
+
+[node name="Panel" type="Panel" parent="." unique_id=256363130]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1391259760]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=159334153]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=928046101]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_o53sk")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer" unique_id=1136364713]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/CenterContainer" unique_id=674235112]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Multiplayer" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=426783369]
+layout_mode = 2
+theme_type_variation = &"StdImportantButton"
+theme_override_font_sizes/font_size = 32
+text = "Multiplayer"
+
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=893066]
+layout_mode = 2
+theme_type_variation = &"StdImportantButton"
+theme_override_font_sizes/font_size = 32
+text = "Options"
+
+[node name="Customization" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=1381831023]
+layout_mode = 2
+theme_type_variation = &"StdImportantButton"
+theme_override_font_sizes/font_size = 32
+text = "Customization"
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=1190658629]
+layout_mode = 2
+theme_type_variation = &"StdCancelButton"
+theme_override_font_sizes/font_size = 32
+text = "Quit"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Multiplayer" to="." method="_on_multiplayer_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Customization" to="." method="_on_customization_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

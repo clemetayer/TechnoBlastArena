@@ -83,7 +83,7 @@ func test_update_lives():
 func test_add_h_separator():
 	# given
 	var important_data = Node2D.new()
-	player_data.onready_paths.important_data = important_data
+	player_data.important_data = important_data
 	add_child(important_data)
 	wait_for_signal(important_data.tree_entered, 0.25)
 	# when
@@ -100,14 +100,10 @@ func test_init_sprites():
 	var outline = Sprite2D.new()
 	var eyes = Sprite2D.new()
 	var mouth = Sprite2D.new()
-	player_data.onready_paths = {
-		"sprites": {
-			"body": body,
-			"outline": outline,
-			"eyes": eyes,
-			"mouth": mouth,
-		},
-	}
+	player_data.sprite_body = body
+	player_data.sprite_outline = outline
+	player_data.sprite_eyes = eyes
+	player_data.sprite_mouth = mouth
 	var sprite_resource = SpriteCustomizationResource.new()
 	sprite_resource.BODY_COLOR = Color.ALICE_BLUE
 	sprite_resource.OUTLINE_COLOR = Color.AZURE
@@ -132,7 +128,7 @@ func test_init_movement():
 	var important_data = Node2D.new()
 	add_child(important_data)
 	wait_for_signal(important_data.tree_entered, 0.25)
-	player_data.onready_paths.important_data = important_data
+	player_data.important_data = important_data
 	# when
 	player_data._init_movement(StaticMovementBonusHandler.handlers.DASH)
 	# then
@@ -147,7 +143,7 @@ func test_init_powerup():
 	var important_data = Node2D.new()
 	add_child(important_data)
 	wait_for_signal(important_data.tree_entered, 0.25)
-	player_data.onready_paths.important_data = important_data
+	player_data.important_data = important_data
 	# when
 	player_data._init_powerup(StaticPowerupHandler.handlers.SPLITTER)
 	# then
@@ -162,7 +158,7 @@ func test_init_lives():
 	var important_data = Node2D.new()
 	add_child(important_data)
 	wait_for_signal(important_data.tree_entered, 0.25)
-	player_data.onready_paths.important_data = important_data
+	player_data.important_data = important_data
 	# when
 	player_data._init_lives(2)
 	# then
@@ -175,7 +171,7 @@ func test_init_lives():
 func test_init_name():
 	# given
 	var l_name = Label.new()
-	player_data.onready_paths.name = l_name
+	player_data.player_name = l_name
 	# when
 	player_data._init_name("test")
 	# then
@@ -199,7 +195,7 @@ func test_init_player_outline():
 	# given
 	var player_indicator = double(load("res://Scenes/UI/PlayersData/PlayerData/player_indicator_outline.gd")).new()
 	stub(player_indicator, "set_player_color").to_do_nothing()
-	player_data.onready_paths.player_indicator = player_indicator
+	player_data.player_indicator = player_indicator
 	# when
 	player_data._init_player_outline(1)
 	# then

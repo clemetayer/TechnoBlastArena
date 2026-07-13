@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cvsro7cajpaju" path="res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_selection_menu.gd" id="1_8e64j"]
 [ext_resource type="PackedScene" uid="uid://be1vwhgfcb142" path="res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_preset_selection_menu.tscn" id="2_22oaw"]
 [ext_resource type="PackedScene" uid="uid://bfv1lk0q156jl" path="res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_visualisation.tscn" id="3_obir7"]
+[ext_resource type="Texture2D" uid="uid://1jtgnfgq03qx" path="res://Scenes/UI/PlayerCustomizationMenu/close.svg" id="3_odd1k"]
 
 [node name="AiSelectionMenu" type="Control" unique_id=1921544980]
 layout_mode = 3
@@ -14,13 +15,22 @@ grow_vertical = 2
 script = ExtResource("1_8e64j")
 
 [node name="AIPresetSelectionMenu" parent="." unique_id=1451426524 instance=ExtResource("2_22oaw")]
-visible = true
 layout_mode = 1
+
+[node name="AIPresetCloseButton" type="Button" parent="AIPresetSelectionMenu" unique_id=935757358]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"StdCancelButton"
+icon = ExtResource("3_odd1k")
+expand_icon = true
 
 [node name="AIVisualisation" parent="." unique_id=1976591982 instance=ExtResource("3_obir7")]
 visible = false
 layout_mode = 1
 
 [connection signal="preset_selected" from="AIPresetSelectionMenu" to="." method="_on_ai_preset_selection_menu_preset_selected"]
+[connection signal="pressed" from="AIPresetSelectionMenu/AIPresetCloseButton" to="." method="_on_ai_preset_close_button_pressed"]
 [connection signal="close_triggered" from="AIVisualisation" to="." method="_on_ai_visualisation_close_triggered"]
 [connection signal="show_ai_presets_triggered" from="AIVisualisation" to="." method="_on_ai_visualisation_show_ai_presets_triggered"]

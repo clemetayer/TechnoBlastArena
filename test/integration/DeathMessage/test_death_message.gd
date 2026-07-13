@@ -10,16 +10,19 @@ const DEFAULT_LEVEL_CONFIG_PATH := "res://test/integration/DeathMessage/level_de
 var scene
 var _sender = InputSender.new(Input)
 
+
 ##### SETUP #####
 func before_each():
 	scene = load("res://test/integration/DeathMessage/scene_death_message.tscn").instantiate()
 	add_child_autofree(scene)
 	await wait_process_frames(5)
 
+
 ##### TEARDOWN #####
 func after_each():
 	_sender.release_all()
 	_sender.clear()
+
 
 ##### TESTS #####
 func test_death_message():
@@ -28,8 +31,8 @@ func test_death_message():
 	var player_1_config = load(PLAYER_1_DEFAULT_CONFIG_PATH)
 	var player_2_config = load(PLAYER_2_DEFAULT_CONFIG_PATH)
 	scene.set_level_data(default_level)
-	scene.set_player_data(1,player_1_config)
-	scene.set_player_data(2,player_2_config)
+	scene.set_player_data(1, player_1_config)
+	scene.set_player_data(2, player_2_config)
 	scene.init_players_data()
 	scene.init_level_data()
 	scene.add_game_elements()

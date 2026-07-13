@@ -17,9 +17,7 @@ var game_over_times_called := 0
 
 ##### SETUP #####
 func before_each():
-	scene = load("res://test/system/Game/scene_game.tscn").instantiate()
-	add_child_autofree(scene)
-	await wait_process_frames(5)
+	scene = add_child_autofree(load("res://test/system/Game/scene_game.tscn").instantiate())
 	game_over_times_called = 0
 
 

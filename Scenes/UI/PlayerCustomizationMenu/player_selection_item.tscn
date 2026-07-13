@@ -1,12 +1,10 @@
 [gd_scene format=3 uid="uid://dwfbpcmubmawx"]
 
-[ext_resource type="PackedScene" uid="uid://8sxwa25paubj" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSelectionMainItem/player_selection_main_item.tscn" id="1_nf1j6"]
 [ext_resource type="Script" uid="uid://3uo5do24xi1v" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.gd" id="1_prdsm"]
 [ext_resource type="Texture2D" uid="uid://r1uo4tj3bk62" path="res://Scenes/UI/PlayerCustomizationMenu/robot.svg" id="2_prdsm"]
 [ext_resource type="Texture2D" uid="uid://defwohxor2l8l" path="res://Scenes/UI/PlayerCustomizationMenu/user.svg" id="3_3uswf"]
-[ext_resource type="PackedScene" uid="uid://ch7ktmnnktu7d" path="res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/items_grid_menu.tscn" id="4_6lae3"]
+[ext_resource type="PackedScene" uid="uid://4jmohk06tq0d" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationUI/player_customization_ui.tscn" id="4_fpt8k"]
 [ext_resource type="PackedScene" uid="uid://bdauxw5ew4efx" path="res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_selection_menu.tscn" id="5_fpt8k"]
-[ext_resource type="PackedScene" uid="uid://b7s8i5b2dk747" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/presets.tscn" id="5_prdsm"]
 
 [node name="PlayerSelectionItem" type="Panel" unique_id=1346138833]
 anchors_preset = 15
@@ -27,10 +25,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"StdSecondaryPanel"
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 
 [node name="EmptyMenu" type="HBoxContainer" parent="Panel" unique_id=338966178]
 layout_mode = 2
@@ -53,49 +51,16 @@ tooltip_text = "Add a real user"
 icon = ExtResource("3_3uswf")
 expand_icon = true
 
-[node name="Main" parent="Panel" unique_id=121686988 instance=ExtResource("1_nf1j6")]
+[node name="PlayerCustomizationMenu" parent="Panel" unique_id=1086812101 instance=ExtResource("4_fpt8k")]
 visible = false
 layout_mode = 2
+IS_SMALL = true
 
 [node name="AiSelectionMenu" parent="Panel" unique_id=1921544980 instance=ExtResource("5_fpt8k")]
 visible = false
 layout_mode = 2
 
-[node name="Presets" parent="Panel" unique_id=1870057582 instance=ExtResource("5_prdsm")]
-visible = false
-layout_mode = 2
-SMALL = true
-
-[node name="PrimaryWeaponsGrid" parent="Panel" unique_id=689324881 instance=ExtResource("4_6lae3")]
-visible = false
-layout_mode = 2
-TITLE = "Primary weapon"
-
-[node name="MovementBonusGrid" parent="Panel" unique_id=567079158 instance=ExtResource("4_6lae3")]
-visible = false
-layout_mode = 2
-TITLE = "Movement bonus"
-
-[node name="PowerupGrid" parent="Panel" unique_id=2027661752 instance=ExtResource("4_6lae3")]
-visible = false
-layout_mode = 2
-TITLE = "Powerup"
-
 [connection signal="pressed" from="Panel/EmptyMenu/AddAI" to="." method="_on_add_ai_pressed"]
 [connection signal="pressed" from="Panel/EmptyMenu/AddUser" to="." method="_on_add_user_pressed"]
-[connection signal="delete_item" from="Panel/Main" to="." method="_on_main_delete_item"]
-[connection signal="open_movement_bonus_menu_triggered" from="Panel/Main" to="." method="_on_main_open_movement_bonus_menu_triggered"]
-[connection signal="open_powerup_menu_triggered" from="Panel/Main" to="." method="_on_main_open_powerup_menu_triggered"]
-[connection signal="open_preset_menu_triggered" from="Panel/Main" to="." method="_on_main_open_preset_menu_triggered"]
-[connection signal="open_primary_weapon_menu_triggered" from="Panel/Main" to="." method="_on_main_open_primary_weapon_menu_triggered"]
-[connection signal="player_type_changed" from="Panel/Main" to="." method="_on_main_player_type_changed"]
-[connection signal="close_triggered" from="Panel/AiSelectionMenu" to="." method="_on_ai_selection_menu_close_triggered"]
-[connection signal="preset_selected" from="Panel/AiSelectionMenu" to="." method="_on_ai_selection_menu_preset_selected"]
-[connection signal="close_triggered" from="Panel/Presets" to="." method="_on_presets_close_triggered"]
-[connection signal="preset_selected" from="Panel/Presets" to="." method="_on_presets_preset_selected"]
-[connection signal="close_triggered" from="Panel/PrimaryWeaponsGrid" to="." method="_on_primary_weapons_grid_close_triggered"]
-[connection signal="item_selected" from="Panel/PrimaryWeaponsGrid" to="." method="_on_primary_weapons_grid_item_selected"]
-[connection signal="close_triggered" from="Panel/MovementBonusGrid" to="." method="_on_movement_bonus_grid_close_triggered"]
-[connection signal="item_selected" from="Panel/MovementBonusGrid" to="." method="_on_movement_bonus_grid_item_selected"]
-[connection signal="close_triggered" from="Panel/PowerupGrid" to="." method="_on_powerup_grid_close_triggered"]
-[connection signal="item_selected" from="Panel/PowerupGrid" to="." method="_on_powerup_grid_item_selected"]
+[connection signal="quit" from="Panel/PlayerCustomizationMenu" to="." method="_on_player_customization_menu_quit"]
+[connection signal="quit" from="Panel/AiSelectionMenu" to="." method="_on_ai_selection_menu_quit"]

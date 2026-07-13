@@ -60,3 +60,11 @@ static func partition_array(array: Array, nb_of_elements: int) -> Array:
 	if partition.size() > 0:
 		partitionned.append(partition)
 	return partitionned
+
+
+static func get_preset_save_path(preset_name: String) -> String:
+	return StaticUtils.USER_CHARACTER_PRESETS_PATH + preset_name + StaticUtils.GODOT_RESOURCE_FILE_EXTENSION
+
+
+static func random_color() -> Color:
+	return Color(randf(), randf(), randf())

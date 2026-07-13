@@ -4,10 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://bsacswwskki17" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.tscn" id="2_pybd7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_6tvx2"]
-font_size = 24
+font_size = 20
 
 [node name="AIPresetSelectionMenu" type="MarginContainer" unique_id=1451426524]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,6 +20,7 @@ script = ExtResource("1_8mvb7")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1042976918]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="AIPresetsLabel" type="Label" parent="VBoxContainer" unique_id=942078615]
 layout_mode = 2

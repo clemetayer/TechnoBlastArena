@@ -3,44 +3,11 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var players
-var lives_updated_times_called := 0
-var lives_updated_args := []
-var player_won_times_called := 0
-var player_won_args := []
-var powerup_updated_times_called := 0
-var powerup_updated_args := []
-var movement_updated_times_called := 0
-var movement_updated_args := []
-var game_message_triggered_times_called := 0
-var game_message_triggered_args := []
 
 
 ##### SETUP #####
-func before_all():
-	pass
-
-
 func before_each():
-	players = load("res://Scenes/Game/players.gd").new()
-	lives_updated_times_called = 0
-	lives_updated_args = []
-	player_won_times_called = 0
-	player_won_args = []
-	powerup_updated_times_called = 0
-	powerup_updated_args = []
-	movement_updated_times_called = 0
-	movement_updated_args = []
-	game_message_triggered_times_called = 0
-	game_message_triggered_args = []
-
-
-##### TEARDOWN #####
-func after_all():
-	pass
-
-
-func after_each():
-	players.free()
+	players = autofree(load("res://Scenes/Game/players.gd").new())
 
 
 ##### TESTS #####
@@ -280,6 +247,7 @@ func test_is_only_one_player_alive(params = use_parameters(is_only_one_player_al
 
 func test_on_player_killed_not_end_game():
 	# given
+	watch_signals(players)
 	players._players_data = {
 		1: {
 			"lives": 2,
@@ -288,29 +256,20 @@ func test_on_player_killed_not_end_game():
 			"lives": 3,
 		},
 	}
-	players.connect("lives_updated", _on_lives_updated)
-	players.connect("player_won", _on_player_won)
-	var tree_mock = double(SceneTree).new()
-	var timer = Timer.new()
-	add_child_autofree(timer)
-	timer.start(players.RESPAWN_TIME + 0.1)
-	stub(tree_mock, "create_timer").to_return(timer)
-	players.tree = tree_mock
+	players.tree = get_tree()
 	wait_seconds(players.RESPAWN_TIME + 0.25)
 	# when
 	players._on_player_killed(1)
 	# then
-	assert_eq(lives_updated_times_called, 1)
-	assert_eq(lives_updated_args, [[1, 1]])
-	assert_eq(player_won_times_called, 0)
+	assert_signal_emitted_with_parameters(players.lives_updated, [1, 1])
+	assert_signal_not_emitted(players.player_won)
 	assert_eq(players._players_data[1].lives, 1)
 	assert_eq(players._players_data[2].lives, 3)
-	# cleanup
-	timer.free()
 
 
 func test_on_player_killed_end_game():
 	# given
+	watch_signals(players)
 	players._players_data = {
 		1: {
 			"lives": 2,
@@ -319,36 +278,31 @@ func test_on_player_killed_end_game():
 			"lives": 1,
 		},
 	}
-	players.connect("lives_updated", _on_lives_updated)
-	players.connect("player_won", _on_player_won)
 	# when
 	players._on_player_killed(2)
 	# then
-	assert_eq(lives_updated_times_called, 1)
-	assert_eq(lives_updated_args, [[2, 0]])
-	assert_eq(player_won_times_called, 1)
+	assert_signal_emitted_with_parameters(players.lives_updated, [2, 0])
+	assert_signal_emitted(players.player_won)
 	assert_eq(players._players_data[1].lives, 2)
 	assert_eq(players._players_data[2].lives, 0)
 
 
 func test_on_player_movement_updated():
 	# given
-	players.connect("movement_updated", _on_movement_updated)
+	watch_signals(players)
 	# when
 	players._on_player_movement_updated(1, 2)
 	# then
-	assert_eq(movement_updated_times_called, 1)
-	assert_eq(movement_updated_args, [[1, 2]])
+	assert_signal_emitted_with_parameters(players.movement_updated, [1, 2])
 
 
 func test_on_player_powerup_updated():
 	# given
-	players.connect("powerup_updated", _on_powerup_updated)
+	watch_signals(players)
 	# when
 	players._on_player_powerup_updated(2, 0.5)
 	# then
-	assert_eq(powerup_updated_times_called, 1)
-	assert_eq(powerup_updated_args, [[2, 0.5]])
+	assert_signal_emitted_with_parameters(players.powerup_updated, [2, 0.5])
 
 
 func test_on_player_game_message_triggered():
@@ -360,12 +314,11 @@ func test_on_player_game_message_triggered():
 			"config": config,
 		},
 	}
-	players.connect("game_message_triggered", _on_game_message_triggered)
+	watch_signals(players)
 	# when
 	players._on_player_game_message_triggered(1)
 	# then
-	assert_eq(game_message_triggered_times_called, 1)
-	assert_eq(game_message_triggered_args, [["test"]])
+	assert_signal_emitted_with_parameters(players.game_message_triggered, ["test"])
 
 
 ##### UTILS #####
@@ -386,31 +339,6 @@ func create_default_player_config() -> PlayerConfig:
 	config.SPRITE_CUSTOMIZATION.MOUTH_COLOR = Color.GREEN
 	config.ELIMINATION_TEXT = "elimination text"
 	return config
-
-
-func _on_lives_updated(player_idx: int, new_value: int) -> void:
-	lives_updated_times_called += 1
-	lives_updated_args.append([player_idx, new_value])
-
-
-func _on_player_won() -> void:
-	player_won_times_called += 1
-	player_won_args.append([])
-
-
-func _on_powerup_updated(player_idx: int, new_value) -> void:
-	powerup_updated_times_called += 1
-	powerup_updated_args.append([player_idx, new_value])
-
-
-func _on_movement_updated(player_id: int, value) -> void:
-	movement_updated_times_called += 1
-	movement_updated_args.append([player_id, value])
-
-
-func _on_game_message_triggered(message: String) -> void:
-	game_message_triggered_times_called += 1
-	game_message_triggered_args.append([message])
 
 
 func compare_player_configs(conf1: PlayerConfig, conf2: PlayerConfig) -> void:

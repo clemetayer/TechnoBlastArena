@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ShakerPreset2D" load_steps=6 format=3 uid="uid://dq2y0eriweww8"]
+[gd_resource type="Resource" script_class="ShakerPreset2D" format=3 uid="uid://dq2y0eriweww8"]
 
 [ext_resource type="Script" uid="uid://bdt0vuc3o6glx" path="res://addons/shaker/data/Vector2/BaseShakerType2D.gd" id="1_t52rj"]
 [ext_resource type="Script" uid="uid://ogc7gqy7i0t0" path="res://addons/shaker/data/Vector2/ShakerTypeSineWave2D.gd" id="2_up43d"]

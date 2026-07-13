@@ -5,7 +5,6 @@ class_name GameManager
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
-const BASE_LIVES_AMOUNT := 3
 const SPRITE_PRESETS_PATH := "res://Scenes/Player/SpriteCustomizationPresets/presets.tres"
 const INPUT_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/input_player_config.tres"
 const RECORD_PLAYER_CONFIG_PATH := "res://Scenes/Player/PlayerConfigs/record_player_config.tres"
@@ -15,29 +14,25 @@ const DEFAULT_BACKGROUND_PATH := "res://Scenes/Levels/Backgrounds/TriangleCity/t
 #---- EXPORTS -----
 @export var level_data: LevelConfig
 
-#---- STANDARD -----
-#==== PRIVATE ====
+#---- STANDARD ----- #==== PRIVATE ====
 var _connected_players := { }
 
 #==== ONREADY ====
-@onready var onready_paths := {
-	"game_config_menu": $"GameConfigMenu",
-	"player_selection_menu": $"PlayerSelectionMenuStrategy",
-	"game": $"Game",
-}
+@onready var player_selection_menu := $"PlayerSelectionMenu"
+@onready var game := $"Game"
 
 
 ##### PROCESSING #####
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	FullScreenEffects.toggle_active(false)
-	onready_paths.game_config_menu.show()
+	player_selection_menu.show()
 	level_data = _create_level_data()
 
 
 ##### PUBLIC METHODS #####
 func get_game_root() -> Node:
-	return onready_paths.game
+	return game
 
 
 ##### PROTECTED METHODS #####
@@ -58,31 +53,30 @@ func _create_level_data() -> LevelConfig:
 
 func _add_player(id: int) -> void:
 	GSLogger.info("client %d connected" % id)
-	onready_paths.player_selection_menu.add_player_connected()
+	player_selection_menu.add_player_connected()
 
 
 func _delete_player(id: int) -> void:
 	GSLogger.info("client %d disconnected" % id)
-	onready_paths.player_selection_menu.remove_connected_player(id)
+	player_selection_menu.remove_connected_player(id)
 
 
-func _enrich_player_configs(player_configs: Dictionary) -> Dictionary:
+func _enrich_player_configs(player_configs: Array, lives: int) -> Dictionary:
 	var formatted_players := { }
-	for player_id in player_configs.keys():
+	for player_id in range(player_configs.size()):
 		formatted_players[player_id] = {
 			"config": player_configs[player_id],
-			"lives": BASE_LIVES_AMOUNT,
+			"lives": lives,
 		}
 	return formatted_players
 
 
 func _show_player_selection_menu() -> void:
-	onready_paths.player_selection_menu.visible = true
+	player_selection_menu.visible = true
 
 
 func _hide_and_reset_player_selection_menus() -> void:
-	onready_paths.player_selection_menu.hide()
-	onready_paths.player_selection_menu.reset()
+	player_selection_menu.hide()
 
 
 func _init_connected_players(players: Dictionary) -> void:
@@ -94,25 +88,18 @@ func _init_connected_players(players: Dictionary) -> void:
 
 
 ##### SIGNAL MANAGEMENT #####
-func _on_game_config_menu_init() -> void:
-	GSLogger.debug("going to the player selection menu")
-	onready_paths.game_config_menu.visible = false
-	onready_paths.player_selection_menu.visible = true
-	onready_paths.player_selection_menu.init()
-
-
 func _on_game_game_over() -> void:
 	GSLogger.debug("game over")
-	onready_paths.game.reset()
-	onready_paths.game_config_menu.visible = true
+	game.reset()
+	player_selection_menu.show()
 	FullScreenEffects.toggle_active(false)
 
 
-func _on_player_selection_menu_strategy_players_ready(player_configs: Dictionary) -> void:
+func _on_player_selection_menu_game_ready(player_configs: Array, lives: int, time: int) -> void:
 	GSLogger.debug("starting game")
-	_connected_players = _enrich_player_configs(player_configs)
+	_connected_players = _enrich_player_configs(player_configs, lives)
 	_hide_and_reset_player_selection_menus()
-	onready_paths.game.init_level_data(level_data)
-	onready_paths.game.init_players_data(_connected_players)
-	onready_paths.game.add_game_elements()
-	onready_paths.game.init_game_elements()
+	game.init_level_data(level_data)
+	game.init_players_data(_connected_players)
+	game.add_game_elements()
+	game.init_game_elements(time)

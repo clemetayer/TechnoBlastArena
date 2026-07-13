@@ -4,13 +4,16 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var ldub
 
+
 ##### SETUP #####
 func before_each():
 	ldub = load("res://Scenes/UI/PlayersData/PlayerData/LivesDataUIBlock/lives_data_ui_block.gd").new()
 
+
 ##### TEARDOWN #####
 func after_each():
 	ldub.free()
+
 
 ##### TESTS #####
 func test_set_value():
@@ -22,10 +25,13 @@ func test_set_value():
 	# then
 	assert_called(mock_ldub, "set_lives", [1])
 
+
 var set_quantity_params := [
 	[2],
-	[5]
+	[5],
 ]
+
+
 func test_set_quantity(params = use_parameters(set_quantity_params)):
 	# given
 	var quantity = params[0]
@@ -39,8 +45,8 @@ func test_set_quantity(params = use_parameters(set_quantity_params)):
 	add_child(tokens)
 	wait_for_signal(tokens.tree_entered, 0.25)
 	var overflow = Label.new()
-	ldub.onready_paths.tokens = tokens
-	ldub.onready_paths.overflow = overflow
+	ldub.tokens = tokens
+	ldub.overflow = overflow
 	# when
 	ldub.set_lives(quantity)
 	# then
@@ -57,8 +63,9 @@ func test_set_quantity(params = use_parameters(set_quantity_params)):
 	tokens.free()
 	overflow.free()
 
+
 ##### UTILS #####
-func count_visible_tokens(tokens : Node2D) -> int:
+func count_visible_tokens(tokens: Node2D) -> int:
 	var visible_cnt = 0
 	for token in tokens.get_children():
 		if token.visible:

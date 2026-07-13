@@ -5,24 +5,29 @@
 [ext_resource type="PackedScene" uid="uid://cahnfa2crcpxt" path="res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/ai_level.tscn" id="2_105tn"]
 [ext_resource type="Texture2D" uid="uid://5q8q7xma7uqd" path="res://Misc/Inkscape/dash.svg" id="2_gxwv7"]
 [ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="3_fct7l"]
-[ext_resource type="Texture2D" uid="uid://btcmiq31qee7d" path="res://Scenes/Player/CharacterBody.png" id="4_105tn"]
-[ext_resource type="Texture2D" uid="uid://dy0q7mppvj7j1" path="res://Scenes/Player/CharacterOutline.png" id="6_fct7l"]
+[ext_resource type="PackedScene" uid="uid://bppk2gscfhj62" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn" id="6_fct7l"]
+[ext_resource type="Texture2D" uid="uid://mv2emnccs1pa" path="res://Scenes/UI/PlayerCustomizationMenu/trash.svg" id="7_105tn"]
 
-[node name="Preset" type="Button" unique_id=41884632]
-custom_minimum_size = Vector2(0, 64)
+[node name="Preset" type="HBoxContainer" unique_id=782177961]
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -4.0
-offset_bottom = 4.0
+offset_top = -16.0
+offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
 script = ExtResource("1_gxwv7")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1939912787]
+[node name="Button" type="Button" parent="." unique_id=41884632]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 15.0
+tooltip_text = "Description of the preset"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Button" unique_id=1939912787]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,101 +35,51 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Elements" type="HBoxContainer" parent="VBoxContainer" unique_id=199914120]
+[node name="Elements" type="HBoxContainer" parent="Button/VBoxContainer" unique_id=199914120]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AILevel" parent="VBoxContainer/Elements" unique_id=819638938 instance=ExtResource("2_105tn")]
+[node name="AILevel" parent="Button/VBoxContainer/Elements" unique_id=819638938 instance=ExtResource("2_105tn")]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="VBoxContainer/Elements" unique_id=1852277294]
+[node name="Name" type="Label" parent="Button/VBoxContainer/Elements" unique_id=1852277294]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "name"
 horizontal_alignment = 1
 
-[node name="PrimaryWeapon" type="TextureRect" parent="VBoxContainer/Elements" unique_id=1594192650]
+[node name="PrimaryWeapon" type="TextureRect" parent="Button/VBoxContainer/Elements" unique_id=1594192650]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("1_x86rv")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="MovementBonus" type="TextureRect" parent="VBoxContainer/Elements" unique_id=1969084697]
+[node name="MovementBonus" type="TextureRect" parent="Button/VBoxContainer/Elements" unique_id=1969084697]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("2_gxwv7")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Powerup" type="TextureRect" parent="VBoxContainer/Elements" unique_id=1441964174]
+[node name="Powerup" type="TextureRect" parent="Button/VBoxContainer/Elements" unique_id=1441964174]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_fct7l")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Sprite" type="Control" parent="VBoxContainer/Elements" unique_id=1801365834]
+[node name="Sprite" parent="Button/VBoxContainer/Elements" unique_id=1500284081 instance=ExtResource("6_fct7l")]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.0
 
-[node name="Body" type="TextureRect" parent="VBoxContainer/Elements/Sprite" unique_id=675194050]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-texture = ExtResource("4_105tn")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Eyes" type="TextureRect" parent="VBoxContainer/Elements/Sprite" unique_id=664719440]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-texture = ExtResource("6_fct7l")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Mouth" type="TextureRect" parent="VBoxContainer/Elements/Sprite" unique_id=64752247]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-texture = ExtResource("6_fct7l")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Outline" type="TextureRect" parent="VBoxContainer/Elements/Sprite" unique_id=2104527300]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-texture = ExtResource("6_fct7l")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1751246870]
+[node name="RemoveButton" type="Button" parent="." unique_id=1837244792]
+custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+size_flags_horizontal = 6
+icon = ExtResource("7_105tn")
+icon_alignment = 1
+expand_icon = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=2090355087]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Description" type="Label" parent="VBoxContainer/ScrollContainer" unique_id=953910846]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 2.0
-theme_type_variation = &"DescriptionLabel"
-text = "Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas."
-autowrap_mode = 2
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="RemoveButton" to="." method="_on_remove_button_pressed"]

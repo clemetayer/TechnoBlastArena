@@ -1,5 +1,13 @@
 [gd_resource type="AudioBusLayout" format=3 uid="uid://chgmoihu06yq3"]
 
+[sub_resource type="AudioEffectHardLimiter" id="AudioEffectHardLimiter_j3pel"]
+resource_name = "HardLimiter"
+
+[sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_g28q7"]
+resource_name = "Compressor"
+threshold = -4.0
+ratio = 8.0
+
 [sub_resource type="AudioEffectHardLimiter" id="AudioEffectHardLimiter_u7qpe"]
 resource_name = "HardLimiter"
 
@@ -19,6 +27,10 @@ threshold = -8.0
 ratio = 20.0
 
 [resource]
+bus/0/effect/0/effect = SubResource("AudioEffectHardLimiter_j3pel")
+bus/0/effect/0/enabled = true
+bus/0/effect/1/effect = SubResource("AudioEffectCompressor_g28q7")
+bus/0/effect/1/enabled = true
 bus/1/name = &"BGM"
 bus/1/solo = false
 bus/1/mute = false

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://c7t6sr3uwiupk"]
+
+[ext_resource type="Texture2D" uid="uid://bbhkw1ufioq3k" path="res://Scenes/Weapons/Primary/Shotgun/shotgun.png" id="1_1aooy"]
+[ext_resource type="Script" uid="uid://s86yoe7f7tmf" path="res://Scenes/Weapons/Primary/Shotgun/shotgun.gd" id="1_uljml"]
+[ext_resource type="AudioStream" uid="uid://d3nn6s81f3og5" path="res://Scenes/Weapons/Primary/Revolver/gunshot.mp3" id="3_fa5iu"]
+
+[sub_resource type="Gradient" id="Gradient_1aooy"]
+offsets = PackedFloat32Array(0, 0.01, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Shotgun" type="Node2D" unique_id=1004104895]
+script = ExtResource("1_uljml")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1684691577]
+scale = Vector2(0.66, 0.66)
+texture = ExtResource("1_1aooy")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=907634404]
+points = PackedVector2Array(31, 0, 96, 0, 800, 0)
+width = 8.0
+gradient = SubResource("Gradient_1aooy")
+
+[node name="ShootCooldown" type="Timer" parent="." unique_id=383034623]
+
+[node name="Gunshot" type="AudioStreamPlayer2D" parent="." unique_id=1747811662]
+stream = ExtResource("3_fa5iu")
+bus = &"Effects"
+
+[connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]

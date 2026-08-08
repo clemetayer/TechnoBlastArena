@@ -9,6 +9,9 @@ extends Node2D
 @export var owner_color := Color.WHITE
 
 #---- STANDARD -----
+#==== PRIVATE ====
+var _runtime_utils := RuntimeUtils # for test purposes
+
 #==== PUBLIC ====
 var active := false
 var projectile_owner = null # the owner of the projectile that will spawn, i.e : the player with the weapon
@@ -24,7 +27,7 @@ var projectile_owner = null # the owner of the projectile that will spawn, i.e :
 
 ##### PROTECTED METHODS #####
 func _spawn_projectile(projectile: Node) -> void:
-	var game_root = RuntimeUtils.get_game_root()
+	var game_root = _runtime_utils.get_game_root()
 	if game_root != null and game_root.has_method("spawn_projectile"):
 		game_root.spawn_projectile(projectile)
 	else:

@@ -10,6 +10,10 @@ const PRIMARY_WEAPONS := {
 		"name": "Revolver",
 		"description": "The revolver is a polyvalent weapon that shoots bullets in a straight line. A great choice if you want an all-rounder.",
 	},
+	StaticPrimaryWeaponHandler.handlers.SHOTGUN: {
+		"name": "Shotgun",
+		"description": "The shotgun shoots a multiple small bullet spread. Deals a lot of damage if you are close and every bullet hits, but not so much from far away.",
+	},
 }
 
 const MOVEMENT_BONUS := {

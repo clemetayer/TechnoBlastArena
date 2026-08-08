@@ -1,10 +1,12 @@
 extends PrimaryWeaponBase
 
-# Basic revolver
+# shotgun weapon
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PROJECTILE_SCENE_PATH := "res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn"
+const PROJECTILE_AMOUNT := 5
+const SPREAD := PI / 4.0
 const LOS_DEFAULT_WIDTH := 8
 const FIRE_ANIM_MAX_WIDTH := 20
 const FIRE_ANIM_TIME := 0.2
@@ -32,7 +34,8 @@ func fire() -> void:
 	if not _on_cooldown and active:
 		_fire_anim()
 		_play_gunshot()
-		_spawn_projectile(_create_projectile())
+		for projectile in _create_projectiles():
+			_spawn_projectile(projectile)
 		_on_cooldown = true
 		shoot_cooldown_timer.start()
 
@@ -47,11 +50,20 @@ func aim(relative_aim_position: Vector2) -> void:
 
 
 ##### PROTECTED METHODS #####
-func _create_projectile() -> Node:
+func _create_projectiles() -> Array[Node]:
+	var projectiles := []
+	var bullet_angle := rotation - SPREAD / 2.0
+	for projectile_idx in range(PROJECTILE_AMOUNT):
+		projectiles.append(_create_projectile(bullet_angle))
+		bullet_angle += SPREAD / PROJECTILE_AMOUNT
+	return projectiles
+
+
+func _create_projectile(bullet_angle: float) -> Node:
 	var projectile = load(PROJECTILE_SCENE_PATH).instantiate()
 	projectile.current_owner = projectile_owner
 	projectile.init_position = global_position
-	projectile.init_rotation = rotation
+	projectile.init_rotation = bullet_angle
 	projectile.color = owner_color
 	return projectile
 

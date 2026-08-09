@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BulletParametersResource" format=3 uid="uid://mu5ojicefno7"]
+
+[ext_resource type="Script" uid="uid://bkft7pcnrtmx0" path="res://Scenes/Weapons/Projectiles/Bullet/bullet_parameters_resource.gd" id="1_7pyrm"]
+
+[resource]
+script = ExtResource("1_7pyrm")
+DAMAGE = 5.0
+KNOCKBACK = 7.0
+SIZE = 0.5
+metadata/_custom_type_script = "uid://bkft7pcnrtmx0"

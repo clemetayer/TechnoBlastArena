@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://yp0gtvliv7lf"]
+
+[ext_resource type="Script" uid="uid://di742fdd6x8kj" path="res://Scenes/Weapons/Projectiles/Bullet/bullet.gd" id="1_58e11"]
+[ext_resource type="Resource" uid="uid://mu5ojicefno7" path="res://Scenes/Weapons/Primary/Shotgun/shotgun_bullet_params.tres" id="2_tgvhc"]
+[ext_resource type="PackedScene" uid="uid://cl8cej2u2c4jm" path="res://Scenes/Weapons/Projectiles/trail.tscn" id="3_63sld"]
+[ext_resource type="Texture2D" uid="uid://daqpwwlyh78yf" path="res://Misc/Particles/kenney_particle-pack/star_07.png" id="4_dtyjb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g77nu"]
+size = Vector2(80, 80)
+
+[sub_resource type="Animation" id="Animation_8o5wi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BulletFlash:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_f1k66"]
+resource_name = "std_anim"
+length = 0.2
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BulletFlash:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8o5wi"]
+_data = {
+&"RESET": SubResource("Animation_8o5wi"),
+&"std_anim": SubResource("Animation_f1k66")
+}
+
+[node name="Bullet" type="Area2D" unique_id=1348168037 groups=["projectile"]]
+position = Vector2(-108.85159, -745.7223)
+rotation = -0.6015785
+scale = Vector2(0.5, 0.5)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_58e11")
+PARAMETERS = ExtResource("2_tgvhc")
+init_position = Vector2(-726.07434, -322.02563)
+init_rotation = -0.601578466759568
+color = Color(1, 0, 0, 1)
+
+[node name="Trail" parent="." unique_id=341800852 instance=ExtResource("3_63sld")]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(-664.591, 1352.8195)
+rotation = 0.6015785
+points = PackedVector2Array(-550.193, -442.7605, -418.28207, -533.31165, -286.37115, -623.8628, -154.46024, -714.41394)
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=356350618]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("4_dtyjb")
+
+[node name="BulletFlash" type="Sprite2D" parent="." unique_id=955109715]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("4_dtyjb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1139675293]
+shape = SubResource("RectangleShape2D_g77nu")
+
+[node name="BulletAnimation" type="AnimationPlayer" parent="." unique_id=531129166]
+libraries/ = SubResource("AnimationLibrary_8o5wi")
+autoplay = &"std_anim"

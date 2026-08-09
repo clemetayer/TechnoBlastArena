@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="BulletParametersResource" format=3 uid="uid://bowtbqtxxr1f6"]
+
+[ext_resource type="Script" uid="uid://bkft7pcnrtmx0" path="res://Scenes/Weapons/Projectiles/Bullet/bullet_parameters_resource.gd" id="1_kt30i"]
+
+[resource]
+script = ExtResource("1_kt30i")
+metadata/_custom_type_script = "uid://bkft7pcnrtmx0"

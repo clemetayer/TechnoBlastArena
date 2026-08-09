@@ -4,6 +4,7 @@ extends PrimaryWeaponBase
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
+const BULLET_PARAMS := preload("res://Scenes/Weapons/Primary/Revolver/revolver_bullet_params.tres")
 const PROJECTILE_SCENE_PATH := "res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn"
 const LOS_DEFAULT_WIDTH := 8
 const FIRE_ANIM_MAX_WIDTH := 20
@@ -49,6 +50,7 @@ func aim(relative_aim_position: Vector2) -> void:
 ##### PROTECTED METHODS #####
 func _create_projectile() -> Node:
 	var projectile = load(PROJECTILE_SCENE_PATH).instantiate()
+	projectile.PARAMETERS = BULLET_PARAMS
 	projectile.current_owner = projectile_owner
 	projectile.init_position = global_position
 	projectile.init_rotation = rotation

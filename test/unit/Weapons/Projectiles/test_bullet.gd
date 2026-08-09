@@ -15,12 +15,22 @@ func test_ready():
 	# given
 	bullet.free()
 	bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate() # Actually loads the bullet scene to test _ready
+	var parameters = BulletParametersResource.new()
+	parameters.SPEED = 1
+	parameters.DAMAGE = 2
+	parameters.KNOCKBACK = 3
+	parameters.SIZE = 4
+	bullet.PARAMETERS = parameters
 	bullet.init_position = Vector2.RIGHT
 	bullet.init_rotation = PI / 4.0
 	bullet.color = Color.AQUA
 	# when
 	add_child(bullet)
 	# then
+	assert_eq(bullet._speed, 1)
+	assert_eq(bullet._damage, 2)
+	assert_eq(bullet._knockback, 3)
+	assert_eq(bullet.scale, Vector2.ONE * 4)
 	assert_eq(bullet.global_position, Vector2.RIGHT)
 	assert_almost_eq(bullet.rotation, PI / 4.0, 0.001)
 	assert_eq(bullet.onready_paths.trail.modulate, Color.AQUA)
@@ -32,7 +42,7 @@ func test_process():
 	# given
 	bullet.position = Vector2.ZERO
 	bullet._direction = Vector2.RIGHT
-	bullet.speed = 2.0
+	bullet._speed = 2.0
 	# when
 	bullet._process(0.5)
 	# then
@@ -46,9 +56,9 @@ func test_parried():
 	bullet.color = Color.WHITE
 	var p_owner = autofree(load("res://Scenes/Player/player.gd").new())
 	p_owner.PLAYER_ID = 1
-	bullet.speed = 1.0
-	bullet.damage = 2.0
-	bullet.knockback = 3.0
+	bullet._speed = 1.0
+	bullet._damage = 2.0
+	bullet._knockback = 3.0
 	# when
 	add_child_autofree(bullet)
 	bullet.parried(p_owner, Vector2.UP)
@@ -58,9 +68,9 @@ func test_parried():
 	assert_eq(bullet.current_owner, p_owner)
 	assert_almost_eq(bullet.rotation, -PI / 2.0, 0.01)
 	assert_eq(bullet._direction, Vector2.UP)
-	assert_eq(bullet.speed, 1.0 * bullet.SPEED_PARRY_MULTIPLIER)
-	assert_eq(bullet.damage, 2.0 * bullet.DAMAGE_PARRY_MULTIPLIER)
-	assert_eq(bullet.knockback, 3.0 * bullet.KNOCKBACK_PARRY_MULTIPLIER)
+	assert_eq(bullet._speed, 1.0 * bullet.SPEED_PARRY_MULTIPLIER)
+	assert_eq(bullet._damage, 2.0 * bullet.DAMAGE_PARRY_MULTIPLIER)
+	assert_eq(bullet._knockback, 3.0 * bullet.KNOCKBACK_PARRY_MULTIPLIER)
 	assert_eq(bullet.onready_paths.trail.modulate, RuntimeUtils.PLAYER_INDICATOR_COLORS[1])
 	assert_eq(bullet.onready_paths.sprite.modulate, RuntimeUtils.PLAYER_INDICATOR_COLORS[1])
 
@@ -104,7 +114,7 @@ func test_stop_for_duration():
 	bullet = add_child_autofree(load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate())
 	bullet.position = Vector2.ZERO
 	bullet._direction = Vector2.RIGHT
-	bullet.speed = 2.0
+	bullet._speed = 2.0
 	# when
 	bullet._stop_for_duration(0.15)
 	bullet._process(0.5)

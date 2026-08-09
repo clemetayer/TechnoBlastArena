@@ -20,14 +20,15 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	# reset to origin since line2D uses the local coordinates
+	# reset to origin since line2D uses the global coordinates
 	global_position = Vector2.ZERO
 	global_rotation = 0
 
 
 ##### PUBLIC METHODS #####
 func reset() -> void:
-	points = []
+	clear_points()
+	top_level = true
 
 
 ##### SIGNAL MANAGEMENT #####

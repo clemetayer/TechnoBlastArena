@@ -4,9 +4,10 @@ extends PrimaryWeaponBase
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
+const BULLET_PARAMS := preload("res://Scenes/Weapons/Primary/Shotgun/shotgun_bullet_params.tres")
 const PROJECTILE_SCENE_PATH := "res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn"
 const PROJECTILE_AMOUNT := 5
-const SPREAD := PI / 4.0
+const SPREAD := PI / 6.0
 const LOS_DEFAULT_WIDTH := 8
 const FIRE_ANIM_MAX_WIDTH := 20
 const FIRE_ANIM_TIME := 0.2
@@ -61,6 +62,7 @@ func _create_projectiles() -> Array[Node]:
 
 func _create_projectile(bullet_angle: float) -> Node:
 	var projectile = load(PROJECTILE_SCENE_PATH).instantiate()
+	projectile.PARAMETERS = BULLET_PARAMS
 	projectile.current_owner = projectile_owner
 	projectile.init_position = global_position
 	projectile.init_rotation = bullet_angle

@@ -332,7 +332,7 @@ func _create_standard_hit_data() -> PlayerHitData:
 
 func _add_node_on_path(node: Node, variable: String) -> Node:
 	add_child_autofree(node)
-	shield.onready_paths[variable] = node
+	shield[variable] = node
 	return node
 
 

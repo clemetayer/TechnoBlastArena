@@ -27,8 +27,13 @@ func test_toggle_stop(params = use_parameters(toggle_stop_params)):
 	manager.toggle_stop(active)
 	# then
 	assert_called(player, "toggle_movement", [not active])
-	assert_called(player, "toggle_damage", [not active])
 	assert_called(player, "toggle_abilities", [not active])
+	if active:
+		await wait_for_signal(manager.disable_damage_timer.timeout, 1)
+		await wait_process_frames(3)
+		assert_called(player, "toggle_damage", [false])
+	else:
+		assert_called(player, "toggle_damage", [true])
 
 
 func test_stop_for_duration():
@@ -39,13 +44,12 @@ func test_stop_for_duration():
 	manager.stop_for_duration(stop_duration)
 	# then
 	assert_called(player, "toggle_movement", [false])
-	assert_called(player, "toggle_damage", [false])
 	assert_called(player, "toggle_abilities", [false])
 	await wait_seconds(stop_duration)
 	await wait_process_frames(2)
 	assert_called(player, "toggle_movement", [true])
-	assert_called(player, "toggle_damage", [true])
 	assert_called(player, "toggle_abilities", [true])
+	assert_called_count(player.toggle_damage.bind(true), 2) # Since the stop_duration is shorter than the disable_damage_timer, it is called twice
 
 
 func test_dont_add_stops_if_not_over():
@@ -57,12 +61,11 @@ func test_dont_add_stops_if_not_over():
 	manager.stop_for_duration(stop_duration)
 	# then
 	assert_called_count(player.toggle_movement.bind(false), 1)
-	assert_called_count(player.toggle_damage.bind(false), 1)
 	assert_called_count(player.toggle_abilities.bind(false), 1)
 	await wait_seconds(2 * stop_duration)
 	await wait_process_frames(5)
 	assert_called_count(player.toggle_movement.bind(true), 1)
-	assert_called_count(player.toggle_damage.bind(true), 1)
+	assert_called_count(player.toggle_damage.bind(true), 2) # Since the stop_duration is shorter than the disable_damage_timer, it is called twice
 	assert_called_count(player.toggle_abilities.bind(true), 1)
 
 

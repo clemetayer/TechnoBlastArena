@@ -433,7 +433,6 @@ func test_hit_update_damage():
 	game_root.add_child(player_scene)
 	add_child_autofree(game_root)
 	player_scene._damage_enabled = true
-	await wait_process_frames(2)
 	# when / then
 	assert_eq(player_scene.paths.damage_label.text, "0")
 	player_scene.hit(PlayerHitData.new(Vector2.ZERO, 100, null))

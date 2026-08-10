@@ -24,12 +24,8 @@ func toggle_stop(active: bool) -> void:
 	var player = _get_player()
 	player.toggle_movement(not active)
 	# waits a bit before disabling the damage to allow multiple bullets to connect if needed (example : shotgun)
-	if active and disable_damage_timer.is_stopped():
-		disable_damage_timer.timeout.connect(
-			func():
-				player.toggle_damage(not _stopped) # maybe in some cases the hitstop ends before this timeout, so we use _stopped as a failsafe
-		)
-		disable_damage_timer.start()
+	if active:
+		_start_disable_damage_delay()
 	else:
 		player.toggle_damage(not active)
 	player.toggle_abilities(not active)
@@ -39,6 +35,15 @@ func toggle_stop(active: bool) -> void:
 ##### PROTECTED METHODS #####
 func _get_player() -> Node2D:
 	return paths.player_root
+
+
+func _start_disable_damage_delay() -> void:
+	if disable_damage_timer.is_stopped():
+		disable_damage_timer.timeout.connect(
+			func():
+				_get_player().toggle_damage(not _stopped) # maybe in some cases the hitstop ends before this timeout, so we use _stopped as a failsafe
+		)
+		disable_damage_timer.start()
 
 
 ##### SIGNAL MANAGEMENT #####

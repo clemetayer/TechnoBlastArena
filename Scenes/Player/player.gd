@@ -117,7 +117,7 @@ func override_velocity(velocity_override: Vector2) -> void:
 
 
 func toggle_movement(active: bool) -> void:
-	_movement_stopped = not active
+	_movement_stopped = not 	active
 
 
 # Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end

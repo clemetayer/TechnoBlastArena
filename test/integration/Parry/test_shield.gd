@@ -89,6 +89,8 @@ func test_shield_broken_hit():
 func test_parry_bullet():
 	# given
 	var bullet = autofree(bullet_scene.instantiate())
+	var parameters = BulletParametersResource.new()
+	bullet.PARAMETERS = parameters
 	bullet.init_position = scene.get_fire_position()
 	bullet.init_rotation = 0.0
 	var previous_owner = autofree(Node2D.new())
@@ -103,7 +105,7 @@ func test_parry_bullet():
 	assert_true(is_instance_valid(bullet))
 	if is_instance_valid(bullet):
 		assert_ne(bullet.rotation, 0.0)
-		assert_eq(bullet.speed, bullet.SPEED_PARRY_MULTIPLIER * bullet.BASE_SPEED)
-		assert_eq(bullet.damage, bullet.DAMAGE_PARRY_MULTIPLIER * bullet.BASE_DAMAGE)
-		assert_eq(bullet.knockback, bullet.KNOCKBACK_PARRY_MULTIPLIER * bullet.BASE_KNOCKBACK)
+		assert_eq(bullet._speed, bullet.SPEED_PARRY_MULTIPLIER * bullet.PARAMETERS.SPEED)
+		assert_eq(bullet._damage, bullet.DAMAGE_PARRY_MULTIPLIER * bullet.PARAMETERS.DAMAGE)
+		assert_eq(bullet._knockback, bullet.KNOCKBACK_PARRY_MULTIPLIER * bullet.PARAMETERS.KNOCKBACK)
 		assert_eq(bullet.current_owner, scene.get_player())

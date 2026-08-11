@@ -112,6 +112,7 @@ func test_spawn_projectile():
 	var projectile = autofree(Node.new())
 	# when
 	game.spawn_projectile(projectile)
+	await wait_process_frames(1)
 	# then
 	assert_eq(game.projectiles.get_child_count(), 1)
 

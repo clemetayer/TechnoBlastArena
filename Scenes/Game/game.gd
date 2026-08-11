@@ -62,7 +62,7 @@ func spawn_powerup(powerup: Node) -> void:
 
 
 func spawn_projectile(projectile: Node) -> void:
-	projectiles.add_child(projectile)
+	projectiles.call_deferred("add_child", projectile)
 
 
 func toggle_players_truce(active: bool) -> void:

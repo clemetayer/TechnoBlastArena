@@ -38,7 +38,7 @@ func _get_player() -> Node2D:
 
 
 func _start_disable_damage_delay() -> void:
-	if disable_damage_timer.is_stopped():
+	if disable_damage_timer.is_stopped() and disable_damage_timer.is_inside_tree():
 		disable_damage_timer.timeout.connect(
 			func():
 				_get_player().toggle_damage(not _stopped) # maybe in some cases the hitstop ends before this timeout, so we use _stopped as a failsafe

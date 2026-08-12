@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bbhkw1ufioq3k" path="res://Scenes/Weapons/Primary/Shotgun/shotgun.png" id="1_1aooy"]
 [ext_resource type="Script" uid="uid://s86yoe7f7tmf" path="res://Scenes/Weapons/Primary/Shotgun/shotgun.gd" id="1_uljml"]
-[ext_resource type="AudioStream" uid="uid://d3nn6s81f3og5" path="res://Scenes/Weapons/Primary/Revolver/gunshot.mp3" id="3_fa5iu"]
+[ext_resource type="AudioStream" uid="uid://drq44e664ddqm" path="res://Scenes/Weapons/Primary/Shotgun/shotgun.ogg" id="3_fa5iu"]
 
 [sub_resource type="Gradient" id="Gradient_1aooy"]
 offsets = PackedFloat32Array(0, 0.01, 1)

@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_o53sk"]
 [ext_resource type="Texture2D" uid="uid://vgbr7og53m3r" path="res://Misc/durdraw/title/titlev2.png" id="2_o53sk"]
 [ext_resource type="Script" uid="uid://dp7w0ccwq7tfe" path="res://Scenes/UI/MainMenu/main_menu.gd" id="2_tik7u"]
+[ext_resource type="PackedScene" uid="uid://bh5jb3r78uasv" path="res://Scenes/UI/OptionsMenu/options_menu.tscn" id="4_bw8va"]
 
 [node name="MainMenu" type="Control" unique_id=1247600062]
 layout_mode = 3
@@ -78,7 +79,12 @@ theme_type_variation = &"StdCancelButton"
 theme_override_font_sizes/font_size = 32
 text = "Quit"
 
+[node name="OptionsMenu" parent="." unique_id=695020428 instance=ExtResource("4_bw8va")]
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Customization" to="." method="_on_customization_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="return_triggered" from="OptionsMenu" to="." method="_on_options_menu_return_triggered"]

@@ -4,18 +4,32 @@
 [ext_resource type="PackedScene" uid="uid://c8dp63orlv8fe" path="res://Scenes/UI/PlayersData/players_data_ui.tscn" id="2_6u8i4"]
 [ext_resource type="PackedScene" uid="uid://bjaegu471c3mg" path="res://Scenes/UI/Chronometer/chronometer.tscn" id="3_57svj"]
 [ext_resource type="PackedScene" uid="uid://dyyr10js02uhh" path="res://Scenes/UI/ScreenGameMessage/screen_game_message.tscn" id="4_ap1y3"]
+[ext_resource type="PackedScene" uid="uid://b6autvba74f73" path="res://Scenes/UI/PauseMenu/pause_menu.tscn" id="5_6u8i4"]
+[ext_resource type="PackedScene" uid="uid://bh5jb3r78uasv" path="res://Scenes/UI/OptionsMenu/options_menu.tscn" id="6_57svj"]
 
 [node name="UI" type="CanvasLayer" unique_id=70351093]
+process_mode = 3
 layer = 100
 script = ExtResource("1_ubw26")
 
 [node name="PlayersDataUi" parent="." unique_id=1607316333 instance=ExtResource("2_6u8i4")]
+process_mode = 1
 visible = false
 
 [node name="Chronometer" parent="." unique_id=500113152 instance=ExtResource("3_57svj")]
+process_mode = 1
 visible = false
 
 [node name="ScreenGameMessage" parent="." unique_id=1352977817 instance=ExtResource("4_ap1y3")]
+process_mode = 1
+visible = false
+
+[node name="PauseMenu" parent="." unique_id=993071291 instance=ExtResource("5_6u8i4")]
+visible = false
+
+[node name="OptionsMenu" parent="." unique_id=695020428 instance=ExtResource("6_57svj")]
 visible = false
 
 [connection signal="time_over" from="Chronometer" to="." method="_on_chronometer_time_over"]
+[connection signal="options_triggered" from="PauseMenu" to="." method="_on_pause_menu_options_triggered"]
+[connection signal="return_triggered" from="OptionsMenu" to="." method="_on_options_menu_return_triggered"]

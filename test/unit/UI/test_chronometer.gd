@@ -57,17 +57,28 @@ func test_start_timer():
 	assert_eq(mock_chronometer._end_time, 10050.0)
 
 
+func test_reset_timer():
+	# given
+	chronometer._start_time = 100
+	chronometer._end_time = 200
+	# when
+	chronometer.reset_timer()
+	# then
+	assert_null(chronometer._start_time)
+	assert_null(chronometer._end_time)
+
+
 func test_time_over():
 	# given
 	watch_signals(chronometer)
 	var label = Label.new()
-	chronometer.onready_paths.label = label
+	chronometer.label = label
 	chronometer._start_time = 10.0
 	chronometer._end_time = 80.0
 	# when
 	chronometer._time_over()
 	# then
-	assert_eq(chronometer.onready_paths.label.text, chronometer.END_TEXT)
+	assert_eq(chronometer.label.text, chronometer.END_TEXT)
 	assert_null(chronometer._start_time)
 	assert_null(chronometer._end_time)
 	assert_signal_emitted(chronometer.time_over)
@@ -78,7 +89,7 @@ func test_time_over():
 func test_refresh_timer():
 	# given
 	var label = Label.new()
-	chronometer.onready_paths.label = label
+	chronometer.label = label
 	chronometer._end_time = 1000000.0
 	# when
 	chronometer._refresh_timer(555)
@@ -96,6 +107,6 @@ func test_scene_time_decreasing():
 	chronometer_scene.start_timer(90)
 	# then
 	await wait_process_frames(2)
-	assert_eq(chronometer_scene.onready_paths.label.text, "01:29")
+	assert_eq(chronometer_scene.label.text, "01:29")
 	await wait_seconds(3)
-	assert_eq(chronometer_scene.onready_paths.label.text, "01:26")
+	assert_eq(chronometer_scene.label.text, "01:26")

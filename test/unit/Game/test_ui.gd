@@ -3,11 +3,18 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var ui
+var sender = InputSender.new(Input)
 
 
 ##### SETUP #####
 func before_each():
 	ui = add_child_autofree(load("res://Scenes/Game/ui.tscn").instantiate())
+
+
+##### TEARDOWN #####
+func after_each():
+	sender.release_all()
+	sender.clear()
 
 
 ##### TESTS #####
@@ -23,11 +30,13 @@ func test_init_game_ui():
 	stub(mock_game_ui, "update_lives").to_do_nothing()
 	stub(mock_game_ui, "clean").to_do_nothing()
 	ui.game_ui = mock_game_ui
+	ui._pause_enabled = false
 	mock_game_ui.hide()
 	# when
 	ui.init_game_ui(players_data)
 	# then
 	assert_true(ui.game_ui.visible)
+	assert_true(ui._pause_enabled)
 	assert_called(mock_game_ui, "clean")
 	assert_called(mock_game_ui, "add_player", [1, player_1_config, 5])
 	assert_called(mock_game_ui, "add_player", [2, player_2_config, 10])
@@ -120,8 +129,10 @@ func test_reset():
 	stub(mock_game_ui, "clean").to_do_nothing()
 	stub(mock_game_ui, "hide").to_do_nothing()
 	ui.game_ui = mock_game_ui
+	ui._pause_enabled = true
 	var mock_chronometer = double(load("res://Scenes/UI/Chronometer/chronometer.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	stub(mock_chronometer, "hide").to_do_nothing()
+	stub(mock_chronometer, "reset_timer")
 	ui.chronometer = mock_chronometer
 	var mock_screen_message = double(load("res://Scenes/UI/ScreenGameMessage/screen_game_message.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
 	stub(mock_screen_message, "hide").to_do_nothing()
@@ -133,6 +144,8 @@ func test_reset():
 	assert_called(mock_game_ui, "hide")
 	assert_called(mock_chronometer, "hide")
 	assert_called(mock_screen_message, "hide")
+	assert_called(mock_chronometer, "reset_timer")
+	assert_false(ui._pause_enabled)
 
 
 # Tests pour _on_chronometer_time_over
@@ -143,3 +156,49 @@ func test_on_chronometer_time_over():
 	ui.chronometer.time_over.emit()
 	# then
 	assert_signal_emitted(ui.time_over)
+
+
+var pause_pressed_params := [
+	[true],
+	[false],
+]
+
+
+func test_pause_pressed(params = use_parameters(pause_pressed_params)):
+	# given
+	var pause_enabled: bool = params[0]
+	var mock_pause_menu = double(load("res://Scenes/UI/PauseMenu/pause_menu.gd")).new()
+	stub(mock_pause_menu, "pause").to_do_nothing()
+	ui.pause_menu = mock_pause_menu
+	ui._pause_enabled = pause_enabled
+	# when
+	sender.action_down("pause").hold_for(0.5)
+	await sender.idle
+	sender.release_all()
+	# then
+	if (pause_enabled):
+		assert_called(mock_pause_menu, "pause")
+	else:
+		assert_not_called(mock_pause_menu, "pause")
+
+
+func test_pause_open_options():
+	# given
+	ui.pause_menu.visible = true
+	ui.options_menu.visible = false
+	# when
+	ui.pause_menu.options_triggered.emit()
+	# then
+	assert_true(ui.options_menu.visible)
+	assert_false(ui.pause_menu.visible)
+
+
+func test_pause_options_return():
+	# given
+	ui.pause_menu.visible = false
+	ui.options_menu.visible = true
+	# when
+	ui.options_menu.return_triggered.emit()
+	# then
+	assert_false(ui.options_menu.visible)
+	assert_true(ui.pause_menu.visible)

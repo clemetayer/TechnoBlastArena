@@ -5,7 +5,6 @@ extends Control
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const MULTIPLAYER_MENU_PATH := "res://Scenes/GameManagers/game_manager.tscn"
-const OPTIONS_MENU_PATH := "res://Scenes/UI/OptionsMenu/options_menu.tscn"
 const CUSTOMIZATION_MENU_PATH := "res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.tscn"
 
 #---- STANDARD -----
@@ -17,6 +16,7 @@ var tree # mostly for test purposes, to easily stub the scene tree
 @onready var options_button := $"MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Options"
 @onready var customization_button := $"MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Customization"
 @onready var quit_button := $"MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/Quit"
+@onready var options_menu := $"OptionsMenu"
 
 
 ##### PROCESSING #####
@@ -32,7 +32,7 @@ func _on_multiplayer_pressed() -> void:
 
 
 func _on_options_pressed() -> void:
-	tree.change_scene_to_file(OPTIONS_MENU_PATH)
+	options_menu.show()
 
 
 func _on_customization_pressed() -> void:
@@ -41,3 +41,7 @@ func _on_customization_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	tree.quit()
+
+
+func _on_options_menu_return_triggered() -> void:
+	options_menu.hide()

@@ -17,10 +17,20 @@ func before_each():
 ##### TESTS #####
 func test_options_redirect_to_options_menu():
 	# given
+	main_menu.options_menu.visible = false
 	# when
 	main_menu.options_button.pressed.emit()
 	# then
-	assert_called(scene_tree, "change_scene_to_file", [main_menu.OPTIONS_MENU_PATH])
+	assert_true(main_menu.visible)
+
+
+func test_options_menu_return():
+	# given
+	main_menu.options_menu.visible = true
+	# when
+	main_menu.options_menu.return_triggered.emit()
+	# then
+	assert_false(main_menu.options_menu.visible)
 
 
 func test_multiplayer_redirects_to_game_manager_menu():

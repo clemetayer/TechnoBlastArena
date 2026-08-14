@@ -41,6 +41,7 @@ FullScreenEffects="*res://Scenes/Camera/FullScreenEffects/full_screen_effects.ts
 Shaker="*uid://b1e15kli1mhw7"
 BeehaveGlobalMetrics="*uid://c3ktl6ontsdt7"
 BeehaveGlobalDebugger="*uid://bl3ma400hpvsh"
+MusicManager="*uid://bnkotbsyl5nnt"
 
 [display]
 

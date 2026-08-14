@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cpimiv0j0cie5"]
+[gd_scene format=3 uid="uid://cpimiv0j0cie5"]
 
 [ext_resource type="Script" uid="uid://cbnhof5cc5q8t" path="res://Audio/BGM/FittingTitle/fitting_title.gd" id="1_i7qbf"]
 [ext_resource type="Script" uid="uid://dai80ok0ov0ou" path="res://Audio/BGM/FittingTitle/test_signal.gd" id="2_ihn6u"]
@@ -419,10 +419,11 @@ _data = {
 &"RESET": SubResource("Animation_txpl0")
 }
 
-[node name="FittingTitle" type="Node"]
+[node name="FittingTitle" type="Node" unique_id=510994992]
+process_mode = 3
 script = ExtResource("1_i7qbf")
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1140278145]
 editor_description = "Not usefull, only to control the accuracy of the rythm notifier"
 anchors_preset = 8
 anchor_left = 0.5
@@ -439,71 +440,69 @@ size_flags_horizontal = 4
 columns = 5
 script = ExtResource("2_ihn6u")
 
-[node name="Kick" type="Label" parent="GridContainer"]
+[node name="Kick" type="Label" parent="GridContainer" unique_id=1643936969]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="Drone1" type="Label" parent="GridContainer"]
+[node name="Drone1" type="Label" parent="GridContainer" unique_id=625534387]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="Drone2" type="Label" parent="GridContainer"]
+[node name="Drone2" type="Label" parent="GridContainer" unique_id=1662990086]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="OHat" type="Label" parent="GridContainer"]
+[node name="OHat" type="Label" parent="GridContainer" unique_id=562556033]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="CHat" type="Label" parent="GridContainer"]
+[node name="CHat" type="Label" parent="GridContainer" unique_id=1991271305]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="Snare" type="Label" parent="GridContainer"]
+[node name="Snare" type="Label" parent="GridContainer" unique_id=917619957]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="PluckString" type="Label" parent="GridContainer"]
+[node name="PluckString" type="Label" parent="GridContainer" unique_id=1729003570]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="Arpeggio" type="Label" parent="GridContainer"]
+[node name="Arpeggio" type="Label" parent="GridContainer" unique_id=1136865366]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="Lead" type="Label" parent="GridContainer"]
+[node name="Lead" type="Label" parent="GridContainer" unique_id=28211826]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="Piano" type="Label" parent="GridContainer"]
+[node name="Piano" type="Label" parent="GridContainer" unique_id=600900205]
 custom_minimum_size = Vector2(90, 20)
 layout_mode = 2
 
-[node name="RhythmNotifier" type="Node" parent="."]
+[node name="RhythmNotifier" type="Node" parent="." unique_id=1592559087]
 script = ExtResource("2_yqyba")
 bpm = 128.0
 beat_length = 0.46875
 
-[node name="Song" type="AudioStreamPlayer" parent="."]
+[node name="Song" type="AudioStreamPlayer" parent="." unique_id=475009190]
 stream = SubResource("AudioStreamInteractive_v4tr6")
 max_polyphony = 2
 bus = &"BGM"
 script = ExtResource("3_udxl2")
 
-[node name="Unused" type="AudioStreamPlayer" parent="."]
+[node name="Unused" type="AudioStreamPlayer" parent="." unique_id=962534564]
 bus = &"MuteUtils"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_v1mso")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1810017852]
+libraries/ = SubResource("AnimationLibrary_v1mso")
 next/Intro = &"Loop"

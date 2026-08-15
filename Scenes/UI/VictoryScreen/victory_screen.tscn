@@ -1,0 +1,314 @@
+[gd_scene format=3 uid="uid://cbtg150e2v3pk"]
+
+[ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_tvvxd"]
+[ext_resource type="PackedScene" uid="uid://bppk2gscfhj62" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn" id="2_esqxj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esqxj"]
+bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.92156863, 0.79607844, 0.54509807, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_esqxj"]
+font_size = 100
+font_color = Color(0.92156863, 0.79607844, 0.54509807, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tvvxd"]
+font_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6yjr0"]
+bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.84705883, 0.87058824, 0.9137255, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_ojhh7"]
+font_size = 100
+font_color = Color(0.8980392, 0.9137255, 0.9411765, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ojhh7"]
+bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8156863, 0.5294118, 0.4392157, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_6yjr0"]
+font_size = 100
+font_color = Color(0.8156863, 0.5294118, 0.4392157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1548d"]
+bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
+border_color = Color(0.92156863, 0.79607844, 0.54509807, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_1548d"]
+font_size = 100
+font_color = Color(0.4392, 0.4961334, 0.61, 1)
+
+[node name="VictoryScreen" type="Control" unique_id=1433279006]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_tvvxd")
+
+[node name="Panel" type="Panel" parent="." unique_id=1708918795]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=522314219]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=129553013]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="WinLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer" unique_id=957882815]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=5.0 connected=1][rainbow freq=0.2 sat=0.8 val=1 speed=9][font_size=32]Congratulations ![/font_size][/rainbow][/wave]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="PlayerGrid" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=970151808]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="PlayerWinScreen" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=1672940934]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_type_variation = &"StdSecondaryPanel"
+theme_override_styles/panel = SubResource("StyleBoxFlat_esqxj")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen" unique_id=671225045]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer" unique_id=167744388]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer" unique_id=1838164151]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1500284081 instance=ExtResource("2_esqxj")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1843544415]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_stretch_ratio = 3.0
+text = "# 1"
+label_settings = SubResource("LabelSettings_esqxj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer" unique_id=250011527]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Player name"
+label_settings = SubResource("LabelSettings_tvvxd")
+horizontal_alignment = 1
+
+[node name="PlayerWinScreen2" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=774853404]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_type_variation = &"StdSecondaryPanel"
+theme_override_styles/panel = SubResource("StyleBoxFlat_6yjr0")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2" unique_id=567180503]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer" unique_id=1702137293]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer" unique_id=266413703]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer/HBoxContainer" unique_id=181411599 instance=ExtResource("2_esqxj")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer/HBoxContainer" unique_id=451503167]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_stretch_ratio = 3.0
+text = "# 2"
+label_settings = SubResource("LabelSettings_ojhh7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer" unique_id=2119002815]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Player name"
+label_settings = SubResource("LabelSettings_tvvxd")
+horizontal_alignment = 1
+
+[node name="PlayerWinScreen3" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=126493212]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_type_variation = &"StdSecondaryPanel"
+theme_override_styles/panel = SubResource("StyleBoxFlat_ojhh7")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3" unique_id=648815715]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer" unique_id=907644134]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer" unique_id=1354977809]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer/HBoxContainer" unique_id=888933641 instance=ExtResource("2_esqxj")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer/HBoxContainer" unique_id=836627533]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_stretch_ratio = 3.0
+text = "# 3"
+label_settings = SubResource("LabelSettings_6yjr0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer" unique_id=1970823664]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Player name"
+label_settings = SubResource("LabelSettings_tvvxd")
+horizontal_alignment = 1
+
+[node name="PlayerWinScreen4" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=656595789]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_type_variation = &"StdSecondaryPanel"
+theme_override_styles/panel = SubResource("StyleBoxFlat_1548d")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4" unique_id=1967715291]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer" unique_id=1686405476]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer" unique_id=1945531264]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
+
+[node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer/HBoxContainer" unique_id=68279175 instance=ExtResource("2_esqxj")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2092238307]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_stretch_ratio = 3.0
+text = "# 4"
+label_settings = SubResource("LabelSettings_1548d")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer" unique_id=934255722]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Player name"
+label_settings = SubResource("LabelSettings_tvvxd")
+horizontal_alignment = 1
+
+[node name="GameConfig" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=717767138]
+layout_mode = 2
+theme_override_constants/separation = 200
+alignment = 1
+
+[node name="NextButton" type="Button" parent="MarginContainer/VBoxContainer/GameConfig" unique_id=1538878851]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_type_variation = &"StdImportantButton"
+theme_override_font_sizes/font_size = 40
+text = " Next "

@@ -109,9 +109,10 @@ theme_override_constants/separation = 16
 alignment = 1
 
 [node name="PlayerWinScreen" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=1672940934]
+custom_minimum_size = Vector2(347, 460)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.8
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_type_variation = &"StdSecondaryPanel"
 theme_override_styles/panel = SubResource("StyleBoxFlat_esqxj")
 
@@ -132,6 +133,15 @@ layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
+[node name="Rank2" type="RichTextLabel" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer" unique_id=498512929]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center][color=\"#ebcb8b\"][font_size=100][wave amp=75.0 freq=6 connected=1]#1[/wave][/font_size][/color][center]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 2
+
 [node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer" unique_id=1500284081 instance=ExtResource("2_esqxj")]
 layout_mode = 2
 size_flags_horizontal = 1
@@ -145,17 +155,11 @@ text = "Player name"
 label_settings = SubResource("LabelSettings_tvvxd")
 horizontal_alignment = 1
 
-[node name="Rank2" type="RichTextLabel" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer" unique_id=498512929]
-layout_mode = 2
-size_flags_vertical = 3
-bbcode_enabled = true
-text = "[center][color=\"#ebcb8b\"][font_size=100][wave amp=75.0 freq=6 connected=1]#1[/wave][/font_size][/color][center]"
-fit_content = true
-
 [node name="PlayerWinScreen2" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=774853404]
+custom_minimum_size = Vector2(290, 430)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.5
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_type_variation = &"StdSecondaryPanel"
 theme_override_styles/panel = SubResource("StyleBoxFlat_6yjr0")
 
@@ -175,6 +179,16 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 16
 
+[node name="Rank" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer" unique_id=451503167]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+text = "# 2"
+label_settings = SubResource("LabelSettings_ojhh7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer" unique_id=181411599 instance=ExtResource("2_esqxj")]
 layout_mode = 2
 size_flags_horizontal = 1
@@ -188,21 +202,11 @@ text = "Player name"
 label_settings = SubResource("LabelSettings_tvvxd")
 horizontal_alignment = 1
 
-[node name="Rank" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer" unique_id=451503167]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-size_flags_stretch_ratio = 3.0
-text = "# 2"
-label_settings = SubResource("LabelSettings_ojhh7")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="PlayerWinScreen3" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=126493212]
+custom_minimum_size = Vector2(241, 400)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.25
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_type_variation = &"StdSecondaryPanel"
 theme_override_styles/panel = SubResource("StyleBoxFlat_ojhh7")
 
@@ -222,6 +226,16 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 16
 
+[node name="Rank" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer" unique_id=836627533]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+text = "# 3"
+label_settings = SubResource("LabelSettings_6yjr0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer" unique_id=888933641 instance=ExtResource("2_esqxj")]
 layout_mode = 2
 size_flags_horizontal = 7
@@ -235,20 +249,11 @@ text = "Player name"
 label_settings = SubResource("LabelSettings_tvvxd")
 horizontal_alignment = 1
 
-[node name="Rank" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer" unique_id=836627533]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-size_flags_stretch_ratio = 3.0
-text = "# 3"
-label_settings = SubResource("LabelSettings_6yjr0")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="PlayerWinScreen4" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=656595789]
+custom_minimum_size = Vector2(194, 350)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_type_variation = &"StdSecondaryPanel"
 theme_override_styles/panel = SubResource("StyleBoxFlat_1548d")
 
@@ -268,6 +273,16 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 16
 
+[node name="Rank" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer" unique_id=2092238307]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+text = "# 4"
+label_settings = SubResource("LabelSettings_1548d")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer" unique_id=68279175 instance=ExtResource("2_esqxj")]
 layout_mode = 2
 size_flags_horizontal = 5
@@ -280,16 +295,6 @@ size_flags_vertical = 6
 text = "Player name"
 label_settings = SubResource("LabelSettings_tvvxd")
 horizontal_alignment = 1
-
-[node name="Rank" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer" unique_id=2092238307]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-size_flags_stretch_ratio = 3.0
-text = "# 4"
-label_settings = SubResource("LabelSettings_1548d")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="GameConfig" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=717767138]
 layout_mode = 2

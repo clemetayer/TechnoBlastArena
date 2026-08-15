@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="PlayerConfig" format=3 uid="uid://e1i616l4i077"]
+
+[ext_resource type="Script" uid="uid://cceeupk77aehe" path="res://Scenes/Player/sprite_customization_resource.gd" id="1_qv3a8"]
+[ext_resource type="Script" uid="uid://cb2tt7tw3qdjn" path="res://Scenes/Player/player_config.gd" id="2_uee6j"]
+
+[sub_resource type="Resource" id="Resource_na28o"]
+script = ExtResource("1_qv3a8")
+EYES_TEXTURE_PATH = "res://Scenes/Player/Eyes/eyes_1.PNG"
+MOUTH_TEXTURE_PATH = "res://Scenes/Player/Mouths/mouth_1.PNG"
+metadata/_custom_type_script = "uid://cceeupk77aehe"
+
+[resource]
+script = ExtResource("2_uee6j")
+SPRITE_CUSTOMIZATION = SubResource("Resource_na28o")
+metadata/_custom_type_script = "uid://cb2tt7tw3qdjn"

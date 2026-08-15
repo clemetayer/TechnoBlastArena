@@ -38,7 +38,11 @@ func init_game_ui(p_players_data: Dictionary) -> void:
 	game_ui.clean()
 	_pause_enabled = true
 	for player_idx in p_players_data.keys():
-		game_ui.add_player(player_idx, p_players_data[player_idx].config, p_players_data[player_idx].lives)
+		game_ui.add_player(
+			player_idx,
+			p_players_data[player_idx].config,
+			p_players_data[player_idx].lives,
+		)
 		game_ui.update_lives(player_idx, p_players_data[player_idx].lives)
 	game_ui.show()
 

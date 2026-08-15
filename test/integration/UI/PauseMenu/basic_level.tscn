@@ -1,0 +1,29 @@
+[gd_scene format=4 uid="uid://irhjnlyofy86"]
+
+[ext_resource type="Script" uid="uid://cbw5nekq4e1t0" path="res://Scenes/Levels/level_map_base.gd" id="1_t6y43"]
+[ext_resource type="PackedScene" uid="uid://bc175bcim437d" path="res://Scenes/LevelBounds/level_bounds.tscn" id="2_23yfr"]
+[ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="3_sbdn0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6sjv"]
+size = Vector2(1795, 674)
+
+[node name="BasicLevel" type="Node2D" unique_id=193011564]
+script = ExtResource("1_t6y43")
+
+[node name="LevelBounds" parent="." unique_id=2096474605 instance=ExtResource("2_23yfr")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelBounds" unique_id=1428195566]
+position = Vector2(-0.5, -327)
+shape = SubResource("RectangleShape2D_o6sjv")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1411589901]
+tile_map_data = PackedByteArray("AAAHAAEAAAAJAAMAAAAHAAAAAAAKAAAAAAAGAAEAAAAJAAMAAAAGAAAAAAAKAAAAAAAFAAEAAAAJAAMAAAAFAAAAAAAKAAAAAAAEAAEAAAAJAAMAAAAEAAAAAAAKAAAAAAADAAEAAAAJAAMAAAADAAAAAAAKAAAAAAACAAEAAAAJAAMAAAACAAAAAAAKAAAAAAABAAEAAAAJAAMAAAABAAAAAAAKAAAAAAAAAAEAAAAJAAMAAAAAAAAAAAAKAAAAAAD//wEAAAAJAAMAAAD//wAAAAAKAAAAAAD+/wEAAAAJAAMAAAD+/wAAAAAKAAAAAAD9/wEAAAAJAAMAAAD9/wAAAAAKAAAAAAD8/wEAAAAJAAMAAAD8/wAAAAAKAAAAAAD7/wEAAAAJAAMAAAD7/wAAAAAKAAAAAAD6/wEAAAAJAAMAAAD6/wAAAAAKAAAAAAD5/wEAAAAJAAMAAAD5/wAAAAAKAAAAAAD4/wEAAAAJAAMAAAD4/wAAAAAKAAAAAAD3/wEAAAAJAAMAAAD3/wAAAAAKAAAAAAD2/wEAAAAJAAMAAAD2/wAAAAAKAAAAAAD1/wEAAAAJAAMAAAD1/wAAAAAKAAAAAAD0/wEAAAAJAAMAAAD0/wAAAAAKAAAAAADz/wEAAAAJAAMAAADz/wAAAAAKAAAAAADy/wEAAAAIAAMAAADy/wAAAAAIAAAAAAANAAEAAAALAAMAAAANAAAAAAALAAAAAAAMAAEAAAAJAAMAAAAMAAAAAAAKAAAAAAALAAEAAAAJAAMAAAALAAAAAAAKAAAAAAAKAAEAAAAJAAMAAAAKAAAAAAAKAAAAAAAJAAEAAAAJAAMAAAAJAAAAAAAKAAAAAAAIAAEAAAAJAAMAAAAIAAAAAAAKAAAAAAA=")
+tile_set = ExtResource("3_sbdn0")
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=881264881]
+
+[node name="SpawnPoint" type="Node2D" parent="SpawnPoints" unique_id=2012060709]
+position = Vector2(-503, -77)
+
+[node name="SpawnPoint2" type="Node2D" parent="SpawnPoints" unique_id=1046265866]
+position = Vector2(405, -86)

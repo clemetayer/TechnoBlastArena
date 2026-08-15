@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://de4c2dgyi5w2d"]
+
+[ext_resource type="Script" uid="uid://ce20smpbsv7wp" path="res://test/integration/UI/PauseMenu/scene_pause_menu.gd" id="1_5aj6l"]
+[ext_resource type="PackedScene" uid="uid://bypr1ueba3rju" path="res://Scenes/Game/game.tscn" id="2_1xtqb"]
+
+[node name="SceneGameIntro" type="Node2D" unique_id=674137553]
+script = ExtResource("1_5aj6l")
+
+[node name="Game" parent="." unique_id=913849133 instance=ExtResource("2_1xtqb")]

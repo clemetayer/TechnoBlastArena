@@ -1,66 +1,11 @@
 [gd_scene format=3 uid="uid://cbtg150e2v3pk"]
 
 [ext_resource type="Theme" uid="uid://bc0o65m108hf6" path="res://Misc/Themes/nord.tres" id="1_tvvxd"]
-[ext_resource type="PackedScene" uid="uid://bppk2gscfhj62" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.tscn" id="2_esqxj"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esqxj"]
-bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.92156863, 0.79607844, 0.54509807, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[sub_resource type="LabelSettings" id="LabelSettings_tvvxd"]
-font_size = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6yjr0"]
-bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.84705883, 0.87058824, 0.9137255, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[sub_resource type="LabelSettings" id="LabelSettings_ojhh7"]
-font_size = 80
-font_color = Color(0.8980392, 0.9137255, 0.9411765, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ojhh7"]
-bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.8156863, 0.5294118, 0.4392157, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[sub_resource type="LabelSettings" id="LabelSettings_6yjr0"]
-font_size = 50
-font_color = Color(0.8156863, 0.5294118, 0.4392157, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1548d"]
-bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
-border_color = Color(0.92156863, 0.79607844, 0.54509807, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[sub_resource type="LabelSettings" id="LabelSettings_1548d"]
-font_size = 35
-font_color = Color(0.4392, 0.4961334, 0.61, 1)
+[ext_resource type="Script" uid="uid://r3hfqyxnlj6k" path="res://Scenes/UI/VictoryScreen/victory_screen.gd" id="2_ojhh7"]
+[ext_resource type="PackedScene" uid="uid://r33at8kw6x1r" path="res://Scenes/UI/VictoryScreen/player_rank.tscn" id="3_6yjr0"]
+[ext_resource type="Resource" uid="uid://g1ryfn2okgi3" path="res://Scenes/UI/VictoryScreen/RankParameters/rank_2.tres" id="5_sleap"]
+[ext_resource type="Resource" uid="uid://qc5a2mrir71j" path="res://Scenes/UI/VictoryScreen/RankParameters/rank_3.tres" id="6_sleap"]
+[ext_resource type="Resource" uid="uid://c8fcmoe7c7c7s" path="res://Scenes/UI/VictoryScreen/RankParameters/rank_4.tres" id="7_7syqw"]
 
 [node name="VictoryScreen" type="Control" unique_id=1433279006]
 layout_mode = 3
@@ -70,6 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_tvvxd")
+script = ExtResource("2_ojhh7")
 
 [node name="Panel" type="Panel" parent="." unique_id=1708918795]
 layout_mode = 1
@@ -108,193 +54,29 @@ size_flags_vertical = 3
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="PlayerWinScreen" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=1672940934]
-custom_minimum_size = Vector2(347, 460)
+[node name="PlayerRank" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=1554248748 instance=ExtResource("3_6yjr0")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"StdSecondaryPanel"
-theme_override_styles/panel = SubResource("StyleBoxFlat_esqxj")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen" unique_id=671225045]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer" unique_id=167744388]
-layout_mode = 2
-theme_override_constants/separation = 16
-alignment = 1
-
-[node name="Rank2" type="RichTextLabel" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer" unique_id=498512929]
-layout_mode = 2
-size_flags_vertical = 3
-bbcode_enabled = true
-text = "[center][color=\"#ebcb8b\"][font_size=100][wave amp=75.0 freq=6 connected=1]#1[/wave][/font_size][/color][center]"
-fit_content = true
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer" unique_id=1500284081 instance=ExtResource("2_esqxj")]
-layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 3
-size_flags_stretch_ratio = 4.0
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen/MarginContainer/VBoxContainer" unique_id=250011527]
-layout_mode = 2
-size_flags_vertical = 6
-text = "Player name"
-label_settings = SubResource("LabelSettings_tvvxd")
-horizontal_alignment = 1
-
-[node name="PlayerWinScreen2" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=774853404]
+[node name="PlayerRank2" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=1457180544 instance=ExtResource("3_6yjr0")]
 custom_minimum_size = Vector2(290, 430)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"StdSecondaryPanel"
-theme_override_styles/panel = SubResource("StyleBoxFlat_6yjr0")
+theme_type_variation = &"PanelPlayerRank2"
+PARAMETERS = ExtResource("5_sleap")
+RANK = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2" unique_id=567180503]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer" unique_id=1702137293]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Rank" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer" unique_id=451503167]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
-text = "# 2"
-label_settings = SubResource("LabelSettings_ojhh7")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer" unique_id=181411599 instance=ExtResource("2_esqxj")]
-layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen2/MarginContainer/VBoxContainer" unique_id=2119002815]
-layout_mode = 2
-size_flags_vertical = 6
-text = "Player name"
-label_settings = SubResource("LabelSettings_tvvxd")
-horizontal_alignment = 1
-
-[node name="PlayerWinScreen3" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=126493212]
+[node name="PlayerRank3" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=1001607524 instance=ExtResource("3_6yjr0")]
 custom_minimum_size = Vector2(241, 400)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"StdSecondaryPanel"
-theme_override_styles/panel = SubResource("StyleBoxFlat_ojhh7")
+theme_type_variation = &"PanelPlayerRank3"
+PARAMETERS = ExtResource("6_sleap")
+RANK = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3" unique_id=648815715]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer" unique_id=907644134]
+[node name="PlayerRank4" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=1898781836 instance=ExtResource("3_6yjr0")]
+custom_minimum_size = Vector2(194, 370)
 layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Rank" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer" unique_id=836627533]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
-text = "# 3"
-label_settings = SubResource("LabelSettings_6yjr0")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer" unique_id=888933641 instance=ExtResource("2_esqxj")]
-layout_mode = 2
-size_flags_horizontal = 7
-size_flags_vertical = 3
-size_flags_stretch_ratio = 2.25
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen3/MarginContainer/VBoxContainer" unique_id=1970823664]
-layout_mode = 2
-size_flags_vertical = 6
-text = "Player name"
-label_settings = SubResource("LabelSettings_tvvxd")
-horizontal_alignment = 1
-
-[node name="PlayerWinScreen4" type="Panel" parent="MarginContainer/VBoxContainer/PlayerGrid" unique_id=656595789]
-custom_minimum_size = Vector2(194, 350)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"StdSecondaryPanel"
-theme_override_styles/panel = SubResource("StyleBoxFlat_1548d")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4" unique_id=1967715291]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer" unique_id=1686405476]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Rank" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer" unique_id=2092238307]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
-text = "# 4"
-label_settings = SubResource("LabelSettings_1548d")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PlayerSprite" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer" unique_id=68279175 instance=ExtResource("2_esqxj")]
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.5
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PlayerGrid/PlayerWinScreen4/MarginContainer/VBoxContainer" unique_id=934255722]
-layout_mode = 2
-size_flags_vertical = 6
-text = "Player name"
-label_settings = SubResource("LabelSettings_tvvxd")
-horizontal_alignment = 1
+theme_type_variation = &"PanelPlayerRank4"
+PARAMETERS = ExtResource("7_7syqw")
+RANK = 4
 
 [node name="GameConfig" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=717767138]
 layout_mode = 2

@@ -151,6 +151,50 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5risp"]
+bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.92156863, 0.79607844, 0.54509807, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mmrgh"]
+bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.84705883, 0.87058824, 0.9137255, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qor6s"]
+bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8156863, 0.5294118, 0.4392157, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61bwt"]
+bg_color = Color(0.23137255, 0.25882354, 0.32156864, 1)
+border_color = Color(0.92156863, 0.79607844, 0.54509807, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bdhx8"]
 content_margin_left = 4.0
 content_margin_top = 4.0
@@ -415,6 +459,18 @@ Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
 Label/constants/shadow_outline_size = 1
 Label/font_sizes/font_size = 16
+LabelPlayerRank1/base_type = &"Label"
+LabelPlayerRank1/colors/font_color = Color(0.92156863, 0.79607844, 0.54509807, 1)
+LabelPlayerRank1/font_sizes/font_size = 100
+LabelPlayerRank2/base_type = &"Label"
+LabelPlayerRank2/colors/font_color = Color(0.8980392, 0.9137255, 0.9411765, 1)
+LabelPlayerRank2/font_sizes/font_size = 80
+LabelPlayerRank3/base_type = &"Label"
+LabelPlayerRank3/colors/font_color = Color(0.8156863, 0.5294118, 0.4392157, 1)
+LabelPlayerRank3/font_sizes/font_size = 50
+LabelPlayerRank4/base_type = &"Label"
+LabelPlayerRank4/colors/font_color = Color(0.4392157, 0.49803922, 0.6117647, 1)
+LabelPlayerRank4/font_sizes/font_size = 35
 LineEdit/colors/font_color = Color(0.9254902, 0.9372549, 0.95686275, 1)
 LineEdit/colors/font_placeholder_color = Color(0.29803923, 0.3372549, 0.41568628, 1)
 LineEdit/colors/font_selected_color = Color(0.9254902, 0.9372549, 0.95686275, 1)
@@ -422,9 +478,29 @@ LineEdit/colors/selection_color = Color(0.5058824, 0.6313726, 0.75686276, 1)
 LineEdit/styles/focus = SubResource("StyleBoxFlat_cc5m4")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_sypw0")
 Panel/styles/panel = SubResource("StyleBoxFlat_g8eri")
+PanelPlayerRank1/base_type = &"Panel"
+PanelPlayerRank1/styles/panel = SubResource("StyleBoxFlat_5risp")
+PanelPlayerRank2/base_type = &"Panel"
+PanelPlayerRank2/styles/panel = SubResource("StyleBoxFlat_mmrgh")
+PanelPlayerRank3/base_type = &"Panel"
+PanelPlayerRank3/styles/panel = SubResource("StyleBoxFlat_qor6s")
+PanelPlayerRank4/base_type = &"Panel"
+PanelPlayerRank4/styles/panel = SubResource("StyleBoxFlat_61bwt")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_bdhx8")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_j5rrj")
 PopupMenu/styles/separator = SubResource("StyleBoxLine_w5wb8")
+RTLPlayerRank1/base_type = &"RichTextLabel"
+RTLPlayerRank1/colors/default_color = Color(0.92156863, 0.79607844, 0.54509807, 1)
+RTLPlayerRank1/font_sizes/normal_font_size = 100
+RTLPlayerRank2/base_type = &"RichTextLabel"
+RTLPlayerRank2/colors/default_color = Color(0.84705883, 0.87058824, 0.9137255, 1)
+RTLPlayerRank2/font_sizes/normal_font_size = 80
+RTLPlayerRank3/base_type = &"RichTextLabel"
+RTLPlayerRank3/colors/default_color = Color(0.8156863, 0.5294118, 0.4392157, 1)
+RTLPlayerRank3/font_sizes/normal_font_size = 50
+RTLPlayerRank4/base_type = &"RichTextLabel"
+RTLPlayerRank4/colors/default_color = Color(0.4392157, 0.49803922, 0.6117647, 1)
+RTLPlayerRank4/font_sizes/normal_font_size = 35
 SpinBox/colors/down_hover_icon_modulate = Color(0.5058824, 0.6313726, 0.75686276, 1)
 SpinBox/colors/down_icon_modulate = Color(0.29803923, 0.3372549, 0.41568628, 1)
 SpinBox/colors/down_pressed_icon_modulate = Color(0.53333336, 0.7529412, 0.8156863, 1)

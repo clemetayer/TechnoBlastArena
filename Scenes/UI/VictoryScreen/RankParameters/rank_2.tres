@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerRankParameters" format=3 uid="uid://g1ryfn2okgi3"]
+
+[ext_resource type="Script" uid="uid://c1w8hoy4yi84p" path="res://Scenes/UI/VictoryScreen/player_rank_parameters.gd" id="1_utwcv"]
+
+[resource]
+script = ExtResource("1_utwcv")
+SIZE = Vector2(290, 430)
+FONT_SIZE = 80
+COLOR = Color(0.8980392, 0.9137255, 0.9411765, 1)
+WAVY_RANK_DISPLAY = false
+metadata/_custom_type_script = "uid://c1w8hoy4yi84p"

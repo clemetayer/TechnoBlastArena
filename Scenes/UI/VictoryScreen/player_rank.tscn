@@ -41,7 +41,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"RTLPlayerRank1"
 bbcode_enabled = true
-text = "[center][wave amp=75.0 freq=6 connected=1]#1[/wave][center]"
+text = "[wave amp=75.0 freq=6 connected=1]#1[/wave]"
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -63,7 +63,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1286304026]
+[node name="PlayerName" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1286304026]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Player name"

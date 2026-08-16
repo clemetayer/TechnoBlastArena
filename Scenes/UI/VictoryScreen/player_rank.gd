@@ -18,6 +18,8 @@ const THEME_VARIATION_NAME := "%sPlayerRank%d"
 #==== ONREADY ====
 @onready var rank_rtl := $"MarginContainer/VBoxContainer/RankRTL"
 @onready var rank_label := $"MarginContainer/VBoxContainer/Rank"
+@onready var player_sprite := $"MarginContainer/VBoxContainer/PlayerSprite"
+@onready var player_name_label := $"MarginContainer/VBoxContainer/PlayerName"
 
 
 ##### PROCESSING #####
@@ -26,10 +28,11 @@ func _ready():
 	_load_rank_parameters()
 	_set_rank_text()
 
+
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
+func set_player_data(sprite_config: SpriteCustomizationResource, player_name: String) -> void:
+	player_name_label.text = player_name
+	player_sprite.update_sprite(sprite_config)
 
 
 ##### PROTECTED METHODS #####

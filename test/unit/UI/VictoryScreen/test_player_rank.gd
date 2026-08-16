@@ -44,3 +44,19 @@ func test_load_rank_on_ready(params = use_parameters(load_rank_params)):
 	assert_eq(player_rank.rank_label.text, player_rank.LABEL_TEXT % rank)
 	assert_eq(player_rank.rank_rtl.visible, rank_parameters.WAVY_RANK_DISPLAY)
 	assert_eq(player_rank.rank_label.visible, not rank_parameters.WAVY_RANK_DISPLAY)
+
+
+func test_set_player_data():
+	# given
+	var player_sprite_res := SpriteCustomizationResource.new()
+	var player_name := "test name"
+	var player_sprite = double(
+		load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd")
+	).new()
+	stub(player_sprite, "update_sprite").to_do_nothing()
+	player_rank.player_sprite = player_sprite
+	# when
+	player_rank.set_player_data(player_sprite_res, player_name)
+	# then
+	assert_eq(player_rank.player_name_label.text, player_name)
+	assert_called(player_sprite, "update_sprite", [player_sprite_res])

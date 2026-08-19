@@ -17,26 +17,15 @@ func test_init_players_data():
 	player_1_config.SPRITE_CUSTOMIZATION.BODY_COLOR = Color.ALICE_BLUE
 	player_1_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR = Color.ANTIQUE_WHITE
 	player_1_config.ELIMINATION_TEXT = "test"
-	var player_1_data = {
-		"config": player_1_config,
-		"lives": 3,
-	}
+	var player_1_data = { "config": player_1_config, "lives": 3 }
 	var player_2_config: PlayerConfig = create_default_player_config()
 	player_2_config.SPRITE_CUSTOMIZATION.BODY_COLOR = Color.ALICE_BLUE
 	player_2_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR = Color.ANTIQUE_WHITE
 	player_2_config.ELIMINATION_TEXT = "test"
 
-	var player_2_data = {
-		"config": player_2_config,
-		"lives": 3,
-	}
+	var player_2_data = { "config": player_2_config, "lives": 3 }
 	# when
-	players.init_players_data(
-		{
-			1: player_1_data,
-			2: player_2_data,
-		},
-	)
+	players.init_players_data({ 1: player_1_data, 2: player_2_data })
 	# then
 	assert_eq(players._players_data.size(), 2)
 	assert_eq(players._players_data[1].lives, 3)
@@ -56,18 +45,12 @@ func test_init_spawn_positions():
 	assert_eq(players._spawn_positions, spawn_positions)
 
 
-var toggle_player_truce_params := [
-	[true],
-	[false],
-]
+var toggle_player_truce_params := [[true], [false]]
 
 
 func test_toggle_players_truce(params = use_parameters(toggle_player_truce_params)):
 	# given
-	players._players_data = {
-		1: { },
-		2: { },
-	}
+	players._players_data = { 1: { }, 2: { } }
 	var player_1_mock = double(load("res://Scenes/Player/player.gd")).new()
 	player_1_mock.name = "player_1"
 	stub(player_1_mock, "toggle_truce").to_do_nothing()
@@ -85,10 +68,7 @@ func test_toggle_players_truce(params = use_parameters(toggle_player_truce_param
 
 func test_reset():
 	# given
-	players._players_data = {
-		1: { },
-		2: { },
-	}
+	players._players_data = { 1: { }, 2: { } }
 	# when
 	players.reset()
 	# then
@@ -99,10 +79,7 @@ func test_reset():
 func test_add_players():
 	# given
 	players._spawn_positions = [Vector2.RIGHT, Vector2.UP]
-	players._players_data = {
-		1: { },
-		2: { },
-	}
+	players._players_data = { 1: { }, 2: { } }
 	# when
 	players.add_players()
 	wait_seconds(0.25)
@@ -116,7 +93,9 @@ func test_add_players():
 		assert_true(player.is_connected("killed", players._on_player_killed))
 		assert_true(player.is_connected("movement_updated", players._on_player_movement_updated))
 		assert_true(player.is_connected("powerup_updated", players._on_player_powerup_updated))
-		assert_true(player.is_connected("game_message_triggered", players._on_player_game_message_triggered))
+		assert_true(
+			player.is_connected("game_message_triggered", players._on_player_game_message_triggered)
+		)
 
 
 func test_get_player_instance():
@@ -136,11 +115,7 @@ func test_get_player_instance():
 func test_get_player_config():
 	# given
 	var config = PlayerConfig.new()
-	players._players_data = {
-		1: {
-			"config": config,
-		},
-	}
+	players._players_data = { 1: { "config": config } }
 	# when
 	var res = players.get_player_config(1)
 	# then
@@ -149,10 +124,7 @@ func test_get_player_config():
 
 func test_get_players_data():
 	# given
-	var data = {
-		1: { },
-		2: { },
-	}
+	var data = { 1: { }, 2: { } }
 	players._players_data = data
 	# when
 	var res = players.get_players_data()
@@ -162,10 +134,7 @@ func test_get_players_data():
 
 func test_spawn_player():
 	# given
-	players._players_data = {
-		1: { },
-		2: { },
-	}
+	players._players_data = { 1: { }, 2: { } }
 	# when
 	players._spawn_player(1, Vector2.LEFT)
 	wait_seconds(0.25)
@@ -178,7 +147,9 @@ func test_spawn_player():
 	assert_true(player.is_connected("killed", players._on_player_killed))
 	assert_true(player.is_connected("movement_updated", players._on_player_movement_updated))
 	assert_true(player.is_connected("powerup_updated", players._on_player_powerup_updated))
-	assert_true(player.is_connected("game_message_triggered", players._on_player_game_message_triggered))
+	assert_true(
+		player.is_connected("game_message_triggered", players._on_player_game_message_triggered)
+	)
 
 
 func test_get_spawn_position_and_go_next():
@@ -195,44 +166,11 @@ func test_get_spawn_position_and_go_next():
 
 
 var is_only_one_player_alive_params := [
-	[
-		{
-			1: { "lives": 2 },
-			2: { "lives": 1 },
-			3: { "lives": 4 },
-		},
-		false,
-	],
-	[
-		{
-			1: { "lives": 0 },
-			2: { "lives": 1 },
-			3: { "lives": 4 },
-		},
-		false,
-	],
-	[
-		{
-			1: { "lives": 0 },
-			2: { "lives": 0 },
-			3: { "lives": 4 },
-		},
-		true,
-	],
-	[
-		{
-			1: { "lives": 0 },
-			2: { "lives": 0 },
-			3: { "lives": 0 },
-		},
-		true,
-	],
-	[
-		{
-			1: { "lives": 1 },
-		},
-		true,
-	],
+	[{ 1: { "lives": 2 }, 2: { "lives": 1 }, 3: { "lives": 4 } }, false],
+	[{ 1: { "lives": 0 }, 2: { "lives": 1 }, 3: { "lives": 4 } }, false],
+	[{ 1: { "lives": 0 }, 2: { "lives": 0 }, 3: { "lives": 4 } }, true],
+	[{ 1: { "lives": 0 }, 2: { "lives": 0 }, 3: { "lives": 0 } }, true],
+	[{ 1: { "lives": 1 } }, true],
 ]
 
 
@@ -248,14 +186,7 @@ func test_is_only_one_player_alive(params = use_parameters(is_only_one_player_al
 func test_on_player_killed_not_end_game():
 	# given
 	watch_signals(players)
-	players._players_data = {
-		1: {
-			"lives": 2,
-		},
-		2: {
-			"lives": 3,
-		},
-	}
+	players._players_data = { 1: { "lives": 2 }, 2: { "lives": 3 } }
 	players.tree = get_tree()
 	wait_seconds(players.RESPAWN_TIME + 0.25)
 	# when
@@ -270,14 +201,7 @@ func test_on_player_killed_not_end_game():
 func test_on_player_killed_end_game():
 	# given
 	watch_signals(players)
-	players._players_data = {
-		1: {
-			"lives": 2,
-		},
-		2: {
-			"lives": 1,
-		},
-	}
+	players._players_data = { 1: { "lives": 2 }, 2: { "lives": 1 } }
 	# when
 	players._on_player_killed(2)
 	# then
@@ -309,16 +233,138 @@ func test_on_player_game_message_triggered():
 	# given
 	var config = PlayerConfig.new()
 	config.ELIMINATION_TEXT = "test"
-	players._players_data = {
-		1: {
-			"config": config,
-		},
-	}
+	players._players_data = { 1: { "config": config } }
 	watch_signals(players)
 	# when
 	players._on_player_game_message_triggered(1)
 	# then
 	assert_signal_emitted_with_parameters(players.game_message_triggered, ["test"])
+
+
+var config_p1 = PlayerConfig.new()
+var config_p2 = PlayerConfig.new()
+var config_p3 = PlayerConfig.new()
+var config_p4 = PlayerConfig.new()
+
+var get_ranks_params := [
+	# only one player one
+	[
+		{
+			1: { "config": config_p1, "lives": 2 },
+			2: { "config": config_p2, "lives": 1 },
+			3: { "config": config_p3, "lives": 1 },
+			4: { "config": config_p4, "lives": 1 },
+		},
+		[config_p1, config_p4, config_p3, config_p2],
+	],
+	[
+		{
+			1: { "config": config_p1, "lives": 1 },
+			2: { "config": config_p2, "lives": 2 },
+			3: { "config": config_p3, "lives": 1 },
+			4: { "config": config_p4, "lives": 1 },
+		},
+		[config_p2, config_p4, config_p3, config_p1],
+	],
+	[
+		{
+			1: { "config": config_p1, "lives": 1 },
+			2: { "config": config_p2, "lives": 2 },
+			3: { "config": config_p3, "lives": 1 },
+		},
+		[config_p2, config_p3, config_p1],
+	],
+	[
+		{ 1: { "config": config_p1, "lives": 1 }, 2: { "config": config_p2, "lives": 2 } },
+		[config_p2, config_p1],
+	],
+	# only one player one when the timer runs out (ordered by most lives)
+	[
+		{
+			3: { "config": config_p3, "lives": 2 },
+			1: { "config": config_p1, "lives": 3 },
+			2: { "config": config_p2, "lives": 4 },
+			4: { "config": config_p4, "lives": 5 },
+		},
+		[config_p4, config_p2, config_p1, config_p3],
+	],
+	[
+		{
+			2: { "config": config_p2, "lives": 4 },
+			1: { "config": config_p1, "lives": 3 },
+			3: { "config": config_p3, "lives": 2 },
+		},
+		[config_p2, config_p1, config_p3],
+	],
+	[
+		{
+			1: { "config": config_p1, "lives": 1 },
+			2: { "config": config_p2, "lives": 4 },
+			4: { "config": config_p4, "lives": 5 },
+			3: { "config": config_p3, "lives": 3 },
+		},
+		[config_p4, config_p2, config_p3, config_p1],
+	],
+	# draw scenarios
+	[
+		{
+			1: { "config": config_p1, "lives": 1 },
+			4: { "config": config_p4, "lives": 3 },
+			2: { "config": config_p2, "lives": 3 },
+			3: { "config": config_p3, "lives": 1 },
+		},
+		[config_p2, config_p4, config_p3, config_p1],
+	],
+	[
+		{
+			1: { "config": config_p1, "lives": 4 },
+			2: { "config": config_p2, "lives": 3 },
+			3: { "config": config_p3, "lives": 2 },
+			4: { "config": config_p4, "lives": 3 },
+		},
+		[config_p1, config_p2, config_p4, config_p3],
+	],
+	[
+		{
+			4: { "config": config_p4, "lives": 4 },
+			3: { "config": config_p3, "lives": 3 },
+			1: { "config": config_p1, "lives": 4 },
+			2: { "config": config_p2, "lives": 3 },
+		},
+		[config_p1, config_p4, config_p2, config_p3],
+	],
+	[
+		{
+			3: { "config": config_p3, "lives": 3 },
+			1: { "config": config_p1, "lives": 4 },
+			2: { "config": config_p2, "lives": 3 },
+		},
+		[config_p1, config_p2, config_p3],
+	],
+	[
+		{
+			1: { "config": config_p1, "lives": 2 },
+			2: { "config": config_p2, "lives": 2 },
+			3: { "config": config_p3, "lives": 2 },
+			4: { "config": config_p4, "lives": 2 },
+		},
+		[config_p1, config_p2, config_p3, config_p4],
+	],
+]
+
+
+func test_get_ranks(params = use_parameters(get_ranks_params)):
+	# given
+	var players_data = params[0]
+	var expected_res = params[1]
+	players.tree = get_tree()
+	players._players_data = players_data
+	# when
+	for player_idx in range(players_data.keys().size()):
+		players._on_player_killed(player_idx + 1)
+	var res_ranks = players.get_ranks()
+	# then
+	assert_eq(res_ranks, expected_res)
 
 
 ##### UTILS #####

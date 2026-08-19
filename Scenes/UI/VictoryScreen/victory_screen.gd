@@ -1,55 +1,26 @@
-# @tool
 extends Control
-# class_name Class
-# docstring
-
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-# enumerations
+# handles the victory screen after a multiplayer match
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const constant := 10 # Optionnal comment
-
-#---- EXPORTS -----
-# @export var EXPORT_NAME := 10.0 # Optionnal comment
-
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
-#==== PRIVATE ====
-# var _private_var # Optionnal comment
-
 #==== ONREADY ====
-# @onready var onready_var # Optionnal comment
+@onready var player_grid := $"MarginContainer/VBoxContainer/PlayerGrid"
+
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	hide()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
-func _process(_delta):
-	pass
 
 ##### PUBLIC METHODS #####
-# Methods that are intended to be "visible" to other nodes or scripts
-# func public_method(arg : int) -> void:
-#     pass
-
-##### PROTECTED METHODS #####
-# Methods that are intended to be used exclusively by this scripts
-# func _private_method(arg):
-#     pass
-
-##### SIGNAL MANAGEMENT #####
-# Functions that should be triggered when a specific signal is received
+func show_victory(players: Array) -> void:
+	show()
+	for player_rank_idx in range(player_grid.get_child_count()):
+		var player_rank = player_grid.get_child(player_rank_idx)
+		if player_rank_idx < players.size():
+			var player: PlayerConfig = players[player_rank_idx]
+			player_rank.set_player_data(player.SPRITE_CUSTOMIZATION, player.PLAYER_NAME)
+			player_rank.show()
+		else:
+			player_rank.hide()

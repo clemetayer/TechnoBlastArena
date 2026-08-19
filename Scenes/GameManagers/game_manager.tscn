@@ -2,12 +2,19 @@
 
 [ext_resource type="Script" uid="uid://comivhr6alcm0" path="res://Scenes/GameManagers/game_manager.gd" id="1_6q8xy"]
 [ext_resource type="PackedScene" uid="uid://b2v8mjupvf7rh" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn" id="2_gyiv4"]
+[ext_resource type="PackedScene" uid="uid://cbtg150e2v3pk" path="res://Scenes/UI/VictoryScreen/victory_screen.tscn" id="3_gyiv4"]
 [ext_resource type="PackedScene" uid="uid://bypr1ueba3rju" path="res://Scenes/Game/game.tscn" id="3_inig3"]
 
 [node name="GameManager" type="Node" unique_id=1382858304]
 script = ExtResource("1_6q8xy")
 
 [node name="PlayerSelectionMenu" parent="." unique_id=515307298 instance=ExtResource("2_gyiv4")]
+
+[node name="VictoryScreen" parent="." unique_id=1433279006 instance=ExtResource("3_gyiv4")]
+visible = false
+
+[node name="VictoryScreen2" parent="." unique_id=1107774223 instance=ExtResource("3_gyiv4")]
+visible = false
 
 [node name="Game" parent="." unique_id=519562420 instance=ExtResource("3_inig3")]
 

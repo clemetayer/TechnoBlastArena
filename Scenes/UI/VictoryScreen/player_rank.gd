@@ -1,6 +1,6 @@
 @tool
 extends Panel
-# shows the player rank
+# shows the player rank in the victory screen
 
 ##### VARIABLES #####
 #---- CONSTANTS -----

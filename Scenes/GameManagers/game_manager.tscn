@@ -13,10 +13,8 @@ script = ExtResource("1_6q8xy")
 [node name="VictoryScreen" parent="." unique_id=1433279006 instance=ExtResource("3_gyiv4")]
 visible = false
 
-[node name="VictoryScreen2" parent="." unique_id=1107774223 instance=ExtResource("3_gyiv4")]
-visible = false
-
 [node name="Game" parent="." unique_id=519562420 instance=ExtResource("3_inig3")]
 
 [connection signal="game_ready" from="PlayerSelectionMenu" to="." method="_on_player_selection_menu_game_ready"]
+[connection signal="next" from="VictoryScreen" to="." method="_on_victory_screen_next"]
 [connection signal="game_over" from="Game" to="." method="_on_game_game_over"]

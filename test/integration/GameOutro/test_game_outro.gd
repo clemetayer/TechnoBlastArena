@@ -11,7 +11,6 @@ var scene
 var default_level
 var player_1_config
 var player_2_config
-var game_over_times_called := 0
 
 
 ##### SETUP #####
@@ -19,13 +18,12 @@ func before_each():
 	scene = load("res://test/integration/GameOutro/scene_game_outro.tscn").instantiate()
 	add_child_autofree(scene)
 	await wait_process_frames(5)
-	game_over_times_called = 0
 
 
 ##### TESTS #####
 func test_outro():
 	# given
-	scene.get_game().connect("game_over", _on_game_over)
+	watch_signals(scene.get_game())
 	default_level = load(DEFAULT_LEVEL_CONFIG_PATH)
 	player_1_config = load(PLAYER_1_DEFAULT_CONFIG_PATH)
 	player_2_config = load(PLAYER_2_DEFAULT_CONFIG_PATH)
@@ -47,9 +45,4 @@ func test_outro():
 	await wait_seconds(2.5)
 	assert_true(scene.get_game_message().contains("Game !"))
 	await wait_seconds(5)
-	assert_eq(game_over_times_called, 1)
-
-
-##### UTILS #####
-func _on_game_over() -> void:
-	game_over_times_called += 1
+	assert_signal_emitted(scene.get_game().game_over)

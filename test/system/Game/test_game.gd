@@ -12,13 +12,11 @@ var _sender = InputSender.new(Input)
 var default_level
 var player_1_config
 var player_2_config
-var game_over_times_called := 0
 
 
 ##### SETUP #####
 func before_each():
 	scene = add_child_autofree(load("res://test/system/Game/scene_game.tscn").instantiate())
-	game_over_times_called = 0
 
 
 ##### TEARDOWN #####
@@ -31,7 +29,7 @@ func after_each():
 # Note : can't split this up into separate functions, otherwise, the await messes up with GUT
 func test_game():
 	# ---- given ----
-	scene.get_game().connect("game_over", _on_game_over)
+	watch_signals(scene.get_game())
 	# ==== init scene ====
 	default_level = load(DEFAULT_LEVEL_CONFIG_PATH)
 	player_1_config = load(PLAYER_1_DEFAULT_CONFIG_PATH)
@@ -119,18 +117,30 @@ func test_game():
 	await wait_seconds(2.5)
 	assert_true(scene.get_game_message().contains("Game !"))
 	await wait_seconds(5)
-	assert_eq(game_over_times_called, 1)
+	assert_signal_emitted(scene.get_game().game_over)
 
 
 ##### UTILS #####
 func _check_player_data(player_idx: int, config: PlayerConfig):
 	var player = scene.get_player(player_idx)
 	assert_not_null(player)
-	assert_eq(player.paths.sprites.onready_paths.body.modulate, config.SPRITE_CUSTOMIZATION.BODY_COLOR)
-	assert_eq(player.paths.sprites.onready_paths.outline.modulate, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
+	assert_eq(
+		player.paths.sprites.onready_paths.body.modulate,
+		config.SPRITE_CUSTOMIZATION.BODY_COLOR,
+	)
+	assert_eq(
+		player.paths.sprites.onready_paths.outline.modulate,
+		config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR,
+	)
 	var ui = scene.get_ui()
-	assert_eq(ui._players[player_idx].onready_paths.sprites.body.modulate, config.SPRITE_CUSTOMIZATION.BODY_COLOR)
-	assert_eq(ui._players[player_idx].onready_paths.sprites.outline.modulate, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
+	assert_eq(
+		ui._players[player_idx].onready_paths.sprites.body.modulate,
+		config.SPRITE_CUSTOMIZATION.BODY_COLOR,
+	)
+	assert_eq(
+		ui._players[player_idx].onready_paths.sprites.outline.modulate,
+		config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR,
+	)
 	assert_eq(ui._players[player_idx].onready_paths.name.text, "temporary_man")
 	var p_movement = ui._players[player_idx]._movement_ui
 	var p_powerup = ui._players[player_idx]._powerup_ui
@@ -139,7 +149,3 @@ func _check_player_data(player_idx: int, config: PlayerConfig):
 	assert_not_null(p_powerup)
 	assert_not_null(p_lives)
 	assert_eq(p_lives.LIVES, 3)
-
-
-func _on_game_over() -> void:
-	game_over_times_called += 1

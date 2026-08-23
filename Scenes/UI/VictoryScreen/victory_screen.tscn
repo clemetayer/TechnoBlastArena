@@ -89,3 +89,5 @@ size_flags_horizontal = 6
 theme_type_variation = &"StdImportantButton"
 theme_override_font_sizes/font_size = 40
 text = " Next "
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GameConfig/NextButton" to="." method="_on_next_button_pressed"]

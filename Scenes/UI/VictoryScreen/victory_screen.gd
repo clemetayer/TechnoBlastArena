@@ -1,10 +1,14 @@
 extends Control
 # handles the victory screen after a multiplayer match
 
+##### SIGNALS #####
+signal next
+
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== ONREADY ====
 @onready var player_grid := $"MarginContainer/VBoxContainer/PlayerGrid"
+@onready var next_button := $"MarginContainer/VBoxContainer/GameConfig/NextButton"
 
 
 ##### PROCESSING #####
@@ -24,3 +28,7 @@ func show_victory(players: Array) -> void:
 			player_rank.show()
 		else:
 			player_rank.hide()
+
+
+func _on_next_button_pressed() -> void:
+	next.emit()

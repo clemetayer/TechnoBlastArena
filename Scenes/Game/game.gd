@@ -3,7 +3,7 @@ extends Node
 # Script that manages the game itself (slightly different from the game manager, which manages the game lobby)
 
 ##### SIGNALS #####
-signal game_over
+signal game_over(players_rank: Array)
 
 ##### VARIABLES #####
 #---- CONSTANTS -----
@@ -12,6 +12,7 @@ const PLAYER_GAME_MESSAGE_DURATION := 1 #s
 #---- STANDARD -----
 #==== PRIVATE ====
 var _full_screen_effects := FullScreenEffects
+var _ranks := [] # stores the rank at the end of the game BEFORE the game end animation finishes playing
 
 #==== ONREADY ====
 @onready var players := $"Players"
@@ -77,6 +78,7 @@ func reset() -> void:
 	_clean_node_tree(projectiles)
 	_clean_node_tree(powerups)
 	camera.enabled = false
+	_ranks = []
 
 
 ##### PROTECTED METHODS #####
@@ -92,6 +94,7 @@ func _clean_node_tree(root: Node) -> void:
 
 func _end_game() -> void:
 	animation_player.play("end_game")
+	_ranks = players.get_ranks()
 
 
 ##### SIGNAL MANAGEMENT #####
@@ -121,4 +124,4 @@ func _on_players_game_message_triggered(message: String) -> void:
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "end_game":
-		emit_signal("game_over")
+		game_over.emit(_ranks)

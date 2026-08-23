@@ -25,9 +25,7 @@ func test_init_level_data():
 
 func test_init_players_data():
 	# given
-	var players_data = {
-		"test": 0,
-	}
+	var players_data = { "test": 0 }
 	var mock_players = double(load("res://Scenes/Game/players.gd")).new()
 	stub(mock_players, "init_players_data").to_do_nothing()
 	game.players = mock_players
@@ -68,9 +66,7 @@ func test_add_game_elements():
 
 func test_init_game_elements():
 	# given
-	var players_data = {
-		"test": 0,
-	}
+	var players_data = { "test": 0 }
 	var mock_fse = double(load("res://Scenes/Camera/FullScreenEffects/full_screen_effects.gd")).new()
 	var mock_ui = double(load("res://Scenes/Game/ui.gd")).new()
 	var mock_camera = autofree(load("res://Scenes/Camera/camera.gd").new())
@@ -117,10 +113,7 @@ func test_spawn_projectile():
 	assert_eq(game.projectiles.get_child_count(), 1)
 
 
-var toggle_players_truce_params := [
-	[true],
-	[false],
-]
+var toggle_players_truce_params := [[true], [false]]
 
 
 func test_toggle_players_truce(params = use_parameters(toggle_players_truce_params)):
@@ -162,6 +155,7 @@ func test_reset():
 	assert_called(mock_level, "reset")
 	assert_called(mock_background, "reset")
 	assert_false(mock_camera.enabled)
+	assert_eq(game._ranks, [])
 
 
 func test_init_start_game_animation():
@@ -179,6 +173,10 @@ func test_init_start_game_animation():
 
 func test_end_game():
 	# given
+	var mock_players = double(load("res://Scenes/Game/players.gd")).new()
+	var ranks_results := [PlayerConfig.new(), PlayerConfig.new(), PlayerConfig.new()]
+	stub(mock_players, "get_ranks").to_return(ranks_results)
+	game.players = mock_players
 	var mock_ap = double(AnimationPlayer).new()
 	stub(mock_ap, "play").to_do_nothing()
 	game.animation_player = mock_ap
@@ -186,6 +184,7 @@ func test_end_game():
 	game._end_game()
 	# then
 	assert_called(mock_ap, "play", ["end_game", null, null, null])
+	assert_eq(game._ranks, ranks_results)
 
 # on_ui_time_over and _on_players_player_won not really usefull to test since we already tested _end_game
 
@@ -234,19 +233,20 @@ func test_on_players_game_message_triggered():
 	assert_called(mock_ui, "display_message", ["test", false])
 
 
-var _on_animation_player_animation_finished_params := [
-	["end_game", true],
-	["not_end_game", false],
-]
+var _on_animation_player_animation_finished_params := [["end_game", true], ["not_end_game", false]]
 
 
-func test_on_animation_player_animation_finished(params = use_parameters(_on_animation_player_animation_finished_params)):
+func test_on_animation_player_animation_finished(
+	params = use_parameters(_on_animation_player_animation_finished_params)
+):
 	# given
 	watch_signals(game)
+	var ranks := [PlayerConfig.new(), PlayerConfig.new()]
+	game._ranks = ranks
 	# when
 	game._on_animation_player_animation_finished(params[0])
 	# then
 	if params[1]:
-		assert_signal_emitted(game.game_over)
+		assert_signal_emitted(game.game_over, [ranks])
 	else:
 		assert_signal_not_emitted(game.game_over)

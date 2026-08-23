@@ -1,9 +1,6 @@
 extends "res://addons/gut/test.gd"
 
 ##### VARIABLES #####
-#---- CONSTANTS -----
-# const CONST := "value"
-
 #---- VARIABLES -----
 var victory_screen
 
@@ -50,6 +47,15 @@ func test_setup(params = use_parameters(setup_params)):
 			assert_true(child.visible)
 		else:
 			assert_false(child.visible)
+
+
+func test_next():
+	# given
+	watch_signals(victory_screen)
+	# when
+	victory_screen.next_button.pressed.emit()
+	# then
+	assert_signal_emitted(victory_screen.next)
 
 
 ##### UTILS #####

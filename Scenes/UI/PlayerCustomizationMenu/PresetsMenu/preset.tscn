@@ -19,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gxwv7")
 
-[node name="Button" type="Button" parent="." unique_id=41884632]
+[node name="Button" type="Button" parent="." unique_id=41884632 groups=["ui_confirm"]]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -73,7 +73,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_stretch_ratio = 1.0
 
-[node name="RemoveButton" type="Button" parent="." unique_id=1837244792]
+[node name="RemoveButton" type="Button" parent="." unique_id=1837244792 groups=["ui_click"]]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 size_flags_horizontal = 6

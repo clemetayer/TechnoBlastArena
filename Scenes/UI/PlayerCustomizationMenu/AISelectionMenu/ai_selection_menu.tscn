@@ -17,7 +17,7 @@ script = ExtResource("1_8e64j")
 [node name="AIPresetSelectionMenu" parent="." unique_id=1451426524 instance=ExtResource("2_22oaw")]
 layout_mode = 1
 
-[node name="AIPresetCloseButton" type="Button" parent="AIPresetSelectionMenu" unique_id=935757358]
+[node name="AIPresetCloseButton" type="Button" parent="AIPresetSelectionMenu" unique_id=935757358 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8

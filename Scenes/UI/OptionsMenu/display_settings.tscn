@@ -20,7 +20,7 @@ size_flags_horizontal = 3
 text = "Display type : "
 horizontal_alignment = 2
 
-[node name="DisplayTypeButton" type="OptionButton" parent="DisplayType" unique_id=301653521]
+[node name="DisplayTypeButton" type="OptionButton" parent="DisplayType" unique_id=301653521 groups=["ui_click"]]
 layout_mode = 2
 size_flags_horizontal = 2
 selected = 0
@@ -40,7 +40,7 @@ size_flags_horizontal = 3
 text = "Background intensity : "
 horizontal_alignment = 2
 
-[node name="BackgroundIntensityButton" type="OptionButton" parent="BackgroundIntensity" unique_id=52047721]
+[node name="BackgroundIntensityButton" type="OptionButton" parent="BackgroundIntensity" unique_id=52047721 groups=["ui_click"]]
 layout_mode = 2
 size_flags_horizontal = 2
 selected = 1
@@ -64,7 +64,7 @@ size_flags_horizontal = 3
 text = "Camera effects intensity : "
 horizontal_alignment = 2
 
-[node name="CameraEffectsIntensityButton" type="OptionButton" parent="CameraEffectsIntensity" unique_id=1757107150]
+[node name="CameraEffectsIntensityButton" type="OptionButton" parent="CameraEffectsIntensity" unique_id=1757107150 groups=["ui_click"]]
 layout_mode = 2
 size_flags_horizontal = 2
 selected = 1

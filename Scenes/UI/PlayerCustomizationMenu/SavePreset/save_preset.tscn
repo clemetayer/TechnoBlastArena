@@ -36,7 +36,7 @@ layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Preset description"
 
-[node name="OkButton" type="Button" parent="VBoxContainer" unique_id=791925361]
+[node name="OkButton" type="Button" parent="VBoxContainer" unique_id=791925361 groups=["ui_confirm"]]
 layout_mode = 2
 text = "OK"
 

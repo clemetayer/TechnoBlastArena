@@ -67,7 +67,7 @@ layout_mode = 2
 theme_override_constants/separation = 200
 alignment = 1
 
-[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/GameConfig" unique_id=616178133]
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/GameConfig" unique_id=616178133 groups=["ui_close"]]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"StdCancelButton"
@@ -94,7 +94,7 @@ layout_mode = 2
 [node name="LivesConfig" parent="MarginContainer/VBoxContainer/GameConfig/MarginContainer/HBoxContainer" unique_id=415551696 instance=ExtResource("6_nvd8y")]
 layout_mode = 2
 
-[node name="StartButton" type="Button" parent="MarginContainer/VBoxContainer/GameConfig" unique_id=1938789689]
+[node name="StartButton" type="Button" parent="MarginContainer/VBoxContainer/GameConfig" unique_id=1938789689 groups=["ui_confirm"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"StdImportantButton"

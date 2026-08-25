@@ -1,0 +1,96 @@
+[gd_resource type="Resource" script_class="EAEventBank" format=3 uid="uid://ctjm4ycyp7spg"]
+
+[ext_resource type="Script" uid="uid://b11xc4t1fbe6w" path="res://addons/event_audio/src/ea_event.gd" id="1_k5q5a"]
+[ext_resource type="Script" uid="uid://dapl3e44u1kqe" path="res://addons/event_audio/src/ea_event_bank.gd" id="2_3yil8"]
+[ext_resource type="AudioStream" uid="uid://bpqy7trvlpbbt" path="res://Audio/FX/kenney_interface-sounds/Audio/click_003.ogg" id="2_y71lb"]
+[ext_resource type="Script" uid="uid://bafex11qoikor" path="res://addons/event_audio/src/ea_event_playback_settings.gd" id="3_ubiq0"]
+[ext_resource type="AudioStream" uid="uid://chpufsxj0tm8f" path="res://Audio/FX/kenney_interface-sounds/Audio/confirmation_002.ogg" id="4_fkyii"]
+[ext_resource type="AudioStream" uid="uid://jkafgowlnai" path="res://Audio/FX/kenney_interface-sounds/Audio/minimize_003.ogg" id="4_mcg2y"]
+[ext_resource type="AudioStream" uid="uid://cruhrp44p3bvs" path="res://Audio/FX/kenney_interface-sounds/Audio/maximize_001.ogg" id="5_mcg2y"]
+[ext_resource type="AudioStream" uid="uid://018ucevphxfn" path="res://Audio/FX/kenney_interface-sounds/Audio/bong_001.ogg" id="6_nk6or"]
+[ext_resource type="AudioStream" uid="uid://cubo75b3m5fh0" path="res://Audio/FX/kenney_interface-sounds/Audio/tick_001.ogg" id="8_7joo5"]
+
+[sub_resource type="Resource" id="Resource_fkyii"]
+script = ExtResource("3_ubiq0")
+stationary = true
+playback_bus = "Effects"
+min_pitch = 0.7999999999999999
+max_pitch = 1.2000000000000002
+
+[sub_resource type="Resource" id="Resource_mcg2y"]
+script = ExtResource("1_k5q5a")
+audio_streams = Array[AudioStream]([ExtResource("2_y71lb")])
+probability_weights = Array[float]([1.0])
+trigger_tags = "ui_click"
+playback_settings = SubResource("Resource_fkyii")
+
+[sub_resource type="Resource" id="Resource_k8vae"]
+script = ExtResource("3_ubiq0")
+stationary = true
+playback_bus = "Effects"
+min_pitch = 0.7999999999999999
+max_pitch = 1.2000000000000002
+
+[sub_resource type="Resource" id="Resource_nk6or"]
+script = ExtResource("1_k5q5a")
+audio_streams = Array[AudioStream]([ExtResource("4_mcg2y")])
+probability_weights = Array[float]([1.0])
+trigger_tags = "ui_close"
+playback_settings = SubResource("Resource_k8vae")
+
+[sub_resource type="Resource" id="Resource_7joo5"]
+script = ExtResource("3_ubiq0")
+stationary = true
+playback_bus = "Effects"
+
+[sub_resource type="Resource" id="Resource_71lwa"]
+script = ExtResource("1_k5q5a")
+audio_streams = Array[AudioStream]([ExtResource("4_fkyii")])
+probability_weights = Array[float]([1.0])
+trigger_tags = "ui_confirm"
+playback_settings = SubResource("Resource_7joo5")
+
+[sub_resource type="Resource" id="Resource_di3d3"]
+script = ExtResource("3_ubiq0")
+stationary = true
+playback_bus = "Effects"
+min_pitch = 0.5
+max_pitch = 1.5
+
+[sub_resource type="Resource" id="Resource_f6k1t"]
+script = ExtResource("1_k5q5a")
+audio_streams = Array[AudioStream]([ExtResource("6_nk6or")])
+probability_weights = Array[float]([1.0])
+trigger_tags = "ui_hover"
+playback_settings = SubResource("Resource_di3d3")
+
+[sub_resource type="Resource" id="Resource_3p0c7"]
+script = ExtResource("3_ubiq0")
+stationary = true
+playback_bus = "Effects"
+min_pitch = 0.7999999999999999
+max_pitch = 1.2000000000000002
+
+[sub_resource type="Resource" id="Resource_7vyt8"]
+script = ExtResource("1_k5q5a")
+audio_streams = Array[AudioStream]([ExtResource("5_mcg2y")])
+probability_weights = Array[float]([1.0])
+trigger_tags = "ui_open"
+playback_settings = SubResource("Resource_3p0c7")
+
+[sub_resource type="Resource" id="Resource_vd7bh"]
+script = ExtResource("3_ubiq0")
+stationary = true
+playback_bus = "Effects"
+
+[sub_resource type="Resource" id="Resource_2f6hj"]
+script = ExtResource("1_k5q5a")
+audio_streams = Array[AudioStream]([ExtResource("8_7joo5")])
+probability_weights = Array[float]([1.0])
+trigger_tags = "ui_tick"
+playback_settings = SubResource("Resource_vd7bh")
+
+[resource]
+script = ExtResource("2_3yil8")
+entries = Array[ExtResource("1_k5q5a")]([SubResource("Resource_mcg2y"), SubResource("Resource_nk6or"), SubResource("Resource_71lwa"), SubResource("Resource_f6k1t"), SubResource("Resource_7vyt8"), SubResource("Resource_2f6hj")])
+metadata/_custom_type_script = "uid://dapl3e44u1kqe"

@@ -11,7 +11,7 @@ layout_mode = 2
 texture = ExtResource("1_xnnt1")
 expand_mode = 3
 
-[node name="Lives" type="SpinBox" parent="." unique_id=670117085]
+[node name="Lives" type="SpinBox" parent="." unique_id=670117085 groups=["ui_tick"]]
 layout_mode = 2
 min_value = 1.0
 max_value = 20.0

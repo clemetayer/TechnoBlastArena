@@ -55,25 +55,25 @@ size_flags_stretch_ratio = 4.0
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Multiplayer" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=426783369]
+[node name="Multiplayer" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=426783369 groups=["ui_open"]]
 layout_mode = 2
 theme_type_variation = &"StdImportantButton"
 theme_override_font_sizes/font_size = 32
 text = "Multiplayer"
 
-[node name="Options" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=893066]
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=893066 groups=["ui_open"]]
 layout_mode = 2
 theme_type_variation = &"StdImportantButton"
 theme_override_font_sizes/font_size = 32
 text = "Options"
 
-[node name="Customization" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=1381831023]
+[node name="Customization" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=1381831023 groups=["ui_open"]]
 layout_mode = 2
 theme_type_variation = &"StdImportantButton"
 theme_override_font_sizes/font_size = 32
 text = "Customization"
 
-[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=1190658629]
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/VBoxContainer" unique_id=1190658629 groups=["ui_close"]]
 layout_mode = 2
 theme_type_variation = &"StdCancelButton"
 theme_override_font_sizes/font_size = 32

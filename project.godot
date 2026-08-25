@@ -33,6 +33,7 @@ manager/music/bus="Music"
 [autoload]
 
 GSLogger="*uid://h4w00m65uyak"
+EventAudio="*uid://be741v81fj3xc"
 DebugInterface="*res://Utils/Debug/debug_interface.tscn"
 RuntimeConfig="*res://Utils/Config/runtime_config.gd"
 CameraEffects="*res://Scenes/Camera/camera_effects.gd"
@@ -42,6 +43,7 @@ Shaker="*uid://b1e15kli1mhw7"
 BeehaveGlobalMetrics="*uid://c3ktl6ontsdt7"
 BeehaveGlobalDebugger="*uid://bl3ma400hpvsh"
 MusicManager="*uid://bnkotbsyl5nnt"
+UiSoundManager="*uid://bkpw5jiu2don3"
 
 [display]
 
@@ -54,11 +56,17 @@ script/templates_search_path="res://Utils/ScriptTemplates"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/gs_logger/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/shaker/plugin.cfg")
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/event_audio/plugin.cfg", "res://addons/gs_logger/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/shaker/plugin.cfg")
 
 [global_group]
 
 static_obstacle=""
+ui_click="group to play a click sound"
+ui_tick="plays a ui_tick sound when interacting"
+ui_close="creates a close sound when interacting"
+ui_open="creates an open sound when interacting"
+ui_hover="creates an hover sound when focus entering"
+ui_confirm="plays a confirm sound when interacting"
 
 [input]
 

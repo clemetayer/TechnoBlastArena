@@ -36,7 +36,7 @@ size_flags_stretch_ratio = 0.5
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="Primary" type="Button" parent="Weapons" unique_id=991109682]
+[node name="Primary" type="Button" parent="Weapons" unique_id=991109682 groups=["ui_open"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
@@ -44,7 +44,7 @@ icon = ExtResource("4_ob203")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Powerup" type="Button" parent="Weapons" unique_id=240289282]
+[node name="Powerup" type="Button" parent="Weapons" unique_id=240289282 groups=["ui_open"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
@@ -52,7 +52,7 @@ icon = ExtResource("5_0sjm8")
 icon_alignment = 1
 expand_icon = true
 
-[node name="MovementBonus" type="Button" parent="Weapons" unique_id=1142595399]
+[node name="MovementBonus" type="Button" parent="Weapons" unique_id=1142595399 groups=["ui_open"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0

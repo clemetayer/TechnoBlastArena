@@ -24,7 +24,7 @@ size_flags_vertical = 6
 theme_override_font_sizes/font_size = 10
 text = "1"
 
-[node name="MainColorPicker" type="ColorPickerButton" parent="MainColor" unique_id=2069586628]
+[node name="MainColorPicker" type="ColorPickerButton" parent="MainColor" unique_id=2069586628 groups=["ui_click"]]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "               "
@@ -41,7 +41,7 @@ size_flags_vertical = 6
 theme_override_font_sizes/font_size = 10
 text = "2"
 
-[node name="SecondaryColorPicker" type="ColorPickerButton" parent="SecondaryColor" unique_id=109574560]
+[node name="SecondaryColorPicker" type="ColorPickerButton" parent="SecondaryColor" unique_id=109574560 groups=["ui_click"]]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "           "
@@ -62,14 +62,14 @@ text = "👀"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="EyesEditButton" type="Button" parent="Eyes/Eyes" unique_id=2115791428]
+[node name="EyesEditButton" type="Button" parent="Eyes/Eyes" unique_id=2115791428 groups=["ui_open"]]
 layout_mode = 2
 size_flags_horizontal = 3
 icon = ExtResource("1_0xhic")
 icon_alignment = 1
 expand_icon = true
 
-[node name="EyesColorPickerButton" type="ColorPickerButton" parent="Eyes/Eyes" unique_id=352802009]
+[node name="EyesColorPickerButton" type="ColorPickerButton" parent="Eyes/Eyes" unique_id=352802009 groups=["ui_click"]]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -87,14 +87,14 @@ text = "👄"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MouthEditButton" type="Button" parent="Mouth/Mouth" unique_id=1058036995]
+[node name="MouthEditButton" type="Button" parent="Mouth/Mouth" unique_id=1058036995 groups=["ui_open"]]
 layout_mode = 2
 size_flags_horizontal = 3
 icon = ExtResource("1_0xhic")
 icon_alignment = 1
 expand_icon = true
 
-[node name="MouthColorPickerButton" type="ColorPickerButton" parent="Mouth/Mouth" unique_id=1351757603]
+[node name="MouthColorPickerButton" type="ColorPickerButton" parent="Mouth/Mouth" unique_id=1351757603 groups=["ui_click"]]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -107,14 +107,14 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "☠️"
 
-[node name="EliminationtextButton" type="Button" parent="EliminationText" unique_id=430015016]
+[node name="EliminationtextButton" type="Button" parent="EliminationText" unique_id=430015016 groups=["ui_open"]]
 layout_mode = 2
 size_flags_horizontal = 3
 icon = ExtResource("1_0xhic")
 icon_alignment = 1
 expand_icon = true
 
-[node name="RandomizeButton" type="Button" parent="." unique_id=917453242]
+[node name="RandomizeButton" type="Button" parent="." unique_id=917453242 groups=["ui_click"]]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3

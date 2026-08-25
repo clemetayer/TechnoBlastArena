@@ -114,7 +114,7 @@ layout_mode = 2
 [node name="DisplaySettings" parent="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/VBoxContainer" unique_id=485200226 instance=ExtResource("7_vbbuh")]
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="MarginContainer/MarginContainer" unique_id=198577538]
+[node name="BackButton" type="Button" parent="MarginContainer/MarginContainer" unique_id=198577538 groups=["ui_close"]]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 2

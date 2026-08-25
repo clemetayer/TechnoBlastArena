@@ -37,7 +37,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_5ugvj")
 visible = false
 layout_mode = 1
 
-[node name="PresetSelectionCloseButton" type="Button" parent="PresetSelectionFull" unique_id=849812714]
+[node name="PresetSelectionCloseButton" type="Button" parent="PresetSelectionFull" unique_id=849812714 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -51,7 +51,7 @@ visible = false
 layout_mode = 1
 TITLE = "Primary weapon"
 
-[node name="PrimaryWeaponCloseButton" type="Button" parent="PrimaryWeaponGridFull" unique_id=1414981494]
+[node name="PrimaryWeaponCloseButton" type="Button" parent="PrimaryWeaponGridFull" unique_id=1414981494 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -65,7 +65,7 @@ visible = false
 layout_mode = 1
 TITLE = "Powerup"
 
-[node name="PowerupCloseButton" type="Button" parent="PowerupGridFull" unique_id=42667667]
+[node name="PowerupCloseButton" type="Button" parent="PowerupGridFull" unique_id=42667667 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -79,7 +79,7 @@ visible = false
 layout_mode = 1
 TITLE = "Movement bonus"
 
-[node name="MovementBonusCloseButton" type="Button" parent="MovementBonusGridFull" unique_id=2013769806]
+[node name="MovementBonusCloseButton" type="Button" parent="MovementBonusGridFull" unique_id=2013769806 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -92,7 +92,7 @@ expand_icon = true
 visible = false
 layout_mode = 1
 
-[node name="EliminationTextCloseButton" type="Button" parent="EliminationTextEditFull" unique_id=1230055131]
+[node name="EliminationTextCloseButton" type="Button" parent="EliminationTextEditFull" unique_id=1230055131 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -107,7 +107,7 @@ layout_mode = 1
 TITLE = "Eyes selection"
 RESOURCE_LIST_PATH = "uid://bst20fv0fexys"
 
-[node name="EyesSelectionCloseButton" type="Button" parent="EyesSelectionFull" unique_id=81626832]
+[node name="EyesSelectionCloseButton" type="Button" parent="EyesSelectionFull" unique_id=81626832 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -122,7 +122,7 @@ layout_mode = 1
 TITLE = "Mouth selection"
 RESOURCE_LIST_PATH = "uid://cid14rfvtj5qe"
 
-[node name="MouthSelectionCloseButton" type="Button" parent="MouthSelectionFull" unique_id=1029456721]
+[node name="MouthSelectionCloseButton" type="Button" parent="MouthSelectionFull" unique_id=1029456721 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -135,7 +135,7 @@ expand_icon = true
 visible = false
 layout_mode = 1
 
-[node name="SavePresetCloseButton" type="Button" parent="SavePresetFull" unique_id=1288866111]
+[node name="SavePresetCloseButton" type="Button" parent="SavePresetFull" unique_id=1288866111 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -176,17 +176,17 @@ horizontal_alignment = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="OverridePresetFull/VBoxContainer" unique_id=500784466]
 layout_mode = 2
 
-[node name="OkButton" type="Button" parent="OverridePresetFull/VBoxContainer/HBoxContainer" unique_id=231969023]
+[node name="OkButton" type="Button" parent="OverridePresetFull/VBoxContainer/HBoxContainer" unique_id=231969023 groups=["ui_confirm"]]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "OK"
 
-[node name="CancelButton" type="Button" parent="OverridePresetFull/VBoxContainer/HBoxContainer" unique_id=1385455245]
+[node name="CancelButton" type="Button" parent="OverridePresetFull/VBoxContainer/HBoxContainer" unique_id=1385455245 groups=["ui_close"]]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="OverridePresetCloseButton" type="Button" parent="OverridePresetFull" unique_id=853455021]
+[node name="OverridePresetCloseButton" type="Button" parent="OverridePresetFull" unique_id=853455021 groups=["ui_confirm"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -195,7 +195,7 @@ theme_type_variation = &"StdCancelButton"
 icon = ExtResource("2_ivah3")
 expand_icon = true
 
-[node name="PresetSelectionPopup" type="Window" parent="." unique_id=203119925]
+[node name="PresetSelectionPopup" type="Window" parent="." unique_id=203119925 groups=["ui_close"]]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(600, 350)
@@ -211,7 +211,7 @@ theme_type_variation = &"StdSecondaryPanel"
 
 [node name="PresetSelection" parent="PresetSelectionPopup" unique_id=612082175 instance=ExtResource("1_kdr3n")]
 
-[node name="PrimaryWeaponGridPopup" type="Window" parent="." unique_id=2047634871]
+[node name="PrimaryWeaponGridPopup" type="Window" parent="." unique_id=2047634871 groups=["ui_close"]]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(600, 350)
@@ -228,7 +228,7 @@ theme_type_variation = &"StdSecondaryPanel"
 [node name="PrimaryWeaponGrid" parent="PrimaryWeaponGridPopup" unique_id=1492187847 instance=ExtResource("3_u54q3")]
 TITLE = "Primary weapon"
 
-[node name="PowerupGridPopup" type="Window" parent="." unique_id=1560481644]
+[node name="PowerupGridPopup" type="Window" parent="." unique_id=1560481644 groups=["ui_close"]]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(600, 350)
@@ -245,7 +245,7 @@ theme_type_variation = &"StdSecondaryPanel"
 [node name="PowerupGrid" parent="PowerupGridPopup" unique_id=312536296 instance=ExtResource("3_u54q3")]
 TITLE = "Powerup"
 
-[node name="MovementBonusGridPopup" type="Window" parent="." unique_id=1340992315]
+[node name="MovementBonusGridPopup" type="Window" parent="." unique_id=1340992315 groups=["ui_close"]]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(600, 350)
@@ -262,7 +262,7 @@ theme_type_variation = &"StdSecondaryPanel"
 [node name="MovementBonusGrid" parent="MovementBonusGridPopup" unique_id=759740823 instance=ExtResource("3_u54q3")]
 TITLE = "Movement bonus"
 
-[node name="EliminationTextEditPopup" type="Window" parent="." unique_id=1851169559]
+[node name="EliminationTextEditPopup" type="Window" parent="." unique_id=1851169559 groups=["ui_close"]]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(600, 350)
@@ -278,7 +278,7 @@ theme_type_variation = &"StdSecondaryPanel"
 
 [node name="EliminationTextEdit" parent="EliminationTextEditPopup" unique_id=821715178 instance=ExtResource("4_cf0a8")]
 
-[node name="EyesSelectionPopup" type="Window" parent="." unique_id=599207999]
+[node name="EyesSelectionPopup" type="Window" parent="." unique_id=599207999 groups=["ui_close"]]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(600, 350)
@@ -296,7 +296,7 @@ theme_type_variation = &"StdSecondaryPanel"
 TITLE = "Eyes selection"
 RESOURCE_LIST_PATH = "uid://bst20fv0fexys"
 
-[node name="MouthSelectionPopup" type="Window" parent="." unique_id=615273150]
+[node name="MouthSelectionPopup" type="Window" parent="." unique_id=615273150 groups=["ui_close"]]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(600, 350)
@@ -314,7 +314,7 @@ theme_type_variation = &"StdSecondaryPanel"
 TITLE = "Mouth selection"
 RESOURCE_LIST_PATH = "uid://cid14rfvtj5qe"
 
-[node name="SavePresetPopup" type="Window" parent="." unique_id=1803555135]
+[node name="SavePresetPopup" type="Window" parent="." unique_id=1803555135 groups=["ui_close"]]
 oversampling_override = 1.0
 initial_position = 2
 size = Vector2i(397, 250)
@@ -331,7 +331,7 @@ theme_type_variation = &"StdSecondaryPanel"
 
 [node name="SavePreset" parent="SavePresetPopup" unique_id=1040050770 instance=ExtResource("7_hqacy")]
 
-[node name="OverridePresetPopup" type="Window" parent="." unique_id=1549766605]
+[node name="OverridePresetPopup" type="Window" parent="." unique_id=1549766605 groups=["ui_close"]]
 oversampling_override = 1.0
 initial_position = 2
 size = Vector2i(400, 150)
@@ -380,12 +380,12 @@ horizontal_alignment = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="OverridePresetPopup/OverridePreset/VBoxContainer" unique_id=90993198]
 layout_mode = 2
 
-[node name="OkButton" type="Button" parent="OverridePresetPopup/OverridePreset/VBoxContainer/HBoxContainer" unique_id=1731547730]
+[node name="OkButton" type="Button" parent="OverridePresetPopup/OverridePreset/VBoxContainer/HBoxContainer" unique_id=1731547730 groups=["ui_confirm"]]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "OK"
 
-[node name="CancelButton" type="Button" parent="OverridePresetPopup/OverridePreset/VBoxContainer/HBoxContainer" unique_id=1300255764]
+[node name="CancelButton" type="Button" parent="OverridePresetPopup/OverridePreset/VBoxContainer/HBoxContainer" unique_id=1300255764 groups=["ui_close"]]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"

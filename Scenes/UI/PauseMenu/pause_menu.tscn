@@ -66,15 +66,15 @@ texture = ExtResource("1_wtndc")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="ResumeButton" type="Button" parent="CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=639923277]
+[node name="ResumeButton" type="Button" parent="CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=639923277 groups=["ui_close"]]
 layout_mode = 2
 text = "Resume"
 
-[node name="OptionsButton" type="Button" parent="CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=663499097]
+[node name="OptionsButton" type="Button" parent="CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=663499097 groups=["ui_open"]]
 layout_mode = 2
 text = "Options"
 
-[node name="QuitButton" type="Button" parent="CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=1410553564]
+[node name="QuitButton" type="Button" parent="CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=1410553564 groups=["ui_close"]]
 layout_mode = 2
 theme_type_variation = &"StdCancelButton"
 text = "Quit"

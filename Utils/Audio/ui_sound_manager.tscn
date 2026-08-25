@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bkpw5jiu2don3"]
+
+[ext_resource type="Script" uid="uid://bekd0aw65b1jx" path="res://Utils/Audio/ui_sound_manager.gd" id="1_or7dd"]
+[ext_resource type="Script" uid="uid://cshhjgdnsgsjn" path="res://addons/event_audio/src/ea_event_bank_mounter.gd" id="2_ey5i0"]
+[ext_resource type="Resource" uid="uid://ctjm4ycyp7spg" path="res://Audio/SoundBanks/UI/ui_sound_bank.tres" id="3_xka46"]
+
+[node name="UISoundManager" type="Node" unique_id=1905115327]
+process_mode = 3
+script = ExtResource("1_or7dd")
+
+[node name="EAEventBankMounter" type="Node" parent="." unique_id=810139618]
+script = ExtResource("2_ey5i0")
+_audio_bank_resource = ExtResource("3_xka46")
+metadata/_custom_type_script = "uid://cshhjgdnsgsjn"

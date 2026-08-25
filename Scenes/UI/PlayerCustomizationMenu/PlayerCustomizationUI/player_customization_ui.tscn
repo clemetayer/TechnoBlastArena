@@ -31,21 +31,21 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PresetSelectionButton" type="Button" parent="MainWindow/VBoxContainer" unique_id=615258476]
+[node name="PresetSelectionButton" type="Button" parent="MainWindow/VBoxContainer" unique_id=615258476 groups=["ui_open"]]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("4_8bc4q")
 icon_alignment = 1
 expand_icon = true
 
-[node name="SavePresetButton" type="Button" parent="MainWindow/VBoxContainer" unique_id=553048986]
+[node name="SavePresetButton" type="Button" parent="MainWindow/VBoxContainer" unique_id=553048986 groups=["ui_open"]]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("5_q1thm")
 icon_alignment = 1
 expand_icon = true
 
-[node name="QuitButton" type="Button" parent="MainWindow/VBoxContainer" unique_id=441423798]
+[node name="QuitButton" type="Button" parent="MainWindow/VBoxContainer" unique_id=441423798 groups=["ui_close"]]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"StdCancelButton"

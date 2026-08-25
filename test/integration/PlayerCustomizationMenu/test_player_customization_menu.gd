@@ -10,13 +10,17 @@ var initial_name_count
 
 ##### SETUP #####
 func before_all():
-	helper = load("res://test/integration/PlayerCustomizationMenu/helper_player_customization_menu.gd").new()
+	helper = load(
+		"res://test/integration/PlayerCustomizationMenu/helper_player_customization_menu.gd"
+	).new()
 	initial_preset_count = helper.count_saved_presets()
 	helper.save_std_preset()
 
 
 func before_each():
-	scene = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.tscn").instantiate())
+	scene = add_child_autofree(
+		load("res://Scenes/UI/PlayerCustomizationMenu/player_customization_menu.tscn").instantiate()
+	)
 	helper.set_customization_menu(scene)
 
 
@@ -58,7 +62,10 @@ func test_presets():
 	assert_false(helper.is_save_preset_popup_visible())
 	# when
 	helper.open_save_preset_menu()
-	helper.save_preset_with_name_and_description(helper.INTEGRATION_TEST_2_PRESET_NAME, helper.INTEGRATION_TEST_2_PRESET_DESCRIPTION)
+	helper.save_preset_with_name_and_description(
+		helper.INTEGRATION_TEST_2_PRESET_NAME,
+		helper.INTEGRATION_TEST_2_PRESET_DESCRIPTION,
+	)
 	await wait_seconds(0.5)
 	assert_true(helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME))
 	# then
@@ -67,7 +74,10 @@ func test_presets():
 	# when
 	presets[total_preset_count - 1].button.pressed.emit()
 	await wait_process_frames(3)
-	helper.save_preset_with_name_and_description(helper.INTEGRATION_TEST_2_PRESET_NAME, helper.INTEGRATION_TEST_2_PRESET_DESCRIPTION)
+	helper.save_preset_with_name_and_description(
+		helper.INTEGRATION_TEST_2_PRESET_NAME,
+		helper.INTEGRATION_TEST_2_PRESET_DESCRIPTION,
+	)
 	assert_true(helper.is_override_preset_popup_visible())
 	helper.override_preset()
 	await wait_seconds(0.5)
@@ -76,7 +86,7 @@ func test_presets():
 	# when
 	presets = helper.get_presets()
 	presets[total_preset_count].delete_button.pressed.emit()
-	await wait_process_frames(2)
+	await wait_process_frames(4)
 	presets = helper.get_presets()
 	assert_eq(presets.size(), initial_preset_count + 1)
 	assert_false(helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME))
@@ -142,7 +152,10 @@ func test_customization():
 	# then
 	assert_false(helper.is_eyes_selection_menu_visible())
 	assert_true(helper.is_eyes_texture_path_equal(eyes[1].resource_path))
-	assert_eq(helper.get_current_menu_config().SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH, eyes[1].resource_path)
+	assert_eq(
+		helper.get_current_menu_config().SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH,
+		eyes[1].resource_path,
+	)
 	# when
 	helper.change_mouth()
 	await wait_process_frames(3)
@@ -154,7 +167,10 @@ func test_customization():
 	# then
 	assert_false(helper.is_mouth_selection_menu_visible())
 	assert_true(helper.is_mouth_texture_path_equal(mouths[1].resource_path))
-	assert_eq(helper.get_current_menu_config().SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH, mouths[1].resource_path)
+	assert_eq(
+		helper.get_current_menu_config().SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH,
+		mouths[1].resource_path,
+	)
 
 
 func test_primary_weapon_selection():
@@ -166,7 +182,10 @@ func test_primary_weapon_selection():
 	helper.select_primary_weapon(0)
 	# then
 	assert_false(helper.is_primary_weapon_menu_visible())
-	assert_eq(helper.get_current_menu_config().PRIMARY_WEAPON, helper.get_primary_weapon_item_grid_element(0).ITEM_ID)
+	assert_eq(
+		helper.get_current_menu_config().PRIMARY_WEAPON,
+		helper.get_primary_weapon_item_grid_element(0).ITEM_ID,
+	)
 
 
 func test_movement_bonus_selection():
@@ -178,7 +197,10 @@ func test_movement_bonus_selection():
 	helper.select_movement_bonus(0)
 	# then
 	assert_false(helper.is_movement_bonus_menu_visible())
-	assert_eq(helper.get_current_menu_config().MOVEMENT_BONUS_HANDLER, helper.get_movement_bonus_item_grid_element(0).ITEM_ID)
+	assert_eq(
+		helper.get_current_menu_config().MOVEMENT_BONUS_HANDLER,
+		helper.get_movement_bonus_item_grid_element(0).ITEM_ID,
+	)
 
 
 func test_powerup_selection():
@@ -190,4 +212,7 @@ func test_powerup_selection():
 	helper.select_powerup(0)
 	# then
 	assert_false(helper.is_powerup_menu_visible())
-	assert_eq(helper.get_current_menu_config().POWERUP_HANDLER, helper.get_powerup_item_grid_element(0).ITEM_ID)
+	assert_eq(
+		helper.get_current_menu_config().POWERUP_HANDLER,
+		helper.get_powerup_item_grid_element(0).ITEM_ID,
+	)

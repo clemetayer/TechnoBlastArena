@@ -29,7 +29,7 @@ text = "Sprite items"
 label_settings = SubResource("LabelSettings_oevl1")
 horizontal_alignment = 1
 
-[node name="ItemList" type="ItemList" parent="VBoxContainer" unique_id=712193350]
+[node name="ItemList" type="ItemList" parent="VBoxContainer" unique_id=712193350 groups=["ui_click"]]
 layout_mode = 2
 size_flags_vertical = 3
 item_count = 3

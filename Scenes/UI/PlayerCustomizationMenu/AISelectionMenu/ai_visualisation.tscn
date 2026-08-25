@@ -96,7 +96,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="AIPresetSelectionButton" type="Button" parent="HBoxContainer/VBoxContainer/Tools/HBoxContainer" unique_id=1671797741]
+[node name="AIPresetSelectionButton" type="Button" parent="HBoxContainer/VBoxContainer/Tools/HBoxContainer" unique_id=1671797741 groups=["ui_open"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 7
@@ -105,7 +105,7 @@ icon = ExtResource("3_38f18")
 icon_alignment = 1
 expand_icon = true
 
-[node name="DeleteButton" type="Button" parent="HBoxContainer/VBoxContainer/Tools/HBoxContainer" unique_id=1835567806]
+[node name="DeleteButton" type="Button" parent="HBoxContainer/VBoxContainer/Tools/HBoxContainer" unique_id=1835567806 groups=["ui_close"]]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 7

@@ -48,7 +48,7 @@ size_flags_vertical = 3
 placeholder_text = "Text that will appear on the screen 
 when eliminating an opponent"
 
-[node name="OkButton" type="Button" parent="VBoxContainer" unique_id=730163393]
+[node name="OkButton" type="Button" parent="VBoxContainer" unique_id=730163393 groups=["ui_click"]]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "OK"

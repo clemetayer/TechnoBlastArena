@@ -13,10 +13,7 @@ var _latest_hit_velocity: Vector2
 var _group_utils = GroupUtils
 
 #==== ONREADY ====
-@onready var onready_paths := {
-	"destructible_wall": $"../",
-	"damage_wall_area": $"DamageWallArea",
-}
+@onready var onready_paths := { "destructible_wall": $"../", "damage_wall_area": $"DamageWallArea" }
 
 
 ##### PUBLIC METHODS #####
@@ -46,7 +43,10 @@ func _get_max_velocity_in_buffer(velocity_buffer: Array) -> Vector2:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_damage_wall_area_body_entered(body: Node2D) -> void:
-	if _group_utils.is_player(body) and onready_paths.destructible_wall.get_collision_enabled():
+	if (
+		_group_utils.is_player(body) and body.can_hit_destructible_wall
+		and onready_paths.destructible_wall.get_collision_enabled()
+	):
 		var max_velocity = _get_max_velocity_in_buffer(body.get_velocity_buffer())
 		_latest_hit_velocity = max_velocity
 		emit_signal("player_hit", body, max_velocity)

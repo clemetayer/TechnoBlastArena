@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://crebn5kctxinf"]
+
+[ext_resource type="Script" uid="uid://bm3a6nwb2vyjm" path="res://Scenes/Movement/MovementBonusDimensionalMirror/movement_bonus_dimensional_mirror.gd" id="1_0myh2"]
+
+[node name="MovementBonusDimensionalMirror" type="Node2D" unique_id=739306133]
+script = ExtResource("1_0myh2")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1062090970]
+
+[node name="ReloadTimer" type="Timer" parent="." unique_id=1481579749]
+wait_time = 8.0
+one_shot = true
+
+[node name="ActiveTimer" type="Timer" parent="." unique_id=145373701]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
+[connection signal="timeout" from="ActiveTimer" to="." method="_on_active_timer_timeout"]

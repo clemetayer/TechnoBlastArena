@@ -1,0 +1,96 @@
+extends MovementBonusBase
+
+# Makes the player reappear on the opposite wall
+
+##### SIGNALS #####
+# Node signals
+
+##### ENUMS #####
+# enumerations
+
+##### VARIABLES #####
+#---- CONSTANTS -----
+const MAX_ACTIONS := 2
+const RAYCAST_LENGTH := 10000
+const PLAYER_OFFSET := 128.0
+
+#---- EXPORTS -----
+@export var ACTIONS_AVAILABLE := MAX_ACTIONS
+
+#---- STANDARD -----
+#==== PUBLIC ====
+# var public_var # Optionnal comment
+
+#==== PRIVATE ====
+var _init_ui_done := false # just to update the UI once on the first frame
+var _ability_active := false
+
+#==== ONREADY ====
+@onready var raycast := $"RayCast2D"
+@onready var reload_timer := $"ReloadTimer"
+@onready var active_timer := $"ActiveTimer"
+
+
+##### PROCESSING #####
+# Called when the object is initialized.
+func _init():
+	pass
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
+func _process(_delta):
+	if not _init_ui_done:
+		emit_signal("value_updated", ACTIONS_AVAILABLE)
+		_init_ui_done = true
+
+
+func _physics_process(_delta: float) -> void:
+	raycast.enabled = _ability_active
+	if _ability_active:
+		if player.is_on_wall() or player.is_on_floor():
+			raycast.target_position = (
+				player.get_wall_normal() if player.is_on_wall() else player.get_floor_normal()
+			) * RAYCAST_LENGTH
+			raycast.force_raycast_update()
+			if raycast.is_colliding():
+				var player_velocity = _get_max_velocity_in_buffer(player.get_velocity_buffer())
+				player.global_position = raycast.get_collision_point() + raycast.get_collision_normal() * PLAYER_OFFSET
+				player.override_velocity(player_velocity)
+
+
+##### PUBLIC METHODS #####
+func activate() -> void:
+	if ACTIONS_AVAILABLE > 0 and active:
+		_ability_active = true
+		player.can_hit_destructible_wall = false
+		active_timer.start()
+		ACTIONS_AVAILABLE -= 1
+		if reload_timer.is_stopped():
+			reload_timer.start()
+
+
+##### PROTECTED METHODS #####
+func _get_max_velocity_in_buffer(velocity_buffer: Array) -> Vector2:
+	var max_vel = velocity_buffer[0]
+	for velocity in velocity_buffer:
+		if velocity.length() > max_vel.length():
+			max_vel = velocity
+	return max_vel
+
+
+##### SIGNAL MANAGEMENT #####
+func _on_reload_timer_timeout() -> void:
+	ACTIONS_AVAILABLE += 1
+	emit_signal("value_updated", ACTIONS_AVAILABLE)
+	if ACTIONS_AVAILABLE < MAX_ACTIONS:
+		reload_timer.start()
+
+
+func _on_active_timer_timeout() -> void:
+	_ability_active = false
+	player.can_hit_destructible_wall = true

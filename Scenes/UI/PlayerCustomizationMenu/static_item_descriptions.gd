@@ -21,6 +21,10 @@ const MOVEMENT_BONUS := {
 		"name": "Dash",
 		"description": "Makes you dash up to three times before recharging. Usefull to reposition yourself quickly.",
 	},
+	StaticMovementBonusHandler.handlers.DIMENSIONAL_MIRROR: {
+		"name": "Dimensional mirror",
+		"description": "Makes you reappear on the opposite wall. Makes you appear at unexpected places.",
+	},
 }
 
 const POWERUPS := {

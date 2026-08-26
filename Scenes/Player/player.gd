@@ -36,6 +36,7 @@ const WEIGHT := 2.5 # multiplier for the gravity
 #==== PUBLIC ====
 var direction := Vector2.ZERO
 var jump_triggered := false
+var can_hit_destructible_wall := true # disables or enables collisions with the destructible wall, usefull for some movement bonus
 
 #==== PRIVATE ====
 var _gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") * WEIGHT
@@ -117,7 +118,7 @@ func override_velocity(velocity_override: Vector2) -> void:
 
 
 func toggle_movement(active: bool) -> void:
-	_movement_stopped = not 	active
+	_movement_stopped = not active
 
 
 # Activates the player's abilities (fire, powerup, movement). Especially usefull waiting for the game startup screen to end

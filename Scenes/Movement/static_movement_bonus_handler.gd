@@ -17,7 +17,7 @@ const scene_paths := {
 
 const icon_path := {
 	handlers.DASH: "res://Misc/Inkscape/dash.svg",
-	handlers.DIMENSIONAL_MIRROR: "res://icon.svg",
+	handlers.DIMENSIONAL_MIRROR: "res://Misc/Inkscape/dimensional_mirror.svg",
 }
 
 const ui_scene_paths := {

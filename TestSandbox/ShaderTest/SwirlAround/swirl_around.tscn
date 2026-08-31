@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://k7jc4ke13mo0"]
+
+[ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="1_5a58k"]
+[ext_resource type="Shader" uid="uid://bjwsqqtnukmd0" path="res://TestSandbox/ShaderTest/SwirlAround/swirl_around_v3.gdshader" id="2_ut7he"]
+[ext_resource type="PackedScene" uid="uid://bb064o33fsss6" path="res://Scenes/Movement/MovementBonusDimensionalMirror/dimensional_mirror_portal.tscn" id="3_ut7he"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j3pel"]
+shader = ExtResource("2_ut7he")
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/swirl_strength = 3.0000001192096004
+shader_parameter/progression = 0.0
+shader_parameter/rotation_degrees = 2000.0
+
+[node name="SwirlAround" type="Node2D" unique_id=1587093692]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1381038570]
+position = Vector2(623, 273)
+texture = ExtResource("1_5a58k")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1260668231]
+material = SubResource("ShaderMaterial_j3pel")
+offset_left = 449.0
+offset_top = 101.0
+offset_right = 803.0
+offset_bottom = 442.0
+
+[node name="Portal" parent="." unique_id=537847075 instance=ExtResource("3_ut7he")]
+position = Vector2(367, 508)

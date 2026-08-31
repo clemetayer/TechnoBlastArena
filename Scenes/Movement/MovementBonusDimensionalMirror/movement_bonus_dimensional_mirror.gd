@@ -13,6 +13,9 @@ extends MovementBonusBase
 const MAX_ACTIONS := 2
 const RAYCAST_LENGTH := 10000
 const PLAYER_OFFSET := 128.0
+const PORTAL_SCENE = preload(
+	"res://Scenes/Movement/MovementBonusDimensionalMirror/dimensional_mirror_portal.tscn"
+)
 
 #---- EXPORTS -----
 @export var ACTIONS_AVAILABLE := MAX_ACTIONS
@@ -32,16 +35,6 @@ var _ability_active := false
 
 
 ##### PROCESSING #####
-# Called when the object is initialized.
-func _init():
-	pass
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
 	if not _init_ui_done:
@@ -58,6 +51,8 @@ func _physics_process(_delta: float) -> void:
 			) * RAYCAST_LENGTH
 			raycast.force_raycast_update()
 			if raycast.is_colliding():
+				_spawn_portal(true, player.global_position)
+				_spawn_portal(false, raycast.get_collision_point())
 				var player_velocity = _get_max_velocity_in_buffer(player.get_velocity_buffer())
 				player.global_position = raycast.get_collision_point() + raycast.get_collision_normal() * PLAYER_OFFSET
 				player.override_velocity(player_velocity)
@@ -75,6 +70,12 @@ func activate() -> void:
 
 
 ##### PROTECTED METHODS #####
+func _spawn_portal(is_in: bool, portal_pos: Vector2) -> void:
+	var portal = PORTAL_SCENE.instantiate()
+	RuntimeUtils.get_game_root().add_child(portal)
+	portal.appear(is_in, portal_pos)
+
+
 func _get_max_velocity_in_buffer(velocity_buffer: Array) -> Vector2:
 	var max_vel = velocity_buffer[0]
 	for velocity in velocity_buffer:

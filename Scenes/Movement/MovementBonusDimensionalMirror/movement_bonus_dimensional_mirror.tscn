@@ -4,6 +4,7 @@
 
 [node name="MovementBonusDimensionalMirror" type="Node2D" unique_id=739306133]
 script = ExtResource("1_0myh2")
+handler_type = 1
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=1062090970]
 

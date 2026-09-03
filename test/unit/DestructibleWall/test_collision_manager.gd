@@ -29,10 +29,7 @@ func test_init():
 	assert_eq(collision_manager._bounce_back_direction, bounce_direction)
 
 
-var active_tests_params := [
-	[true],
-	[false],
-]
+var active_tests_params := [[true], [false]]
 
 
 func test_set_active(params = use_parameters(active_tests_params)):
@@ -60,11 +57,7 @@ func test_get_latest_hit_velocity():
 func test_get_max_velocity_in_buffer_x_direction():
 	# given
 	collision_manager._bounce_back_direction = Vector2.RIGHT
-	var velocity_buffer = [
-		Vector2(10, 50),
-		Vector2(30, 20),
-		Vector2(20, 100),
-	]
+	var velocity_buffer = [Vector2(10, 50), Vector2(30, 20), Vector2(20, 100)]
 	# when
 	var result = collision_manager._get_max_velocity_in_buffer(velocity_buffer)
 	# then
@@ -74,11 +67,7 @@ func test_get_max_velocity_in_buffer_x_direction():
 func test_get_max_velocity_in_buffer_y_direction():
 	# given
 	collision_manager._bounce_back_direction = Vector2.UP
-	var velocity_buffer = [
-		Vector2(10, 50),
-		Vector2(30, 20),
-		Vector2(20, 100),
-	]
+	var velocity_buffer = [Vector2(10, 50), Vector2(30, 20), Vector2(20, 100)]
 	# when
 	var result = collision_manager._get_max_velocity_in_buffer(velocity_buffer)
 	# then
@@ -88,13 +77,17 @@ func test_get_max_velocity_in_buffer_y_direction():
 # Note : due to limitations on the GUT framework, can't test the global position
 func test_on_damage_wall_area_body_entered():
 	# given
-	collision_manager.onready_paths.destructible_wall = double(load("res://Scenes/DestructibleWalls/destructible_wall.gd")).new()
+	collision_manager.onready_paths.destructible_wall = double(
+		load("res://Scenes/DestructibleWalls/destructible_wall.gd")
+	).new()
 	stub(collision_manager.onready_paths.destructible_wall, "get_collision_enabled").to_return(true)
-	var group_utils = double(load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")).new()
+	var group_utils = double(
+		load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")
+	).new()
 	stub(group_utils, "is_player").to_return(true)
 	collision_manager._group_utils = group_utils
 	var mock_player = double(load("res://Scenes/Player/player.gd")).new()
-	stub(mock_player, "get_velocity_buffer").to_return([Vector2(10, 20), Vector2(30, 40)])
+	stub(mock_player, "get_max_velocity_in_buffer").to_return(Vector2(30, 40))
 	collision_manager.connect("player_hit", _on_collision_manager_player_hit)
 	# when
 	collision_manager._on_damage_wall_area_body_entered(mock_player)
@@ -107,9 +100,14 @@ func test_on_damage_wall_area_body_entered():
 
 func test_on_damage_wall_area_body_entered_not_player():
 	# given
-	var mock_body = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	var mock_body = partial_double(
+		load("res://Scenes/Player/player.gd"),
+		DOUBLE_STRATEGY.INCLUDE_NATIVE,
+	).new()
 	collision_manager.connect("player_hit", _on_collision_manager_player_hit)
-	var group_utils = double(load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")).new()
+	var group_utils = double(
+		load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")
+	).new()
 	stub(group_utils, "is_player").to_return(false)
 	collision_manager._group_utils = group_utils
 	# when
@@ -121,11 +119,20 @@ func test_on_damage_wall_area_body_entered_not_player():
 
 func test_on_damage_wall_area_body_entered_collision_disabled():
 	# given
-	collision_manager.onready_paths.destructible_wall = double(load("res://Scenes/DestructibleWalls/destructible_wall.gd")).new()
-	stub(collision_manager.onready_paths.destructible_wall, "get_collision_enabled").to_return(false)
-	var mock_player = partial_double(load("res://Scenes/Player/player.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
+	collision_manager.onready_paths.destructible_wall = double(
+		load("res://Scenes/DestructibleWalls/destructible_wall.gd")
+	).new()
+	stub(collision_manager.onready_paths.destructible_wall, "get_collision_enabled").to_return(
+		false
+	)
+	var mock_player = partial_double(
+		load("res://Scenes/Player/player.gd"),
+		DOUBLE_STRATEGY.INCLUDE_NATIVE,
+	).new()
 	collision_manager.connect("player_hit", _on_collision_manager_player_hit)
-	var group_utils = double(load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")).new()
+	var group_utils = double(
+		load("res://test/unit/DestructibleWall/test_collision_manager/mock_group_utils.gd")
+	).new()
 	stub(group_utils, "is_player").to_return(true)
 	collision_manager._group_utils = group_utils
 	# when

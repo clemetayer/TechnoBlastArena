@@ -47,6 +47,6 @@ func _on_damage_wall_area_body_entered(body: Node2D) -> void:
 		_group_utils.is_player(body) and body.can_hit_destructible_wall
 		and onready_paths.destructible_wall.get_collision_enabled()
 	):
-		var max_velocity = _get_max_velocity_in_buffer(body.get_velocity_buffer())
+		var max_velocity = body.get_max_velocity_in_buffer()
 		_latest_hit_velocity = max_velocity
 		emit_signal("player_hit", body, max_velocity)

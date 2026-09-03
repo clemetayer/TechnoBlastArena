@@ -1,17 +1,17 @@
-[gd_scene load_steps=3 format=4 uid="uid://cr1dqueh5df7b"]
+[gd_scene format=4 uid="uid://21sjnlyqdvr4"]
 
-[ext_resource type="Script" uid="uid://ej8jisiewpuf" path="res://test/integration/MovementBonus/scene_movement_bonus.gd" id="1_ljnms"]
-[ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="2_xb6o1"]
+[ext_resource type="Script" uid="uid://coecwbdf8s8bt" path="res://test/integration/MovementBonus/MovementBonusDimensionalMirror/scene_movement_bonus_dimensional_mirror.gd" id="1_fjn3d"]
+[ext_resource type="TileSet" uid="uid://c8i1jwmobi66o" path="res://Scenes/Levels/Tilesets/tileset.tres" id="2_lmqi5"]
 
-[node name="SceneMovementBonus" type="Node2D"]
-script = ExtResource("1_ljnms")
+[node name="SceneMovementBonusDimensionalMirrorFloorOnly" type="Node2D" unique_id=1628900678]
+script = ExtResource("1_fjn3d")
 
-[node name="PlayerSpawnPosition" type="Node2D" parent="."]
+[node name="PlayerSpawnPosition" type="Node2D" parent="." unique_id=1385713074]
 position = Vector2(0, -74)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1606621347]
 tile_map_data = PackedByteArray("AAD4/wAAAAAKAAAAAAAHAAEAAAAJAAMAAAAHAAAAAAAKAAAAAAAGAAEAAAAJAAMAAAAGAAAAAAAKAAAAAAAFAAEAAAAJAAMAAAAFAAAAAAAKAAAAAAAEAAEAAAAJAAMAAAAEAAAAAAAKAAAAAAADAAEAAAAJAAMAAAADAAAAAAAKAAAAAAACAAEAAAAJAAMAAAACAAAAAAAKAAAAAAABAAEAAAAJAAMAAAABAAAAAAAKAAAAAAAAAAEAAAAJAAMAAAAAAAAAAAAKAAAAAAD//wEAAAAJAAMAAAD//wAAAAAKAAAAAAD+/wEAAAAJAAMAAAD+/wAAAAAKAAAAAAD9/wEAAAAJAAMAAAD9/wAAAAAKAAAAAAD8/wEAAAAJAAMAAAD8/wAAAAAKAAAAAAD7/wEAAAAJAAMAAAD7/wAAAAAKAAAAAAD6/wEAAAAJAAMAAAD6/wAAAAAKAAAAAAD5/wEAAAAJAAMAAAD5/wAAAAAKAAAAAAD4/wEAAAAJAAMAAAD3/wEAAAAJAAMAAAD3/wAAAAAKAAAAAAD2/wEAAAAJAAMAAAD2/wAAAAAKAAAAAAD1/wEAAAAJAAMAAAD1/wAAAAAKAAAAAAD0/wEAAAAJAAMAAAD0/wAAAAAKAAAAAADz/wEAAAAJAAMAAADz/wAAAAAKAAAAAADy/wEAAAAIAAMAAADy/wAAAAAIAAAAAAAPAAEAAAALAAMAAAAPAAAAAAALAAAAAAAOAAEAAAAJAAMAAAAOAAAAAAAKAAAAAAANAAEAAAAJAAMAAAANAAAAAAAKAAAAAAAMAAEAAAAJAAMAAAAMAAAAAAAKAAAAAAALAAEAAAAJAAMAAAALAAAAAAAKAAAAAAAKAAEAAAAJAAMAAAAKAAAAAAAKAAAAAAAJAAEAAAAJAAMAAAAJAAAAAAAKAAAAAAAIAAEAAAAJAAMAAAAIAAAAAAAKAAAAAAA=")
-tile_set = ExtResource("2_xb6o1")
+tile_set = ExtResource("2_lmqi5")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1008968575]
 zoom = Vector2(0.25, 0.25)

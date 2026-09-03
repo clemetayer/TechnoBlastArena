@@ -2,12 +2,6 @@ extends MovementBonusBase
 
 # Makes the player reappear on the opposite wall
 
-##### SIGNALS #####
-# Node signals
-
-##### ENUMS #####
-# enumerations
-
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const MAX_ACTIONS := 2
@@ -21,9 +15,6 @@ const PORTAL_SCENE = preload(
 @export var ACTIONS_AVAILABLE := MAX_ACTIONS
 
 #---- STANDARD -----
-#==== PUBLIC ====
-# var public_var # Optionnal comment
-
 #==== PRIVATE ====
 var _init_ui_done := false # just to update the UI once on the first frame
 var _ability_active := false
@@ -44,18 +35,14 @@ func _process(_delta):
 
 func _physics_process(_delta: float) -> void:
 	raycast.enabled = _ability_active
-	if _ability_active:
-		if player.is_on_wall() or player.is_on_floor():
-			raycast.target_position = (
-				player.get_wall_normal() if player.is_on_wall() else player.get_floor_normal()
-			) * RAYCAST_LENGTH
-			raycast.force_raycast_update()
-			if raycast.is_colliding():
-				_spawn_portal(true, player.global_position)
-				_spawn_portal(false, raycast.get_collision_point())
-				var player_velocity = _get_max_velocity_in_buffer(player.get_velocity_buffer())
-				player.global_position = raycast.get_collision_point() + raycast.get_collision_normal() * PLAYER_OFFSET
-				player.override_velocity(player_velocity)
+	if not _ability_active:
+		return
+	if not (player.is_on_wall() or player.is_on_floor()):
+		return
+	_prepare_raycast_for_collision()
+	if not raycast.is_colliding():
+		return
+	_teleport()
 
 
 ##### PUBLIC METHODS #####
@@ -65,6 +52,7 @@ func activate() -> void:
 		player.can_hit_destructible_wall = false
 		active_timer.start()
 		ACTIONS_AVAILABLE -= 1
+		emit_signal("value_updated", ACTIONS_AVAILABLE)
 		if reload_timer.is_stopped():
 			reload_timer.start()
 
@@ -76,12 +64,21 @@ func _spawn_portal(is_in: bool, portal_pos: Vector2) -> void:
 	portal.appear(is_in, portal_pos)
 
 
-func _get_max_velocity_in_buffer(velocity_buffer: Array) -> Vector2:
-	var max_vel = velocity_buffer[0]
-	for velocity in velocity_buffer:
-		if velocity.length() > max_vel.length():
-			max_vel = velocity
-	return max_vel
+func _prepare_raycast_for_collision() -> void:
+	raycast.target_position = (
+		player.get_wall_normal() if player.is_on_wall() else player.get_floor_normal()
+	) * RAYCAST_LENGTH
+	raycast.force_raycast_update()
+
+
+func _teleport() -> void:
+	_spawn_portal(true, player.get_global_position())
+	_spawn_portal(false, raycast.get_collision_point())
+	var player_velocity = player.get_max_velocity_in_buffer()
+	player.set_global_position(
+		raycast.get_collision_point() + raycast.get_collision_normal() * PLAYER_OFFSET
+	)
+	player.override_velocity(player_velocity)
 
 
 ##### SIGNAL MANAGEMENT #####

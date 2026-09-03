@@ -142,8 +142,12 @@ func get_config() -> PlayerConfig:
 	return get_node(GAME_PROXY_PATH).get_player_config(PLAYER_ID)
 
 
-func get_velocity_buffer() -> Array:
-	return _velocity_buffer
+func get_max_velocity_in_buffer() -> Vector2:
+	var max_vel = _velocity_buffer[0]
+	for vel in _velocity_buffer:
+		if vel.length() > max_vel.length():
+			max_vel = vel
+	return max_vel
 
 
 func get_direction() -> Vector2:

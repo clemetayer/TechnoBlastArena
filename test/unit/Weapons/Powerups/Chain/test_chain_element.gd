@@ -9,6 +9,9 @@ var chain_element
 func before_each():
 	chain_element = load("res://Scenes/Weapons/Powerups/Chain/chain_element.tscn").instantiate()
 
+# TODO : mettre un délai où c'est actif et où ça
+# peut rediriger tous les projectiles sans cramer d'utilisations
+
 
 ##### TESTS #####
 func test_spawn():
@@ -29,7 +32,7 @@ func test_spawn():
 
 func test_change_direction():
 	# given
-	var root = mock_game_root()
+	mock_game_root()
 	var direction = Vector2.ONE
 	var spawn_position = Vector2(randf_range(-10, 10), randf_range(-10, 10))
 	var idx = 0
@@ -41,8 +44,6 @@ func test_change_direction():
 	# then
 	assert_eq(chain_element._direction, new_dir.normalized())
 	assert_eq(chain_element.global_rotation, Vector2.ZERO.angle_to_point(new_dir))
-	# cleanup
-	pass
 
 
 func test_projectile_entered_not_destroyed():
@@ -59,6 +60,8 @@ func test_projectile_entered_not_destroyed():
 	assert_eq(projectile._direction, Vector2.ONE.normalized())
 	assert_called(counter, "decrease")
 	assert_signal_not_emitted(chain_element.destroyed)
+	assert_true(chain_element.hitsound.playing)
+	assert_true(chain_element.particles.emitting)
 
 
 func test_projectile_entered_destroyed():
@@ -75,6 +78,10 @@ func test_projectile_entered_destroyed():
 	chain_element.area_entered.emit(projectile)
 	# then
 	assert_eq(projectile._direction, Vector2(2, 3).normalized())
+	assert_true(chain_element.hitsound.playing)
+	assert_true(chain_element.particles.emitting)
+	assert_signal_not_emitted(chain_element.destroyed)
+	await wait_for_signal(chain_element.particles.finished, 1.0)
 	assert_signal_emitted(chain_element.destroyed, [0])
 
 

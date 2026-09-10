@@ -4,3 +4,9 @@
 
 [node name="ChainManager" type="Node2D" unique_id=898363120]
 script = ExtResource("1_1efr1")
+
+[node name="ReloadTimer" type="Timer" parent="." unique_id=68810716]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

@@ -3,6 +3,30 @@
 [ext_resource type="Script" uid="uid://ckj66x26f18r1" path="res://Scenes/Weapons/Powerups/Chain/chain_element.gd" id="1_chig6"]
 [ext_resource type="Texture2D" uid="uid://bpqjiwsa2fguq" path="res://Scenes/Weapons/Powerups/Chain/chain.png" id="1_synsp"]
 [ext_resource type="PackedScene" uid="uid://brq6ebswtuvyu" path="res://Scenes/Weapons/Powerups/Common/element_counter.tscn" id="3_15frg"]
+[ext_resource type="AudioStream" uid="uid://b5mmhjjfay66g" path="res://Scenes/Weapons/Powerups/Chain/chain.ogg" id="4_xixxf"]
+
+[sub_resource type="Gradient" id="Gradient_15frg"]
+offsets = PackedFloat32Array(0, 0.33, 0.66, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_50g7y"]
+gradient = SubResource("Gradient_15frg")
+
+[sub_resource type="Curve" id="Curve_xixxf"]
+_limits = [0.5, 1.5, 0.0, 1.0]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1.5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_50g7y"]
+curve = SubResource("Curve_xixxf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vxkh3"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_50g7y")
+color_ramp = SubResource("GradientTexture1D_50g7y")
+hue_variation_min = -1.0
+hue_variation_max = 0.99999994
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_synsp"]
 radius = 125.09996
@@ -15,8 +39,20 @@ script = ExtResource("1_chig6")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1676459636]
 texture = ExtResource("1_synsp")
 
+[node name="HitEffect" type="GPUParticles2D" parent="." unique_id=289801754]
+emitting = false
+amount = 5
+texture = ExtResource("1_synsp")
+lifetime = 0.2
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_vxkh3")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=153200219]
 shape = SubResource("CircleShape2D_synsp")
+
+[node name="Hitsound" type="AudioStreamPlayer2D" parent="." unique_id=2145333810]
+stream = ExtResource("4_xixxf")
+bus = &"EffectsBGMSidechain"
 
 [node name="ElementCounter" parent="." unique_id=1170904861 instance=ExtResource("3_15frg")]
 offset_left = -100.0
@@ -25,4 +61,5 @@ BASE_AMOUNT = 3
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="HitEffect" to="." method="_on_hit_effect_finished"]
 [connection signal="empty" from="ElementCounter" to="." method="_on_element_counter_empty"]

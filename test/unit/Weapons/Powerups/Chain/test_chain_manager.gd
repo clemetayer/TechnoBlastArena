@@ -18,9 +18,12 @@ func before_each():
 ##### TESTS #####
 func test_spawn_alone():
 	# given
+	watch_signals(chain_manager)
 	var root = mock_game_root()
 	var input_synchronizer = mock_input_synchronizer()
 	input_synchronizer.relative_aim_position = Vector2.ONE
+	chain_manager.active = true
+	chain_manager._actions_left = chain_manager.MAX_ACTIONS - 1
 	# when
 	chain_manager.use()
 	# then
@@ -29,6 +32,44 @@ func test_spawn_alone():
 	assert_eq(chain_element.idx, 0)
 	assert_eq(chain_element.global_rotation, Vector2.ZERO.angle_to_point(Vector2.ONE))
 	assert_almost_eq(chain_element._direction, Vector2.ONE.normalized(), Vector2.ONE * 0.001)
+	assert_eq(chain_manager._actions_left, chain_manager.MAX_ACTIONS - 2)
+	assert_signal_emitted(chain_manager.value_updated, [chain_manager.MAX_ACTIONS - 2])
+	await wait_for_signal(chain_manager.reload_timer.timeout, 10)
+	assert_signal_emitted(chain_manager.value_updated, [chain_manager.MAX_ACTIONS - 1])
+	await wait_for_signal(chain_manager.reload_timer.timeout, 10)
+	assert_signal_emitted(chain_manager.value_updated, [chain_manager.MAX_ACTIONS])
+
+
+func test_use_not_active():
+	# given
+	watch_signals(chain_manager)
+	var root = mock_game_root()
+	var input_synchronizer = mock_input_synchronizer()
+	input_synchronizer.relative_aim_position = Vector2.ONE
+	chain_manager.active = false
+	chain_manager._actions_left = 3
+	# when
+	chain_manager.use()
+	# then
+	assert_eq(root.get_child_count(), 0)
+	assert_eq(chain_manager._actions_left, 3)
+	assert_signal_not_emitted(chain_manager.value_updated)
+
+
+func test_use_on_cooldown():
+	# given
+	watch_signals(chain_manager)
+	var root = mock_game_root()
+	var input_synchronizer = mock_input_synchronizer()
+	input_synchronizer.relative_aim_position = Vector2.ONE
+	chain_manager.active = true
+	chain_manager._actions_left = 0
+	# when
+	chain_manager.use()
+	# then
+	assert_eq(root.get_child_count(), 0)
+	assert_eq(chain_manager._actions_left, 0)
+	assert_signal_not_emitted(chain_manager.value_updated)
 
 
 func test_spawn_multiple():
@@ -40,6 +81,8 @@ func test_spawn_multiple():
 	var chain_element_2 = load(CHAIN_ELEMENT).instantiate()
 	chain_element_1.spawn(Vector2.ONE, Vector2.ZERO, 0)
 	chain_element_2.spawn(Vector2.LEFT, Vector2.ONE, 1)
+	chain_manager.active = true
+	chain_manager._actions_left = 1
 	# when
 	chain_manager.global_position = Vector2(1, 2)
 	chain_manager.use()
@@ -63,6 +106,8 @@ func test_spawn_max_elements_reached():
 	for chain_idx in range(1, chain_manager.MAX_ELEMENTS):
 		var chain_element = load(CHAIN_ELEMENT).instantiate()
 		chain_element.spawn(Vector2.RIGHT, Vector2.ZERO, chain_idx)
+	chain_manager.active = true
+	chain_manager._actions_left = 1
 	# when
 	chain_manager.use()
 	# then
@@ -99,6 +144,26 @@ func test_destroy():
 	assert_eq(chain_element_2._direction, Vector2(4, 3).normalized())
 	assert_almost_eq(chain_element_4.global_rotation, -PI / 2.0, 0.001)
 	assert_almost_eq(chain_element_4._direction, Vector2.UP, Vector2.ONE * 0.001)
+
+
+func test_init():
+	# given
+	watch_signals(chain_manager)
+	chain_manager._init_ui_done = false
+	# when
+	chain_manager._process(1.0 / 60.0)
+	# then
+	assert_true(chain_manager._init_ui_done)
+	assert_signal_emitted(chain_manager.value_updated, chain_manager.MAX_ACTIONS)
+
+
+func test_reload_ability_max_reached():
+	# given
+	chain_manager._actions_left = chain_manager.MAX_ACTIONS
+	# when
+	chain_manager.reload_timer.timeout.emit()
+	# then
+	assert_eq(chain_manager._actions_left, chain_manager.MAX_ACTIONS)
 
 
 ##### UTILS #####

@@ -48,7 +48,7 @@ _data = {
 
 [node name="Bullet" type="Area2D" unique_id=1348168037 groups=["projectile"]]
 collision_layer = 4
-collision_mask = 3
+collision_mask = 11
 script = ExtResource("1_fo3ga")
 
 [node name="Trail" parent="." unique_id=341800852 instance=ExtResource("2_udptv")]

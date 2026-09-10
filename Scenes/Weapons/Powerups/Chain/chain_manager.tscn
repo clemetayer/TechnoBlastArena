@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ceemimcycjk6v"]
+
+[ext_resource type="Script" uid="uid://csqpgcbh1mdbk" path="res://Scenes/Weapons/Powerups/Chain/chain_manager.gd" id="1_1efr1"]
+
+[node name="ChainManager" type="Node2D" unique_id=898363120]
+script = ExtResource("1_1efr1")

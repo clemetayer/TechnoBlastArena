@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bvkfk5evraevq"]
+
+[ext_resource type="Script" uid="uid://biovmu8qqj2b6" path="res://test/unit/Weapons/Powerups/Chain/mock_game_root.gd" id="1_smppi"]
+
+[node name="MockGameRoot" type="Node" unique_id=333813704 groups=["game_root"]]
+script = ExtResource("1_smppi")

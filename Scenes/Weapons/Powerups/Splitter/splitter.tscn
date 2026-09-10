@@ -45,7 +45,7 @@ process_material = SubResource("ParticleProcessMaterial_risov")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=751208943]
 collision_layer = 8
-collision_mask = 12
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1844993583]
 shape = SubResource("RectangleShape2D_06q05")

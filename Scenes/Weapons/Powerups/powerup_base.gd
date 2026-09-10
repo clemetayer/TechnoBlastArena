@@ -12,6 +12,7 @@ signal value_updated(value)
 #---- STANDARD -----
 #==== PUBLIC ====
 var active := false
+var player_paths: Node
 
 
 ##### PUBLIC METHODS #####

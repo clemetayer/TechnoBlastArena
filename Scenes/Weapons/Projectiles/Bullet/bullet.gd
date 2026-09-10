@@ -20,10 +20,7 @@ var _direction := Vector2.ZERO
 var _stopped := false
 
 #==== ONREADY ====
-@onready var onready_paths := {
-	"sprite": $"Sprite",
-	"trail": $"Trail",
-}
+@onready var onready_paths := { "sprite": $"Sprite", "trail": $"Trail" }
 
 
 ##### PROCESSING #####
@@ -59,6 +56,10 @@ func parried(p_owner: Node2D, relative_aim_position: Vector2) -> void:
 	onready_paths.trail.reset()
 
 
+func change_direction(new_direction: Vector2) -> void:
+	_direction = new_direction.normalized()
+
+
 ##### PROTECTED METHODS #####
 func _set_params() -> void:
 	if PARAMETERS == null:
@@ -84,6 +85,16 @@ func _stop_for_duration(time: float) -> void:
 ##### SIGNAL MANAGEMENT #####
 func _on_body_entered(body):
 	if GroupUtils.is_player(body) and current_owner != body and body.has_method("hit"):
-		body.hit(PlayerHitData.new(_knockback * _direction, _damage, current_owner, _damage, parried, shielded, solid_collision))
+		body.hit(
+			PlayerHitData.new(
+				_knockback * _direction,
+				_damage,
+				current_owner,
+				_damage,
+				parried,
+				shielded,
+				solid_collision,
+			)
+		)
 	elif GroupUtils.is_static_obstacle(body) or GroupUtils.is_destructible_wall(body):
 		solid_collision(body)

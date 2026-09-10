@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://brq6ebswtuvyu"]
+
+[ext_resource type="Script" uid="uid://dnrsec2ija8r1" path="res://Scenes/Weapons/Powerups/Common/element_counter.gd" id="1_6jcl6"]
+[ext_resource type="PackedScene" uid="uid://1f756spp2eci" path="res://Scenes/Weapons/Powerups/Common/circle_texture.tscn" id="2_mtftg"]
+
+[node name="ElementCounter" type="VBoxContainer" unique_id=1170904861]
+custom_minimum_size = Vector2(30, 200)
+offset_left = -15.0
+offset_top = -100.0
+offset_right = 15.0
+offset_bottom = 100.0
+alignment = 1
+script = ExtResource("1_6jcl6")
+
+[node name="CircleTexture" parent="." unique_id=1887764096 instance=ExtResource("2_mtftg")]
+layout_mode = 2
+
+[node name="CircleTexture2" parent="." unique_id=1295496396 instance=ExtResource("2_mtftg")]
+layout_mode = 2
+
+[node name="CircleTexture3" parent="." unique_id=1009305727 instance=ExtResource("2_mtftg")]
+layout_mode = 2

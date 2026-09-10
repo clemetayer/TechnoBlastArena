@@ -32,6 +32,10 @@ const POWERUPS := {
 		"name": "Splitter",
 		"description": "When hit by a projectile, the splitter will split it and send it in various directions. It has limited uses. Usefull to cover a large area with your projectiles.",
 	},
+	StaticPowerupHandler.handlers.CHAIN: {
+		"name": "Chain",
+		"description": "Redirects a projectile when interacting with it, either to the last aim direction or to the next chain element",
+	},
 }
 
 

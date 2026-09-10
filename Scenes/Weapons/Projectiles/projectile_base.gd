@@ -25,6 +25,9 @@ func _ready():
 @abstract func parried(p_owner: Node2D, relative_aim_position: Vector2) -> void
 
 
+@abstract func change_direction(new_direction: Vector2) -> void
+
+
 func shielded() -> void:
 	queue_free()
 

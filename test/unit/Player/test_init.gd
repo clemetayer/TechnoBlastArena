@@ -64,9 +64,15 @@ func test_initialize():
 	assert_not_null(paths.primary_weapon)
 	assert_not_null(paths.movement_bonus)
 	assert_not_null(paths.powerup_manager)
-	assert_true(player_root.abilities_toggled.is_connected(paths.primary_weapon._on_player_abilities_toggled))
-	assert_true(player_root.abilities_toggled.is_connected(paths.movement_bonus._on_player_abilities_toggled))
-	assert_true(player_root.abilities_toggled.is_connected(paths.powerup_manager._on_player_abilities_toggled))
+	assert_true(player_root.abilities_toggled.is_connected(
+			paths.primary_weapon._on_player_abilities_toggled
+		))
+	assert_true(player_root.abilities_toggled.is_connected(
+			paths.movement_bonus._on_player_abilities_toggled
+		))
+	assert_true(player_root.abilities_toggled.is_connected(
+			paths.powerup_manager._on_player_abilities_toggled
+		))
 	assert_called(input_synchronizer, "set_action_handler", [config.ACTION_HANDLER])
 	assert_eq(paths.movement_bonus.player, player_root)
 	assert_eq(paths.primary_weapon.projectile_owner, player_root)
@@ -78,6 +84,7 @@ func test_initialize():
 	assert_eq(player_root.get_child_count(), 3)
 	assert_true(paths.movement_bonus.has_connections("value_updated"))
 	assert_true(paths.powerup_manager.has_connections("value_updated"))
+	assert_eq(paths.powerup_manager.player_paths, paths)
 	assert_called(hit_particles, "init", [Color.ANTIQUE_WHITE])
 	# cleanup
 	player_root.free()

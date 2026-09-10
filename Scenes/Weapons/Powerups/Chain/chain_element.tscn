@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bimg8byqqxtpb"]
+
+[ext_resource type="Script" uid="uid://ckj66x26f18r1" path="res://Scenes/Weapons/Powerups/Chain/chain_element.gd" id="1_chig6"]
+[ext_resource type="Texture2D" uid="uid://bpqjiwsa2fguq" path="res://Scenes/Weapons/Powerups/Chain/chain.png" id="1_synsp"]
+[ext_resource type="PackedScene" uid="uid://brq6ebswtuvyu" path="res://Scenes/Weapons/Powerups/Common/element_counter.tscn" id="3_15frg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_synsp"]
+radius = 125.09996
+
+[node name="ChainElement" type="Area2D" unique_id=1490029315 groups=["chain_element"]]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_chig6")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1676459636]
+texture = ExtResource("1_synsp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=153200219]
+shape = SubResource("CircleShape2D_synsp")
+
+[node name="ElementCounter" parent="." unique_id=1170904861 instance=ExtResource("3_15frg")]
+offset_left = -100.0
+offset_right = -70.0
+BASE_AMOUNT = 3
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="empty" from="ElementCounter" to="." method="_on_element_counter_empty"]

@@ -31,13 +31,29 @@ func initialize(config: PlayerConfig) -> void:
 	paths.movement_bonus.player = paths.player_root
 	paths.primary_weapon.projectile_owner = paths.player_root
 	paths.damage_label.init_damage()
-	paths.primary_weapon.owner_color = RuntimeUtils.PLAYER_INDICATOR_COLORS[paths.player_root.PLAYER_ID]
-	paths.hitstun_manager.set_trail_color(RuntimeUtils.PLAYER_INDICATOR_COLORS[paths.player_root.PLAYER_ID])
+	paths.primary_weapon.owner_color = RuntimeUtils.PLAYER_INDICATOR_COLORS[
+		paths.player_root.PLAYER_ID
+	]
+	paths.powerup_manager.player_paths = paths
+	paths.hitstun_manager.set_trail_color(
+		RuntimeUtils.PLAYER_INDICATOR_COLORS[paths.player_root.PLAYER_ID]
+	)
 	paths.death_manager.set_particles_color(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
-	paths.appear_elements.init(config.SPRITE_CUSTOMIZATION.BODY_COLOR, config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
+	paths.appear_elements.init(
+		config.SPRITE_CUSTOMIZATION.BODY_COLOR,
+		config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR,
+	)
 	paths.hit_particles.init(config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
 	paths.player_root.add_child(paths.primary_weapon)
 	paths.player_root.add_child(paths.movement_bonus)
 	paths.player_root.add_child(paths.powerup_manager)
-	paths.movement_bonus.connect("value_updated", func(value): paths.player_root.emit_signal("movement_updated", paths.player_root.PLAYER_ID, value))
-	paths.powerup_manager.connect("value_updated", func(value): paths.player_root.emit_signal("powerup_updated", paths.player_root.PLAYER_ID, value))
+	paths.movement_bonus.connect(
+		"value_updated",
+		func(value):
+			paths.player_root.emit_signal("movement_updated", paths.player_root.PLAYER_ID, value),
+	)
+	paths.powerup_manager.connect(
+		"value_updated",
+		func(value):
+			paths.player_root.emit_signal("powerup_updated", paths.player_root.PLAYER_ID, value),
+	)

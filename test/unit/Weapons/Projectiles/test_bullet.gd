@@ -75,6 +75,16 @@ func test_parried():
 	assert_eq(bullet.onready_paths.sprite.modulate, RuntimeUtils.PLAYER_INDICATOR_COLORS[1])
 
 
+func test_change_direction():
+	# given
+	bullet._direction = Vector2(randf(), randf())
+	var expected_new_dir = Vector2.ONE
+	# when
+	bullet.change_direction(expected_new_dir)
+	# then
+	assert_eq(bullet._direction, expected_new_dir)
+
+
 var on_body_entered_params := [
 	[true, true, false],
 	[true, false, true],
@@ -111,7 +121,9 @@ func test_on_body_entered(params = use_parameters(on_body_entered_params)):
 
 func test_stop_for_duration():
 	# given
-	bullet = add_child_autofree(load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate())
+	bullet = add_child_autofree(
+		load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate()
+	)
 	bullet.position = Vector2.ZERO
 	bullet._direction = Vector2.RIGHT
 	bullet._speed = 2.0

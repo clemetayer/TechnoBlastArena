@@ -84,7 +84,7 @@ func _stop_for_duration(time: float) -> void:
 
 ##### SIGNAL MANAGEMENT #####
 func _on_body_entered(body):
-	if GroupUtils.is_player(body) and current_owner != body and body.has_method("hit"):
+	if GroupUtils.is_player(body) and body.has_method("hit"):
 		body.hit(
 			PlayerHitData.new(
 				_knockback * _direction,

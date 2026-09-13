@@ -78,9 +78,9 @@ func test_parried():
 func test_change_direction():
 	# given
 	bullet._direction = Vector2(randf(), randf())
-	var expected_new_dir = Vector2.ONE
+	var expected_new_dir = Vector2.ONE.normalized()
 	# when
-	bullet.change_direction(expected_new_dir)
+	bullet.change_direction(Vector2.ONE)
 	# then
 	assert_eq(bullet._direction, expected_new_dir)
 

@@ -5,7 +5,11 @@ class_name Shield
 # script for the process_hit system
 
 ##### ENUMS #####
-enum HitResult { IGNORED, SHIELDED, PARRIED }
+enum HitResult {
+	IGNORED,
+	SHIELDED,
+	PARRIED,
+}
 
 #---- CONSTANTS -----
 const BASE_SHIELD_HEALTH := 150
@@ -45,7 +49,9 @@ var _regen_tween: Tween
 func toggle_shielding(active: bool) -> void:
 	_handle_normal_shield(active)
 	_handle_broken_shield(active)
-	shield_particles.modulate = DAMAGE_GRADIENT.sample(float(BASE_SHIELD_HEALTH - _health) / BASE_SHIELD_HEALTH)
+	shield_particles.modulate = DAMAGE_GRADIENT.sample(
+		float(BASE_SHIELD_HEALTH - _health) / BASE_SHIELD_HEALTH
+	)
 	_shielding = active
 
 
@@ -96,7 +102,8 @@ func _should_show_broken_shield(shield_active: bool) -> bool:
 
 
 func _hit(hit_data: PlayerHitData) -> HitResult:
-	hit_data.hit_process.call(paths.player_root)
+	if hit_data.owner != paths.player_root:
+		hit_data.hit_process.call(paths.player_root)
 	return HitResult.IGNORED
 
 
@@ -108,6 +115,8 @@ func _parry(hit_data: PlayerHitData) -> HitResult:
 
 
 func _shield(hit_data: PlayerHitData) -> HitResult:
+	if hit_data.owner == paths.player_root:
+		return HitResult.SHIELDED
 	_health = clamp(_health - hit_data.shield_damage, 0, BASE_SHIELD_HEALTH)
 	shield_absorbed_sound.play()
 	hit_data.shield_process.call()

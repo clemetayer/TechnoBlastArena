@@ -1,14 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://cx1owalejckxl"]
+[gd_scene format=3 uid="uid://cx1owalejckxl"]
 
 [ext_resource type="Script" uid="uid://bxkej3andi1jo" path="res://test/integration/Powerup/scene_powerup.gd" id="1_rg1nh"]
 
-[node name="ScenePowerup" type="Node2D"]
+[node name="ScenePowerup" type="Node2D" unique_id=1088520998 groups=["game_root"]]
 script = ExtResource("1_rg1nh")
 
-[node name="FirePosition" type="Node2D" parent="."]
+[node name="FirePosition" type="Node2D" parent="." unique_id=1231292796]
 position = Vector2(-100, 0)
 
-[node name="PowerupPosition" type="Node2D" parent="."]
+[node name="PowerupPosition" type="Node2D" parent="." unique_id=915434390]
 position = Vector2(100, 0)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=266977113]

@@ -24,11 +24,9 @@ func before_each():
 	hit_process_times_called = 0
 	hit_process_args = []
 
+
 ##### TESTS #####
-var toggle_shielding_params := [
-	[true],
-	[false],
-]
+var toggle_shielding_params := [[true], [false]]
 
 
 func test_toggle_shielding(params = use_parameters(toggle_shielding_params)):
@@ -44,13 +42,12 @@ func test_toggle_shielding(params = use_parameters(toggle_shielding_params)):
 	assert_eq(shield._shielding, shielding)
 
 
-var toggle_shielding_play_animation_not_broken_params := [
-	[true],
-	[false],
-]
+var toggle_shielding_play_animation_not_broken_params := [[true], [false]]
 
 
-func test_toggle_shielding_play_animation_not_broken(params = use_parameters(toggle_shielding_play_animation_not_broken_params)):
+func test_toggle_shielding_play_animation_not_broken(
+	params = use_parameters(toggle_shielding_play_animation_not_broken_params)
+):
 	# given
 	var shielding = params[0]
 	shield._firing = false
@@ -112,10 +109,7 @@ func test_toggle_shielding_set_color(params = use_parameters(toggle_shielding_se
 	assert_eq(shield_particles.modulate, gradient.sample(gradient_value))
 
 
-var activate_parry_params := [
-	[true],
-	[false],
-]
+var activate_parry_params := [[true], [false]]
 
 
 func test_activate_parry(params = use_parameters(activate_parry_params)):
@@ -150,6 +144,22 @@ func test_process_hit_not_shielding():
 	assert_eq(parried_times_called, 0)
 
 
+func test_process_hit_not_shielding_own_bullet():
+	# given
+	shield._shielding = false
+	var hit_data = _create_standard_hit_data()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.player_root = hit_data.owner
+	shield.paths = paths
+	# when
+	var hit_result := shield.process_hit(hit_data)
+	# then
+	assert_eq(hit_result, Shield.HitResult.IGNORED)
+	assert_eq(hit_process_times_called, 0)
+	assert_eq(shield_process_times_called, 0)
+	assert_eq(parried_times_called, 0)
+
+
 func test_process_hit_shield():
 	# given
 	var shield_base_health = 150
@@ -159,6 +169,9 @@ func test_process_hit_shield():
 	shield._health = shield_base_health
 	var hit_data := _create_standard_hit_data()
 	hit_data.shield_damage = shield_damage
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.player_root = autofree(Node2D.new())
+	shield.paths = paths
 	var sound = set_real_shield_absorbed_sound()
 	# when
 	var hit_result := shield.process_hit(hit_data)
@@ -169,6 +182,28 @@ func test_process_hit_shield():
 	assert_eq(parried_times_called, 0)
 	assert_eq(shield._health, expected_health_remaining)
 	assert_true(sound.playing)
+
+
+func test_process_hit_shield_by_own_projectile():
+	# given
+	var shield_base_health = 150
+	var shield_damage = 30
+	var expected_health_remaining = shield_base_health
+	shield._shielding = true
+	shield._health = shield_base_health
+	var hit_data := _create_standard_hit_data()
+	hit_data.shield_damage = shield_damage
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.player_root = hit_data.owner
+	shield.paths = paths
+	# when
+	var hit_result := shield.process_hit(hit_data)
+	# then
+	assert_eq(hit_result, Shield.HitResult.SHIELDED)
+	assert_eq(hit_process_times_called, 0)
+	assert_eq(shield_process_times_called, 0)
+	assert_eq(parried_times_called, 0)
+	assert_eq(shield._health, expected_health_remaining)
 
 
 func test_process_hit_shield_destroyed():
@@ -247,6 +282,9 @@ func test_process_hit_shield_broken():
 	var regen_bar := set_real_broken_shield_regen_bar()
 	var broken_shield_anim_particles := set_real_shield_broken_anim_particles()
 	var sound = set_real_shield_regenerated_sound()
+	var paths = autofree(load("res://Scenes/Player/paths.gd").new())
+	paths.player_root = autofree(Node2D.new())
+	shield.paths = paths
 	# when
 	var hit_result := shield.process_hit(_create_standard_hit_data())
 	# then
@@ -274,10 +312,7 @@ func test_process_hit_shield_broken():
 	assert_true(sound.playing)
 
 
-var toggle_firing_disable_params := [
-	[true],
-	[false],
-]
+var toggle_firing_disable_params := [[true], [false]]
 
 
 func test_toggle_firing_disable(params = use_parameters(toggle_firing_disable_params)):

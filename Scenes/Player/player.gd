@@ -94,7 +94,7 @@ func hit(hit_data: PlayerHitData) -> void:
 	if not _damage_enabled:
 		return
 	var shield_hit_result: Shield.HitResult = paths.shield.process_hit(hit_data)
-	if shield_hit_result != Shield.HitResult.IGNORED:
+	if (shield_hit_result != Shield.HitResult.IGNORED or hit_data.owner == self):
 		return
 	var old_damage = DAMAGE
 	DAMAGE = min(DAMAGE + hit_data.damage, MAX_DAMAGE)

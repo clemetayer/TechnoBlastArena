@@ -8,6 +8,8 @@ signal destroyed
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const PROJECTILE_DUPLICATES := 5 # note : most likely should be an uneven number (to let the original projectile keep its trajectory)
+const PROJECTILE_DUP_DAMAGE_BONUS_MULTIPLIER := 1.2
+const PROJECTILE_DUP_KNOCKBACK_BONUS_MULTIPLIER := 1.2
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -15,12 +17,11 @@ var _whitelist := [] # to avoid duplicating too much (with the fresh new project
 var _runtime_utils := RuntimeUtils
 
 #==== ONREADY ====
-@onready var onready_paths := {
-	"audio": $"AudioStreamPlayer2D",
-	"collision": $"Hitbox/CollisionShape2D",
-	"sprite": $"Sprite2D",
-	"hit_effect": $"HitEffect",
-}
+@onready var hitbox := $"Hitbox"
+@onready var audio := $"AudioStreamPlayer2D"
+@onready var collision := $"Hitbox/CollisionShape2D"
+@onready var sprite := $"Sprite2D"
+@onready var hit_effect := $"HitEffect"
 
 
 ##### PROTECTED METHODS #####
@@ -29,11 +30,23 @@ func _spawn_projectile(projectile) -> void:
 	if game_root != null and game_root.has_method("spawn_projectile"):
 		game_root.spawn_projectile(projectile)
 	else:
-		GSLogger.error("Game root does not exist or does not have the method '%s'" % "spawn_projectile")
+		GSLogger.error(
+			"Game root does not exist or does not have the method '%s'" % "spawn_projectile"
+		)
 
 
-func _duplicate_projectile_with_angle(projectile: Node, angle: float) -> void:
+func _duplicate_projectile_with_angle(
+	projectile: Node,
+	angle: float,
+	new_damage: float,
+	new_knockback: float,
+) -> void:
 	var duplicated_projectile = projectile.duplicate()
+	duplicated_projectile.PARAMETERS = duplicated_projectile.PARAMETERS.duplicate()
+	duplicated_projectile.damage = new_damage
+	duplicated_projectile.PARAMETERS.DAMAGE = new_damage
+	duplicated_projectile.knockback = new_knockback
+	duplicated_projectile.PARAMETERS.KNOCKBACK = new_knockback
 	duplicated_projectile.current_owner = projectile.current_owner
 	duplicated_projectile.init_rotation = duplicated_projectile.rotation + angle
 	duplicated_projectile.init_position = duplicated_projectile.global_position
@@ -42,15 +55,15 @@ func _duplicate_projectile_with_angle(projectile: Node, angle: float) -> void:
 
 
 func _handle_feedback() -> void:
-	onready_paths.hit_effect.emitting = true
-	onready_paths.audio.play()
+	hit_effect.emitting = true
+	audio.play()
 
 
 func _prepare_for_deletion() -> void:
-	onready_paths.collision.set_deferred("disabled", true)
-	onready_paths.sprite.hide()
-	if onready_paths.audio.playing:
-		await onready_paths.audio.finished
+	collision.set_deferred("disabled", true)
+	sprite.hide()
+	if audio.playing:
+		await audio.finished
 	emit_signal("destroyed", self)
 	queue_free()
 
@@ -60,10 +73,19 @@ func _prepare_for_deletion() -> void:
 func _on_hitbox_area_entered(area):
 	if GroupUtils.is_projectile(area) and not _whitelist.has(area):
 		_handle_feedback()
+		var projectile_damage = (area.damage / PROJECTILE_DUPLICATES) * PROJECTILE_DUP_DAMAGE_BONUS_MULTIPLIER
+		var projectile_knockback = (area.knockback / PROJECTILE_DUPLICATES) * PROJECTILE_DUP_KNOCKBACK_BONUS_MULTIPLIER
+		area.damage = projectile_damage
+		area.knockback = projectile_knockback
 		for duplicate_idx in range(1, PROJECTILE_DUPLICATES + 1):
 			var dup_angle = (duplicate_idx * ((PI / 2) / (PROJECTILE_DUPLICATES + 1))) - PI / 4
-			if dup_angle != PI / 2: # PI/2 angle (forward) is reserved for the original projectile
-				_duplicate_projectile_with_angle(area, dup_angle)
+			if dup_angle != 0: # PI/2 angle (forward) is reserved for the original projectile
+				_duplicate_projectile_with_angle(
+					area,
+					dup_angle,
+					projectile_damage,
+					projectile_knockback,
+				)
 		if PROJECTILE_DUPLICATES % 2 == 0:
 			area.queue_free()
 		else:

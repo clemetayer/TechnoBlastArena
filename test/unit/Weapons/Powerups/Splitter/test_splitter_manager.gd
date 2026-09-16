@@ -18,11 +18,9 @@ func before_each():
 func after_each():
 	splitter_manager.free()
 
+
 ##### TESTS #####
-var process_params := [
-	[true],
-	[false],
-]
+var process_params := [[true], [false]]
 
 
 func test_process(params = use_parameters(process_params)):
@@ -54,7 +52,9 @@ func test_use(params = use_parameters(use_params)):
 	var can_use_powerup = params[0]
 	var active = params[1]
 	var splitters_active = params[2]
-	var splitter_manager_mock = partial_double(load("res://Scenes/Weapons/Powerups/Splitter/splitter_manager.gd")).new()
+	var splitter_manager_mock = partial_double(
+		load("res://Scenes/Weapons/Powerups/Splitter/splitter_manager.gd")
+	).new()
 	stub(splitter_manager_mock, "_remove_last_splitter").to_do_nothing()
 	stub(splitter_manager_mock, "_start_update_value_tween").to_do_nothing()
 	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()

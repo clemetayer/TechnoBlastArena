@@ -102,6 +102,6 @@ func mock_counter():
 
 func mock_projectile():
 	var projectile = add_child_autofree(
-		load("res://test/unit/Weapons/Powerups/Chain/projectile_mock.tscn").instantiate()
+		load("res://test/unit/Weapons/Powerups/Common/projectile_mock.tscn").instantiate()
 	)
 	return projectile

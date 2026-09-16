@@ -25,7 +25,7 @@ func test_bullet():
 	# given
 	var player_init_pos = scene.get_player().global_position
 	var bullet = load("res://Scenes/Weapons/Projectiles/Bullet/bullet.tscn").instantiate()
-	var bullet_params := BulletParametersResource.new()
+	var bullet_params := ProjectileParametersResource.new()
 	bullet.PARAMETERS = bullet_params
 	bullet.init_position = scene.get_fire_position()
 	bullet.init_rotation = 0.0

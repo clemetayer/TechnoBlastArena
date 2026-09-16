@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://sx7c0chryrll"]
+
+[ext_resource type="Script" uid="uid://bh0ft14iexuag" path="res://test/unit/Weapons/Powerups/Splitter/mock_game_root.gd" id="1_sd1ie"]
+
+[node name="MockGameRoot" type="Node" unique_id=333813704 groups=["game_root"]]
+script = ExtResource("1_sd1ie")

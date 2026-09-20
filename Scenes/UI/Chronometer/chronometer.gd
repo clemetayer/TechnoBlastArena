@@ -12,15 +12,21 @@ const END_TEXT := "[wave amp=50.0 freq=5.0 connected=1]END[/wave]"
 #==== PRIVATE ====
 var _start_time
 var _end_time
+var _pause_delta
 
 #==== ONREADY ====
 @onready var label := $"Label"
 
 
 ##### PROCESSING #####
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	RuntimeUtils.pause_toggled.connect(_on_RuntimeUtils_pause_toggled)
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame. Remove the "_" to use it.
 func _process(_delta):
-	if _start_time != null and _end_time != null:
+	if _start_time != null and _end_time != null and _pause_delta == null:
 		var current_time = _get_current_time()
 		if current_time >= _end_time:
 			_time_over()
@@ -57,3 +63,12 @@ func _refresh_timer(current_time: int) -> void:
 
 func _get_current_time() -> int:
 	return Time.get_ticks_msec()
+
+
+##### SIGNAL MANAGEMENT #####
+func _on_RuntimeUtils_pause_toggled(enabled: bool) -> void:
+	if enabled:
+		_pause_delta = _end_time - _get_current_time()
+	else:
+		_end_time = _get_current_time() + _pause_delta
+		_pause_delta = null

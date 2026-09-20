@@ -18,6 +18,7 @@ func before_each():
 ##### TESTS #####
 func test_pause():
 	# given
+	watch_signals(RuntimeUtils)
 	var music_manager = double(load("res://Utils/Audio/music_manager.gd")).new()
 	stub(music_manager, "filter_in")
 	menu.music_manager = music_manager
@@ -27,10 +28,12 @@ func test_pause():
 	# then
 	assert_called(scene_tree, "set_pause", [true])
 	assert_called(music_manager, "filter_in")
+	assert_signal_emitted(RuntimeUtils.pause_toggled, [true])
 
 
 func test_resume():
 	# given
+	watch_signals(RuntimeUtils)
 	var music_manager = double(load("res://Utils/Audio/music_manager.gd")).new()
 	stub(music_manager, "filter_out")
 	menu.music_manager = music_manager
@@ -41,6 +44,7 @@ func test_resume():
 	assert_called(scene_tree, "set_pause", [false])
 	assert_false(menu.visible)
 	assert_called(music_manager, "filter_out")
+	assert_signal_emitted(RuntimeUtils.pause_toggled, [false])
 
 
 func test_options_emit_open_options():
@@ -54,6 +58,7 @@ func test_options_emit_open_options():
 
 func test_quit():
 	# given
+	watch_signals(RuntimeUtils)
 	var music_manager = double(load("res://Utils/Audio/music_manager.gd")).new()
 	stub(music_manager, "filter_out")
 	menu.music_manager = music_manager
@@ -63,3 +68,4 @@ func test_quit():
 	assert_called(scene_tree, "set_pause", [false])
 	assert_called(scene_tree, "change_scene_to_file", [menu.MULTIPLAYER_MENU_PATH])
 	assert_called(music_manager, "filter_out")
+	assert_signal_emitted(RuntimeUtils.pause_toggled, [false])

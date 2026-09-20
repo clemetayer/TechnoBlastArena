@@ -12,13 +12,9 @@ var chronometer
 func before_each():
 	chronometer = autofree(load("res://Scenes/UI/Chronometer/chronometer.gd").new())
 
+
 ##### TESTS #####
-var process_params := [
-	[null, 100, 50],
-	[10, null, 50],
-	[10, 100, 50],
-	[100, 10, 110],
-]
+var process_params := [[null, 100, 50], [10, null, 50], [10, 100, 50], [100, 10, 110]]
 
 
 func test_process(params = use_parameters(process_params)):
@@ -110,3 +106,21 @@ func test_scene_time_decreasing():
 	assert_eq(chronometer_scene.label.text, "01:29")
 	await wait_seconds(3)
 	assert_eq(chronometer_scene.label.text, "01:26")
+
+
+func test_pause():
+	# given
+	var chronometer_scene = load(CHRONOMETER_SCENE_PATH).instantiate()
+	add_child_autofree(chronometer_scene)
+	chronometer_scene.start_timer(90)
+	await wait_process_frames(2)
+	# when
+	RuntimeUtils.pause_toggled.emit(true)
+	await wait_seconds(2)
+	# then
+	assert_eq(chronometer_scene.label.text, "01:29")
+	# when
+	RuntimeUtils.pause_toggled.emit(false)
+	await wait_seconds(2)
+	# then
+	assert_eq(chronometer_scene.label.text, "01:27")

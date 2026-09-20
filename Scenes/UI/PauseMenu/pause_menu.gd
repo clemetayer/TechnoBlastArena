@@ -34,6 +34,7 @@ func pause() -> void:
 	show()
 	music_manager.filter_in()
 	tree.set_pause(true)
+	RuntimeUtils.pause_toggled.emit(true)
 
 
 ##### SIGNAL MANAGEMENT #####
@@ -41,6 +42,7 @@ func _on_resume_button_pressed() -> void:
 	hide()
 	music_manager.filter_out()
 	tree.set_pause(false)
+	RuntimeUtils.pause_toggled.emit(false)
 
 
 func _on_options_button_pressed() -> void:
@@ -49,5 +51,6 @@ func _on_options_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	tree.set_pause(false)
+	RuntimeUtils.pause_toggled.emit(false)
 	music_manager.filter_out()
 	tree.change_scene_to_file(MULTIPLAYER_MENU_PATH)

@@ -2,6 +2,9 @@ extends Node
 
 # Runtime utilitary functions that are usefull when the game is launched
 
+##### SIGNALS #####
+signal pause_toggled(enabled: bool)
+
 ##### VARIABLES #####
 #---- CONSTANTS -----
 const GAME_ROOT_GROUP_NAME := "game_root"
@@ -11,6 +14,12 @@ const PLAYER_INDICATOR_COLORS := [
 	Color("00ff00"), # green
 	Color("ffff00"), # yellow
 ]
+
+
+##### PROCESSING #####
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 
 
 ##### PUBLIC METHODS #####

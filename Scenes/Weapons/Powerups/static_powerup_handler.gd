@@ -21,7 +21,7 @@ const icon_path := {
 }
 
 const ui_scene_paths := {
-	handlers.SPLITTER: "res://Scenes/UI/PlayersData/PlayerData/Templates/progress_block.tscn",
+	handlers.SPLITTER: "res://Scenes/UI/PlayersData/PlayerData/Templates/counter_block.tscn",
 	handlers.CHAIN: "res://Scenes/UI/PlayersData/PlayerData/Templates/counter_block.tscn",
 }
 

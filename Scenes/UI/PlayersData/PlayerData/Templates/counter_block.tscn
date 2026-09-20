@@ -1,47 +1,47 @@
-[gd_scene load_steps=4 format=3 uid="uid://cu158l2qd35cl"]
+[gd_scene format=3 uid="uid://cu158l2qd35cl"]
 
 [ext_resource type="Script" uid="uid://m58his61jxmb" path="res://Scenes/UI/PlayersData/PlayerData/Templates/counter_block.gd" id="1_s5bs3"]
 [ext_resource type="Texture2D" uid="uid://c1gi3re5rscab" path="res://icon.svg" id="2_s5bs3"]
 [ext_resource type="Texture2D" uid="uid://cfdv2q6wok3qm" path="res://Misc/Inkscape/white_circle.svg" id="3_uviwd"]
 
-[node name="CounterBlock" type="HBoxContainer"]
+[node name="CounterBlock" type="HBoxContainer" unique_id=493716459]
 custom_minimum_size = Vector2(63, 26)
 size_flags_vertical = 3
 script = ExtResource("1_s5bs3")
 
-[node name="Icon" type="TextureRect" parent="."]
+[node name="Icon" type="TextureRect" parent="." unique_id=1320842910]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("2_s5bs3")
 expand_mode = 3
 
-[node name="AmountLeft" type="VBoxContainer" parent="."]
+[node name="AmountLeft" type="VBoxContainer" parent="." unique_id=1860326251]
 custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="AmountLeft"]
+[node name="TextureRect" type="TextureRect" parent="AmountLeft" unique_id=1950833984]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3_uviwd")
 expand_mode = 4
 stretch_mode = 4
 
-[node name="TextureRect2" type="TextureRect" parent="AmountLeft"]
+[node name="TextureRect2" type="TextureRect" parent="AmountLeft" unique_id=2081517460]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3_uviwd")
 expand_mode = 4
 stretch_mode = 4
 
-[node name="TextureRect3" type="TextureRect" parent="AmountLeft"]
+[node name="TextureRect3" type="TextureRect" parent="AmountLeft" unique_id=76834101]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3_uviwd")
 expand_mode = 4
 stretch_mode = 4
 
-[node name="Overflow" type="Label" parent="."]
+[node name="Overflow" type="Label" parent="." unique_id=1911201659]
 custom_minimum_size = Vector2(14, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16

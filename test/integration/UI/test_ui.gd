@@ -43,13 +43,23 @@ func test_init_two_players():
 	assert_eq(ui.get_child_count(), 2)
 	assert_eq(ui._players.size(), 2)
 	assert_eq(ui._players[1].sprite_body.modulate, player_1_config.SPRITE_CUSTOMIZATION.BODY_COLOR)
-	assert_eq(ui._players[1].sprite_outline.modulate, player_1_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
+	assert_eq(
+		ui._players[1].sprite_outline.modulate,
+		player_1_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR,
+	)
 	assert_eq(ui._players[2].sprite_body.modulate, player_2_config.SPRITE_CUSTOMIZATION.BODY_COLOR)
-	assert_eq(ui._players[2].sprite_outline.modulate, player_2_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR)
+	assert_eq(
+		ui._players[2].sprite_outline.modulate,
+		player_2_config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR,
+	)
 	assert_eq(ui._players[1].player_name.text, "")
 	assert_eq(ui._players[2].player_name.text, "")
-	var p1_movement_icon_path = StaticMovementBonusHandler.get_icon_path(player_1_config.MOVEMENT_BONUS_HANDLER)
-	var p2_movement_icon_path = StaticMovementBonusHandler.get_icon_path(player_2_config.MOVEMENT_BONUS_HANDLER)
+	var p1_movement_icon_path = StaticMovementBonusHandler.get_icon_path(
+		player_1_config.MOVEMENT_BONUS_HANDLER
+	)
+	var p2_movement_icon_path = StaticMovementBonusHandler.get_icon_path(
+		player_2_config.MOVEMENT_BONUS_HANDLER
+	)
 	var p1_powerup_icon_path = StaticPowerupHandler.get_icon_path(player_1_config.POWERUP_HANDLER)
 	var p2_powerup_icon_path = StaticPowerupHandler.get_icon_path(player_2_config.POWERUP_HANDLER)
 	var p1_movement = ui._players[1]._movement_ui
@@ -109,13 +119,21 @@ func test_lives():
 	assert_eq(p2_lives.overflow.text, "")
 
 
-func test_dash():
+var counter_movement_bonus_params := [
+	[StaticMovementBonusHandler.handlers.DASH, 3],
+	[StaticMovementBonusHandler.handlers.DIMENSIONAL_MIRROR, 2],
+]
+
+
+func test_counter_movement_bonus(params = use_parameters(counter_movement_bonus_params)):
 	# given
+	var handler = params[0]
+	var max_actions = params[1]
 	var default_level = load(DEFAULT_LEVEL_CONFIG_PATH)
 	var player_1_config = load(PLAYER_1_DEFAULT_CONFIG_PATH)
 	var player_2_config = load(PLAYER_2_DEFAULT_CONFIG_PATH)
-	player_1_config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
-	player_2_config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
+	player_1_config.MOVEMENT_BONUS_HANDLER = handler
+	player_2_config.MOVEMENT_BONUS_HANDLER = handler
 	scene.set_level_data(default_level)
 	scene.set_player_data(1, player_1_config)
 	scene.set_player_data(2, player_2_config)
@@ -128,40 +146,50 @@ func test_dash():
 	# when / then
 	var ui = scene.get_ui()
 	await wait_process_frames(1)
-	var p1_movement_icon_path = StaticMovementBonusHandler.get_icon_path(player_1_config.MOVEMENT_BONUS_HANDLER)
-	var p2_movement_icon_path = StaticMovementBonusHandler.get_icon_path(player_2_config.MOVEMENT_BONUS_HANDLER)
+	var p1_movement_icon_path = StaticMovementBonusHandler.get_icon_path(
+		player_1_config.MOVEMENT_BONUS_HANDLER
+	)
+	var p2_movement_icon_path = StaticMovementBonusHandler.get_icon_path(
+		player_2_config.MOVEMENT_BONUS_HANDLER
+	)
 	var p1_movement = ui._players[1]._movement_ui
 	var p2_movement = ui._players[2]._movement_ui
 	assert_eq(p1_movement.DATA_ICON, p1_movement_icon_path)
 	assert_eq(p2_movement.DATA_ICON, p2_movement_icon_path)
-	assert_eq(p1_movement.QUANTITY, 3)
+	assert_eq(p1_movement.QUANTITY, max_actions)
 	assert_eq(p1_movement.tokens.get_child_count(), 3)
-	assert_eq(_count_visible_tokens(p1_movement.tokens), 3)
+	assert_eq(_count_visible_tokens(p1_movement.tokens), max_actions)
 	assert_eq(p1_movement.overflow.text, "")
-	assert_eq(p2_movement.QUANTITY, 3)
+	assert_eq(p2_movement.QUANTITY, max_actions)
 	assert_eq(p2_movement.tokens.get_child_count(), 3)
-	assert_eq(_count_visible_tokens(p2_movement.tokens), 3)
+	assert_eq(_count_visible_tokens(p2_movement.tokens), max_actions)
 	assert_eq(p2_movement.overflow.text, "")
 	_sender.action_down("movement_bonus").hold_for(.1)
 	await _sender.idle
 	await wait_seconds(0.5)
-	assert_eq(p1_movement.QUANTITY, 2)
-	assert_eq(p1_movement.tokens.get_child_count(), 3)
-	assert_eq(_count_visible_tokens(p1_movement.tokens), 2)
+	assert_eq(p1_movement.QUANTITY, max_actions - 1)
+	assert_eq(_count_visible_tokens(p1_movement.tokens), max_actions - 1)
 	assert_eq(p1_movement.overflow.text, "")
-	assert_eq(p2_movement.QUANTITY, 3)
-	assert_eq(p2_movement.tokens.get_child_count(), 3)
-	assert_eq(_count_visible_tokens(p2_movement.tokens), 3)
+	assert_eq(p2_movement.QUANTITY, max_actions)
+	assert_eq(_count_visible_tokens(p2_movement.tokens), max_actions)
 	assert_eq(p2_movement.overflow.text, "")
 
 
-func test_splitter():
+var powerup_counter_params := [
+	[StaticPowerupHandler.handlers.SPLITTER, 3],
+	[StaticPowerupHandler.handlers.CHAIN, 3],
+]
+
+
+func test_powerup_counter(params = use_parameters(powerup_counter_params)):
 	# given
+	var handler = params[0]
+	var max_actions = params[1]
 	var default_level = load(DEFAULT_LEVEL_CONFIG_PATH)
 	var player_1_config = load(PLAYER_1_DEFAULT_CONFIG_PATH)
 	var player_2_config = load(PLAYER_2_DEFAULT_CONFIG_PATH)
-	player_1_config.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
-	player_2_config.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
+	player_1_config.POWERUP_HANDLER = handler
+	player_2_config.POWERUP_HANDLER = handler
 	scene.set_level_data(default_level)
 	scene.set_player_data(1, player_1_config)
 	scene.set_player_data(2, player_2_config)
@@ -178,22 +206,24 @@ func test_splitter():
 	var p2_powerup_icon_path = StaticPowerupHandler.get_icon_path(player_2_config.POWERUP_HANDLER)
 	var p1_powerup = ui._players[1]._powerup_ui
 	var p2_powerup = ui._players[2]._powerup_ui
-	ui.update_powerup(1, 1)
-	ui.update_powerup(2, 1)
+	ui.update_powerup(1, max_actions)
+	ui.update_powerup(2, max_actions)
 	await wait_process_frames(1)
 	assert_eq(p1_powerup.DATA_ICON, p1_powerup_icon_path)
 	assert_eq(p2_powerup.DATA_ICON, p2_powerup_icon_path)
-	assert_eq(p1_powerup.PROGRESS, 1)
-	assert_eq(p1_powerup.overflow.text, "+1")
-	assert_eq(p2_powerup.PROGRESS, 1)
-	assert_eq(p2_powerup.overflow.text, "+1")
+	assert_eq(p1_powerup.QUANTITY, max_actions)
+	assert_eq(p1_powerup.tokens.get_child_count(), 3)
+	assert_eq(_count_visible_tokens(p1_powerup.tokens), max_actions)
+	assert_eq(p2_powerup.QUANTITY, max_actions)
+	assert_eq(p1_powerup.tokens.get_child_count(), 3)
+	assert_eq(_count_visible_tokens(p2_powerup.tokens), max_actions)
 	_sender.action_down("powerup").hold_for(.1)
 	await _sender.idle
 	await wait_seconds(0.5)
-	assert_between(p1_powerup.PROGRESS, 0.01, 0.99)
-	assert_eq(p1_powerup.overflow.text, "")
-	assert_eq(p2_powerup.PROGRESS, 1)
-	assert_eq(p2_powerup.overflow.text, "+1")
+	assert_eq(p1_powerup.QUANTITY, max_actions - 1)
+	assert_eq(_count_visible_tokens(p1_powerup.tokens), max_actions - 1)
+	assert_eq(p2_powerup.QUANTITY, max_actions)
+	assert_eq(_count_visible_tokens(p2_powerup.tokens), max_actions)
 
 
 ##### UTILS #####

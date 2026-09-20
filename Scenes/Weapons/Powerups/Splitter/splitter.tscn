@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bb4hrw2b5jtmk" path="res://Scenes/Weapons/Powerups/Splitter/splitter.gd" id="1_tp6dn"]
 [ext_resource type="Texture2D" uid="uid://cvnhgdu8kddk7" path="res://Scenes/Weapons/Powerups/Splitter/splitter.png" id="2_jxrl0"]
 [ext_resource type="AudioStream" uid="uid://b4ia4vfw7ctn3" path="res://Scenes/Weapons/Powerups/Splitter/splitter.mp3" id="3_o5ews"]
+[ext_resource type="PackedScene" uid="uid://brq6ebswtuvyu" path="res://Scenes/Weapons/Powerups/Common/element_counter.tscn" id="4_gcc30"]
 
 [sub_resource type="Gradient" id="Gradient_risov"]
 offsets = PackedFloat32Array(0, 0.33, 0.66, 1)
@@ -32,7 +33,8 @@ hue_variation_max = 0.99999994
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_06q05"]
 size = Vector2(128, 128)
 
-[node name="Splitter" type="Node2D" unique_id=489423910]
+[node name="Splitter" type="Node2D" unique_id=489423910 groups=["splitter"]]
+scale = Vector2(0.75, 0.75)
 script = ExtResource("1_tp6dn")
 
 [node name="HitEffect" type="GPUParticles2D" parent="." unique_id=154510012]
@@ -59,5 +61,17 @@ stream = ExtResource("3_o5ews")
 volume_db = 5.0
 bus = &"Effects"
 
+[node name="ElementCounter" parent="." unique_id=1170904861 instance=ExtResource("4_gcc30")]
+offset_left = 100.0
+offset_right = 130.0
+rotation = 1.5707964
+BASE_AMOUNT = 3
+
+[node name="BulletCountReset" type="Timer" parent="." unique_id=279070937]
+wait_time = 0.15
+autostart = true
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
+[connection signal="empty" from="ElementCounter" to="." method="_on_element_counter_empty"]
+[connection signal="timeout" from="BulletCountReset" to="." method="_on_bullet_count_reset_timeout"]

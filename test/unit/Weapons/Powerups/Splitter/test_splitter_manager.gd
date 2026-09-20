@@ -3,141 +3,94 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var splitter_manager
-var value_updated_times_called := 0
-var value_updated_args := []
 
 
 ##### SETUP #####
 func before_each():
-	splitter_manager = load("res://Scenes/Weapons/Powerups/Splitter/splitter_manager.gd").new()
-	value_updated_times_called = 0
-	value_updated_args = []
-
-
-##### TEARDOWN #####
-func after_each():
-	splitter_manager.free()
+	splitter_manager = add_child_autofree(
+		load("res://Scenes/Weapons/Powerups/Splitter/splitter_manager.tscn").instantiate()
+	)
 
 
 ##### TESTS #####
-var process_params := [[true], [false]]
-
-
-func test_process(params = use_parameters(process_params)):
+func test_first_init_ui():
 	# given
-	var init_ui_done = params[0]
-	splitter_manager._init_ui_done = init_ui_done
-	splitter_manager.connect("value_updated", _on_value_updated)
+	watch_signals(splitter_manager)
+	splitter_manager._init_ui_done = false
 	# when
-	splitter_manager._process(1.0 / 60.0)
+	await wait_process_frames(1)
 	# then
-	if not init_ui_done:
-		assert_eq(value_updated_times_called, 1)
-		assert_eq(value_updated_args, [[1.0]])
-	else:
-		assert_eq(value_updated_times_called, 0)
+	assert_signal_emitted(splitter_manager, "value_updated", splitter_manager.MAX_SPLITTERS_ACTIVE)
 
 
-var use_params := [
-	[true, true, 2],
-	[false, true, 2],
-	[true, false, 2],
-	[true, true, 2],
-	[true, true, 4],
-]
+var use_params := [[true], [false]]
 
 
 func test_use(params = use_parameters(use_params)):
 	# given
-	var can_use_powerup = params[0]
-	var active = params[1]
-	var splitters_active = params[2]
-	var splitter_manager_mock = partial_double(
-		load("res://Scenes/Weapons/Powerups/Splitter/splitter_manager.gd")
-	).new()
-	stub(splitter_manager_mock, "_remove_last_splitter").to_do_nothing()
-	stub(splitter_manager_mock, "_start_update_value_tween").to_do_nothing()
-	var runtime_utils = double(load("res://Utils/runtime_utils.gd")).new()
-	var mock_game_root = double(load("res://Scenes/Game/game.gd"), DOUBLE_STRATEGY.INCLUDE_NATIVE).new()
-	stub(mock_game_root, "spawn_powerup").to_do_nothing()
-	stub(runtime_utils, "get_game_root").to_return(mock_game_root)
-	splitter_manager_mock._runtime_utils = runtime_utils
-	splitter_manager_mock._can_use_powerup = can_use_powerup
-	splitter_manager_mock.active = active
-	var cooldown_timer = double(Timer).new()
-	stub(cooldown_timer, "start").to_do_nothing()
-	splitter_manager_mock.onready_paths.cooldown_timer = cooldown_timer
-	var splitter_load = load(splitter_manager.SPLITTER_PATH)
-	splitter_manager_mock._splitter_load = splitter_load
-	for i in range(splitters_active):
-		splitter_manager_mock._splitters_active.push_front(Node2D.new())
+	watch_signals(splitter_manager)
+	var active = params[0]
+	var game_root = mock_game_root()
+	var expected_position = Vector2(randi() % 50, randi() % 50)
+	splitter_manager.active = active
+	splitter_manager.global_position = expected_position
+	splitter_manager._actions_available = splitter_manager.MAX_ACTIONS
 	# when
-	splitter_manager_mock.use()
+	splitter_manager.use()
 	# then
-	if can_use_powerup and active:
-		if splitters_active >= splitter_manager.MAX_SPLITTERS_ACTIVE:
-			assert_called(splitter_manager_mock, "_remove_last_splitter")
-		else:
-			assert_not_called(splitter_manager_mock, "_remove_last_splitter")
-		assert_called(mock_game_root, "spawn_powerup")
-		assert_eq(splitter_manager_mock._splitters_active.size(), splitters_active + 1)
-		assert_false(splitter_manager_mock._can_use_powerup)
-		assert_called(cooldown_timer, "start", [splitter_manager_mock.COOLDOWN_TIMER])
-		assert_called(splitter_manager_mock, "_start_update_value_tween")
+	if active:
+		assert_eq(game_root.get_child_count(), 1)
+		var splitter = game_root.get_child(0)
+		assert_eq(splitter.global_position, expected_position)
+		assert_signal_emitted(splitter_manager.value_updated, [splitter_manager.MAX_ACTIONS - 1])
+		await wait_for_signal(splitter_manager.cooldown_timer.timeout, 20.0)
+		assert_signal_emitted(splitter_manager.value_updated, [splitter_manager.MAX_ACTIONS])
+		assert_eq(splitter_manager._actions_available, splitter_manager.MAX_ACTIONS)
 	else:
-		assert_not_called(splitter_manager_mock, "_remove_last_splitter")
-		assert_not_called(mock_game_root, "spawn_powerup")
-		assert_eq(splitter_manager_mock._splitters_active.size(), splitters_active)
-		assert_eq(splitter_manager_mock._can_use_powerup, can_use_powerup)
-		assert_not_called(cooldown_timer, "start")
-		assert_not_called(splitter_manager_mock, "_start_update_value_tween")
-	# cleanup
-	for splitter in splitter_manager._splitters_active:
-		splitter.free()
+		assert_eq(game_root.get_child_count(), 0)
 
 
-func test_remove_last_splitter():
+func test_too_many_splitters():
 	# given
-	splitter_manager._splitters_active = [Node2D.new(), Node2D.new()]
+	var splitter_load = load("res://Scenes/Weapons/Powerups/Splitter/splitter.tscn")
+	var game_root = mock_game_root()
+	for splitter_idx in range(splitter_manager.MAX_SPLITTERS_ACTIVE):
+		var splitter = autofree(splitter_load.instantiate())
+		game_root.add_child(splitter)
+	var expected_splitter_to_remove = game_root.get_child(0)
+	splitter_manager.active = true
 	# when
-	splitter_manager._remove_last_splitter()
+	splitter_manager.use()
+	await wait_process_frames(1)
 	# then
-	assert_eq(splitter_manager._splitters_active.size(), 1)
-	# cleanup
-	for splitter in splitter_manager._splitters_active:
-		splitter.free()
+	assert_eq(game_root.get_child_count(), splitter_manager.MAX_SPLITTERS_ACTIVE)
+	assert_false(is_instance_valid(expected_splitter_to_remove))
 
 
-func test_start_update_value_tween():
+func test_no_splitters_available():
 	# given
+	var game_root = mock_game_root()
+	splitter_manager.active = true
+	splitter_manager._actions_available = 0
 	# when
-	splitter_manager._start_update_value_tween()
+	splitter_manager.use()
+	await wait_process_frames(1)
 	# then
-	assert_not_null(splitter_manager._splitter_cooldown_tween)
+	assert_eq(game_root.get_child_count(), 0)
 
 
-func test_on_cooldown_timer_timeout():
+func test_reload_actions_max_reached():
 	# given
-	splitter_manager._can_use_powerup = false
+	splitter_manager._actions_available = splitter_manager.MAX_ACTIONS
 	# when
-	splitter_manager._on_cooldown_timer_timeout()
+	splitter_manager.cooldown_timer.timeout.emit()
 	# then
-	assert_true(splitter_manager._can_use_powerup)
-
-
-func test_on_splitter_destroyed():
-	# given
-	var splitter = Node2D.new()
-	splitter_manager._splitters_active = [splitter]
-	# when
-	splitter_manager._on_splitter_destroyed(splitter)
-	# then
-	assert_eq(splitter_manager._splitters_active.size(), 0)
-	# cleanup
-	splitter.free()
+	assert_eq(splitter_manager._actions_available, splitter_manager.MAX_ACTIONS)
 
 
 ##### UTILS #####
-func _on_value_updated(value) -> void:
-	value_updated_times_called += 1
-	value_updated_args.append([value])
+func mock_game_root():
+	var root = add_child_autofree(
+		load("res://test/unit/Weapons/Powerups/Chain/mock_game_root.tscn").instantiate()
+	)
+	return root

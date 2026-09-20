@@ -30,13 +30,16 @@ func test_splitter():
 	scene.fire_projectile(bullet)
 	await wait_seconds(1.0)
 	var projectiles_cnt = scene.get_projectiles().size()
-	assert_eq(projectiles_cnt, projectiles_duplicates + 1)
-	for projectile_idx in range(1, projectiles_cnt):
-		var angle = (projectile_idx * ((PI / 2) / (projectiles_cnt))) - PI / 4
-		assert_true(_has_projectile_with_angle(scene.get_projectiles(), angle))
-	scene.clean_projectiles()
-	await wait_seconds(0.5)
+	assert_eq(projectiles_cnt, projectiles_duplicates)
+	await wait_seconds(0.3)
+	for i in range(splitter.counter.BASE_AMOUNT):
+		bullet = bullet_load.instantiate()
+		scene.fire_projectile(bullet)
+		await wait_seconds(0.3)
+	await wait_seconds(0.3)
 	assert_false(is_instance_valid(splitter))
+	# cleanup
+	scene.clean_projectiles()
 
 
 ##### UTILS #####

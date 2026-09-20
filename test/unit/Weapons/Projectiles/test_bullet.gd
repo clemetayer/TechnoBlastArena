@@ -56,6 +56,8 @@ func test_parried():
 	bullet.color = Color.WHITE
 	var p_owner = autofree(load("res://Scenes/Player/player.gd").new())
 	p_owner.PLAYER_ID = 1
+	var parameters = ProjectileParametersResource.new(1, 2, 3, 1)
+	bullet.PARAMETERS = parameters
 	bullet.speed = 1.0
 	bullet.damage = 2.0
 	bullet.knockback = 3.0

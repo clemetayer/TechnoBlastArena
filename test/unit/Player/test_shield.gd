@@ -4,6 +4,7 @@ extends "res://addons/gut/test.gd"
 #---- CONSTANTS -----
 const TEST_PARRY_TIME_WINDOW = 3.0 / 60.0
 const TEST_SHIELD_PASSIVE_REGEN_TIME = 5.0 / 60.0
+const TEST_SHIELD_HURT_TIME = 5.0 / 60.0
 const MOCK_AUDIO = preload("res://test/unit/Player/test_player/mock_audio.tscn")
 
 #---- VARIABLES -----
@@ -335,19 +336,69 @@ func test_shield_passive_regen(params = use_parameters(shield_passive_regen_para
 	var base_health = params[0]
 	var expected_health_after_tick = params[1]
 	shield._health = base_health
+	shield._shielding = false
+	set_real_shield_passive_regen_timer()
+	# when
+	await wait_seconds(TEST_SHIELD_PASSIVE_REGEN_TIME)
+	await wait_process_frames(1)
+	# then
+	assert_eq(shield._health, expected_health_after_tick)
+
+
+func test_shield_passive_regen_shielding():
+	# given
+	shield._health = shield.BASE_SHIELD_HEALTH / 2.0
+	shield._shielding = true
 	set_real_shield_passive_regen_timer()
 	# when
 	await wait_seconds(TEST_SHIELD_PASSIVE_REGEN_TIME + 2.0 / 60.0)
 	# then
-	assert_eq(shield._health, expected_health_after_tick)
+	assert_eq(shield._health, shield.BASE_SHIELD_HEALTH / 2.0)
 
 
 func test_shield_passive_regen_broken_shield():
 	# given
 	shield._health = 0
+	shield._shielding = false
 	set_real_shield_passive_regen_timer()
 	# when
 	await wait_seconds(TEST_SHIELD_PASSIVE_REGEN_TIME + 2.0 / 60.0)
+	# then
+	assert_eq(shield._health, 0)
+
+
+func test_passive_hurt_shield_when_shielding():
+	# given
+	shield._health = shield.BASE_SHIELD_HEALTH
+	set_real_shield_hurt_timer()
+	shield._shielding = true
+	# when
+	await wait_seconds(TEST_SHIELD_HURT_TIME)
+	await wait_process_frames(1)
+	# then
+	assert_eq(shield._health, shield.BASE_SHIELD_HEALTH - shield.SHIELD_PASSIVE_HURT_PER_TICK)
+
+
+func test_passive_hurt_shield_not_shielding():
+	# given
+	shield._health = shield.BASE_SHIELD_HEALTH
+	set_real_shield_hurt_timer()
+	shield._shielding = false
+	# when
+	await wait_seconds(TEST_SHIELD_HURT_TIME)
+	await wait_process_frames(1)
+	# then
+	assert_eq(shield._health, shield.BASE_SHIELD_HEALTH)
+
+
+func test_passive_hurt_shield_shield_broken():
+	# given
+	shield._health = 0
+	set_real_shield_hurt_timer()
+	shield._shielding = true
+	# when
+	await wait_seconds(TEST_SHIELD_HURT_TIME)
+	await wait_process_frames(1)
 	# then
 	assert_eq(shield._health, 0)
 
@@ -400,6 +451,15 @@ func set_real_shield_passive_regen_timer() -> Timer:
 	timer.set_autostart(true)
 	timer.set_wait_time(TEST_SHIELD_PASSIVE_REGEN_TIME)
 	timer.timeout.connect(shield._on_shield_passive_regen_timeout)
+	add_child_autofree(timer)
+	return timer
+
+
+func set_real_shield_hurt_timer() -> Timer:
+	var timer := Timer.new()
+	timer.set_autostart(true)
+	timer.set_wait_time(TEST_SHIELD_HURT_TIME)
+	timer.timeout.connect(shield._on_passive_hurt_shield_timeout)
 	add_child_autofree(timer)
 	return timer
 

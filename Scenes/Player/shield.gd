@@ -12,11 +12,12 @@ enum HitResult {
 }
 
 #---- CONSTANTS -----
-const BASE_SHIELD_HEALTH := 150
+const BASE_SHIELD_HEALTH := 150.0
 
 ##### VARIABLES #####
 const SHIELD_BROKEN_REGEN_TIME := 10 #s
-const SHIELD_PASSIVE_HEALTH_REGEN_PER_TICK := 3
+const SHIELD_PASSIVE_HEALTH_REGEN_PER_TICK := 3.0
+const SHIELD_PASSIVE_HURT_PER_TICK := 6.0
 const DAMAGE_GRADIENT = preload("res://Scenes/Player/damage_text_gradient.tres")
 const PARRY_STOP_TIME := 0.33 #s
 
@@ -117,7 +118,7 @@ func _parry(hit_data: PlayerHitData) -> HitResult:
 func _shield(hit_data: PlayerHitData) -> HitResult:
 	if hit_data.owner == paths.player_root:
 		return HitResult.SHIELDED
-	_health = clamp(_health - hit_data.shield_damage, 0, BASE_SHIELD_HEALTH)
+	_health = clampf(_health - hit_data.shield_damage, 0.0, BASE_SHIELD_HEALTH)
 	shield_absorbed_sound.play()
 	hit_data.shield_process.call()
 	if _health <= 0:
@@ -155,5 +156,12 @@ func _on_parry_time_window_timeout() -> void:
 
 
 func _on_shield_passive_regen_timeout() -> void:
-	if not _is_broken():
-		_health = clamp(BASE_SHIELD_HEALTH, 0, _health + SHIELD_PASSIVE_HEALTH_REGEN_PER_TICK)
+	if not _shielding and not _is_broken():
+		_health = clampf(_health + SHIELD_PASSIVE_HEALTH_REGEN_PER_TICK, 0.0, BASE_SHIELD_HEALTH)
+
+
+func _on_passive_hurt_shield_timeout() -> void:
+	if _shielding and not _is_broken():
+		_health = clampf(_health - SHIELD_PASSIVE_HURT_PER_TICK, 0.0, BASE_SHIELD_HEALTH)
+		if _health <= 0:
+			_shield_broken()

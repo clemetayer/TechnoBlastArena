@@ -388,8 +388,13 @@ wait_time = 0.167
 one_shot = true
 
 [node name="ShieldPassiveRegen" type="Timer" parent="." unique_id=751851791]
-wait_time = 1.5
+wait_time = 0.75
+autostart = true
+
+[node name="PassiveHurtShield" type="Timer" parent="." unique_id=2119792677]
+wait_time = 0.5
 autostart = true
 
 [connection signal="timeout" from="ParryTimeWindow" to="." method="_on_parry_time_window_timeout"]
 [connection signal="timeout" from="ShieldPassiveRegen" to="." method="_on_shield_passive_regen_timeout"]
+[connection signal="timeout" from="PassiveHurtShield" to="." method="_on_passive_hurt_shield_timeout"]

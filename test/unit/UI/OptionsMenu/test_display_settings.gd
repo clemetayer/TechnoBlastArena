@@ -18,7 +18,9 @@ func before_all():
 
 
 func before_each():
-	display_settings = add_child_autofree(load("res://Scenes/UI/OptionsMenu/display_settings.tscn").instantiate())
+	display_settings = add_child_autofree(
+		load("res://Scenes/UI/OptionsMenu/display_settings.tscn").instantiate()
+	)
 
 
 ##### TEARDOWN #####
@@ -35,9 +37,31 @@ func test_init():
 	# when
 	display_settings._ready()
 	# then
-	assert_eq(display_settings.display_type_button.selected, 0 if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED else 1)
-	assert_eq(display_settings.visual_intensity_button.selected, RuntimeConfig.visual_intensity as int)
-	assert_eq(display_settings.camera_effects_intensity_button.selected, RuntimeConfig.camera_effects_intensity as int)
+	assert_eq(
+		display_settings.display_type_button.selected,
+		0 if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED else 1,
+	)
+	assert_eq(
+		display_settings.visual_intensity_button.selected,
+		RuntimeConfig.visual_intensity as int,
+	)
+	assert_eq(
+		display_settings.camera_effects_intensity_button.selected,
+		RuntimeConfig.camera_effects_intensity as int,
+	)
+
+
+var show_warning_label_params := [[true], [false]]
+
+
+func test_show_warning_label(params = use_parameters(show_warning_label_params)):
+	# given
+	var is_pause_menu = params[0]
+	display_settings.IS_FROM_PAUSE_MENU = is_pause_menu
+	# when
+	await wait_process_frames(1)
+	# then
+	assert_eq(display_settings.warning_label.visible, is_pause_menu)
 
 
 func test_set_display_type():
@@ -73,6 +97,11 @@ func test_set_camera_effects_intensity():
 
 ##### UTILS #####
 func _randomize_settings() -> void:
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED if randf() <= 0.5 else DisplayServer.WINDOW_MODE_FULLSCREEN)
+	DisplayServer.window_set_mode(
+		DisplayServer.WINDOW_MODE_WINDOWED if randf() <= 0.5 else DisplayServer.WINDOW_MODE_FULLSCREEN
+	)
 	RuntimeConfig.visual_intensity = RuntimeConfig.VISUAL_INTENSITY.values().pick_random()
-	RuntimeConfig.camera_effects_intensity = RuntimeConfig.CAMERA_EFFECTS_INTENSITY.values().pick_random()
+	RuntimeConfig.camera_effects_intensity = RuntimeConfig \
+			.CAMERA_EFFECTS_INTENSITY \
+			.values() \
+			.pick_random()

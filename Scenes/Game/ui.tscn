@@ -29,6 +29,7 @@ visible = false
 
 [node name="OptionsMenu" parent="." unique_id=695020428 instance=ExtResource("6_57svj")]
 visible = false
+IS_FROM_PAUSE_MENU = true
 
 [connection signal="time_over" from="Chronometer" to="." method="_on_chronometer_time_over"]
 [connection signal="options_triggered" from="PauseMenu" to="." method="_on_pause_menu_options_triggered"]

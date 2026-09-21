@@ -28,6 +28,7 @@ extends _BASE_
 #==== ONREADY ====
 # @onready var onready_var # Optionnal comment
 
+
 ##### PROCESSING #####
 # Called when the object is initialized.
 func _init():

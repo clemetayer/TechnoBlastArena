@@ -7,7 +7,9 @@ var menu
 
 ##### SETUP #####
 func before_each():
-	menu = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate())
+	menu = add_child_autofree(
+		load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate()
+	)
 
 
 ##### TESTS #####
@@ -37,6 +39,41 @@ func test_on_start_button_button_up():
 	assert_signal_emitted_with_parameters(menu.game_ready, [[config1, config2], 6, 123])
 
 
+func test_start_button_disabled():
+	# then
+	assert_true(menu.start_button.disabled)
+	# when
+	var config1 = PlayerConfig.new()
+	var item1 = create_player_selection_item_mock()
+	item1.player_toggled.connect(menu._on_player_selection_item_player_toggled)
+	var config2 = PlayerConfig.new()
+	var item2 = create_player_selection_item_mock()
+	item2.player_toggled.connect(menu._on_player_selection_item_player_toggled)
+	for item in menu.player_selection_items.get_children():
+		item.free()
+	menu.player_selection_items.add_child(item1)
+	menu.player_selection_items.add_child(item2)
+	stub(item1, "get_config").to_return(config1)
+	stub(item2, "get_config").to_return(null)
+	item1.player_toggled.emit()
+	# then
+	assert_true(menu.start_button.disabled)
+	# when
+	stub(item1, "get_config").to_return(config1)
+	stub(item2, "get_config").to_return(config2)
+	item1.player_toggled.emit()
+	# then
+	assert_false(menu.start_button.disabled)
+	# when
+	stub(item1, "get_config").to_return(null)
+	stub(item2, "get_config").to_return(config2)
+	item1.player_toggled.emit()
+	# then
+	assert_true(menu.start_button.disabled)
+
+
 ##### UTILS #####
 func create_player_selection_item_mock():
-	return partial_double(load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.tscn")).instantiate()
+	return partial_double(
+		load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.tscn")
+	).instantiate()

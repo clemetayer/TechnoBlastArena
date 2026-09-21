@@ -99,7 +99,12 @@ layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"StdImportantButton"
 theme_override_font_sizes/font_size = 40
+disabled = true
 text = " Start ! "
 
+[connection signal="player_toggled" from="MarginContainer/VBoxContainer/PlayerGrid/PlayerSelectionItem" to="." method="_on_player_selection_item_player_toggled"]
+[connection signal="player_toggled" from="MarginContainer/VBoxContainer/PlayerGrid/PlayerSelectionItem2" to="." method="_on_player_selection_item_player_toggled"]
+[connection signal="player_toggled" from="MarginContainer/VBoxContainer/PlayerGrid/PlayerSelectionItem3" to="." method="_on_player_selection_item_player_toggled"]
+[connection signal="player_toggled" from="MarginContainer/VBoxContainer/PlayerGrid/PlayerSelectionItem4" to="." method="_on_player_selection_item_player_toggled"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GameConfig/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GameConfig/StartButton" to="." method="_on_start_button_pressed"]

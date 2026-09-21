@@ -2,6 +2,9 @@ extends Control
 
 # Handles one item for the player selection menu
 
+##### SIGNALS #####
+signal player_toggled
+
 ##### VARIABLES #####
 #---- STANDARD -----
 #==== ONREADY ====
@@ -14,7 +17,7 @@ extends Control
 
 ##### PUBLIC METHODS #####
 # returns the current player config or null if there is no player in the item
-func get_config() -> PlayerConfig:
+func get_config():
 	if user_menu.visible:
 		return user_menu.player_config
 	if ai_menu.visible:
@@ -26,18 +29,22 @@ func get_config() -> PlayerConfig:
 func _on_add_ai_pressed() -> void:
 	empty_menu.hide()
 	ai_menu.show()
+	player_toggled.emit()
 
 
 func _on_add_user_pressed() -> void:
 	empty_menu.hide()
 	user_menu.show()
+	player_toggled.emit()
 
 
 func _on_player_customization_menu_quit() -> void:
 	user_menu.hide()
 	empty_menu.show()
+	player_toggled.emit()
 
 
 func _on_ai_selection_menu_quit() -> void:
 	ai_menu.hide()
 	empty_menu.show()
+	player_toggled.emit()

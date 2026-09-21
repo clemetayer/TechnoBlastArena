@@ -7,14 +7,13 @@ var item
 
 ##### SETUP #####
 func before_each():
-	item = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.tscn").instantiate())
+	item = add_child_autofree(
+		load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.tscn").instantiate()
+	)
+
 
 ##### TESTS #####
-var get_config_params := [
-	[true, false],
-	[false, true],
-	[false, false],
-]
+var get_config_params := [[true, false], [false, true], [false, false]]
 
 
 func test_get_config(params = use_parameters(get_config_params)):
@@ -40,26 +39,31 @@ func test_get_config(params = use_parameters(get_config_params)):
 
 func test_add_user_shows_player_customization_menu():
 	# given
+	watch_signals(item)
 	# when
 	item.add_user_button.pressed.emit()
 	# then
 	assert_true(item.user_menu.visible)
 	assert_false(item.ai_menu.visible)
 	assert_false(item.empty_menu.visible)
+	assert_signal_emitted(item.player_toggled)
 
 
 func test_add_ai_shows_ai_menu():
 	# given
+	watch_signals(item)
 	# when
 	item.add_ai_button.pressed.emit()
 	# then
 	assert_false(item.user_menu.visible)
 	assert_true(item.ai_menu.visible)
 	assert_false(item.empty_menu.visible)
+	assert_signal_emitted(item.player_toggled)
 
 
 func test_player_customization_menu_quit():
 	# given
+	watch_signals(item)
 	item.user_menu.visible = true
 	item.empty_menu.visible = false
 	# when
@@ -68,10 +72,12 @@ func test_player_customization_menu_quit():
 	assert_false(item.user_menu.visible)
 	assert_false(item.ai_menu.visible)
 	assert_true(item.empty_menu.visible)
+	assert_signal_emitted(item.player_toggled)
 
 
 func test_ai_menu_quit():
 	# given
+	watch_signals(item)
 	item.ai_menu.visible = true
 	item.empty_menu.visible = false
 	# when
@@ -80,3 +86,4 @@ func test_ai_menu_quit():
 	assert_false(item.user_menu.visible)
 	assert_false(item.ai_menu.visible)
 	assert_true(item.empty_menu.visible)
+	assert_signal_emitted(item.player_toggled)

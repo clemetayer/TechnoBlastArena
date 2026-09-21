@@ -15,7 +15,9 @@ func before_all():
 
 
 func before_each():
-	scene = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate())
+	scene = add_child_autofree(
+		load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate()
+	)
 	helper.set_selection_menu(scene)
 
 
@@ -30,6 +32,7 @@ func after_all():
 func test_add_remove_players():
 	# given
 	var items = helper.get_player_selection_items()
+	assert_true(helper.is_start_button_disabled())
 	# then
 	for item in items:
 		assert_true(helper.is_empty_menu_visible(item))
@@ -40,6 +43,7 @@ func test_add_remove_players():
 		# then
 		assert_false(helper.is_empty_menu_visible(item))
 		assert_true(helper.is_user_menu_visible(item))
+	assert_false(helper.is_start_button_disabled())
 	for item in items:
 		# when
 		helper.remove_player_on_item(item)
@@ -47,11 +51,13 @@ func test_add_remove_players():
 		# then
 		assert_true(helper.is_empty_menu_visible(item))
 		assert_false(helper.is_user_menu_visible(item))
+	assert_true(helper.is_start_button_disabled())
 
 
 func test_add_remove_ai_players():
 	# given
 	var items = helper.get_player_selection_items()
+	assert_true(helper.is_start_button_disabled())
 	# then
 	for item in items:
 		assert_true(helper.is_empty_menu_visible(item))
@@ -67,9 +73,19 @@ func test_add_remove_ai_players():
 		assert_true(helper.is_ai_visualisation_menu_visible(item))
 		assert_false(helper.is_ai_preset_menu_visible(item))
 		assert_eq(helper.get_ai_player_name(item), ai_config.PLAYER_NAME)
-		assert_eq(helper.get_ai_primary_weapon_image_path(item), StaticPrimaryWeaponHandler.get_icon_path(ai_config.PRIMARY_WEAPON))
-		assert_eq(helper.get_ai_movement_bonus_image_path(item), StaticMovementBonusHandler.get_icon_path(ai_config.MOVEMENT_BONUS_HANDLER))
-		assert_eq(helper.get_ai_powerup_image_path(item), StaticPowerupHandler.get_icon_path(ai_config.POWERUP_HANDLER))
+		assert_eq(
+			helper.get_ai_primary_weapon_image_path(item),
+			StaticPrimaryWeaponHandler.get_icon_path(ai_config.PRIMARY_WEAPON),
+		)
+		assert_eq(
+			helper.get_ai_movement_bonus_image_path(item),
+			StaticMovementBonusHandler.get_icon_path(ai_config.MOVEMENT_BONUS_HANDLER),
+		)
+		assert_eq(
+			helper.get_ai_powerup_image_path(item),
+			StaticPowerupHandler.get_icon_path(ai_config.POWERUP_HANDLER),
+		)
+	assert_false(helper.is_start_button_disabled())
 	for item in items:
 		# when
 		helper.remove_ai_player_on_item(item)
@@ -77,6 +93,7 @@ func test_add_remove_ai_players():
 		# then
 		assert_true(helper.is_empty_menu_visible(item))
 		assert_false(helper.is_ai_preset_menu_visible(item))
+	assert_true(helper.is_start_button_disabled())
 
 
 func test_user_menu() -> void:
@@ -127,7 +144,9 @@ func test_primary_weapons() -> void:
 	# when
 	helper.select_primary_weapon(0, item)
 	# then
-	assert_true(helper.is_primary_weapon_selected(StaticPrimaryWeaponHandler.handlers.REVOLVER, item))
+	assert_true(
+		helper.is_primary_weapon_selected(StaticPrimaryWeaponHandler.handlers.REVOLVER, item)
+	)
 	assert_true(helper.is_user_menu_visible(item))
 	assert_false(helper.is_primary_weapon_menu_visible(item))
 
@@ -179,4 +198,7 @@ func test_start_game():
 	helper.set_game_time(2, 15)
 	helper.press_start()
 	# then
-	assert_signal_emitted_with_parameters(scene.game_ready, [[items[0].get_config(), items[1].get_config()], 5, 135])
+	assert_signal_emitted_with_parameters(
+		scene.game_ready,
+		[[items[0].get_config(), items[1].get_config()], 5, 135],
+	)

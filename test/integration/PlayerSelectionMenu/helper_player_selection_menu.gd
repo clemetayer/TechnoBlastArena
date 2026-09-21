@@ -16,6 +16,10 @@ func set_selection_menu(menu):
 	_menu = menu
 
 
+func is_start_button_disabled() -> bool:
+	return _menu.start_button.disabled
+
+
 func get_player_selection_items() -> Array:
 	return _menu.player_selection_items.get_children()
 
@@ -103,14 +107,44 @@ func is_config_equals_display(config: PlayerConfig, item: Node) -> bool:
 	var res = true
 	res = res and _get_player_config_diplay(item).name_edit.text == config.PLAYER_NAME
 	res = res and _get_sprite_preview(item).body.modulate == config.SPRITE_CUSTOMIZATION.BODY_COLOR
-	res = res and _get_sprite_preview(item).outline.modulate == config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR
-	res = res and _get_sprite_preview(item).eyes.texture.resource_path == config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH
+	res = (
+		res
+		and _get_sprite_preview(item).outline.modulate == config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR
+	)
+	res = (
+		res
+		and _get_sprite_preview(item).eyes.texture.resource_path == config \
+				.SPRITE_CUSTOMIZATION \
+				.EYES_TEXTURE_PATH
+	)
 	res = res and _get_sprite_preview(item).eyes.modulate == config.SPRITE_CUSTOMIZATION.EYES_COLOR
-	res = res and _get_sprite_preview(item).mouth.texture.resource_path == config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH
-	res = res and _get_sprite_preview(item).mouth.modulate == config.SPRITE_CUSTOMIZATION.MOUTH_COLOR
-	res = res and _get_player_config_diplay(item).primary_weapon.icon.resource_path == StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
-	res = res and _get_player_config_diplay(item).powerup.icon.resource_path == StaticPowerupHandler.get_icon_path(config.POWERUP_HANDLER)
-	res = res and _get_player_config_diplay(item).movement_bonus.icon.resource_path == StaticMovementBonusHandler.get_icon_path(config.MOVEMENT_BONUS_HANDLER)
+	res = (
+		res
+		and _get_sprite_preview(item).mouth.texture.resource_path == config \
+				.SPRITE_CUSTOMIZATION \
+				.MOUTH_TEXTURE_PATH
+	)
+	res = (
+		res and _get_sprite_preview(item).mouth.modulate == config.SPRITE_CUSTOMIZATION.MOUTH_COLOR
+	)
+	res = (
+		res
+		and _get_player_config_diplay(item).primary_weapon.icon.resource_path == StaticPrimaryWeaponHandler.get_icon_path(
+			config.PRIMARY_WEAPON
+		)
+	)
+	res = (
+		res
+		and _get_player_config_diplay(item).powerup.icon.resource_path == StaticPowerupHandler.get_icon_path(
+			config.POWERUP_HANDLER
+		)
+	)
+	res = (
+		res
+		and _get_player_config_diplay(item).movement_bonus.icon.resource_path == StaticMovementBonusHandler.get_icon_path(
+			config.MOVEMENT_BONUS_HANDLER
+		)
+	)
 	return res
 
 
@@ -137,15 +171,45 @@ func is_preset_menu_visible(item: Node) -> bool:
 func is_preset_equal(preset: Control, config: PlayerConfig) -> bool:
 	var res = true
 	res = res and preset.name_label.text == config.PLAYER_NAME
-	res = res and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
-	res = res and preset.movement_bonus.texture.resource_path == StaticMovementBonusHandler.get_icon_path(config.MOVEMENT_BONUS_HANDLER)
-	res = res and preset.powerup.texture.resource_path == StaticPowerupHandler.get_icon_path(config.POWERUP_HANDLER)
-	res = res and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
+	res = (
+		res
+		and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(
+			config.PRIMARY_WEAPON
+		)
+	)
+	res = (
+		res
+		and preset.movement_bonus.texture.resource_path == StaticMovementBonusHandler.get_icon_path(
+			config.MOVEMENT_BONUS_HANDLER
+		)
+	)
+	res = (
+		res
+		and preset.powerup.texture.resource_path == StaticPowerupHandler.get_icon_path(
+			config.POWERUP_HANDLER
+		)
+	)
+	res = (
+		res
+		and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(
+			config.PRIMARY_WEAPON
+		)
+	)
 	res = res and preset.sprite.body.modulate == config.SPRITE_CUSTOMIZATION.BODY_COLOR
 	res = res and preset.sprite.outline.modulate == config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR
-	res = res and preset.sprite.eyes.texture.resource_path == config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH
+	res = (
+		res
+		and preset.sprite.eyes.texture.resource_path == config \
+				.SPRITE_CUSTOMIZATION \
+				.EYES_TEXTURE_PATH
+	)
 	res = res and preset.sprite.eyes.modulate == config.SPRITE_CUSTOMIZATION.EYES_COLOR
-	res = res and preset.sprite.mouth.texture.resource_path == config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH
+	res = (
+		res
+		and preset.sprite.mouth.texture.resource_path == config \
+				.SPRITE_CUSTOMIZATION \
+				.MOUTH_TEXTURE_PATH
+	)
 	res = res and preset.sprite.mouth.modulate == config.SPRITE_CUSTOMIZATION.MOUTH_COLOR
 	return res
 
@@ -191,7 +255,10 @@ func is_movement_bonus_menu_visible(item: Node) -> bool:
 	return _get_menus(item).full_menus.movement_bonus.visible
 
 
-func is_movement_bonus_selected(movement_bonus: StaticMovementBonusHandler.handlers, item: Node) -> bool:
+func is_movement_bonus_selected(
+	movement_bonus: StaticMovementBonusHandler.handlers,
+	item: Node,
+) -> bool:
 	return item.get_config().MOVEMENT_BONUS_HANDLER == movement_bonus
 
 

@@ -7,7 +7,9 @@ var menu
 
 ##### SETUP #####
 func before_each():
-	menu = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_selection_menu.tscn").instantiate())
+	menu = add_child_autofree(
+		load("res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_selection_menu.tscn").instantiate()
+	)
 
 
 ##### TESTS #####
@@ -20,14 +22,18 @@ func test_open():
 	# then
 	assert_true(menu.presets.visible)
 	assert_false(menu.visualisation.visible)
+	assert_null(menu.player_config)
 
 
 func test_preset_selected():
 	# given
+	watch_signals(menu)
 	var config = AIPlayerConfig.new()
 	var sprite = SpriteCustomizationResource.new()
 	config.SPRITE_CUSTOMIZATION = sprite
-	var visualisation = double(load("res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_visualisation.tscn")).instantiate()
+	var visualisation = double(
+		load("res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_visualisation.tscn")
+	).instantiate()
 	stub(visualisation, "update_ai").to_do_nothing()
 	menu.visualisation = visualisation
 	# when
@@ -37,6 +43,7 @@ func test_preset_selected():
 	assert_true(menu.visualisation.visible)
 	assert_called(visualisation, "update_ai", [config])
 	assert_eq(menu.player_config, config)
+	assert_signal_emitted(menu.config_changed)
 
 
 func test_preset_menu_closed():
@@ -47,6 +54,8 @@ func test_preset_menu_closed():
 	menu.presets_close_button.pressed.emit()
 	# then
 	assert_signal_emitted(menu.quit)
+	assert_signal_emitted(menu.config_changed)
+	assert_null(menu.player_config)
 
 
 func test_close_triggered():
@@ -56,12 +65,17 @@ func test_close_triggered():
 	menu.visualisation.close_triggered.emit()
 	# then
 	assert_signal_emitted(menu.quit)
+	assert_signal_emitted(menu.config_changed)
+	assert_null(menu.player_config)
 
 
 func test_show_presets_triggered():
 	# given
+	watch_signals(menu)
 	# when
 	menu.visualisation.show_ai_presets_triggered.emit()
 	# then
 	assert_true(menu.presets.visible)
 	assert_false(menu.visualisation.visible)
+	assert_signal_emitted(menu.config_changed)
+	assert_null(menu.player_config)

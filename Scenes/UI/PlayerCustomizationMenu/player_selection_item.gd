@@ -29,7 +29,6 @@ func get_config():
 func _on_add_ai_pressed() -> void:
 	empty_menu.hide()
 	ai_menu.show()
-	player_toggled.emit()
 
 
 func _on_add_user_pressed() -> void:
@@ -47,4 +46,8 @@ func _on_player_customization_menu_quit() -> void:
 func _on_ai_selection_menu_quit() -> void:
 	ai_menu.hide()
 	empty_menu.show()
+	player_toggled.emit()
+
+
+func _on_ai_selection_menu_config_changed() -> void:
 	player_toggled.emit()

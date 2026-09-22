@@ -63,4 +63,5 @@ layout_mode = 2
 [connection signal="pressed" from="Panel/EmptyMenu/AddAI" to="." method="_on_add_ai_pressed"]
 [connection signal="pressed" from="Panel/EmptyMenu/AddUser" to="." method="_on_add_user_pressed"]
 [connection signal="quit" from="Panel/PlayerCustomizationMenu" to="." method="_on_player_customization_menu_quit"]
+[connection signal="config_changed" from="Panel/AiSelectionMenu" to="." method="_on_ai_selection_menu_config_changed"]
 [connection signal="quit" from="Panel/AiSelectionMenu" to="." method="_on_ai_selection_menu_quit"]

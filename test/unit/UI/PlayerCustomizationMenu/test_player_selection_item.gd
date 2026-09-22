@@ -51,14 +51,12 @@ func test_add_user_shows_player_customization_menu():
 
 func test_add_ai_shows_ai_menu():
 	# given
-	watch_signals(item)
 	# when
 	item.add_ai_button.pressed.emit()
 	# then
 	assert_false(item.user_menu.visible)
 	assert_true(item.ai_menu.visible)
 	assert_false(item.empty_menu.visible)
-	assert_signal_emitted(item.player_toggled)
 
 
 func test_player_customization_menu_quit():
@@ -86,4 +84,13 @@ func test_ai_menu_quit():
 	assert_false(item.user_menu.visible)
 	assert_false(item.ai_menu.visible)
 	assert_true(item.empty_menu.visible)
+	assert_signal_emitted(item.player_toggled)
+
+
+func test_ai_selection_menu_config_changed():
+	# given
+	watch_signals(item)
+	# when
+	item.ai_menu.config_changed.emit()
+	# then
 	assert_signal_emitted(item.player_toggled)

@@ -47,7 +47,7 @@ func _init_allow_save() -> void:
 
 
 func _init_player_config() -> void:
-	player_config = load(DEFAULT_CONFIG_PATH)
+	player_config = load(DEFAULT_CONFIG_PATH).duplicate(true)
 	player_config_display.update_player(player_config)
 
 
@@ -60,7 +60,10 @@ func _randomize_preset() -> void:
 	player_config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH = _random_mouth_texture().resource_path
 	player_config.ACTION_HANDLER = StaticPrimaryWeaponHandler.handlers.values().pick_random()
 	player_config.POWERUP_HANDLER = StaticPowerupHandler.handlers.values().pick_random()
-	player_config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.values().pick_random()
+	player_config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler \
+			.handlers \
+			.values() \
+			.pick_random()
 
 
 func _random_eye_texture() -> Texture:

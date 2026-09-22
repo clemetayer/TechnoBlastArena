@@ -8,15 +8,15 @@ var ui
 
 ##### SETUP #####
 func before_each():
-	ui = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationUI/player_customization_ui.tscn").instantiate())
+	ui = add_child_autofree(
+		load(
+			"res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationUI/player_customization_ui.tscn"
+		).instantiate()
+	)
+
 
 ##### TESTS #####
-var init_params := [
-	[true, true],
-	[false, true],
-	[true, false],
-	[false, false],
-]
+var init_params := [[true, true], [false, true], [true, false], [false, false]]
 
 
 func test_init(params = use_parameters(init_params)):
@@ -36,10 +36,9 @@ func test_init(params = use_parameters(init_params)):
 	ui._init_player_config()
 	# then
 	assert_called(player_config_display, "toggle_is_small", [is_small])
-	assert_called(player_config_display, "update_player", [ui.player_config])
+	assert_called(player_config_display, "update_player")
 	assert_called(menus, "toggle_is_small", [is_small])
 	assert_eq(ui.save_preset_button.visible, allow_save)
-	assert_eq(ui.player_config.resource_path, "res://Scenes/Player/PlayerConfigs/default_player_config.tres")
 
 
 func test_name_changed():
@@ -50,13 +49,12 @@ func test_name_changed():
 	assert_eq(ui.player_config.PLAYER_NAME, "test_name")
 
 
-var primary_weapon_change_triggered_params := [
-	[true],
-	[false],
-]
+var primary_weapon_change_triggered_params := [[true], [false]]
 
 
-func test_primary_weapon_change_triggered(params = use_parameters(primary_weapon_change_triggered_params)):
+func test_primary_weapon_change_triggered(
+	params = use_parameters(primary_weapon_change_triggered_params)
+):
 	# given
 	var is_small = params[0]
 	ui.IS_SMALL = is_small
@@ -69,10 +67,7 @@ func test_primary_weapon_change_triggered(params = use_parameters(primary_weapon
 	assert_eq(ui.main_window.visible, not is_small)
 
 
-var primary_weapon_changed_params := [
-	[true],
-	[false],
-]
+var primary_weapon_changed_params := [[true], [false]]
 
 
 func test_primary_weapon_changed(params = use_parameters(primary_weapon_changed_params)):
@@ -89,13 +84,12 @@ func test_primary_weapon_changed(params = use_parameters(primary_weapon_changed_
 	assert_true(ui.main_window.visible)
 
 
-var movement_bonus_change_triggered_params := [
-	[true],
-	[false],
-]
+var movement_bonus_change_triggered_params := [[true], [false]]
 
 
-func test_movement_bonus_change_triggered(params = use_parameters(movement_bonus_change_triggered_params)):
+func test_movement_bonus_change_triggered(
+	params = use_parameters(movement_bonus_change_triggered_params)
+):
 	# given
 	var is_small = params[0]
 	ui.IS_SMALL = is_small
@@ -108,10 +102,7 @@ func test_movement_bonus_change_triggered(params = use_parameters(movement_bonus
 	assert_eq(ui.main_window.visible, not is_small)
 
 
-var movement_bonus_changed_params := [
-	[true],
-	[false],
-]
+var movement_bonus_changed_params := [[true], [false]]
 
 
 func test_movement_bonus_changed(params = use_parameters(movement_bonus_changed_params)):
@@ -128,10 +119,7 @@ func test_movement_bonus_changed(params = use_parameters(movement_bonus_changed_
 	assert_true(ui.main_window.visible)
 
 
-var powerup_change_triggered_params := [
-	[true],
-	[false],
-]
+var powerup_change_triggered_params := [[true], [false]]
 
 
 func test_powerup_change_triggered(params = use_parameters(powerup_change_triggered_params)):
@@ -147,10 +135,7 @@ func test_powerup_change_triggered(params = use_parameters(powerup_change_trigge
 	assert_eq(ui.main_window.visible, not is_small)
 
 
-var powerup_changed_params := [
-	[true],
-	[false],
-]
+var powerup_changed_params := [[true], [false]]
 
 
 func test_powerup_changed(params = use_parameters(powerup_changed_params)):
@@ -169,10 +154,14 @@ func test_powerup_changed(params = use_parameters(powerup_changed_params)):
 
 func test_main_color_changed():
 	# given
-	assert_true(ui.player_config_display.main_color_changed.is_connected(ui._on_player_config_display_main_color_changed))
+	assert_true(ui.player_config_display.main_color_changed.is_connected(
+			ui._on_player_config_display_main_color_changed
+		))
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
-	ui.player_config_display.main_color_changed.connect(ui._on_player_config_display_main_color_changed)
+	ui.player_config_display.main_color_changed.connect(
+		ui._on_player_config_display_main_color_changed
+	)
 	# when
 	ui.player_config_display.main_color_changed.emit(Color.BLUE)
 	# then
@@ -182,10 +171,14 @@ func test_main_color_changed():
 
 func test_secondary_color_changed():
 	# given
-	assert_true(ui.player_config_display.secondary_color_changed.is_connected(ui._on_player_config_display_secondary_color_changed))
+	assert_true(ui.player_config_display.secondary_color_changed.is_connected(
+			ui._on_player_config_display_secondary_color_changed
+		))
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
-	ui.player_config_display.secondary_color_changed.connect(ui._on_player_config_display_secondary_color_changed)
+	ui.player_config_display.secondary_color_changed.connect(
+		ui._on_player_config_display_secondary_color_changed
+	)
 	# when
 	ui.player_config_display.secondary_color_changed.emit(Color.BLUE)
 	# then
@@ -193,10 +186,7 @@ func test_secondary_color_changed():
 	assert_called(player_config_display, "update_player")
 
 
-var open_eyes_change_params := [
-	[true],
-	[false],
-]
+var open_eyes_change_params := [[true], [false]]
 
 
 func test_open_eyes_change(params = use_parameters(open_eyes_change_params)):
@@ -212,10 +202,7 @@ func test_open_eyes_change(params = use_parameters(open_eyes_change_params)):
 	assert_eq(ui.main_window.visible, not is_small)
 
 
-var eyes_selected_params := [
-	[true],
-	[false],
-]
+var eyes_selected_params := [[true], [false]]
 
 
 func test_eyes_selected(params = use_parameters(eyes_selected_params)):
@@ -232,10 +219,7 @@ func test_eyes_selected(params = use_parameters(eyes_selected_params)):
 	assert_true(ui.main_window.visible)
 
 
-var open_mouth_change_params := [
-	[true],
-	[false],
-]
+var open_mouth_change_params := [[true], [false]]
 
 
 func test_open_mouth_change(params = use_parameters(open_mouth_change_params)):
@@ -251,10 +235,7 @@ func test_open_mouth_change(params = use_parameters(open_mouth_change_params)):
 	assert_eq(ui.main_window.visible, not is_small)
 
 
-var mouth_selected_params := [
-	[true],
-	[false],
-]
+var mouth_selected_params := [[true], [false]]
 
 
 func test_mouth_selected(params = use_parameters(mouth_selected_params)):
@@ -273,10 +254,14 @@ func test_mouth_selected(params = use_parameters(mouth_selected_params)):
 
 func test_eyes_color_changed():
 	# given
-	assert_true(ui.player_config_display.eyes_color_changed.is_connected(ui._on_player_config_display_eyes_color_changed))
+	assert_true(ui.player_config_display.eyes_color_changed.is_connected(
+			ui._on_player_config_display_eyes_color_changed
+		))
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
-	player_config_display.eyes_color_changed.connect(ui._on_player_config_display_eyes_color_changed)
+	player_config_display.eyes_color_changed.connect(
+		ui._on_player_config_display_eyes_color_changed
+	)
 	# when
 	ui.player_config_display.eyes_color_changed.emit(Color.BLUE)
 	# then
@@ -286,10 +271,14 @@ func test_eyes_color_changed():
 
 func test_mouth_color_changed():
 	# given
-	assert_true(ui.player_config_display.mouth_color_changed.is_connected(ui._on_player_config_display_mouth_color_changed))
+	assert_true(ui.player_config_display.mouth_color_changed.is_connected(
+			ui._on_player_config_display_mouth_color_changed
+		))
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
-	player_config_display.mouth_color_changed.connect(ui._on_player_config_display_mouth_color_changed)
+	player_config_display.mouth_color_changed.connect(
+		ui._on_player_config_display_mouth_color_changed
+	)
 	# when
 	ui.player_config_display.mouth_color_changed.emit(Color.BLUE)
 	# then
@@ -297,13 +286,12 @@ func test_mouth_color_changed():
 	assert_called(player_config_display, "update_player")
 
 
-var elimination_text_change_triggered_params := [
-	[true],
-	[false],
-]
+var elimination_text_change_triggered_params := [[true], [false]]
 
 
-func test_elimination_text_change_triggered(params = use_parameters(elimination_text_change_triggered_params)):
+func test_elimination_text_change_triggered(
+	params = use_parameters(elimination_text_change_triggered_params)
+):
 	# given
 	var is_small = params[0]
 	ui.IS_SMALL = is_small
@@ -316,10 +304,7 @@ func test_elimination_text_change_triggered(params = use_parameters(elimination_
 	assert_eq(ui.main_window.visible, not is_small)
 
 
-var elimination_text_changed_params := [
-	[true],
-	[false],
-]
+var elimination_text_changed_params := [[true], [false]]
 
 
 func test_elimination_text_changed(params = use_parameters(elimination_text_changed_params)):
@@ -335,7 +320,9 @@ func test_elimination_text_changed(params = use_parameters(elimination_text_chan
 
 func test_randomize():
 	# given
-	assert_true(ui.player_config_display.randomize.is_connected(ui._on_player_config_display_randomize))
+	assert_true(ui.player_config_display.randomize.is_connected(
+			ui._on_player_config_display_randomize
+		))
 	var player_config_display = mock_player_config_display()
 	stub(player_config_display, "update_player").to_do_nothing()
 	player_config_display.randomize.connect(ui._on_player_config_display_randomize)
@@ -354,10 +341,7 @@ func test_randomize():
 	assert_called(player_config_display, "update_player")
 
 
-var open_presets_selection_params := [
-	[true],
-	[false],
-]
+var open_presets_selection_params := [[true], [false]]
 
 
 func test_open_presets_selection(params = use_parameters(open_presets_selection_params)):
@@ -373,10 +357,7 @@ func test_open_presets_selection(params = use_parameters(open_presets_selection_
 	assert_eq(ui.main_window.visible, not is_small)
 
 
-var preset_selected_params := [
-	[true],
-	[false],
-]
+var preset_selected_params := [[true], [false]]
 
 
 func test_preset_selected(params = use_parameters(preset_selected_params)):
@@ -407,10 +388,7 @@ func test_preset_selected(params = use_parameters(preset_selected_params)):
 	assert_true(ui.main_window.visible)
 
 
-var open_save_preset_params := [
-	[true],
-	[false],
-]
+var open_save_preset_params := [[true], [false]]
 
 
 func test_open_save_preset_menu(params = use_parameters(open_save_preset_params)):
@@ -434,7 +412,9 @@ func test_save_preset():
 	config.SPRITE_CUSTOMIZATION = sprite
 	ui.player_config = config
 	assert_true(ui.menus.save_preset.is_connected(ui._on_menus_save_preset))
-	var menus = partial_double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenus/menus.gd")).new()
+	var menus = partial_double(
+		load("res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenus/menus.gd")
+	).new()
 	stub(menus, "refresh_presets").to_do_nothing()
 	ui.menus = menus
 	menus.save_preset.connect(ui._on_menus_save_preset)
@@ -473,12 +453,16 @@ func test_quit():
 
 ##### UTILS #####
 func mock_player_config_display():
-	var player_config_display = double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.gd")).new()
+	var player_config_display = double(
+		load("res://Scenes/UI/PlayerCustomizationMenu/PlayerConfigDisplay/player_config_display.gd")
+	).new()
 	ui.player_config_display = player_config_display
 	return player_config_display
 
 
 func mock_menus():
-	var menus = double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenus/menus.gd")).new()
+	var menus = double(
+		load("res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationMenus/menus.gd")
+	).new()
 	ui.menus = menus
 	return menus

@@ -42,5 +42,5 @@ func _init_items() -> void:
 
 
 ##### SIGNAL MANAGEMENT #####
-func _on_item_list_item_activated(index: int) -> void:
+func _on_item_list_item_selected(index: int) -> void:
 	sprite_selected.emit(items.get_item_icon(index).resource_path)

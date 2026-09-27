@@ -9,6 +9,7 @@ const INTEGRATION_TEST_SAVE_PATH := StaticUtils.USER_CHARACTER_PRESETS_PATH + "i
 const INTEGRATION_TEST_PRESET_NAME := "integration_test"
 const INTEGRATION_TEST_2_PRESET_NAME := "integration_test_2"
 const INTEGRATION_TEST_2_PRESET_DESCRIPTION := "description_test_2"
+const BACKUP_FOLDER := "user://presets_bak"
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -16,9 +17,20 @@ var _menu
 
 
 ##### PUBLIC METHODS #####
-func count_saved_presets() -> int:
-	var dir = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
-	return dir.get_files().size()
+func backup_current_presets() -> void:
+	var dir_access = DirAccess.open("user://")
+	dir_access.remove(BACKUP_FOLDER)
+	dir_access.rename(StaticUtils.USER_CHARACTER_PRESETS_PATH, BACKUP_FOLDER)
+	dir_access.make_dir(StaticUtils.USER_CHARACTER_PRESETS_PATH)
+
+
+func restore_backup() -> void:
+	var dir_access = DirAccess.open("user://")
+	dir_access.remove(StaticUtils.USER_CHARACTER_PRESETS_PATH)
+	if dir_access.dir_exists(BACKUP_FOLDER):
+		dir_access.rename(BACKUP_FOLDER, StaticUtils.USER_CHARACTER_PRESETS_PATH)
+	else:
+		dir_access.make_dir(StaticUtils.USER_CHARACTER_PRESETS_PATH)
 
 
 func set_customization_menu(menu):
@@ -46,15 +58,63 @@ func saved_preset_exists(preset_name: String) -> bool:
 func is_config_equals_display(config: PlayerConfig) -> bool:
 	var res = true
 	res = res and _get_player_config_diplay().name_edit.text == config.PLAYER_NAME
-	res = res and _get_player_config_diplay().player_sprite_config.sprites.body.modulate == config.SPRITE_CUSTOMIZATION.BODY_COLOR
-	res = res and _get_player_config_diplay().player_sprite_config.sprites.outline.modulate == config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR
-	res = res and _get_player_config_diplay().player_sprite_config.sprites.eyes.texture.resource_path == config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH
-	res = res and _get_player_config_diplay().player_sprite_config.sprites.eyes.modulate == config.SPRITE_CUSTOMIZATION.EYES_COLOR
-	res = res and _get_player_config_diplay().player_sprite_config.sprites.mouth.texture.resource_path == config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH
-	res = res and _get_player_config_diplay().player_sprite_config.sprites.mouth.modulate == config.SPRITE_CUSTOMIZATION.MOUTH_COLOR
-	res = res and _get_player_config_diplay().primary_weapon.icon.resource_path == StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
-	res = res and _get_player_config_diplay().powerup.icon.resource_path == StaticPowerupHandler.get_icon_path(config.POWERUP_HANDLER)
-	res = res and _get_player_config_diplay().movement_bonus.icon.resource_path == StaticMovementBonusHandler.get_icon_path(config.MOVEMENT_BONUS_HANDLER)
+	res = (
+		res
+		and _get_player_config_diplay().player_sprite_config.sprites.body.modulate
+		== config \
+				.SPRITE_CUSTOMIZATION \
+				.BODY_COLOR
+	)
+	res = (
+		res
+		and _get_player_config_diplay().player_sprite_config.sprites.outline.modulate
+		== config \
+				.SPRITE_CUSTOMIZATION \
+				.OUTLINE_COLOR
+	)
+	res = (
+		res
+		and _get_player_config_diplay().player_sprite_config.sprites.eyes.texture.resource_path
+		== config \
+				.SPRITE_CUSTOMIZATION \
+				.EYES_TEXTURE_PATH
+	)
+	res = (
+		res
+		and _get_player_config_diplay().player_sprite_config.sprites.eyes.modulate
+		== config \
+				.SPRITE_CUSTOMIZATION \
+				.EYES_COLOR
+	)
+	res = (
+		res
+		and _get_player_config_diplay().player_sprite_config.sprites.mouth.texture.resource_path
+		== config \
+				.SPRITE_CUSTOMIZATION \
+				.MOUTH_TEXTURE_PATH
+	)
+	res = (
+		res
+		and _get_player_config_diplay().player_sprite_config.sprites.mouth.modulate
+		== config \
+				.SPRITE_CUSTOMIZATION \
+				.MOUTH_COLOR
+	)
+	res = (
+		res
+		and _get_player_config_diplay().primary_weapon.icon.resource_path
+		== StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
+	)
+	res = (
+		res
+		and _get_player_config_diplay().powerup.icon.resource_path
+		== StaticPowerupHandler.get_icon_path(config.POWERUP_HANDLER)
+	)
+	res = (
+		res
+		and _get_player_config_diplay().movement_bonus.icon.resource_path
+		== StaticMovementBonusHandler.get_icon_path(config.MOVEMENT_BONUS_HANDLER)
+	)
 	return res
 
 
@@ -86,15 +146,43 @@ func get_presets() -> Array:
 func is_preset_equal(preset: Control, config: PlayerConfig) -> bool:
 	var res = true
 	res = res and preset.name_label.text == config.PLAYER_NAME
-	res = res and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
-	res = res and preset.movement_bonus.texture.resource_path == StaticMovementBonusHandler.get_icon_path(config.MOVEMENT_BONUS_HANDLER)
-	res = res and preset.powerup.texture.resource_path == StaticPowerupHandler.get_icon_path(config.POWERUP_HANDLER)
-	res = res and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
+	res = (
+		res
+		and preset.primary_weapon.texture.resource_path
+		== StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
+	)
+	res = (
+		res
+		and preset.movement_bonus.texture.resource_path
+		== StaticMovementBonusHandler.get_icon_path(config.MOVEMENT_BONUS_HANDLER)
+	)
+	res = (
+		res
+		and preset.powerup.texture.resource_path
+		== StaticPowerupHandler.get_icon_path(config.POWERUP_HANDLER)
+	)
+	res = (
+		res
+		and preset.primary_weapon.texture.resource_path
+		== StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
+	)
 	res = res and preset.sprite.body.modulate == config.SPRITE_CUSTOMIZATION.BODY_COLOR
 	res = res and preset.sprite.outline.modulate == config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR
-	res = res and preset.sprite.eyes.texture.resource_path == config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH
+	res = (
+		res
+		and preset.sprite.eyes.texture.resource_path
+		== config \
+				.SPRITE_CUSTOMIZATION \
+				.EYES_TEXTURE_PATH
+	)
 	res = res and preset.sprite.eyes.modulate == config.SPRITE_CUSTOMIZATION.EYES_COLOR
-	res = res and preset.sprite.mouth.texture.resource_path == config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH
+	res = (
+		res
+		and preset.sprite.mouth.texture.resource_path
+		== config \
+				.SPRITE_CUSTOMIZATION \
+				.MOUTH_TEXTURE_PATH
+	)
 	res = res and preset.sprite.mouth.modulate == config.SPRITE_CUSTOMIZATION.MOUTH_COLOR
 	return res
 
@@ -125,7 +213,12 @@ func is_override_preset_popup_visible() -> bool:
 
 
 func override_preset() -> void:
-	_get_menus().menus_in_popups.override_preset.get_node("VBoxContainer/HBoxContainer/OkButton").pressed.emit()
+	_get_menus() \
+			.menus_in_popups \
+			.override_preset \
+			.get_node("VBoxContainer/HBoxContainer/OkButton") \
+			.pressed \
+			.emit()
 
 
 func get_player_name() -> String:
@@ -219,7 +312,7 @@ func get_eyes_items() -> Array:
 
 func select_eyes_item(item_idx: int) -> void:
 	_get_menus().menus_in_popups.eyes_selection.items.select(item_idx)
-	_get_menus().menus_in_popups.eyes_selection.items.item_activated.emit(item_idx)
+	_get_menus().menus_in_popups.eyes_selection.items.item_selected.emit(item_idx)
 
 
 func is_eyes_texture_path_equal(path: String) -> bool:
@@ -243,7 +336,7 @@ func get_mouth_items() -> Array:
 
 func select_mouth_item(item_idx: int) -> void:
 	_get_menus().menus_in_popups.mouth_selection.items.select(item_idx)
-	_get_menus().menus_in_popups.mouth_selection.items.item_activated.emit(item_idx)
+	_get_menus().menus_in_popups.mouth_selection.items.item_selected.emit(item_idx)
 
 
 func is_mouth_texture_path_equal(path: String) -> bool:
@@ -259,12 +352,11 @@ func is_primary_weapon_menu_visible() -> bool:
 
 
 func get_primary_weapon_item_grid_element(idx: int) -> ItemGridMenuElement:
-	return _get_menus().menus_in_popups.primary_weapon._items[idx]
+	return _get_menus().menus_in_popups.primary_weapon.items.get_child(idx)._data
 
 
 func select_primary_weapon(idx: int) -> void:
-	_get_menus().menus_in_popups.primary_weapon.items.select(idx)
-	_get_menus().menus_in_popups.primary_weapon.items.item_selected.emit(idx)
+	_get_menus().menus_in_popups.primary_weapon.items.get_child(idx).pressed.emit()
 
 
 func open_movement_bonus_menu() -> void:
@@ -276,12 +368,11 @@ func is_movement_bonus_menu_visible() -> bool:
 
 
 func get_movement_bonus_item_grid_element(idx: int) -> ItemGridMenuElement:
-	return _get_menus().menus_in_popups.movement_bonus._items[idx]
+	return _get_menus().menus_in_popups.movement_bonus.items.get_child(idx)._data
 
 
 func select_movement_bonus(idx: int) -> void:
-	_get_menus().menus_in_popups.movement_bonus.items.select(idx)
-	_get_menus().menus_in_popups.movement_bonus.items.item_selected.emit(idx)
+	_get_menus().menus_in_popups.movement_bonus.items.get_child(idx).pressed.emit()
 
 
 func open_powerup_menu() -> void:
@@ -293,12 +384,11 @@ func is_powerup_menu_visible() -> bool:
 
 
 func get_powerup_item_grid_element(idx: int) -> ItemGridMenuElement:
-	return _get_menus().menus_in_popups.powerup._items[idx]
+	return _get_menus().menus_in_popups.powerup.items.get_child(idx)._data
 
 
 func select_powerup(idx: int) -> void:
-	_get_menus().menus_in_popups.powerup.items.select(idx)
-	_get_menus().menus_in_popups.powerup.items.item_selected.emit(idx)
+	_get_menus().menus_in_popups.powerup.items.get_child(idx).pressed.emit()
 
 
 func _get_player_customization_ui() -> Node:

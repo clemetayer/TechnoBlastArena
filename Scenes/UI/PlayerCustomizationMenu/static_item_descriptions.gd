@@ -8,29 +8,29 @@ class_name StaticItemDescriptions
 const PRIMARY_WEAPONS := {
 	StaticPrimaryWeaponHandler.handlers.REVOLVER: {
 		"name": "Revolver",
-		"description": "The revolver is a polyvalent weapon that shoots bullets in a straight line. A great choice if you want an all-rounder.",
+		"description": "It's a gun. It's basic. It shoots bullets in a straight line. It's an all rounder.",
 	},
 	StaticPrimaryWeaponHandler.handlers.SHOTGUN: {
 		"name": "Shotgun",
-		"description": "The shotgun shoots a multiple small bullet spread. Deals a lot of damage if you are close and every bullet hits, but not so much from far away.",
+		"description": "Fires a spread of small bullets. Deals a lot of damage at close range.",
 	},
 }
 
 const MOVEMENT_BONUS := {
 	StaticMovementBonusHandler.handlers.DASH: {
 		"name": "Dash",
-		"description": "Makes you dash up to three times before recharging. Usefull to reposition yourself quickly.",
+		"description": "Makes you dash where you want to reposition yourself quickly",
 	},
 	StaticMovementBonusHandler.handlers.DIMENSIONAL_MIRROR: {
 		"name": "Dimensional mirror",
-		"description": "Makes you reappear on the opposite wall. Makes you appear at unexpected places.",
+		"description": "Phase through surfaces to teleport and appear in unexpected places",
 	},
 }
 
 const POWERUPS := {
 	StaticPowerupHandler.handlers.SPLITTER: {
 		"name": "Splitter",
-		"description": "When hit by a projectile, the splitter will split it and send it in various directions. It has limited uses. Usefull to cover a large area with your projectiles.",
+		"description": "Splits a projectile in a spread of smaller variant. Usefull to cover a large area.",
 	},
 	StaticPowerupHandler.handlers.CHAIN: {
 		"name": "Chain",

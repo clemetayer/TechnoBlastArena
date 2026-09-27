@@ -6,15 +6,17 @@ extends MarginContainer
 signal item_selected(item: ItemGridMenuElement)
 
 ##### VARIABLES #####
+#---- CONSTANTS -----
+const ITEM_BUTTON_ELEMENT := preload(
+	"res://Scenes/UI/PlayerCustomizationMenu/ItemsGridMenu/item_button.tscn"
+)
+
 #---- EXPORTS -----
 @export var TITLE := ""
 
 #---- STANDARD -----
-#==== PRIVATE ====
-var _items: Array = []
-
 #==== ONREADY ====
-@onready var items := $"VBoxContainer/ScrollContainer/ItemList"
+@onready var items := $"VBoxContainer/ScrollContainer/Items"
 @onready var title := $"VBoxContainer/Title"
 
 
@@ -37,18 +39,17 @@ func set_items(p_items: Array) -> void:
 
 ##### PROTECTED METHODS #####
 func _set_item(item: ItemGridMenuElement) -> void:
-	_items.append(item)
-	items.add_icon_item(load(item.ICON_PATH))
-	var last_item_idx: int = items.item_count - 1
-	items.set_item_tooltip_enabled(last_item_idx, true)
-	items.set_item_tooltip(last_item_idx, "%s : %s" % [item.NAME, item.DESCRIPTION])
+	var element = ITEM_BUTTON_ELEMENT.instantiate()
+	items.add_child(element)
+	element.set_data(item)
+	element.element_selected.connect(_on_item_list_item_selected)
 
 
 func _reset_items() -> void:
-	_items = []
-	items.clear()
+	for element in items.get_children():
+		element.queue_free()
 
 
 ##### SIGNAL MANAGEMENT #####
-func _on_item_list_item_selected(index: int) -> void:
-	item_selected.emit(_items[index])
+func _on_item_list_item_selected(data: ItemGridMenuElement) -> void:
+	item_selected.emit(data)

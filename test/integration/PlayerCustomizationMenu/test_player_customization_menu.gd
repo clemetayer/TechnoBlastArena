@@ -4,8 +4,6 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var scene
 var helper
-var initial_preset_count
-var initial_name_count
 
 
 ##### SETUP #####
@@ -13,8 +11,10 @@ func before_all():
 	helper = load(
 		"res://test/integration/PlayerCustomizationMenu/helper_player_customization_menu.gd"
 	).new()
-	initial_preset_count = helper.count_saved_presets()
+	helper.backup_current_presets()
+	await wait_seconds(0.1)
 	helper.save_std_preset()
+	await wait_seconds(0.1)
 
 
 func before_each():
@@ -27,6 +27,7 @@ func before_each():
 ##### TEARDOWN #####
 func after_all():
 	helper.remove_std_preset()
+	helper.restore_backup()
 	await wait_seconds(0.1)
 	helper.free()
 
@@ -52,11 +53,10 @@ func test_presets():
 	assert_true(helper.is_preset_menu_visible())
 	var integration_test_config = helper.get_integration_test_config()
 	var presets = helper.get_presets()
-	var total_preset_count = initial_preset_count + 1
-	assert_eq(presets.size(), total_preset_count)
+	assert_eq(presets.size(), 1)
 	assert_true(helper.preset_buttons_contains_preset(presets, integration_test_config))
 	# when
-	presets[total_preset_count - 1].button.pressed.emit()
+	presets[0].button.pressed.emit()
 	await wait_process_frames(3)
 	# then
 	assert_false(helper.is_save_preset_popup_visible())
@@ -70,9 +70,9 @@ func test_presets():
 	assert_true(helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME))
 	# then
 	presets = helper.get_presets()
-	assert_eq(presets.size(), initial_preset_count + 2)
+	assert_eq(presets.size(), 2)
 	# when
-	presets[total_preset_count - 1].button.pressed.emit()
+	presets[1].button.pressed.emit()
 	await wait_process_frames(3)
 	helper.save_preset_with_name_and_description(
 		helper.INTEGRATION_TEST_2_PRESET_NAME,
@@ -81,14 +81,14 @@ func test_presets():
 	assert_true(helper.is_override_preset_popup_visible())
 	helper.override_preset()
 	await wait_seconds(0.5)
-	assert_eq(presets.size(), initial_preset_count + 2)
+	assert_eq(presets.size(), 2)
 	assert_true(helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME))
 	# when
 	presets = helper.get_presets()
-	presets[total_preset_count].delete_button.pressed.emit()
+	presets[1].delete_button.pressed.emit()
 	await wait_process_frames(4)
 	presets = helper.get_presets()
-	assert_eq(presets.size(), initial_preset_count + 1)
+	assert_eq(presets.size(), 1)
 	assert_false(helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME))
 	# cleanup
 	if helper.saved_preset_exists(helper.INTEGRATION_TEST_2_PRESET_NAME):
@@ -176,6 +176,7 @@ func test_customization():
 func test_primary_weapon_selection():
 	# when
 	helper.open_primary_weapon_menu()
+	await wait_process_frames(1)
 	# then
 	assert_true(helper.is_primary_weapon_menu_visible())
 	# when
@@ -191,6 +192,7 @@ func test_primary_weapon_selection():
 func test_movement_bonus_selection():
 	# when
 	helper.open_movement_bonus_menu()
+	await wait_process_frames(1)
 	# then
 	assert_true(helper.is_movement_bonus_menu_visible())
 	# when
@@ -206,6 +208,7 @@ func test_movement_bonus_selection():
 func test_powerup_selection():
 	# when
 	helper.open_powerup_menu()
+	await wait_process_frames(1)
 	# then
 	assert_true(helper.is_powerup_menu_visible())
 	# when

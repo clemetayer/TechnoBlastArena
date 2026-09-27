@@ -4,14 +4,15 @@ extends "res://addons/gut/test.gd"
 #---- VARIABLES -----
 var scene
 var helper
-var initial_preset_count
 
 
 ##### SETUP #####
 func before_all():
 	helper = load("res://test/integration/PlayerSelectionMenu/helper_player_selection_menu.gd").new()
-	initial_preset_count = helper.count_saved_presets()
+	helper.backup_current_presets()
+	await wait_seconds(0.1)
 	helper.save_std_preset()
+	await wait_seconds(0.1)
 
 
 func before_each():
@@ -24,6 +25,7 @@ func before_each():
 ##### TEARDOWN #####
 func after_all():
 	helper.remove_std_preset()
+	helper.restore_backup()
 	await wait_seconds(0.1)
 	helper.free()
 
@@ -118,7 +120,7 @@ func test_presets() -> void:
 	var integration_test_config = helper.get_integration_test_config()
 	var presets = helper.get_presets(item)
 	var configs = helper.get_presets_configs(item)
-	var total_preset_count = initial_preset_count + 1
+	var total_preset_count = 1
 	# then
 	assert_true(helper.is_preset_menu_visible(item))
 	assert_eq(presets.size(), total_preset_count)

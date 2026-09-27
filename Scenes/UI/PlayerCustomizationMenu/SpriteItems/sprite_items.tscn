@@ -40,3 +40,4 @@ item_1/icon = ExtResource("3_w6i2m")
 item_2/icon = ExtResource("4_5186x")
 
 [connection signal="item_activated" from="VBoxContainer/ItemList" to="." method="_on_item_list_item_activated"]
+[connection signal="item_selected" from="VBoxContainer/ItemList" to="." method="_on_item_list_item_selected"]

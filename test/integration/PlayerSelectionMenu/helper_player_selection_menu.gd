@@ -5,6 +5,7 @@ extends Node
 const INTEGRATION_TEST_PRESET_PATH = "res://test/integration/PlayerSelectionMenu/integration_preset.tres"
 const INTEGRATION_TEST_SAVE_PATH := StaticUtils.USER_CHARACTER_PRESETS_PATH + "integration_test" + StaticUtils.GODOT_RESOURCE_FILE_EXTENSION
 const INTEGRATION_TEST_PRESET_NAME := "integration_test"
+const BACKUP_FOLDER := "user://presets_bak"
 
 #---- STANDARD -----
 #==== PRIVATE ====
@@ -12,6 +13,22 @@ var _menu
 
 
 ##### PUBLIC METHODS #####
+func backup_current_presets() -> void:
+	var dir_access = DirAccess.open("user://")
+	dir_access.remove(BACKUP_FOLDER)
+	dir_access.rename(StaticUtils.USER_CHARACTER_PRESETS_PATH, BACKUP_FOLDER)
+	dir_access.make_dir(StaticUtils.USER_CHARACTER_PRESETS_PATH)
+
+
+func restore_backup() -> void:
+	var dir_access = DirAccess.open("user://")
+	dir_access.remove(StaticUtils.USER_CHARACTER_PRESETS_PATH)
+	if dir_access.dir_exists(BACKUP_FOLDER):
+		dir_access.rename(BACKUP_FOLDER, StaticUtils.USER_CHARACTER_PRESETS_PATH)
+	else:
+		dir_access.make_dir(StaticUtils.USER_CHARACTER_PRESETS_PATH)
+
+
 func set_selection_menu(menu):
 	_menu = menu
 
@@ -40,11 +57,6 @@ func remove_std_preset() -> void:
 func remove_preset_with_name(pname: String) -> void:
 	var dir_access = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
 	dir_access.remove(pname + StaticUtils.GODOT_RESOURCE_FILE_EXTENSION)
-
-
-func count_saved_presets() -> int:
-	var dir = DirAccess.open(StaticUtils.USER_CHARACTER_PRESETS_PATH)
-	return dir.get_files().size()
 
 
 func add_player_on_item(item: Node) -> void:
@@ -113,14 +125,16 @@ func is_config_equals_display(config: PlayerConfig, item: Node) -> bool:
 	)
 	res = (
 		res
-		and _get_sprite_preview(item).eyes.texture.resource_path == config \
+		and _get_sprite_preview(item).eyes.texture.resource_path
+		== config \
 				.SPRITE_CUSTOMIZATION \
 				.EYES_TEXTURE_PATH
 	)
 	res = res and _get_sprite_preview(item).eyes.modulate == config.SPRITE_CUSTOMIZATION.EYES_COLOR
 	res = (
 		res
-		and _get_sprite_preview(item).mouth.texture.resource_path == config \
+		and _get_sprite_preview(item).mouth.texture.resource_path
+		== config \
 				.SPRITE_CUSTOMIZATION \
 				.MOUTH_TEXTURE_PATH
 	)
@@ -129,21 +143,18 @@ func is_config_equals_display(config: PlayerConfig, item: Node) -> bool:
 	)
 	res = (
 		res
-		and _get_player_config_diplay(item).primary_weapon.icon.resource_path == StaticPrimaryWeaponHandler.get_icon_path(
-			config.PRIMARY_WEAPON
-		)
+		and _get_player_config_diplay(item).primary_weapon.icon.resource_path
+		== StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
 	)
 	res = (
 		res
-		and _get_player_config_diplay(item).powerup.icon.resource_path == StaticPowerupHandler.get_icon_path(
-			config.POWERUP_HANDLER
-		)
+		and _get_player_config_diplay(item).powerup.icon.resource_path
+		== StaticPowerupHandler.get_icon_path(config.POWERUP_HANDLER)
 	)
 	res = (
 		res
-		and _get_player_config_diplay(item).movement_bonus.icon.resource_path == StaticMovementBonusHandler.get_icon_path(
-			config.MOVEMENT_BONUS_HANDLER
-		)
+		and _get_player_config_diplay(item).movement_bonus.icon.resource_path
+		== StaticMovementBonusHandler.get_icon_path(config.MOVEMENT_BONUS_HANDLER)
 	)
 	return res
 
@@ -173,40 +184,38 @@ func is_preset_equal(preset: Control, config: PlayerConfig) -> bool:
 	res = res and preset.name_label.text == config.PLAYER_NAME
 	res = (
 		res
-		and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(
-			config.PRIMARY_WEAPON
-		)
+		and preset.primary_weapon.texture.resource_path
+		== StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
 	)
 	res = (
 		res
-		and preset.movement_bonus.texture.resource_path == StaticMovementBonusHandler.get_icon_path(
-			config.MOVEMENT_BONUS_HANDLER
-		)
+		and preset.movement_bonus.texture.resource_path
+		== StaticMovementBonusHandler.get_icon_path(config.MOVEMENT_BONUS_HANDLER)
 	)
 	res = (
 		res
-		and preset.powerup.texture.resource_path == StaticPowerupHandler.get_icon_path(
-			config.POWERUP_HANDLER
-		)
+		and preset.powerup.texture.resource_path
+		== StaticPowerupHandler.get_icon_path(config.POWERUP_HANDLER)
 	)
 	res = (
 		res
-		and preset.primary_weapon.texture.resource_path == StaticPrimaryWeaponHandler.get_icon_path(
-			config.PRIMARY_WEAPON
-		)
+		and preset.primary_weapon.texture.resource_path
+		== StaticPrimaryWeaponHandler.get_icon_path(config.PRIMARY_WEAPON)
 	)
 	res = res and preset.sprite.body.modulate == config.SPRITE_CUSTOMIZATION.BODY_COLOR
 	res = res and preset.sprite.outline.modulate == config.SPRITE_CUSTOMIZATION.OUTLINE_COLOR
 	res = (
 		res
-		and preset.sprite.eyes.texture.resource_path == config \
+		and preset.sprite.eyes.texture.resource_path
+		== config \
 				.SPRITE_CUSTOMIZATION \
 				.EYES_TEXTURE_PATH
 	)
 	res = res and preset.sprite.eyes.modulate == config.SPRITE_CUSTOMIZATION.EYES_COLOR
 	res = (
 		res
-		and preset.sprite.mouth.texture.resource_path == config \
+		and preset.sprite.mouth.texture.resource_path
+		== config \
 				.SPRITE_CUSTOMIZATION \
 				.MOUTH_TEXTURE_PATH
 	)
@@ -230,8 +239,7 @@ func select_primary_weapon_menu(item: Node) -> void:
 
 
 func select_primary_weapon(idx: int, item: Node) -> void:
-	_get_menus(item).full_menus.primary_weapon.items.select(idx)
-	_get_menus(item).full_menus.primary_weapon.items.item_selected.emit(idx)
+	_get_menus(item).full_menus.primary_weapon.items.get_child(idx).pressed.emit()
 
 
 func is_primary_weapon_menu_visible(item: Node) -> bool:
@@ -247,8 +255,7 @@ func select_movement_bonus_menu(item: Node) -> void:
 
 
 func select_movement_bonus(idx: int, item: Node) -> void:
-	_get_menus(item).full_menus.movement_bonus.items.select(idx)
-	_get_menus(item).full_menus.movement_bonus.items.item_selected.emit(idx)
+	_get_menus(item).full_menus.movement_bonus.items.get_child(idx).pressed.emit()
 
 
 func is_movement_bonus_menu_visible(item: Node) -> bool:
@@ -267,8 +274,7 @@ func select_powerup_menu(item: Node) -> void:
 
 
 func select_powerup(idx: int, item: Node) -> void:
-	_get_menus(item).full_menus.powerup.items.select(idx)
-	_get_menus(item).full_menus.powerup.items.item_selected.emit(idx)
+	_get_menus(item).full_menus.powerup.items.get_child(idx).pressed.emit()
 
 
 func is_powerup_menu_visible(item: Node) -> bool:

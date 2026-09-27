@@ -18,6 +18,9 @@ script = ExtResource("1_whiun")
 PLAYER_NAME = "ConfusedCharlie"
 DESCRIPTION = "Charlie just installed the game, he just started the game and is confused on how the game works. So he's just pretty much pressing buttons."
 ACTION_HANDLER = 4
+PRIMARY_WEAPON = 1
+MOVEMENT_BONUS_HANDLER = 1
+POWERUP_HANDLER = 1
 SPRITE_CUSTOMIZATION = SubResource("Resource_6i3te")
 ELIMINATION_TEXT = "[wave amp=50.0 freq=5.0 connected=1]Hmmmmmmmmmmmmm...[/wave]"
 metadata/_custom_type_script = "uid://cb2tt7tw3qdjn"

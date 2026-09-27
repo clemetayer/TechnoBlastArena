@@ -44,7 +44,7 @@ func _on_element_counter_empty() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if GroupUtils.is_projectile(area):
 		area.change_direction(_direction)
-		if not _active:
+		if not _active and is_instance_valid(counter):
 			hitsound.play()
 			particles.emitting = true
 			counter.decrease()

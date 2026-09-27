@@ -19,6 +19,7 @@ LEVEL = 5
 PLAYER_NAME = "Scared Sarah"
 DESCRIPTION = "Sarah does not like this game, she finds everything spooky, so she will do her best to avoid, well, everything."
 ACTION_HANDLER = 3
+POWERUP_HANDLER = 1
 SPRITE_CUSTOMIZATION = SubResource("Resource_3gcny")
 ELIMINATION_TEXT = "[shake rate=20.0 level=5 connected=1]AaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaH[/shake]"
 metadata/_custom_type_script = "uid://bc0codxs7fxpo"

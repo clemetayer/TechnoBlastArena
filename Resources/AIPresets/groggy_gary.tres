@@ -19,6 +19,7 @@ LEVEL = 3
 PLAYER_NAME = "GroggyGary"
 DESCRIPTION = "Groggy Gary won't use fancy movement or powerup techniques, however, you can be sure he will follow you. And he will shoot you."
 ACTION_HANDLER = 2
+PRIMARY_WEAPON = 1
 SPRITE_CUSTOMIZATION = SubResource("Resource_614na")
 ELIMINATION_TEXT = "Woah"
 metadata/_custom_type_script = "uid://bc0codxs7fxpo"

@@ -58,7 +58,7 @@ func _randomize_preset() -> void:
 	player_config.SPRITE_CUSTOMIZATION.MOUTH_COLOR = StaticUtils.random_color()
 	player_config.SPRITE_CUSTOMIZATION.EYES_TEXTURE_PATH = _random_eye_texture().resource_path
 	player_config.SPRITE_CUSTOMIZATION.MOUTH_TEXTURE_PATH = _random_mouth_texture().resource_path
-	player_config.ACTION_HANDLER = StaticPrimaryWeaponHandler.handlers.values().pick_random()
+	player_config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.values().pick_random()
 	player_config.POWERUP_HANDLER = StaticPowerupHandler.handlers.values().pick_random()
 	player_config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler \
 			.handlers \

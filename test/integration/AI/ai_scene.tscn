@@ -38,7 +38,7 @@ size = Vector2(384, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2qbn"]
 size = Vector2(4366, 2321)
 
-[node name="Root" type="Node" unique_id=456137857]
+[node name="Root" type="Node" unique_id=456137857 groups=["game_root"]]
 script = ExtResource("1_mxv3h")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=701640354]

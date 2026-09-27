@@ -20,16 +20,20 @@ var _preset_path: String
 @onready var sprite := $"Button/VBoxContainer/Elements/Sprite"
 @onready var delete_button := $"RemoveButton"
 @onready var button := $"Button"
+@onready var custom_tooltip := $"Button/ToolTip"
+@onready var tooltip_description := $"Button/ToolTip/MarginContainer/ToolTipText"
 
 
 ##### PUBLIC METHODS #####
 func set_preset(preset_name: String, preset: PlayerConfig) -> void:
 	name_label.text = preset.PLAYER_NAME
 	primary_weapon.texture = load(StaticPrimaryWeaponHandler.get_icon_path(preset.PRIMARY_WEAPON))
-	movement_bonus.texture = load(StaticMovementBonusHandler.get_icon_path(preset.MOVEMENT_BONUS_HANDLER))
+	movement_bonus.texture = load(
+		StaticMovementBonusHandler.get_icon_path(preset.MOVEMENT_BONUS_HANDLER)
+	)
 	powerup.texture = load(StaticPowerupHandler.get_icon_path(preset.POWERUP_HANDLER))
 	sprite.update_sprite(preset.SPRITE_CUSTOMIZATION)
-	tooltip_text = preset.DESCRIPTION
+	tooltip_description.text = preset.DESCRIPTION
 	_preset_path = StaticUtils.get_preset_save_path(preset_name)
 	if preset is AIPlayerConfig:
 		level.visible = true
@@ -46,3 +50,11 @@ func _on_remove_button_pressed() -> void:
 
 func _on_button_pressed() -> void:
 	preset_selected.emit()
+
+
+func _on_button_mouse_entered() -> void:
+	custom_tooltip.show()
+
+
+func _on_button_mouse_exited() -> void:
+	custom_tooltip.hide()

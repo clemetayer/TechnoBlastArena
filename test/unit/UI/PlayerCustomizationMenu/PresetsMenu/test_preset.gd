@@ -7,12 +7,16 @@ var preset
 
 ##### SETUP #####
 func before_each():
-	preset = add_child_autofree(load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.tscn").instantiate())
+	preset = add_child_autofree(
+		load("res://Scenes/UI/PlayerCustomizationMenu/PresetsMenu/preset.tscn").instantiate()
+	)
 
 
 func test_set_preset():
 	# given
-	var sprite = double(load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd")).new()
+	var sprite = double(
+		load("res://Scenes/UI/PlayerCustomizationMenu/PlayerSprite/player_sprite.gd")
+	).new()
 	stub(sprite, "update_sprite").to_do_nothing()
 	preset.sprite = sprite
 	var config = PlayerConfig.new()
@@ -30,7 +34,7 @@ func test_set_preset():
 	assert_not_null(preset.powerup.texture)
 	assert_called(sprite, "update_sprite", [config.SPRITE_CUSTOMIZATION])
 	assert_false(preset.level.visible)
-	assert_eq(preset.tooltip_text, config.DESCRIPTION)
+	assert_eq(preset.tooltip_description.text, config.DESCRIPTION)
 	assert_eq(preset._preset_path, StaticUtils.get_preset_save_path("test"))
 
 
@@ -80,3 +84,27 @@ func test_set_ai_preset():
 	assert_true(preset.level.visible)
 	assert_called(level, "set_level")
 	assert_false(preset.delete_button.visible)
+
+
+func test_toggle_tooltip():
+	# given
+	preset.custom_tooltip.hide()
+	# when
+	preset.button.mouse_entered.emit()
+	# then
+	assert_true(preset.custom_tooltip.visible)
+	# when
+	preset.button.mouse_exited.emit()
+	# then
+	assert_false(preset.custom_tooltip.visible)
+
+
+##### UTILS #####
+func _create_default_config() -> PlayerConfig:
+	var config = PlayerConfig.new()
+	config.PLAYER_NAME = "name"
+	config.PRIMARY_WEAPON = StaticPrimaryWeaponHandler.handlers.REVOLVER
+	config.MOVEMENT_BONUS_HANDLER = StaticMovementBonusHandler.handlers.DASH
+	config.POWERUP_HANDLER = StaticPowerupHandler.handlers.SPLITTER
+	config.SPRITE_CUSTOMIZATION = SpriteCustomizationResource.new() # when
+	return config

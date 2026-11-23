@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ew7gedlm3n8"]
 
 [ext_resource type="Script" uid="uid://dp4tf3edjvu7i" path="res://Scenes/Camera/camera.gd" id="1_niear"]
-[ext_resource type="Script" uid="uid://degeyhptmd6hg" path="res://addons/shaker/src/Vector2/shaker_component2D.gd" id="3_1qq7l"]
+[ext_resource type="Script" uid="uid://bp3560f1i3jjh" path="res://addons/shaker/src/Vector2/shaker_component2D.gd" id="3_1qq7l"]
 [ext_resource type="Script" uid="uid://cs6mvrxyighoi" path="res://Scenes/Camera/camera_shake_manager.gd" id="4_rxoeg"]
 [ext_resource type="Resource" uid="uid://b2dgsqu3m08u5" path="res://Scenes/Camera/ScreenShakePreset/high.tres" id="4_vxcpo"]
 [ext_resource type="Script" uid="uid://b2ccwttoeq45m" path="res://Scenes/Camera/camera_position_manager.gd" id="5_p2sa0"]

@@ -39,11 +39,12 @@ RuntimeConfig="*res://Utils/Config/runtime_config.gd"
 CameraEffects="*res://Scenes/Camera/camera_effects.gd"
 RuntimeUtils="*res://Utils/runtime_utils.gd"
 FullScreenEffects="*res://Scenes/Camera/FullScreenEffects/full_screen_effects.tscn"
-Shaker="*uid://dr0gdtvdvwrih"
+Shaker="*uid://hxohsncdlxg"
 BeehaveGlobalMetrics="*uid://c3ktl6ontsdt7"
 BeehaveGlobalDebugger="*uid://bl3ma400hpvsh"
 MusicManager="*uid://bnkotbsyl5nnt"
 UiSoundManager="*uid://bkpw5jiu2don3"
+LocalMultiplayerControllers="*uid://dkk8d5bb458ib"
 
 [display]
 

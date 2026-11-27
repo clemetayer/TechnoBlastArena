@@ -17,7 +17,20 @@ const MAIN_MENU_PATH := "res://Scenes/UI/MainMenu/main_menu.tscn"
 @onready var time := $"MarginContainer/VBoxContainer/GameConfig/MarginContainer/HBoxContainer/TimeConfig"
 
 
+##### PROCESSING #####
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("add_player"):
+		_add_player(event.device)
+
+
 ##### PROTECTED METHODS #####
+func _add_player(device: int) -> void:
+	for player_selection_item in player_selection_items.get_children():
+		if player_selection_item.get_config() == null:
+			player_selection_item.add_user(device)
+			return
+
+
 func _get_players_config() -> Array:
 	var configs := []
 	for player_selection_item in player_selection_items.get_children():

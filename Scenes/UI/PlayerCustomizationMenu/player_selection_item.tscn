@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://3uo5do24xi1v" path="res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.gd" id="1_prdsm"]
 [ext_resource type="Texture2D" uid="uid://r1uo4tj3bk62" path="res://Scenes/UI/PlayerCustomizationMenu/robot.svg" id="2_prdsm"]
-[ext_resource type="Texture2D" uid="uid://defwohxor2l8l" path="res://Scenes/UI/PlayerCustomizationMenu/user.svg" id="3_3uswf"]
 [ext_resource type="PackedScene" uid="uid://4jmohk06tq0d" path="res://Scenes/UI/PlayerCustomizationMenu/PlayerCustomizationUI/player_customization_ui.tscn" id="4_fpt8k"]
 [ext_resource type="PackedScene" uid="uid://bdauxw5ew4efx" path="res://Scenes/UI/PlayerCustomizationMenu/AISelectionMenu/ai_selection_menu.tscn" id="5_fpt8k"]
 
@@ -30,11 +29,20 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="EmptyMenu" type="HBoxContainer" parent="Panel" unique_id=338966178]
+[node name="EmptyMenu" type="VBoxContainer" parent="Panel" unique_id=1886629641]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 16
+
+[node name="AddUserLabel" type="Label" parent="Panel/EmptyMenu" unique_id=743515597]
+layout_mode = 2
+text = "Press A or space
+to add a player"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Panel/EmptyMenu" unique_id=1176559757]
+layout_mode = 2
 
 [node name="AddAI" type="Button" parent="Panel/EmptyMenu" unique_id=62350501 groups=["ui_open"]]
 custom_minimum_size = Vector2(48, 48)
@@ -42,13 +50,6 @@ layout_mode = 2
 tooltip_text = "add AI player"
 icon = ExtResource("2_prdsm")
 icon_alignment = 1
-expand_icon = true
-
-[node name="AddUser" type="Button" parent="Panel/EmptyMenu" unique_id=1146890653 groups=["ui_open"]]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-tooltip_text = "Add a real user"
-icon = ExtResource("3_3uswf")
 expand_icon = true
 
 [node name="PlayerCustomizationMenu" parent="Panel" unique_id=1086812101 instance=ExtResource("4_fpt8k")]
@@ -61,7 +62,6 @@ visible = false
 layout_mode = 2
 
 [connection signal="pressed" from="Panel/EmptyMenu/AddAI" to="." method="_on_add_ai_pressed"]
-[connection signal="pressed" from="Panel/EmptyMenu/AddUser" to="." method="_on_add_user_pressed"]
 [connection signal="quit" from="Panel/PlayerCustomizationMenu" to="." method="_on_player_customization_menu_quit"]
 [connection signal="config_changed" from="Panel/AiSelectionMenu" to="." method="_on_ai_selection_menu_config_changed"]
 [connection signal="quit" from="Panel/AiSelectionMenu" to="." method="_on_ai_selection_menu_quit"]

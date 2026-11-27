@@ -3,6 +3,7 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var item
+var _sender = InputSender.new(Input)
 
 
 ##### SETUP #####
@@ -10,6 +11,12 @@ func before_each():
 	item = add_child_autofree(
 		load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_item.tscn").instantiate()
 	)
+
+
+##### TEARDOWN #####
+func after_each():
+	_sender.release_all()
+	_sender.clear()
 
 
 ##### TESTS #####
@@ -41,12 +48,13 @@ func test_add_user_shows_player_customization_menu():
 	# given
 	watch_signals(item)
 	# when
-	item.add_user_button.pressed.emit()
+	item.add_user(2)
 	# then
 	assert_true(item.user_menu.visible)
 	assert_false(item.ai_menu.visible)
 	assert_false(item.empty_menu.visible)
 	assert_signal_emitted(item.player_toggled)
+	assert_eq(item._current_device_id, 2)
 
 
 func test_add_ai_shows_ai_menu():
@@ -71,6 +79,7 @@ func test_player_customization_menu_quit():
 	assert_false(item.ai_menu.visible)
 	assert_true(item.empty_menu.visible)
 	assert_signal_emitted(item.player_toggled)
+	assert_eq(item._current_device_id, -1)
 
 
 func test_ai_menu_quit():

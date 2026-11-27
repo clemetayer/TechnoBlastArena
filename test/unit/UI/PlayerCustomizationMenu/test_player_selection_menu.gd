@@ -3,6 +3,7 @@ extends "res://addons/gut/test.gd"
 ##### VARIABLES #####
 #---- VARIABLES -----
 var menu
+var _sender = InputSender.new(Input)
 
 
 ##### SETUP #####
@@ -10,6 +11,12 @@ func before_each():
 	menu = add_child_autofree(
 		load("res://Scenes/UI/PlayerCustomizationMenu/player_selection_menu.tscn").instantiate()
 	)
+
+
+##### TEARDOWN #####
+func after_each():
+	_sender.release_all()
+	_sender.clear()
 
 
 ##### TESTS #####
@@ -70,6 +77,66 @@ func test_start_button_disabled():
 	item1.player_toggled.emit()
 	# then
 	assert_true(menu.start_button.disabled)
+
+
+func test_add_player_empty():
+	# given
+	var item1 = create_player_selection_item_mock()
+	for item in menu.player_selection_items.get_children():
+		item.free()
+	menu.player_selection_items.add_child(item1)
+	stub(item1, "get_config").to_return(null)
+	stub(item1, "add_user").to_do_nothing()
+	# when
+	_sender.action_down("add_player").hold_for(0.1)
+	await _sender.idle
+	await wait_process_frames(1)
+	# then
+	assert_called(item1, "add_user")
+
+
+func test_add_player_player_1_existing():
+	# given
+	var config1 = PlayerConfig.new()
+	var item1 = create_player_selection_item_mock()
+	var item2 = create_player_selection_item_mock()
+	for item in menu.player_selection_items.get_children():
+		item.free()
+	menu.player_selection_items.add_child(item1)
+	stub(item1, "get_config").to_return(config1)
+	stub(item1, "add_user").to_do_nothing()
+	menu.player_selection_items.add_child(item2)
+	stub(item2, "get_config").to_return(null)
+	stub(item2, "add_user").to_do_nothing()
+	# when
+	_sender.action_down("add_player").hold_for(0.1)
+	await _sender.idle
+	await wait_process_frames(1)
+	# then
+	assert_not_called(item1, "add_user")
+	assert_called(item2, "add_user")
+
+
+func test_add_player_2_existing_not_1():
+	# given
+	var item1 = create_player_selection_item_mock()
+	var item2 = create_player_selection_item_mock()
+	for item in menu.player_selection_items.get_children():
+		item.free()
+	menu.player_selection_items.add_child(item1)
+	stub(item1, "get_config").to_return(null)
+	stub(item1, "add_user").to_do_nothing()
+	var config2 = PlayerConfig.new()
+	menu.player_selection_items.add_child(item2)
+	stub(item2, "get_config").to_return(config2)
+	stub(item2, "add_user").to_do_nothing()
+	# when
+	_sender.action_down("add_player").hold_for(0.1)
+	await _sender.idle
+	await wait_process_frames(1)
+	# then
+	assert_not_called(item2, "add_user")
+	assert_called(item1, "add_user")
 
 
 ##### UTILS #####

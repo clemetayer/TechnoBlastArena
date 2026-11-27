@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="EAEventBank" format=3 uid="uid://ctjm4ycyp7spg"]
 
-[ext_resource type="Script" uid="uid://m5hjhn18hhl5" path="res://addons/event_audio/src/ea_event.gd" id="1_k5q5a"]
-[ext_resource type="Script" uid="uid://cims8oultqjyt" path="res://addons/event_audio/src/ea_event_bank.gd" id="2_3yil8"]
+[ext_resource type="Script" uid="uid://b11xc4t1fbe6w" path="res://addons/event_audio/src/ea_event.gd" id="1_k5q5a"]
+[ext_resource type="Script" uid="uid://dapl3e44u1kqe" path="res://addons/event_audio/src/ea_event_bank.gd" id="2_3yil8"]
 [ext_resource type="AudioStream" uid="uid://bpqy7trvlpbbt" path="res://Audio/FX/kenney_interface-sounds/Audio/click_003.ogg" id="2_y71lb"]
-[ext_resource type="Script" uid="uid://bst6ukgbke4y4" path="res://addons/event_audio/src/ea_event_playback_settings.gd" id="3_ubiq0"]
+[ext_resource type="Script" uid="uid://bafex11qoikor" path="res://addons/event_audio/src/ea_event_playback_settings.gd" id="3_ubiq0"]
 [ext_resource type="AudioStream" uid="uid://chpufsxj0tm8f" path="res://Audio/FX/kenney_interface-sounds/Audio/confirmation_002.ogg" id="4_fkyii"]
 [ext_resource type="AudioStream" uid="uid://jkafgowlnai" path="res://Audio/FX/kenney_interface-sounds/Audio/minimize_003.ogg" id="4_mcg2y"]
 [ext_resource type="AudioStream" uid="uid://cruhrp44p3bvs" path="res://Audio/FX/kenney_interface-sounds/Audio/maximize_001.ogg" id="5_mcg2y"]

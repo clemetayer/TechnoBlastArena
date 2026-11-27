@@ -24,7 +24,16 @@ func _input(event: InputEvent) -> void:
 
 
 ##### PROTECTED METHODS #####
+func _device_already_added(device: int) -> bool:
+	for player_selection_item in player_selection_items.get_children():
+		if player_selection_item.get_device_id() == device:
+			return true
+	return false
+
+
 func _add_player(device: int) -> void:
+	if _device_already_added(device):
+		return
 	for player_selection_item in player_selection_items.get_children():
 		if player_selection_item.get_config() == null:
 			player_selection_item.add_user(device)

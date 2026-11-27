@@ -54,7 +54,7 @@ func test_add_user_shows_player_customization_menu():
 	assert_false(item.ai_menu.visible)
 	assert_false(item.empty_menu.visible)
 	assert_signal_emitted(item.player_toggled)
-	assert_eq(item._current_device_id, 2)
+	assert_eq(item.get_device_id(), 2)
 
 
 func test_add_ai_shows_ai_menu():
@@ -79,7 +79,7 @@ func test_player_customization_menu_quit():
 	assert_false(item.ai_menu.visible)
 	assert_true(item.empty_menu.visible)
 	assert_signal_emitted(item.player_toggled)
-	assert_eq(item._current_device_id, -1)
+	assert_eq(item.get_device_id(), -1)
 
 
 func test_ai_menu_quit():

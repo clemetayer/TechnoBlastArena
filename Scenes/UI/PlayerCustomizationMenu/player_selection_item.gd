@@ -27,6 +27,10 @@ func get_config():
 	return null
 
 
+func get_device_id() -> int:
+	return _current_device_id
+
+
 func add_user(device_id: int) -> void:
 	empty_menu.hide()
 	user_menu.show()

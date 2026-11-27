@@ -7,9 +7,6 @@ signal player_toggled
 
 ##### VARIABLES #####
 #---- STANDARD -----
-#==== PRIVATE ====
-var _current_device_id: int = -1
-
 #==== ONREADY ====
 @onready var empty_menu := $"Panel/EmptyMenu"
 @onready var user_menu := $"Panel/PlayerCustomizationMenu"
@@ -28,14 +25,14 @@ func get_config():
 
 
 func get_device_id() -> int:
-	return _current_device_id
+	return user_menu.player_config.DEVICE_ID
 
 
 func add_user(device_id: int) -> void:
 	empty_menu.hide()
 	user_menu.show()
 	player_toggled.emit()
-	_current_device_id = device_id
+	user_menu.player_config.DEVICE_ID = device_id
 
 
 ##### SIGNAL MANAGEMENT #####
@@ -48,7 +45,6 @@ func _on_player_customization_menu_quit() -> void:
 	user_menu.hide()
 	empty_menu.show()
 	player_toggled.emit()
-	_current_device_id = -1
 
 
 func _on_ai_selection_menu_quit() -> void:
